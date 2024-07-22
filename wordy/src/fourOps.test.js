@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import Wordy from './Wordy';
+import FourOps from './fourOps';
 
 test('renders learn react link', () => {
-  render(<Wordy />);
-  const linkElement = screen.getByText(/W O R D Y/i);
+  render(<FourOps />);
+  const linkElement = screen.getByText(/F O U R - O P S/i);
   expect(linkElement).toBeInTheDocument();
 });

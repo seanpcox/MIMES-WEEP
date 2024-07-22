@@ -27,5 +27,8 @@ export default [
       "react/react-in-jsx-scope": 0,
       "react/jsx-uses-react": 0
     }
+  },
+  {
+    ignores: ["build/**/*", "!build/test.js"]
   }
 ];

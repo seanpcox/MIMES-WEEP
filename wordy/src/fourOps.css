@@ -1,0 +1,18 @@
+.fourOps {
+  text-align: center;
+}
+
+.fourOps-header {
+  background-color: #282c34;
+  max-height: 15vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 10vmin;
+  color: #61dafb;
+}
+
+.fourOps-ops-buttons {
+  padding: 10px;
+}
