@@ -1,4 +1,2 @@
-# Four-Ops
-Using the 5 random numbers and 4 supplied operators find the target.
-
-Each operator must be used once.
+# M I M E S W E E P
+Find all the Weeping Mimes
