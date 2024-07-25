@@ -1,8 +1,8 @@
-.fourOps {
+.mimesWeep {
   text-align: center;
 }
 
-.fourOps-header {
+.mimesWeep-header {
   background-color: #282c34;
   max-height: 15vh;
   display: flex;
@@ -13,6 +13,14 @@
   color: #61dafb;
 }
 
-.fourOps-ops-buttons {
-  padding: 10px;
+mimesWeep-ops-buttons {
+  padding: 3vh;
+}
+
+.mimesWeep-num-buttons  {
+  padding: 5vh;
+}
+
+.mimesWeep-target  {
+  padding: 5vh;
 }

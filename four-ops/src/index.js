@@ -1,13 +1,13 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import FourOps from './fourOps.js';
+import MimesWeep from './mimesWeep.js';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <FourOps />
+    <MimesWeep />
   </React.StrictMode>
 );
 

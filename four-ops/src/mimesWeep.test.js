@@ -1,8 +1,8 @@
 import { render, screen } from '@testing-library/react';
-import FourOps from './fourOps';
+import MimesWeep from './mimesWeep';
 
 test('renders learn react link', () => {
-  render(<FourOps />);
-  const linkElement = screen.getByText(/F O U R - O P S/i);
+  render(<MimesWeep />);
+  const linkElement = screen.getByText(/M I M E S W E E P/i);
   expect(linkElement).toBeInTheDocument();
 });
