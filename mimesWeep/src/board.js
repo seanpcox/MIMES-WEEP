@@ -26,7 +26,7 @@ function Board(props) {
         <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 12, sm: 12, md: 12 }} key={indexI}>
             {Array.from(Array(props.width)).map((_, indexJ) => (
             <Grid item xs={1} sm={1} md={1} key={indexJ}>
-                <BoardSquare height={props.height} width={props.width} mimeNeighborCount={array[indexI][indexJ]} />
+                <BoardSquare height={props.height} width={props.width} mimeNeighborCount={array[indexI][indexJ]} callbackFunction={squareClicked} />
             </Grid>
             ))}
         </Grid>
@@ -102,6 +102,10 @@ function visitMimeNeighbors(array, i, j) {
             }
         }
     }
+}
+
+function squareClicked(i, j) {
+    console.log(i,j);
 }
 
 export default Board;
