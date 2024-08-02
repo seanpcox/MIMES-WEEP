@@ -3,8 +3,7 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 BoardSquare.propTypes = {
-    mimeNeighborCount: PropTypes.number,
-    callbackFunction: PropTypes.func
+    mimeNeighborCount: PropTypes.number
 }
 
 function BoardSquare(props) {
@@ -18,8 +17,6 @@ function BoardSquare(props) {
         if (props.mimeNeighborCount == -1) {
             alert("Sorry, you have lost");
         }
-
-        props.callbackFunction(9,8);
     };
 
     return <Button onClick={setButtonState} disabled={btnIsClicked}>{buttonText}</Button>;
