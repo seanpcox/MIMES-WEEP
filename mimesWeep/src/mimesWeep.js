@@ -1,9 +1,11 @@
 import './mimesWeep.css';
 import Board from './board.js'
-import BoardSquare from './boardSquare.js'
-import { Grid } from '@mui/material';
 
 function MimesWeep() {
+  var height = 9;
+  var width = 9;
+  var numOfMimes = 10;
+
   return (
     <div className="mimesWeep">
       <div>
@@ -13,25 +15,9 @@ function MimesWeep() {
           </p>
         </header>
       </div>
-      {getSquares(9, 9, 10)}
+      <Board height={height} width={width} numOfMimes={numOfMimes} />
     </div>
   );
-}
-
-function getSquares(height, width, numOfMimes) {
-  var board = Board(height, width, numOfMimes);
-
-  return <div className='mimesWeep-ops-buttons'>
-    {Array.from(Array(height)).map((_, indexI) => (
-      <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 12, sm: 12, md: 12 }} key={indexI}>
-        {Array.from(Array(width)).map((_, indexJ) => (
-          <Grid item xs={1} sm={1} md={1} key={indexJ}>
-            <BoardSquare height={height} width={width} mimeNeighborCount={board[indexI][indexJ]} />
-          </Grid>
-        ))}
-      </Grid>
-    ))}
-  </div>;
 }
 
 export default MimesWeep;

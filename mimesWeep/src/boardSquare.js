@@ -8,19 +8,18 @@ BoardSquare.propTypes = {
 
 function BoardSquare(props) {
     const [btnIsClicked, setBtnIsClicked] = useState(false);
+    const [buttonText, setButtonText] = useState("?");
 
     const setButtonState = () => {
         setBtnIsClicked(!btnIsClicked);
-
-        console.log(props.mimeNeighborCount);
+        setButtonText(props.mimeNeighborCount)
 
         if (props.mimeNeighborCount == -1) {
-            console.log("here");
             alert("Sorry, you have lost");
         }
     };
 
-    return <Button onClick={setButtonState} disabled={btnIsClicked}>?</Button>;
+    return <Button onClick={setButtonState} disabled={btnIsClicked}>{buttonText}</Button>;
 }
 
 export default BoardSquare;

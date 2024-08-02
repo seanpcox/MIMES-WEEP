@@ -1,16 +1,37 @@
-function Board(height, width, numOfMimes) {    
-    const array = createEmptyBoard(height, width);
-    
-    addMimes(array, numOfMimes);
-    
-    addMimeNeighborCount(array);
-    
-    // Log to console
-    for (var i = 0; i < height; i++) {
-        console.log(array[i]);
+import BoardSquare from './boardSquare.js'
+import { Grid } from '@mui/material';
+
+import PropTypes from 'prop-types';
+
+Board.propTypes = {
+    height: PropTypes.number,
+    width: PropTypes.number,
+    numOfMimes: PropTypes.number,
+}
+
+function Board(props) {    
+    if(props.height <= 0 || props.width <= 0) {
+        alert("Board height and width must be greater than zero.")
+        return;
     }
 
-    return array;
+    const array = createEmptyBoard(props.height, props.width);
+    
+    addMimes(array, props.numOfMimes);
+    
+    addMimeNeighborCount(array);
+
+    return <div>
+        {Array.from(Array(props.height)).map((_, indexI) => (
+        <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 12, sm: 12, md: 12 }} key={indexI}>
+            {Array.from(Array(props.width)).map((_, indexJ) => (
+            <Grid item xs={1} sm={1} md={1} key={indexJ}>
+                <BoardSquare height={props.height} width={props.width} mimeNeighborCount={array[indexI][indexJ]} />
+            </Grid>
+            ))}
+        </Grid>
+        ))}
+    </div>;
 }
 
 function createEmptyBoard(height, width) {
