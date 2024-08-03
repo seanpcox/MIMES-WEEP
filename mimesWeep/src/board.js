@@ -63,6 +63,8 @@ function visitZeroNeighbors(array, i, j) {
             if (array[neighbors[count][0]][neighbors[count][1]] === 0.1) {
                 array[neighbors[count][0]][neighbors[count][1]] = 0;
                 visitZeroNeighbors(array, neighbors[count][0], neighbors[count][1]);
+            } else if (array[neighbors[count][0]][neighbors[count][1]] % 1 != 0) {
+                array[neighbors[count][0]][neighbors[count][1]] -= 0.1;
             }
         }
     }
