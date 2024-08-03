@@ -5,21 +5,23 @@ BoardSquare.propTypes = {
     numOfMimeNeighbors: PropTypes.number,
     indexI: PropTypes.number,
     indexJ: PropTypes.number,
-    btnClickedCallback: PropTypes.func
+    btnLeftClickCallback: PropTypes.func,
+    btnRightClickCallback: PropTypes.func
 }
 
 function BoardSquare(props) {
-    const setButtonState = () => {
-        props.btnClickedCallback(props.indexI, props.indexJ);
+    const setLeftClickState = () => {
+        props.btnLeftClickCallback(props.indexI, props.indexJ);
     };
 
-    console.log(props.indexI, props.indexJ);
-    console.log(Math.floor(props.numOfMimeNeighbors), props.numOfMimeNeighbors);
+    const setRightClickState = () => {
+        props.btnRightClickCallback(props.indexI, props.indexJ);
+    };
 
     if (Math.floor(props.numOfMimeNeighbors) != props.numOfMimeNeighbors) {
-        return <Button onClick={setButtonState}>?</Button>;
+        return <Button onClick={setLeftClickState} onContextMenu={setRightClickState}>{props.numOfMimeNeighbors}</Button>;
     } else {
-        return <Button onClick={setButtonState} disabled={true}>{props.numOfMimeNeighbors}</Button>;
+        return <Button onClick={setLeftClickState} onContextMenu={setRightClickState} disabled={true}>{props.numOfMimeNeighbors}</Button>;
     }
 }
 

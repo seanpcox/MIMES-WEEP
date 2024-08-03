@@ -5,6 +5,7 @@ function MimesWeep() {
   var height = 9;
   var width = 9;
   var numOfMimes = 10;
+  var squaresToWin = (height * width) - numOfMimes;
 
   if (height <= 0 || width <= 0) {
     alert("Board height and width must be greater than zero.")
@@ -18,7 +19,10 @@ function MimesWeep() {
   addMimeNeighborCount(array);
 
   return (
-    <div className="mimesWeep">
+    <div className="mimesWeep" onContextMenu={(e) => {
+      e.preventDefault(); // prevent the default behaviour when right clicked
+      console.log("Right Click");
+    }}>
       <div>
         <header className="mimesWeep-header">
           <p>
@@ -26,7 +30,7 @@ function MimesWeep() {
           </p>
         </header>
       </div>
-      <Board array={array} />
+      <Board array={array} squaresToWin={squaresToWin} />
     </div>
   );
 }

@@ -4,7 +4,8 @@ import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 Board.propTypes = {
-    array: PropTypes.array
+    array: PropTypes.array,
+    squaresToWin: PropTypes.number
 }
 
 function Board(props) {
@@ -14,15 +15,28 @@ function Board(props) {
     var height = array.length;
     var width = array[0].length;
 
-    function btnClickedCallback(indexI, indexJ) {
+    function btnLeftClickCallback(indexI, indexJ) {
+        if(array[indexI][indexJ] >= 9) {
+            return;
+        }
+
         array[indexI][indexJ] -= 0.1;
 
-        console.log(indexI, indexJ, array[indexI][indexJ])
-
         if (array[indexI][indexJ] === 0) {
-            visitZeroNeighbors(array, indexI, indexJ);
+            var squaresCleared = visitZeroNeighbors(array, indexI, indexJ);
+            console.log(squaresCleared);
         } else if (array[indexI][indexJ] === -1) {
             alert("Sorry, you have lost.");
+        }
+
+        setState(state + 1);
+    }
+
+    function btnRightClickCallback(indexI, indexJ) {
+        if(array[indexI][indexJ] >= 9) {
+            array[indexI][indexJ] = Number((array[indexI][indexJ] - 10).toFixed(1));
+        } else {
+            array[indexI][indexJ] = Number((array[indexI][indexJ] + 10).toFixed(1));
         }
 
         setState(state + 1);
@@ -33,7 +47,8 @@ function Board(props) {
             <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 12, sm: 12, md: 12 }} key={indexI}>
                 {Array.from(Array(width)).map((_, indexJ) => (
                     <Grid item xs={1} sm={1} md={1} key={indexJ}>
-                        <BoardSquare numOfMimeNeighbors={array[indexI][indexJ]} indexI={indexI} indexJ={indexJ} btnClickedCallback={btnClickedCallback} />
+                        <BoardSquare numOfMimeNeighbors={array[indexI][indexJ]} indexI={indexI} indexJ={indexJ} 
+                            btnLeftClickCallback={btnLeftClickCallback} btnRightClickCallback={btnRightClickCallback} />
                     </Grid>
                 ))}
             </Grid>
@@ -41,7 +56,7 @@ function Board(props) {
     </div>;
 }
 
-function visitZeroNeighbors(array, i, j) {
+function visitZeroNeighbors(array, i, j, squaresCleared=0) {
     var height = array.length;
     var width = array[0].length;
 
@@ -62,12 +77,16 @@ function visitZeroNeighbors(array, i, j) {
             // Update the number of nearby mimes on the neighbour. We ignore neighbors that are themselves mimes.
             if (array[neighbors[count][0]][neighbors[count][1]] === 0.1) {
                 array[neighbors[count][0]][neighbors[count][1]] = 0;
-                visitZeroNeighbors(array, neighbors[count][0], neighbors[count][1]);
-            } else if (array[neighbors[count][0]][neighbors[count][1]] % 1 != 0) {
+                squaresCleared++;
+                squaresCleared += visitZeroNeighbors(array, neighbors[count][0], neighbors[count][1]);
+            } else if (array[neighbors[count][0]][neighbors[count][1]] % 1 != 0 && !array[neighbors[count][0]][neighbors[count][1]] >= 9) {
                 array[neighbors[count][0]][neighbors[count][1]] -= 0.1;
+                squaresCleared++;
             }
         }
     }
+
+    return squaresCleared;
 }
 
 export default Board;
