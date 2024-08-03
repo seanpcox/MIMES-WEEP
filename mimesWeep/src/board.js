@@ -16,7 +16,7 @@ function Board(props) {
     var width = array[0].length;
 
     function btnLeftClickCallback(indexI, indexJ) {
-        if(array[indexI][indexJ] >= 9) {
+        if (array[indexI][indexJ] >= 9) {
             return;
         }
 
@@ -38,7 +38,7 @@ function Board(props) {
     }
 
     function btnRightClickCallback(indexI, indexJ) {
-        if(array[indexI][indexJ] >= 9) {
+        if (array[indexI][indexJ] >= 9) {
             array[indexI][indexJ] = Number((array[indexI][indexJ] - 10).toFixed(1));
         } else {
             array[indexI][indexJ] = Number((array[indexI][indexJ] + 10).toFixed(1));
@@ -51,15 +51,15 @@ function Board(props) {
         {Array.from(Array(height)).map((_, indexI) => (
             <div key={indexI}>
                 {Array.from(Array(width)).map((_, indexJ) => (
-                        <BoardSquare numOfMimeNeighbors={array[indexI][indexJ]} indexI={indexI} indexJ={indexJ} key={indexJ}
-                            btnLeftClickCallback={btnLeftClickCallback} btnRightClickCallback={btnRightClickCallback} />
+                    <BoardSquare numOfMimeNeighbors={array[indexI][indexJ]} indexI={indexI} indexJ={indexJ} key={indexJ}
+                        btnLeftClickCallback={btnLeftClickCallback} btnRightClickCallback={btnRightClickCallback} />
                 ))}
             </div>
         ))}
     </div>;
 }
 
-function visitZeroNeighbors(array, i, j, squaresCleared=0) {
+function visitZeroNeighbors(array, i, j, squaresCleared = 0) {
     var height = array.length;
     var width = array[0].length;
 

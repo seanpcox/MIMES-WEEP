@@ -22,10 +22,10 @@ function BoardSquare(props) {
 
     if (Math.floor(props.numOfMimeNeighbors) != props.numOfMimeNeighbors) {
         return <Button variant="contained" onClick={setLeftClickState} onContextMenu={setRightClickState}
-        style={{maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize}}></Button>;
+            style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}></Button>;
     } else {
         return <Button variant="outlined" onClick={setLeftClickState} onContextMenu={setRightClickState} disabled={true}
-        style={{maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize}}>{props.numOfMimeNeighbors}</Button>;
+            style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}>{props.numOfMimeNeighbors}</Button>;
     }
 }
 
