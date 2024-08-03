@@ -20,11 +20,14 @@ function BoardSquare(props) {
         props.btnRightClickCallback(props.indexI, props.indexJ);
     };
 
-    if (Math.floor(props.numOfMimeNeighbors) != props.numOfMimeNeighbors) {
+    if (props.numOfMimeNeighbors >= 9) {
+        return <Button variant="contained" onClick={setLeftClickState} onContextMenu={setRightClickState}
+            style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }} color="error"></Button>;
+    } else if (Math.floor(props.numOfMimeNeighbors) != props.numOfMimeNeighbors) {
         return <Button variant="contained" onClick={setLeftClickState} onContextMenu={setRightClickState}
             style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}></Button>;
     } else {
-        return <Button variant="outlined" onClick={setLeftClickState} onContextMenu={setRightClickState} disabled={true}
+        return <Button variant="outlined" onClick={setLeftClickState} onContextMenu={setRightClickState} disabled={true} color="success"
             style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}>{props.numOfMimeNeighbors}</Button>;
     }
 }

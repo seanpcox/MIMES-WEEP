@@ -35,7 +35,6 @@ function MimesWeep() {
   return (
     <div className="mimesWeep" onContextMenu={(e) => {
       e.preventDefault(); // prevent the default behaviour when right clicked
-      console.log("Right Click");
     }}>
       <div>
         <header className="mimesWeep-header">
