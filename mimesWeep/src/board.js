@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 Board.propTypes = {
     array: PropTypes.array,
-    squaresToWin: PropTypes.number
+    incrementSquaresWonCallback: PropTypes.func
 }
 
 function Board(props) {
@@ -20,16 +20,20 @@ function Board(props) {
             return;
         }
 
-        array[indexI][indexJ] -= 0.1;
+        var squaresWonOnClick = 1;
+
+        array[indexI][indexJ] = Number((array[indexI][indexJ] - 0.1).toFixed(1));
 
         if (array[indexI][indexJ] === 0) {
-            var squaresCleared = visitZeroNeighbors(array, indexI, indexJ);
-            console.log(squaresCleared);
+            squaresWonOnClick += visitZeroNeighbors(array, indexI, indexJ);
+            console.log(squaresWonOnClick);
         } else if (array[indexI][indexJ] === -1) {
             alert("Sorry, you have lost.");
         }
 
         setState(state + 1);
+
+        props.incrementSquaresWonCallback(squaresWonOnClick);
     }
 
     function btnRightClickCallback(indexI, indexJ) {
@@ -74,13 +78,20 @@ function visitZeroNeighbors(array, i, j, squaresCleared=0) {
         if (neighbors[count][0] >= 0 && neighbors[count][0] < height &&
             neighbors[count][1] >= 0 && neighbors[count][1] < width) {
 
+            console.log(array[neighbors[count][0]][neighbors[count][1]], array[neighbors[count][0]][neighbors[count][1]] % 1,
+                array[neighbors[count][0]][neighbors[count][1]] % 1 != 0,
+                !(array[neighbors[count][0]][neighbors[count][1]] >= 9),
+                array[neighbors[count][0]][neighbors[count][1]] % 1 != 0 && !(array[neighbors[count][0]][neighbors[count][1]] >= 9)
+            );
+
             // Update the number of nearby mimes on the neighbour. We ignore neighbors that are themselves mimes.
             if (array[neighbors[count][0]][neighbors[count][1]] === 0.1) {
                 array[neighbors[count][0]][neighbors[count][1]] = 0;
                 squaresCleared++;
                 squaresCleared += visitZeroNeighbors(array, neighbors[count][0], neighbors[count][1]);
-            } else if (array[neighbors[count][0]][neighbors[count][1]] % 1 != 0 && !array[neighbors[count][0]][neighbors[count][1]] >= 9) {
-                array[neighbors[count][0]][neighbors[count][1]] -= 0.1;
+            } else if (array[neighbors[count][0]][neighbors[count][1]] % 1 != 0 && !(array[neighbors[count][0]][neighbors[count][1]] >= 9)) {
+                console.log("Here");
+                array[neighbors[count][0]][neighbors[count][1]] = Number((array[neighbors[count][0]][neighbors[count][1]] - 0.1).toFixed(1));
                 squaresCleared++;
             }
         }

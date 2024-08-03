@@ -5,18 +5,23 @@ function MimesWeep() {
   var height = 9;
   var width = 9;
   var numOfMimes = 10;
-  var squaresToWin = (height * width) - numOfMimes;
 
-  if (height <= 0 || width <= 0) {
-    alert("Board height and width must be greater than zero.")
-    return <div />;
-  }
+  var squaresToWin = (height * width) - numOfMimes;
+  var squaresWon = 0;
 
   const array = createEmptyBoard(height, width);
 
   addMimes(array, numOfMimes);
 
   addMimeNeighborCount(array);
+
+  function incrementSquaresWonCallback(count) {
+    squaresWon += count;
+
+    if(squaresWon == squaresToWin) {
+      alert("Congratulations! You have won!");
+    }
+  }
 
   return (
     <div className="mimesWeep" onContextMenu={(e) => {
@@ -30,7 +35,7 @@ function MimesWeep() {
           </p>
         </header>
       </div>
-      <Board array={array} squaresToWin={squaresToWin} />
+      <Board array={array} incrementSquaresWonCallback={incrementSquaresWonCallback} />
     </div>
   );
 }
