@@ -5,7 +5,8 @@ import PropTypes from 'prop-types';
 
 Board.propTypes = {
     array: PropTypes.array,
-    incrementSquaresWonCallback: PropTypes.func
+    incrementSquaresWonCallback: PropTypes.func,
+    startNewGameCallback: PropTypes.func
 }
 
 function Board(props) {
@@ -29,6 +30,8 @@ function Board(props) {
             console.log(squaresWonOnClick);
         } else if (array[indexI][indexJ] === -1) {
             alert("Sorry, you have lost.");
+            props.startNewGameCallback();
+            return;
         }
 
         setState(state + 1);

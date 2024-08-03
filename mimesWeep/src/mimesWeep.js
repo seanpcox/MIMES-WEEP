@@ -1,4 +1,5 @@
 import './mimesWeep.css';
+import { useState } from 'react';
 import Board from './board.js'
 
 function MimesWeep() {
@@ -15,11 +16,18 @@ function MimesWeep() {
 
   addMimeNeighborCount(array);
 
+  const [startNewGame, startNewGameInternal] = useState(false);
+
+  function startNewGameCallback() {
+    startNewGameInternal(!startNewGame);
+  }
+
   function incrementSquaresWonCallback(count) {
     squaresWon += count;
 
     if(squaresWon == squaresToWin) {
       alert("Congratulations! You have won!");
+      startNewGameInternal(!startNewGame);
     }
   }
 
@@ -35,7 +43,7 @@ function MimesWeep() {
           </p>
         </header>
       </div>
-      <Board array={array} incrementSquaresWonCallback={incrementSquaresWonCallback} />
+      <Board array={array} incrementSquaresWonCallback={incrementSquaresWonCallback} startNewGameCallback={startNewGameCallback} />
     </div>
   );
 }
