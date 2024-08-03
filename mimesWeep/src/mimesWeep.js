@@ -44,6 +44,7 @@ function MimesWeep() {
           </p>
         </header>
       </div>
+      <p/>
       <Board array={array} incrementSquaresWonCallback={incrementSquaresWonCallback} lostGameCallback={lostGameCallback} />
     </div>
   );

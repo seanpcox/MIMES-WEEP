@@ -1,5 +1,4 @@
 import BoardSquare from './boardSquare.js'
-import { Grid } from '@mui/material';
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
@@ -50,14 +49,12 @@ function Board(props) {
 
     return <div>
         {Array.from(Array(height)).map((_, indexI) => (
-            <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: width, sm: width, md: width }} key={indexI}>
+            <div key={indexI}>
                 {Array.from(Array(width)).map((_, indexJ) => (
-                    <Grid item xs={1} sm={1} md={1} key={indexJ}>
-                        <BoardSquare numOfMimeNeighbors={array[indexI][indexJ]} indexI={indexI} indexJ={indexJ} 
+                        <BoardSquare numOfMimeNeighbors={array[indexI][indexJ]} indexI={indexI} indexJ={indexJ} key={indexJ}
                             btnLeftClickCallback={btnLeftClickCallback} btnRightClickCallback={btnRightClickCallback} />
-                    </Grid>
                 ))}
-            </Grid>
+            </div>
         ))}
     </div>;
 }
