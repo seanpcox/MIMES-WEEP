@@ -1,25 +1,26 @@
 import { Button } from '@mui/material';
-import { useState } from 'react';
 import PropTypes from 'prop-types';
 
 BoardSquare.propTypes = {
-    mimeNeighborCount: PropTypes.number
+    numOfMimeNeighbors: PropTypes.number,
+    indexI: PropTypes.number,
+    indexJ: PropTypes.number,
+    btnClickedCallback: PropTypes.func
 }
 
 function BoardSquare(props) {
-    const [btnIsClicked, setBtnIsClicked] = useState(false);
-    const [buttonText, setButtonText] = useState("?");
-
     const setButtonState = () => {
-        setBtnIsClicked(!btnIsClicked);
-        setButtonText(props.mimeNeighborCount)
-
-        if (props.mimeNeighborCount == -1) {
-            alert("Sorry, you have lost");
-        }
+        props.btnClickedCallback(props.indexI, props.indexJ);
     };
 
-    return <Button onClick={setButtonState} disabled={btnIsClicked}>{buttonText}</Button>;
+    console.log(props.indexI, props.indexJ);
+    console.log(Math.floor(props.numOfMimeNeighbors), props.numOfMimeNeighbors);
+
+    if (Math.floor(props.numOfMimeNeighbors) != props.numOfMimeNeighbors) {
+        return <Button onClick={setButtonState}>?</Button>;
+    } else {
+        return <Button onClick={setButtonState} disabled={true}>{props.numOfMimeNeighbors}</Button>;
+    }
 }
 
 export default BoardSquare;
