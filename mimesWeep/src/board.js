@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 Board.propTypes = {
     array: PropTypes.array,
     incrementSquaresWonCallback: PropTypes.func,
-    startNewGameCallback: PropTypes.func
+    lostGameCallback: PropTypes.func
 }
 
 function Board(props) {
@@ -29,8 +29,7 @@ function Board(props) {
             squaresWonOnClick += visitZeroNeighbors(array, indexI, indexJ);
             console.log(squaresWonOnClick);
         } else if (array[indexI][indexJ] === -1) {
-            alert("Sorry, you have lost.");
-            props.startNewGameCallback();
+            props.lostGameCallback();
             return;
         }
 
@@ -51,7 +50,7 @@ function Board(props) {
 
     return <div>
         {Array.from(Array(height)).map((_, indexI) => (
-            <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: 12, sm: 12, md: 12 }} key={indexI}>
+            <Grid container spacing={{ xs: 1, md: 1 }} columns={{ xs: width, sm: width, md: width }} key={indexI}>
                 {Array.from(Array(width)).map((_, indexJ) => (
                     <Grid item xs={1} sm={1} md={1} key={indexJ}>
                         <BoardSquare numOfMimeNeighbors={array[indexI][indexJ]} indexI={indexI} indexJ={indexJ} 

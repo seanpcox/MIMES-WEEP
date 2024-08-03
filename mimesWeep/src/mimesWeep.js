@@ -18,7 +18,8 @@ function MimesWeep() {
 
   const [startNewGame, startNewGameInternal] = useState(false);
 
-  function startNewGameCallback() {
+  function lostGameCallback() {
+    alert("Sorry, you have lost.");
     startNewGameInternal(!startNewGame);
   }
 
@@ -43,7 +44,7 @@ function MimesWeep() {
           </p>
         </header>
       </div>
-      <Board array={array} incrementSquaresWonCallback={incrementSquaresWonCallback} startNewGameCallback={startNewGameCallback} />
+      <Board array={array} incrementSquaresWonCallback={incrementSquaresWonCallback} lostGameCallback={lostGameCallback} />
     </div>
   );
 }

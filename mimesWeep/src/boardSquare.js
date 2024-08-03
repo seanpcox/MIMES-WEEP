@@ -19,9 +19,9 @@ function BoardSquare(props) {
     };
 
     if (Math.floor(props.numOfMimeNeighbors) != props.numOfMimeNeighbors) {
-        return <Button onClick={setLeftClickState} onContextMenu={setRightClickState}>{props.numOfMimeNeighbors}</Button>;
+        return <Button variant="outlined" onClick={setLeftClickState} onContextMenu={setRightClickState}>{props.numOfMimeNeighbors}</Button>;
     } else {
-        return <Button onClick={setLeftClickState} onContextMenu={setRightClickState} disabled={true}>{props.numOfMimeNeighbors}</Button>;
+        return <Button variant="outlined" onClick={setLeftClickState} onContextMenu={setRightClickState} disabled={true}>{props.numOfMimeNeighbors}</Button>;
     }
 }
 
