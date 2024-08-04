@@ -1,6 +1,7 @@
 import BoardSquare from './boardSquare.js'
 import { useState } from 'react';
 import PropTypes from 'prop-types';
+import * as logic from './gameLogic.js';
 
 Board.propTypes = {
     array: PropTypes.array,
@@ -25,7 +26,7 @@ function Board(props) {
         array[indexI][indexJ] = Number((array[indexI][indexJ] - 0.1).toFixed(1));
 
         if (array[indexI][indexJ] === 0) {
-            squaresWonOnClick += visitZeroNeighbors(array, indexI, indexJ);
+            squaresWonOnClick += logic.visitZeroNeighbors(array, indexI, indexJ);
             console.log(squaresWonOnClick);
         } else if (array[indexI][indexJ] === -1) {
             props.lostGameCallback();
@@ -57,46 +58,6 @@ function Board(props) {
             </div>
         ))}
     </div>;
-}
-
-function visitZeroNeighbors(array, i, j, squaresCleared = 0) {
-    var height = array.length;
-    var width = array[0].length;
-
-    const neighbors = [[i + 1, j],
-    [i + 1, j + 1],
-    [i + 1, j - 1],
-    [i - 1, j],
-    [i - 1, j + 1],
-    [i - 1, j - 1],
-    [i, j + 1],
-    [i, j - 1]];
-
-    for (var count = 0; count < neighbors.length; count++) {
-        // Check neighbor location is within the array boundary
-        if (neighbors[count][0] >= 0 && neighbors[count][0] < height &&
-            neighbors[count][1] >= 0 && neighbors[count][1] < width) {
-
-            console.log(array[neighbors[count][0]][neighbors[count][1]], array[neighbors[count][0]][neighbors[count][1]] % 1,
-                array[neighbors[count][0]][neighbors[count][1]] % 1 != 0,
-                !(array[neighbors[count][0]][neighbors[count][1]] >= 9),
-                array[neighbors[count][0]][neighbors[count][1]] % 1 != 0 && !(array[neighbors[count][0]][neighbors[count][1]] >= 9)
-            );
-
-            // Update the number of nearby mimes on the neighbour. We ignore neighbors that are themselves mimes.
-            if (array[neighbors[count][0]][neighbors[count][1]] === 0.1) {
-                array[neighbors[count][0]][neighbors[count][1]] = 0;
-                squaresCleared++;
-                squaresCleared += visitZeroNeighbors(array, neighbors[count][0], neighbors[count][1]);
-            } else if (array[neighbors[count][0]][neighbors[count][1]] % 1 != 0 && !(array[neighbors[count][0]][neighbors[count][1]] >= 9)) {
-                console.log("Here");
-                array[neighbors[count][0]][neighbors[count][1]] = Number((array[neighbors[count][0]][neighbors[count][1]] - 0.1).toFixed(1));
-                squaresCleared++;
-            }
-        }
-    }
-
-    return squaresCleared;
 }
 
 export default Board;
