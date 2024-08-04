@@ -11,6 +11,7 @@ import Filter7TwoToneIcon from '@mui/icons-material/Filter7TwoTone';
 import Filter8TwoToneIcon from '@mui/icons-material/Filter8TwoTone';
 import mimeWhiteIcon from './mimeWhiteIcon.png';
 import mimeRedIcon from './mimeRedIcon.png';
+import mimeBlackIcon from './mimeBlackIcon.png';
 
 BoardSquare.propTypes = {
     numOfMimeNeighbors: PropTypes.number,
@@ -46,8 +47,10 @@ function BoardSquare(props) {
 
 function getIcon(numOfMimeNeighbors) {
     switch (numOfMimeNeighbors) {
+        case -2:
+            return <img src={mimeRedIcon} width="30px" height="30px"></img>;
         case -1:
-            return <img src={mimeRedIcon} width="24px" height="24px"></img>;
+            return <img src={mimeBlackIcon} width="24px" height="24px"></img>;
         case 1:
             return <Filter1TwoToneIcon sx={{ color: blue[500] }} />;
         case 2:

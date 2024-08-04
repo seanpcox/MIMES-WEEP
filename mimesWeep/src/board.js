@@ -30,6 +30,7 @@ function Board(props) {
         array[indexI][indexJ] = Number((array[indexI][indexJ] - 0.1).toFixed(1));
 
         if (array[indexI][indexJ] === -1) {
+            array[indexI][indexJ] = -2;
             props.lostGameCallback();
         } else {
             var squaresWonOnClick = 1;
