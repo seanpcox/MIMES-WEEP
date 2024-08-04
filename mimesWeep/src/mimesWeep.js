@@ -1,6 +1,6 @@
 import './mimesWeep.css';
 import { useState } from 'react';
-import { Box } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import GameBoard from './gameBoard.js'
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -13,6 +13,12 @@ function MimesWeep() {
 
   function handleDifficultyChange(event) {
     setDifficulty(event.target.value);
+  };
+
+  const [numOfGamesPlayed, setNumOfGamesPlayed] = useState(1);
+
+  function handleRestart() {
+    setNumOfGamesPlayed(numOfGamesPlayed + 1);
   };
 
   var showLoseMessage;
@@ -47,6 +53,7 @@ function MimesWeep() {
         </header>
       </div>
       <Box height={20} />
+      <Button variant="contained" color="success" onClick={handleRestart}>Restart</Button>
       <FormControl>
         <InputLabel id="demo-simple-select-label">Difficulty</InputLabel>
         <Select

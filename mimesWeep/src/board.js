@@ -12,10 +12,11 @@ Board.propTypes = {
 
 function Board(props) {
     const [state, setState] = useState(0);
+    const [clearBoard, setClearBoard] = useState(false);
 
     useEffect(() => {
-        props.clearBoardCallback([state, setState]);
-    }, [props.clearBoardCallback, state]);
+        props.clearBoardCallback([clearBoard, setClearBoard]);
+    }, [props.clearBoardCallback, clearBoard]);
 
     var array = props.array;
     var height = array.length;
@@ -26,20 +27,21 @@ function Board(props) {
             return;
         }
 
-        var squaresWonOnClick = 1;
-
         array[indexI][indexJ] = Number((array[indexI][indexJ] - 0.1).toFixed(1));
 
-        if (array[indexI][indexJ] === 0) {
-            squaresWonOnClick += logic.visitZeroNeighbors(array, indexI, indexJ);
-        } else if (array[indexI][indexJ] === -1) {
+        if (array[indexI][indexJ] === -1) {
             props.lostGameCallback();
-            return;
+        } else {
+            var squaresWonOnClick = 1;
+
+            if (array[indexI][indexJ] === 0) {
+                squaresWonOnClick += logic.visitZeroNeighbors(array, indexI, indexJ);
+            }
+
+            props.incrementSquaresWonCallback(squaresWonOnClick);
         }
 
         setState(state + 1);
-
-        props.incrementSquaresWonCallback(squaresWonOnClick);
     }
 
     function btnRightClickCallback(indexI, indexJ) {

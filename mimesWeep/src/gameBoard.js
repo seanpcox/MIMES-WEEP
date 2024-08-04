@@ -32,14 +32,24 @@ function GameBoard(props) {
             break;
     }
 
-    var squaresToWin = (height * width) - numOfMimes;
-    var squaresWon = 0;
-
     const array = logic.createEmptyBoard(height, width);
 
     logic.addMimes(array, numOfMimes);
 
     logic.addMimeNeighborCount(array);
+
+    var squaresToWin = (height * width) - numOfMimes;
+    var squaresWon = 0;
+
+    var clearBoard = 0;
+
+    const clearBoardCallback = (setStateCallback) => {
+        if (setStateCallback) {
+            clearBoard = setStateCallback[1];
+        } else {
+            clearBoard(clearBoard + 1);
+        }
+    };
 
     function lostGameCallback() {
         logic.clearGameBoard(array);
@@ -50,22 +60,12 @@ function GameBoard(props) {
     function incrementSquaresWonCallback(count) {
         squaresWon += count;
 
-        if (squaresWon == squaresToWin) {
+        if (squaresWon === squaresToWin) {
             logic.clearGameBoard(array);
             clearBoardCallback();
             props.displayWinMessageCallback();
         }
     }
-
-    var clearBoard;
-
-    const clearBoardCallback = (setStateCallback) => {
-        if (setStateCallback) {
-            clearBoard = setStateCallback[1];
-        } else {
-            clearBoard(clearBoard + 1);
-        }
-    };
 
     return (
         <Board array={array} incrementSquaresWonCallback={incrementSquaresWonCallback}
