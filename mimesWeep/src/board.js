@@ -32,7 +32,6 @@ function Board(props) {
 
         if (array[indexI][indexJ] === 0) {
             squaresWonOnClick += logic.visitZeroNeighbors(array, indexI, indexJ);
-            console.log(squaresWonOnClick);
         } else if (array[indexI][indexJ] === -1) {
             props.lostGameCallback();
             return;

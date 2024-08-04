@@ -105,6 +105,6 @@ function checkWithinBounds(array, coordinates) {
     var height = array.length;
     var width = array[0].length;
 
-    return coordinates[0] >= 0 && coordinates[0] < height 
-    && coordinates[1] >= 0 && coordinates[1] < width;
+    return coordinates[0] >= 0 && coordinates[0] < height
+        && coordinates[1] >= 0 && coordinates[1] < width;
 }
