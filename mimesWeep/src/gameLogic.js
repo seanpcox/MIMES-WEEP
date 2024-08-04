@@ -42,6 +42,19 @@ export function addMimeNeighborCount(array) {
     }
 }
 
+export function clearGameBoard(array) {
+    var height = array.length;
+    var width = array[0].length;
+
+    for (var i = 0; i < height; i++) {
+        for (var j = 0; j < width; j++) {
+            if (array[i][j] % 1 != 0) {
+                array[i][j] = Math.round(array[i][j]);
+            }
+        }
+    }
+}
+
 export function visitMimeNeighbors(array, i, j) {
     const neighbors = getNeighbourCoordinates(i, j);
 

@@ -1,7 +1,6 @@
 import { Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import { blue, green, pink, red, deepPurple, purple, blueGrey, teal } from '@mui/material/colors';
-import FlagTwoToneIcon from '@mui/icons-material/FlagTwoTone';
 import Filter1TwoToneIcon from '@mui/icons-material/Filter1TwoTone';
 import Filter2TwoToneIcon from '@mui/icons-material/Filter2TwoTone';
 import Filter3TwoToneIcon from '@mui/icons-material/Filter3TwoTone';
@@ -10,7 +9,8 @@ import Filter5TwoToneIcon from '@mui/icons-material/Filter5TwoTone';
 import Filter6TwoToneIcon from '@mui/icons-material/Filter6TwoTone';
 import Filter7TwoToneIcon from '@mui/icons-material/Filter7TwoTone';
 import Filter8TwoToneIcon from '@mui/icons-material/Filter8TwoTone';
-import favicon from './mimeIcon.png';
+import mimeWhiteIcon from './mimeWhiteIcon.png';
+import mimeRedIcon from './mimeRedIcon.png';
 
 BoardSquare.propTypes = {
     numOfMimeNeighbors: PropTypes.number,
@@ -33,7 +33,8 @@ function BoardSquare(props) {
 
     if (props.numOfMimeNeighbors >= 9) {
         return <Button variant="contained" onClick={setLeftClickState} onContextMenu={setRightClickState}
-            style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }} color="error"><img src={favicon}></img></Button>;
+            style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}
+            color="error"><img src={mimeWhiteIcon} width="24px" height="24px"></img></Button>;
     } else if (Math.floor(props.numOfMimeNeighbors) != props.numOfMimeNeighbors) {
         return <Button variant="contained" onClick={setLeftClickState} onContextMenu={setRightClickState}
             style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}></Button>;
@@ -45,22 +46,24 @@ function BoardSquare(props) {
 
 function getIcon(numOfMimeNeighbors) {
     switch (numOfMimeNeighbors) {
+        case -1:
+            return <img src={mimeRedIcon} width="24px" height="24px"></img>;
         case 1:
             return <Filter1TwoToneIcon sx={{ color: blue[500] }} />;
         case 2:
             return <Filter2TwoToneIcon sx={{ color: green[500] }} />;
         case 3:
-            return <Filter3TwoToneIcon sx={{ color: pink[500] }} />;
+            return <Filter3TwoToneIcon sx={{ color: pink[300] }} />;
         case 4:
             return <Filter4TwoToneIcon sx={{ color: purple[500] }} />;
         case 5:
-            return <Filter5TwoToneIcon sx={{ color: teal[500] }}/>;
+            return <Filter5TwoToneIcon sx={{ color: teal[500] }} />;
         case 6:
-            return <Filter6TwoToneIcon sx={{ color: deepPurple[500] }}/>;
+            return <Filter6TwoToneIcon sx={{ color: deepPurple[500] }} />;
         case 7:
-            return <Filter7TwoToneIcon sx={{ color: blueGrey[500] }}/>;
+            return <Filter7TwoToneIcon sx={{ color: blueGrey[500] }} />;
         case 8:
-            return <Filter8TwoToneIcon sx={{ color: red[500] }}/>;
+            return <Filter8TwoToneIcon sx={{ color: red[500] }} />;
         default:
             return null;
     }

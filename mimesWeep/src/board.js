@@ -1,16 +1,21 @@
 import BoardSquare from './boardSquare.js'
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import * as logic from './gameLogic.js';
 
 Board.propTypes = {
     array: PropTypes.array,
     incrementSquaresWonCallback: PropTypes.func,
-    lostGameCallback: PropTypes.func
+    lostGameCallback: PropTypes.func,
+    clearBoardCallback: PropTypes.func
 }
 
 function Board(props) {
     const [state, setState] = useState(0);
+
+    useEffect(() => {
+        props.clearBoardCallback([state, setState]);
+    }, [props.clearBoardCallback, state]);
 
     var array = props.array;
     var height = array.length;
