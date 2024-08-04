@@ -7,7 +7,6 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 
-
 function MimesWeep() {
   const [difficulty, setDifficulty] = useState(1);
 
@@ -26,8 +25,8 @@ function MimesWeep() {
           </p>
         </header>
       </div>
-      <Box height={10} />
-      <FormControl fullWidth>
+      <Box height={20} />
+      <FormControl>
           <InputLabel id="demo-simple-select-label">Difficulty</InputLabel>
           <Select
             labelId="demo-simple-select-label"
@@ -36,9 +35,9 @@ function MimesWeep() {
             label="Difficulty"
             onChange={handleDifficultyChange}
           >
-            <MenuItem value={1}>Easy: 10 Mimes</MenuItem>
-            <MenuItem value={2}>Medium: 40 Mimes</MenuItem>
-            <MenuItem value={3}>Hard: 99 Mimes</MenuItem>
+            <MenuItem value={1}>Easy</MenuItem>
+            <MenuItem value={2}>Medium</MenuItem>
+            <MenuItem value={3}>Hard</MenuItem>
           </Select>
         </FormControl>
         <Box height={20} />

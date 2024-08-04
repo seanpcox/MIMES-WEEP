@@ -42,8 +42,6 @@ function Game(props) {
 
     logic.addMimeNeighborCount(array);
 
-    const [startNewGame, startNewGameInternal] = useState(props);
-
     const [openLoseSnackbar, setOpenLoseSnackbar] = useState(false);
     const [openWinSnackbar, setOpenWinSnackbar] = useState(false);
 
@@ -70,7 +68,7 @@ function Game(props) {
     return (
         <div>
             <Board array={array} incrementSquaresWonCallback={incrementSquaresWonCallback} lostGameCallback={lostGameCallback} />
-            <Snackbar open={openLoseSnackbar} autoHideDuration={5000} onClose={handleLoseSnackbarClose} 
+            <Snackbar open={openLoseSnackbar} autoHideDuration={3000} onClose={handleLoseSnackbarClose} 
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
                 <Alert
                     severity="error"
@@ -81,7 +79,7 @@ function Game(props) {
                     Sorry, you have lost.
                 </Alert>
             </Snackbar>
-            <Snackbar open={openWinSnackbar} autoHideDuration={5000} onClose={handleWinSnackbarClose} 
+            <Snackbar open={openWinSnackbar} autoHideDuration={3000} onClose={handleWinSnackbarClose} 
                     anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
                 <Alert
                     severity="success"
