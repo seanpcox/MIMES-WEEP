@@ -69,7 +69,7 @@ function Game(props) {
         <div>
             <Board array={array} incrementSquaresWonCallback={incrementSquaresWonCallback} lostGameCallback={lostGameCallback} />
             <Snackbar open={openLoseSnackbar} autoHideDuration={3000} onClose={handleLoseSnackbarClose} 
-                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ height: "60%" }}>
                 <Alert
                     severity="error"
                     variant="filled"
@@ -80,7 +80,7 @@ function Game(props) {
                 </Alert>
             </Snackbar>
             <Snackbar open={openWinSnackbar} autoHideDuration={3000} onClose={handleWinSnackbarClose} 
-                    anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+                    anchorOrigin={{ vertical: 'top', horizontal: 'center' }} sx={{ height: "60%" }}>
                 <Alert
                     severity="success"
                     variant="filled"

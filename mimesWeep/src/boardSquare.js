@@ -10,6 +10,7 @@ import Filter5TwoToneIcon from '@mui/icons-material/Filter5TwoTone';
 import Filter6TwoToneIcon from '@mui/icons-material/Filter6TwoTone';
 import Filter7TwoToneIcon from '@mui/icons-material/Filter7TwoTone';
 import Filter8TwoToneIcon from '@mui/icons-material/Filter8TwoTone';
+import favicon from './mimeIcon.png';
 
 BoardSquare.propTypes = {
     numOfMimeNeighbors: PropTypes.number,
@@ -32,7 +33,7 @@ function BoardSquare(props) {
 
     if (props.numOfMimeNeighbors >= 9) {
         return <Button variant="contained" onClick={setLeftClickState} onContextMenu={setRightClickState}
-            style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }} color="error"><FlagTwoToneIcon /></Button>;
+            style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }} color="error"><img src={favicon}></img></Button>;
     } else if (Math.floor(props.numOfMimeNeighbors) != props.numOfMimeNeighbors) {
         return <Button variant="contained" onClick={setLeftClickState} onContextMenu={setRightClickState}
             style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}></Button>;
