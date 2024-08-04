@@ -1,7 +1,7 @@
 import { Button } from '@mui/material';
 import PropTypes from 'prop-types';
 import { blue, green, pink, red, deepPurple, purple, blueGrey, teal } from '@mui/material/colors';
-import FlagIcon from '@mui/icons-material/Flag';
+import FlagTwoToneIcon from '@mui/icons-material/FlagTwoTone';
 import Filter1TwoToneIcon from '@mui/icons-material/Filter1TwoTone';
 import Filter2TwoToneIcon from '@mui/icons-material/Filter2TwoTone';
 import Filter3TwoToneIcon from '@mui/icons-material/Filter3TwoTone';
@@ -32,7 +32,7 @@ function BoardSquare(props) {
 
     if (props.numOfMimeNeighbors >= 9) {
         return <Button variant="contained" onClick={setLeftClickState} onContextMenu={setRightClickState}
-            style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }} sx={{ color: blueGrey[50] }}><FlagIcon /></Button>;
+            style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }} color="error"><FlagTwoToneIcon /></Button>;
     } else if (Math.floor(props.numOfMimeNeighbors) != props.numOfMimeNeighbors) {
         return <Button variant="contained" onClick={setLeftClickState} onContextMenu={setRightClickState}
             style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}></Button>;

@@ -1,11 +1,12 @@
 import './mimesWeep.css';
 import { useState } from 'react';
+import { Box } from '@mui/material';
 import Board from './board.js'
 
 function MimesWeep() {
-  var height = 9;
-  var width = 9;
-  var numOfMimes = 10;
+  var height = 16;
+  var width = 30;
+  var numOfMimes = 99;
 
   var squaresToWin = (height * width) - numOfMimes;
   var squaresWon = 0;
@@ -43,7 +44,7 @@ function MimesWeep() {
           </p>
         </header>
       </div>
-      <p />
+      <Box height={40}/>
       <Board array={array} incrementSquaresWonCallback={incrementSquaresWonCallback} lostGameCallback={lostGameCallback} />
     </div>
   );
