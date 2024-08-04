@@ -35,8 +35,8 @@ function BoardSquare(props) {
     if (props.numOfMimeNeighbors >= 9) {
         return <Button variant="contained" onClick={setLeftClickState} onContextMenu={setRightClickState}
             style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}
-            color="error"><img src={mimeWhiteIcon} width="24px" height="24px"></img></Button>;
-    } else if (Math.floor(props.numOfMimeNeighbors) != props.numOfMimeNeighbors) {
+            color="error">{getIcon()}</Button>;
+    } else if (Math.floor(props.numOfMimeNeighbors) !== props.numOfMimeNeighbors) {
         return <Button variant="contained" onClick={setLeftClickState} onContextMenu={setRightClickState}
             style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}></Button>;
     } else {
@@ -48,9 +48,9 @@ function BoardSquare(props) {
 function getIcon(numOfMimeNeighbors) {
     switch (numOfMimeNeighbors) {
         case -2:
-            return <img src={mimeRedIcon} width="30px" height="30px"></img>;
+            return <img src={mimeRedIcon} width="30px" height="30px" alt="Red Mime" />;
         case -1:
-            return <img src={mimeBlackIcon} width="24px" height="24px"></img>;
+            return <img src={mimeBlackIcon} width="24px" height="24px" alt="Black Mime" />;
         case 1:
             return <Filter1TwoToneIcon sx={{ color: blue[500] }} />;
         case 2:
@@ -68,7 +68,7 @@ function getIcon(numOfMimeNeighbors) {
         case 8:
             return <Filter8TwoToneIcon sx={{ color: red[500] }} />;
         default:
-            return null;
+            return <img src={mimeWhiteIcon} width="24px" height="24px" alt="White Mime"/>;
     }
 }
 

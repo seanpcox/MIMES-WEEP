@@ -48,7 +48,7 @@ export function clearGameBoard(array) {
 
     for (var i = 0; i < height; i++) {
         for (var j = 0; j < width; j++) {
-            if (array[i][j] % 1 != 0) {
+            if (array[i][j] % 1 !== 0) {
                 array[i][j] = Math.round(array[i][j]);
             }
         }
@@ -80,7 +80,7 @@ export function visitZeroNeighbors(array, i, j, squaresCleared = 0) {
                 array[neighbors[count][0]][neighbors[count][1]] = 0;
                 squaresCleared++;
                 squaresCleared += visitZeroNeighbors(array, neighbors[count][0], neighbors[count][1]);
-            } else if (array[neighbors[count][0]][neighbors[count][1]] % 1 != 0 && !(array[neighbors[count][0]][neighbors[count][1]] >= 9)) {
+            } else if (array[neighbors[count][0]][neighbors[count][1]] % 1 !== 0 && !(array[neighbors[count][0]][neighbors[count][1]] >= 9)) {
                 array[neighbors[count][0]][neighbors[count][1]] = Number((array[neighbors[count][0]][neighbors[count][1]] - 0.1).toFixed(1));
                 squaresCleared++;
             }

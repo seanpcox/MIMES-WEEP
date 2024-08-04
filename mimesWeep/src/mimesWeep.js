@@ -7,6 +7,7 @@ import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import FinishedMessage from './finishedMessage.js';
+import Toolbar from '@mui/material/Toolbar';
 
 function MimesWeep() {
   const [difficulty, setDifficulty] = useState(1);
@@ -53,21 +54,29 @@ function MimesWeep() {
         </header>
       </div>
       <Box height={20} />
-      <Button variant="contained" color="success" onClick={handleRestart}>Restart</Button>
-      <FormControl>
-        <InputLabel id="demo-simple-select-label">Difficulty</InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={difficulty}
-          label="Difficulty"
-          onChange={handleDifficultyChange}
-        >
-          <MenuItem value={1}>Easy</MenuItem>
-          <MenuItem value={2}>Medium</MenuItem>
-          <MenuItem value={3}>Hard</MenuItem>
-        </Select>
-      </FormControl>
+      <Toolbar sx={{ justifyContent: "center" }}>
+        <Button variant="outlined" onClick={handleRestart}
+          style={{
+            maxHeight: 40, minHeight: 40, color: '#282c34', borderColor: 'lightGrey', textTransform: 'none', fontSize: 16
+          }}>
+          Restart</Button>
+        <Box width={20}/>
+        <FormControl>
+          <InputLabel id="demo-simple-select-label">Difficulty</InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={difficulty}
+            label="Difficulty"
+            onChange={handleDifficultyChange}
+            style={{ maxHeight: 40, minHeight: 40, minWidth: 90, color: '#282c34', borderColor: 'lightGrey' }}
+          >
+            <MenuItem value={1}>Easy</MenuItem>
+            <MenuItem value={2}>Medium</MenuItem>
+            <MenuItem value={3}>Hard</MenuItem>
+          </Select>
+        </FormControl>
+      </Toolbar>
       <Box height={20} />
       <GameBoard difficulty={difficulty} displayLoseMessageCallback={displayLoseMessageCallback} displayWinMessageCallback={displayWinMessageCallback} />
       <FinishedMessage displayLoseMessageCallback={displayLoseMessageCallback} displayWinMessageCallback={displayWinMessageCallback} />
