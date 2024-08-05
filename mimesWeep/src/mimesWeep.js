@@ -21,9 +21,9 @@ function MimesWeep() {
 
   switch (difficulty) {
     case 2:
-      height = 16;
+      height = 13;
       width = 9;
-      numOfMimes = 20;
+      numOfMimes = 18;
       break;
     case 3:
       height = 16;
