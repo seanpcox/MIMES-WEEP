@@ -4,38 +4,17 @@ import Board from './board.js'
 import PropTypes from 'prop-types';
 
 GameBoard.propTypes = {
-    difficulty: PropTypes.number,
+    height: PropTypes.number,
+    width: PropTypes.number,
+    numOfMimes: PropTypes.number,
     displayLoseMessageCallback: PropTypes.func,
     displayWinMessageCallback: PropTypes.func
 }
 
 function GameBoard(props) {
-    var height;
-    var width;
-    var numOfMimes;
-
-    switch (props.difficulty) {
-        case 2:
-            height = 16;
-            width = 16;
-            numOfMimes = 40;
-            break;
-        case 3:
-            height = 16;
-            width = 30;
-            numOfMimes = 99;
-            break;
-        case 4:
-            height = 18;
-            width = 42;
-            numOfMimes = 190;
-            break;
-        default:
-            height = 9;
-            width = 9;
-            numOfMimes = 10;
-            break;
-    }
+    var height = props.height;
+    var width = props.width;
+    var numOfMimes = props.numOfMimes;
 
     const array = logic.createNewBoard(height, width, numOfMimes);
 

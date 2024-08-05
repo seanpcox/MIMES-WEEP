@@ -8,13 +8,39 @@ import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import FinishedMessage from './finishedMessage.js';
 import Toolbar from '@mui/material/Toolbar';
+import CountBadge from './countBadge.js'
 
 function MimesWeep() {
-  const [difficulty, setDifficulty] = useState(1);
+  const [difficulty, setDifficulty] = useState(2);
 
   function handleDifficultyChange(event) {
     setDifficulty(event.target.value);
   };
+
+  var height, width, numOfMimes;
+
+  switch (difficulty) {
+    case 2:
+      height = 16;
+      width = 16;
+      numOfMimes = 40;
+      break;
+    case 3:
+      height = 16;
+      width = 30;
+      numOfMimes = 99;
+      break;
+    case 4:
+      height = 18;
+      width = 42;
+      numOfMimes = 190;
+      break;
+    default:
+      height = 9;
+      width = 9;
+      numOfMimes = 10;
+      break;
+  }
 
   const [numOfGamesPlayed, setNumOfGamesPlayed] = useState(1);
 
@@ -77,9 +103,12 @@ function MimesWeep() {
             <MenuItem value={4}>Evil</MenuItem>
           </Select>
         </FormControl>
+        <Box width={15} />
+        <CountBadge mimeBadgeCount={numOfMimes} />
       </Toolbar>
       <Box height={10} />
-      <GameBoard difficulty={difficulty} displayLoseMessageCallback={displayLoseMessageCallback} displayWinMessageCallback={displayWinMessageCallback} />
+      <GameBoard height={height} width={width} numOfMimes={numOfMimes}
+        displayLoseMessageCallback={displayLoseMessageCallback} displayWinMessageCallback={displayWinMessageCallback} />
       <FinishedMessage displayLoseMessageCallback={displayLoseMessageCallback} displayWinMessageCallback={displayWinMessageCallback} />
     </div>
   );
