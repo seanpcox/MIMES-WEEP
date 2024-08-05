@@ -109,7 +109,7 @@ function visitMimeNeighbors(array, i, j) {
 function randomizeArray(array) {
     var i = array.length;
 
-    while (i != 0) {
+    while (i !== 0) {
         var randomI = Math.floor(Math.random() * i);
         i--;
 
