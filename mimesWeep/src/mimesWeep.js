@@ -11,7 +11,7 @@ import Toolbar from '@mui/material/Toolbar';
 import CountBadge from './countBadge.js'
 
 function MimesWeep() {
-  const [difficulty, setDifficulty] = useState(2);
+  const [difficulty, setDifficulty] = useState(1);
 
   function handleDifficultyChange(event) {
     setDifficulty(event.target.value);
