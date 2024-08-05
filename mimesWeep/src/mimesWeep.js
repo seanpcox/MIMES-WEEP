@@ -21,16 +21,21 @@ function MimesWeep() {
 
   switch (difficulty) {
     case 2:
+      height = 9;
+      width = 16;
+      numOfMimes = 20;
+      break;
+    case 3:
       height = 16;
       width = 16;
       numOfMimes = 40;
       break;
-    case 3:
+    case 4:
       height = 16;
       width = 30;
       numOfMimes = 99;
       break;
-    case 4:
+    case 5:
       height = 18;
       width = 42;
       numOfMimes = 190;
@@ -97,10 +102,11 @@ function MimesWeep() {
             onChange={handleDifficultyChange}
             style={{ maxHeight: 40, minHeight: 40, minWidth: 120, color: '#282c34', borderColor: 'lightGrey' }}
           >
-            <MenuItem value={1}>Easy</MenuItem>
-            <MenuItem value={2}>Medium</MenuItem>
-            <MenuItem value={3}>Hard</MenuItem>
-            <MenuItem value={4}>Evil</MenuItem>
+            <MenuItem value={1}>Fun</MenuItem>
+            <MenuItem value={2}>Easy</MenuItem>
+            <MenuItem value={3}>Medium</MenuItem>
+            <MenuItem value={4}>Hard</MenuItem>
+            <MenuItem value={5}>Evil</MenuItem>
           </Select>
         </FormControl>
         <Box width={15} />
