@@ -53,14 +53,14 @@ function MimesWeep() {
           </p>
         </header>
       </div>
-      <Box height={20} />
+      <Box height={10} />
       <Toolbar sx={{ justifyContent: "center" }}>
         <Button variant="outlined" onClick={handleRestart}
           style={{
             maxHeight: 40, minHeight: 40, minWidth: 120, color: '#282c34', borderColor: 'lightGrey', textTransform: 'none', fontSize: 16
           }}>
           New Game</Button>
-        <Box width={20}/>
+        <Box width={20} />
         <FormControl>
           <InputLabel id="demo-simple-select-label">Difficulty</InputLabel>
           <Select
@@ -74,10 +74,11 @@ function MimesWeep() {
             <MenuItem value={1}>Easy</MenuItem>
             <MenuItem value={2}>Medium</MenuItem>
             <MenuItem value={3}>Hard</MenuItem>
+            <MenuItem value={4}>Evil</MenuItem>
           </Select>
         </FormControl>
       </Toolbar>
-      <Box height={20} />
+      <Box height={10} />
       <GameBoard difficulty={difficulty} displayLoseMessageCallback={displayLoseMessageCallback} displayWinMessageCallback={displayWinMessageCallback} />
       <FinishedMessage displayLoseMessageCallback={displayLoseMessageCallback} displayWinMessageCallback={displayWinMessageCallback} />
     </div>

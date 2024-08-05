@@ -25,6 +25,11 @@ function GameBoard(props) {
             width = 30;
             numOfMimes = 99;
             break;
+        case 4:
+            height = 18;
+            width = 42;
+            numOfMimes = 190;
+            break;
         default:
             height = 9;
             width = 9;
@@ -32,11 +37,7 @@ function GameBoard(props) {
             break;
     }
 
-    const array = logic.createEmptyBoard(height, width);
-
-    logic.addMimes(array, numOfMimes);
-
-    logic.addMimeNeighborCount(array);
+    const array = logic.createNewBoard(height, width, numOfMimes);
 
     var squaresToWin = (height * width) - numOfMimes;
     var squaresWon = 0;
