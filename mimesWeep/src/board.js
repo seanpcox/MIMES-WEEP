@@ -56,7 +56,7 @@ function Board(props) {
         setState(state + 1);
     }
 
-    return <Box sx={{ overflowX: "scroll", justifyContent: "center"}}>
+    return <Box sx={{ overflowX: "scroll", justifyContent: "center" }}>
         {Array.from(Array(height)).map((_, indexI) => (
             <Box key={indexI} sx={{ display: "flex", justifyContent: "center" }}>
                 {Array.from(Array(width)).map((_, indexJ) => (

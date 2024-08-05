@@ -51,7 +51,7 @@ function getIcon(numOfMimeNeighbors) {
             return <img src={mimeRedIcon} width="30px" height="30px" alt="Red Mime" />;
         case -1:
             return <img src={mimeBlackIcon} width="24px" height="24px" alt="Black Mime" />;
-            case 0:
+        case 0:
             return null;
         case 1:
             return <Filter1TwoToneIcon sx={{ color: blue[500] }} />;
@@ -70,7 +70,7 @@ function getIcon(numOfMimeNeighbors) {
         case 8:
             return <Filter8TwoToneIcon sx={{ color: red[500] }} />;
         default:
-            return <img src={mimeWhiteIcon} width="24px" height="24px" alt="White Mime"/>;
+            return <img src={mimeWhiteIcon} width="24px" height="24px" alt="White Mime" />;
     }
 }
 

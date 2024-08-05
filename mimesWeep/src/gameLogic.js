@@ -18,12 +18,17 @@ export function addMimes(array, numOfMimes) {
         console.warn("Mime count exceeded board spaces. Mime count will be set to the number of board spaces.")
     }
 
-    // Is there a better way to do this? May take a while for a large board and a high mime count.
-    for (var count = 0; count < numOfMimes; count++) {
-        do {
-            var i = Math.floor(Math.random() * height);
-            var j = Math.floor(Math.random() * width);
-        } while (array[i][j] !== 0.1);
+    var arrayIDIndexes = [];
+
+    for(let i = 0; i < height * width; i++) {
+        arrayIDIndexes.push(i);
+    }
+
+    randomizeArray(arrayIDIndexes);
+
+    for (let count = 0; count < numOfMimes; count++) {
+        var i = Math.floor(arrayIDIndexes[count] / width);
+        var j = arrayIDIndexes[count] % width
 
         array[i][j] = -0.9;
     }
@@ -89,6 +94,19 @@ export function visitZeroNeighbors(array, i, j, squaresCleared = 0) {
 
     return squaresCleared;
 }
+
+// Fisher–Yates (aka Knuth) Shuffle
+function randomizeArray(array) {
+    var i = array.length;
+  
+    while (i != 0) {
+      var randomI = Math.floor(Math.random() * i);
+      i--;
+
+      [array[i], array[randomI]] = [
+        array[randomI], array[i]];
+    }
+  }
 
 function getNeighbourCoordinates(i, j) {
     return [[i + 1, j],
