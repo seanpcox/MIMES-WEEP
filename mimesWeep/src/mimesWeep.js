@@ -36,9 +36,9 @@ function MimesWeep() {
       numOfMimes = 99;
       break;
     case 5:
-      height = 18;
+      height = 20;
       width = 42;
-      numOfMimes = 190;
+      numOfMimes = 199;
       break;
     default:
       height = 9;
