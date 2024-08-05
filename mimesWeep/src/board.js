@@ -2,6 +2,7 @@ import BoardSquare from './boardSquare.js'
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import * as logic from './gameLogic.js';
+import { Box } from '@mui/material';
 
 Board.propTypes = {
     array: PropTypes.array,
@@ -55,16 +56,16 @@ function Board(props) {
         setState(state + 1);
     }
 
-    return <div>
+    return <Box sx={{ overflowX: "scroll", justifyContent: "center"}}>
         {Array.from(Array(height)).map((_, indexI) => (
-            <div key={indexI}>
+            <Box key={indexI} sx={{ display: "flex", justifyContent: "center" }}>
                 {Array.from(Array(width)).map((_, indexJ) => (
                     <BoardSquare numOfMimeNeighbors={array[indexI][indexJ]} indexI={indexI} indexJ={indexJ} key={indexJ}
                         btnLeftClickCallback={btnLeftClickCallback} btnRightClickCallback={btnRightClickCallback} />
                 ))}
-            </div>
+            </Box>
         ))}
-    </div>;
+    </Box>;
 }
 
 export default Board;
