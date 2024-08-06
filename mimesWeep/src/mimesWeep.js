@@ -9,6 +9,7 @@ import Select from '@mui/material/Select';
 import FinishedMessage from './finishedMessage.js';
 import Toolbar from '@mui/material/Toolbar';
 import CountBadge from './countBadge.js'
+import {isMobile} from 'react-device-detect';
 
 function MimesWeep() {
   const [difficulty, setDifficulty] = useState(1);
@@ -21,19 +22,37 @@ function MimesWeep() {
 
   switch (difficulty) {
     case 2:
+      if(isMobile) {
       height = 13;
       width = 9;
       numOfMimes = 18;
+      } else {
+        height = 16;
+        width = 16;
+        numOfMimes = 40;
+      }
       break;
     case 3:
+      if(isMobile) {
       height = 17;
       width = 9;
       numOfMimes = 30;
+      } else {
+        height = 16;
+      width = 30;
+      numOfMimes = 99;
+      }
       break;
     case 4:
+      if(isMobile) {
       height = 17;
       width = 9;
       numOfMimes = 40;
+      } else {
+        height = 20;
+      width = 42;
+      numOfMimes = 199;
+      }
       break;
     default:
       height = 9;
