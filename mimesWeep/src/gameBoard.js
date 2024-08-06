@@ -9,7 +9,8 @@ GameBoard.propTypes = {
     numOfMimes: PropTypes.number,
     displayLoseMessageCallback: PropTypes.func,
     displayWinMessageCallback: PropTypes.func,
-    incrementGuessCountCallback: PropTypes.func
+    incrementGuessCountCallback: PropTypes.func,
+    guessButtonToggledCallback: PropTypes.func
 }
 
 function GameBoard(props) {
@@ -51,7 +52,8 @@ function GameBoard(props) {
     return (
         <Board array={array} incrementSquaresWonCallback={incrementSquaresWonCallback}
             lostGameCallback={lostGameCallback} clearBoardCallback={clearBoardCallback}
-            incrementGuessCountCallback={props.incrementGuessCountCallback} />
+            incrementGuessCountCallback={props.incrementGuessCountCallback}
+            guessButtonToggledCallback={props.guessButtonToggledCallback} />
     );
 }
 

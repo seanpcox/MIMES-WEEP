@@ -16,7 +16,7 @@ function MimesWeep() {
 
   function handleDifficultyChange(event) {
     setDifficulty(event.target.value);
-    setGuessCountChildFunction(0);
+    resetGameChildComponentStates();
   };
 
   var gameSettings = getGameSettings(difficulty);
@@ -35,11 +35,31 @@ function MimesWeep() {
     }
   };
 
+  var setGuessButtonToggledChildFunction;
+
+  const guessButtonToggledCallback = (callbackParams) => {
+    if (Array.isArray(callbackParams)) {
+      setGuessButtonToggledChildFunction = callbackParams[1];
+    } else {
+      setGuessButtonToggledChildFunction(!callbackParams);
+    }
+  };
+
+  var setButtonToggleChildFunction;
+
+  const setButtonToggleCallback = (callbackParams) => {
+    if (Array.isArray(callbackParams)) {
+      setButtonToggleChildFunction = callbackParams[1];
+    } else {
+      setButtonToggleChildFunction(callbackParams);
+    }
+  };
+
   const [numOfGamesPlayed, setNumOfGamesPlayed] = useState(1);
 
   function handleRestart() {
     setNumOfGamesPlayed(numOfGamesPlayed + 1);
-    setGuessCountChildFunction(0);
+    resetGameChildComponentStates();
   };
 
   var showLoseMessage;
@@ -61,6 +81,12 @@ function MimesWeep() {
       showWinMessage(true);
     }
   };
+
+  function resetGameChildComponentStates() {
+    setGuessCountChildFunction(0);
+    setGuessButtonToggledChildFunction(false);
+    setButtonToggleChildFunction(false);
+  }
 
   return (
     <div className="mimesWeep" onContextMenu={(e) => {
@@ -99,12 +125,14 @@ function MimesWeep() {
         </FormControl>
         <Box width={18} />
         <CountBadge numOfMimes={numOfMimes}
-          incrementGuessCountCallback={incrementGuessCountCallback} />
+          incrementGuessCountCallback={incrementGuessCountCallback}
+          guessButtonToggledCallback={guessButtonToggledCallback} 
+          setButtonToggleCallback={setButtonToggleCallback}/>
       </Toolbar>
       <Box height={10} />
       <GameBoard height={height} width={width} numOfMimes={numOfMimes}
         displayLoseMessageCallback={displayLoseMessageCallback} displayWinMessageCallback={displayWinMessageCallback}
-        incrementGuessCountCallback={incrementGuessCountCallback} />
+        incrementGuessCountCallback={incrementGuessCountCallback} guessButtonToggledCallback={guessButtonToggledCallback} />
       <FinishedMessage displayLoseMessageCallback={displayLoseMessageCallback} displayWinMessageCallback={displayWinMessageCallback} />
     </div>
   );

@@ -9,22 +9,35 @@ Board.propTypes = {
     incrementSquaresWonCallback: PropTypes.func,
     lostGameCallback: PropTypes.func,
     clearBoardCallback: PropTypes.func,
-    incrementGuessCountCallback: PropTypes.func
+    incrementGuessCountCallback: PropTypes.func,
+    guessButtonToggledCallback: PropTypes.func
 }
 
 function Board(props) {
     const [state, setState] = useState(0);
+
     const [clearBoard, setClearBoard] = useState(false);
 
     useEffect(() => {
         props.clearBoardCallback([clearBoard, setClearBoard]);
     }, [props.clearBoardCallback, clearBoard]);
 
+    const [guessButtonToggled, setGuessButtonToggled] = useState(false);
+
+    useEffect(() => {
+        props.guessButtonToggledCallback([guessButtonToggled, setGuessButtonToggled]);
+    }, [props.guessButtonToggledCallback, guessButtonToggled]);
+
     var array = props.array;
     var height = array.length;
     var width = array[0].length;
 
     function btnLeftClickCallback(indexI, indexJ) {
+        if (guessButtonToggled) {
+            btnRightClickCallback(indexI, indexJ);
+            return;
+        }
+
         if (array[indexI][indexJ] >= 9) {
             return;
         }

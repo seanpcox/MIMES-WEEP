@@ -17,7 +17,9 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 
 CountBadge.propTypes = {
     numOfMimes: PropTypes.number,
-    incrementGuessCountCallback: PropTypes.func
+    incrementGuessCountCallback: PropTypes.func,
+    guessButtonToggledCallback: PropTypes.func,
+    setButtonToggleCallback: PropTypes.func
 }
 
 function CountBadge(props) {
@@ -29,13 +31,20 @@ function CountBadge(props) {
 
     const [selected, setSelected] = useState(false);
 
+    useEffect(() => {
+        props.setButtonToggleCallback([selected, setSelected]);
+    }, [props.setButtonToggleCallback, selected]);
+
+    function onToggleAction() {
+        setSelected(!selected);
+        props.guessButtonToggledCallback(selected);
+    }
+
     return (
         <ToggleButton
             value="check"
             selected={selected}
-            onChange={() => {
-                setSelected(!selected);
-            }}
+            onChange={onToggleAction}
             style={{ maxHeight: 42, minHeight: 42, minWidth: 84, color: '#282c34', borderColor: 'lightGrey' }}
         >
             <StyledBadge badgeContent={props.numOfMimes - guessCount} color="warning">

@@ -68,7 +68,7 @@ function getIcon(numOfMimeNeighbors) {
         case 3:
             return <Filter3TwoToneIcon sx={{ color: pink[300] }} />;
         case 4:
-            return <Filter4TwoToneIcon sx={{ color: purple[500] }} />;
+            return <Filter4TwoToneIcon sx={{ color: purple[300] }} />;
         case 5:
             return <Filter5TwoToneIcon sx={{ color: teal[500] }} />;
         case 6:
