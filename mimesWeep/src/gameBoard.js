@@ -8,7 +8,8 @@ GameBoard.propTypes = {
     width: PropTypes.number,
     numOfMimes: PropTypes.number,
     displayLoseMessageCallback: PropTypes.func,
-    displayWinMessageCallback: PropTypes.func
+    displayWinMessageCallback: PropTypes.func,
+    incrementGuessCountCallback: PropTypes.func
 }
 
 function GameBoard(props) {
@@ -21,13 +22,13 @@ function GameBoard(props) {
     var squaresToWin = (height * width) - numOfMimes;
     var squaresWon = 0;
 
-    var clearBoard = 0;
+    var clearBoardChildFunction;
 
     const clearBoardCallback = (setStateCallback) => {
         if (setStateCallback) {
-            clearBoard = setStateCallback[1];
+            clearBoardChildFunction = setStateCallback[1];
         } else {
-            clearBoard(clearBoard + 1);
+            clearBoardChildFunction(true);
         }
     };
 
@@ -49,7 +50,8 @@ function GameBoard(props) {
 
     return (
         <Board array={array} incrementSquaresWonCallback={incrementSquaresWonCallback}
-            lostGameCallback={lostGameCallback} clearBoardCallback={clearBoardCallback} />
+            lostGameCallback={lostGameCallback} clearBoardCallback={clearBoardCallback}
+            incrementGuessCountCallback={props.incrementGuessCountCallback} />
     );
 }
 

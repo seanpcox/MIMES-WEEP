@@ -16,16 +16,30 @@ function MimesWeep() {
 
   function handleDifficultyChange(event) {
     setDifficulty(event.target.value);
+    setGuessCountChildFunction(0);
   };
 
   var gameSettings = getGameSettings(difficulty);
 
   var height = gameSettings[0], width = gameSettings[1], numOfMimes = gameSettings[2];
 
+  var guessCount = 0;
+  var setGuessCountChildFunction;
+
+  const incrementGuessCountCallback = (callbackParams) => {
+    if (Array.isArray(callbackParams)) {
+      setGuessCountChildFunction = callbackParams[1];
+    } else {
+      guessCount += callbackParams;
+      setGuessCountChildFunction(guessCount);
+    }
+  };
+
   const [numOfGamesPlayed, setNumOfGamesPlayed] = useState(1);
 
   function handleRestart() {
     setNumOfGamesPlayed(numOfGamesPlayed + 1);
+    setGuessCountChildFunction(0);
   };
 
   var showLoseMessage;
@@ -84,11 +98,13 @@ function MimesWeep() {
           </Select>
         </FormControl>
         <Box width={18} />
-        <CountBadge mimeBadgeCount={numOfMimes} />
+        <CountBadge numOfMimes={numOfMimes}
+          incrementGuessCountCallback={incrementGuessCountCallback} />
       </Toolbar>
       <Box height={10} />
       <GameBoard height={height} width={width} numOfMimes={numOfMimes}
-        displayLoseMessageCallback={displayLoseMessageCallback} displayWinMessageCallback={displayWinMessageCallback} />
+        displayLoseMessageCallback={displayLoseMessageCallback} displayWinMessageCallback={displayWinMessageCallback}
+        incrementGuessCountCallback={incrementGuessCountCallback} />
       <FinishedMessage displayLoseMessageCallback={displayLoseMessageCallback} displayWinMessageCallback={displayWinMessageCallback} />
     </div>
   );

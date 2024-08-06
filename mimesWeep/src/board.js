@@ -8,7 +8,8 @@ Board.propTypes = {
     array: PropTypes.array,
     incrementSquaresWonCallback: PropTypes.func,
     lostGameCallback: PropTypes.func,
-    clearBoardCallback: PropTypes.func
+    clearBoardCallback: PropTypes.func,
+    incrementGuessCountCallback: PropTypes.func
 }
 
 function Board(props) {
@@ -49,8 +50,10 @@ function Board(props) {
     function btnRightClickCallback(indexI, indexJ) {
         if (array[indexI][indexJ] >= 9) {
             array[indexI][indexJ] = Number((array[indexI][indexJ] - 10).toFixed(1));
+            props.incrementGuessCountCallback(-1);
         } else {
             array[indexI][indexJ] = Number((array[indexI][indexJ] + 10).toFixed(1));
+            props.incrementGuessCountCallback(1);
         }
 
         setState(state + 1);

@@ -1,5 +1,5 @@
 import './mimesWeep.css';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
 import mimeIcon from './mimeGreyIcon.png';
@@ -16,30 +16,31 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 CountBadge.propTypes = {
-    mimeBadgeCount: PropTypes.number
+    numOfMimes: PropTypes.number,
+    incrementGuessCountCallback: PropTypes.func
 }
 
 function CountBadge(props) {
-    const [mimeBadgeCount, setMimeBadgeCount] = useState(props.mimeBadgeCount);
+    const [guessCount, setGuessCount] = useState(0);
 
-    if (mimeBadgeCount !== props.mimeBadgeCount) {
-        setMimeBadgeCount(props.mimeBadgeCount);
-    }
+    useEffect(() => {
+        props.incrementGuessCountCallback([guessCount, setGuessCount]);
+    }, [props.incrementGuessCountCallback, guessCount]);
 
     const [selected, setSelected] = useState(false);
 
     return (
         <ToggleButton
-        value="check"
-        selected={selected}
-        onChange={() => {
-          setSelected(!selected);
-        }}
-        style={{ maxHeight: 42, minHeight: 42, minWidth: 84, color: '#282c34', borderColor: 'lightGrey' }}
-      >
-        <StyledBadge badgeContent={mimeBadgeCount} color="warning">
-            <img src={mimeIcon} width="38px" height="38px" alt="Grey Mime" />
-        </StyledBadge>
+            value="check"
+            selected={selected}
+            onChange={() => {
+                setSelected(!selected);
+            }}
+            style={{ maxHeight: 42, minHeight: 42, minWidth: 84, color: '#282c34', borderColor: 'lightGrey' }}
+        >
+            <StyledBadge badgeContent={props.numOfMimes - guessCount} color="warning">
+                <img src={mimeIcon} width="38px" height="38px" alt="Grey Mime" />
+            </StyledBadge>
         </ToggleButton>
     );
 }
