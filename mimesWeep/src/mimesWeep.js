@@ -9,7 +9,7 @@ import Select from '@mui/material/Select';
 import FinishedMessage from './finishedMessage.js';
 import Toolbar from '@mui/material/Toolbar';
 import CountBadge from './countBadge.js'
-import {isMobile} from 'react-device-detect';
+import { isMobile } from 'react-device-detect';
 
 function MimesWeep() {
   const [difficulty, setDifficulty] = useState(1);
@@ -18,48 +18,9 @@ function MimesWeep() {
     setDifficulty(event.target.value);
   };
 
-  var height, width, numOfMimes;
+  var gameSettings = getGameSettings(difficulty);
 
-  switch (difficulty) {
-    case 2:
-      if(isMobile) {
-      height = 13;
-      width = 9;
-      numOfMimes = 18;
-      } else {
-        height = 16;
-        width = 16;
-        numOfMimes = 40;
-      }
-      break;
-    case 3:
-      if(isMobile) {
-      height = 17;
-      width = 9;
-      numOfMimes = 30;
-      } else {
-        height = 16;
-      width = 30;
-      numOfMimes = 99;
-      }
-      break;
-    case 4:
-      if(isMobile) {
-      height = 17;
-      width = 9;
-      numOfMimes = 40;
-      } else {
-        height = 20;
-      width = 42;
-      numOfMimes = 199;
-      }
-      break;
-    default:
-      height = 9;
-      width = 9;
-      numOfMimes = 10;
-      break;
-  }
+  var height = gameSettings[0], width = gameSettings[1], numOfMimes = gameSettings[2];
 
   const [numOfGamesPlayed, setNumOfGamesPlayed] = useState(1);
 
@@ -102,10 +63,10 @@ function MimesWeep() {
       <Toolbar sx={{ justifyContent: "center" }}>
         <Button variant="outlined" onClick={handleRestart}
           style={{
-            maxHeight: 40, minHeight: 40, minWidth: 120, color: '#282c34', borderColor: 'lightGrey', textTransform: 'none', fontSize: 16
+            maxHeight: 42, minHeight: 42, minWidth: 120, color: '#282c34', borderColor: 'lightGrey', textTransform: 'none', fontSize: 16
           }}>
           New Game</Button>
-        <Box width={20} />
+        <Box width={18} />
         <FormControl>
           <InputLabel id="demo-simple-select-label">Difficulty</InputLabel>
           <Select
@@ -114,7 +75,7 @@ function MimesWeep() {
             value={difficulty}
             label="Difficulty"
             onChange={handleDifficultyChange}
-            style={{ maxHeight: 40, minHeight: 40, minWidth: 120, color: '#282c34', borderColor: 'lightGrey' }}
+            style={{ maxHeight: 42, minHeight: 42, minWidth: 120, color: '#282c34', borderColor: 'lightGrey' }}
           >
             <MenuItem value={1}>Easy</MenuItem>
             <MenuItem value={2}>Medium</MenuItem>
@@ -122,7 +83,7 @@ function MimesWeep() {
             <MenuItem value={4}>Hardest</MenuItem>
           </Select>
         </FormControl>
-        <Box width={15} />
+        <Box width={18} />
         <CountBadge mimeBadgeCount={numOfMimes} />
       </Toolbar>
       <Box height={10} />
@@ -131,6 +92,53 @@ function MimesWeep() {
       <FinishedMessage displayLoseMessageCallback={displayLoseMessageCallback} displayWinMessageCallback={displayWinMessageCallback} />
     </div>
   );
+}
+
+function getGameSettings(difficulty) {
+  var height, width, numOfMimes;
+
+  switch (difficulty) {
+    case 2:
+      if (isMobile) {
+        height = 13;
+        width = 9;
+        numOfMimes = 18;
+      } else {
+        height = 16;
+        width = 16;
+        numOfMimes = 40;
+      }
+      break;
+    case 3:
+      if (isMobile) {
+        height = 17;
+        width = 9;
+        numOfMimes = 30;
+      } else {
+        height = 16;
+        width = 30;
+        numOfMimes = 99;
+      }
+      break;
+    case 4:
+      if (isMobile) {
+        height = 17;
+        width = 9;
+        numOfMimes = 40;
+      } else {
+        height = 18;
+        width = 42;
+        numOfMimes = 190;
+      }
+      break;
+    default:
+      height = 9;
+      width = 9;
+      numOfMimes = 10;
+      break;
+  }
+
+  return [height, width, numOfMimes];
 }
 
 export default MimesWeep;
