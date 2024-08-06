@@ -2,7 +2,8 @@ import './mimesWeep.css';
 import { useState, useEffect } from 'react';
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
-import mimeIcon from './mimeGreyIcon.png';
+import mimeGreyIcon from './mimeGreyIcon.png';
+import mimeBlackIcon from './mimeBlackIcon.png';
 import PropTypes from 'prop-types';
 import { ToggleButton } from '@mui/material';
 
@@ -48,7 +49,7 @@ function CountBadge(props) {
             style={{ maxHeight: 42, minHeight: 42, minWidth: 84, color: '#282c34', borderColor: 'lightGrey' }}
         >
             <StyledBadge badgeContent={props.numOfMimes - guessCount} color="warning">
-                <img src={mimeIcon} width="38px" height="38px" alt="Grey Mime" />
+                <img src={(selected) ? mimeBlackIcon : mimeGreyIcon} width="38px" height="38px" alt="Grey Mime" />
             </StyledBadge>
         </ToggleButton>
     );

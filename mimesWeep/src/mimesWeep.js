@@ -126,8 +126,8 @@ function MimesWeep() {
         <Box width={18} />
         <CountBadge numOfMimes={numOfMimes}
           incrementGuessCountCallback={incrementGuessCountCallback}
-          guessButtonToggledCallback={guessButtonToggledCallback} 
-          setButtonToggleCallback={setButtonToggleCallback}/>
+          guessButtonToggledCallback={guessButtonToggledCallback}
+          setButtonToggleCallback={setButtonToggleCallback} />
       </Toolbar>
       <Box height={10} />
       <GameBoard height={height} width={width} numOfMimes={numOfMimes}
