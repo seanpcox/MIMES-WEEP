@@ -12,6 +12,7 @@ import Filter8TwoToneIcon from '@mui/icons-material/Filter8TwoTone';
 import mimeWhiteIcon from './mimeWhiteIcon.png';
 import mimeRedIcon from './mimeRedIcon.png';
 import mimeBlackIcon from './mimeBlackIcon.png';
+import ContextMenuHandler from './iosContextMenuHandler.js';
 
 BoardSquare.propTypes = {
     numOfMimeNeighbors: PropTypes.number,
@@ -28,27 +29,59 @@ function BoardSquare(props) {
         props.btnLeftClickCallback(props.indexI, props.indexJ);
     };
 
-    const setRightClickState = () => {
-        props.btnRightClickCallback(props.indexI, props.indexJ);
-    };
+    const contextMenuHandler = new ContextMenuHandler(
+        e => {
+            props.btnRightClickCallback(props.indexI, props.indexJ);
+        }
+    );
 
     if (props.numOfMimeNeighbors >= 10 && props.numOfMimeNeighbors % 1 === 0) {
-        return <Button variant="contained" onClick={setLeftClickState} onContextMenu={setRightClickState}
+        return <Button variant="contained"
+            onClick={setLeftClickState}
+            onContextMenu={contextMenuHandler.onContextMenu}
+            onTouchStart={contextMenuHandler.onTouchStart}
+            onTouchCancel={contextMenuHandler.onTouchCancel}
+            onTouchEnd={contextMenuHandler.onTouchEnd}
+            onTouchMove={contextMenuHandler.onTouchMove}
             style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}
             color="error">{getIcon()}</Button>;
     } else if (props.numOfMimeNeighbors >= 9 && props.numOfMimeNeighbors % 1 === 0) {
-        return <Button variant="contained" onClick={setLeftClickState} onContextMenu={setRightClickState}
+        return <Button variant="contained"
+            onClick={setLeftClickState}
+            onContextMenu={contextMenuHandler.onContextMenu}
+            onTouchStart={contextMenuHandler.onTouchStart}
+            onTouchCancel={contextMenuHandler.onTouchCancel}
+            onTouchEnd={contextMenuHandler.onTouchEnd}
+            onTouchMove={contextMenuHandler.onTouchMove}
             style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}
             color="success">{getIcon()}</Button>;
     } else if (props.numOfMimeNeighbors >= 9) {
-        return <Button variant="contained" onClick={setLeftClickState} onContextMenu={setRightClickState}
+        return <Button variant="contained"
+            onClick={setLeftClickState}
+            onContextMenu={contextMenuHandler.onContextMenu}
+            onTouchStart={contextMenuHandler.onTouchStart}
+            onTouchCancel={contextMenuHandler.onTouchCancel}
+            onTouchEnd={contextMenuHandler.onTouchEnd}
+            onTouchMove={contextMenuHandler.onTouchMove}
             style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}
             color="warning">{getIcon()}</Button>;
     } else if (Math.floor(props.numOfMimeNeighbors) !== props.numOfMimeNeighbors) {
-        return <Button variant="contained" onClick={setLeftClickState} onContextMenu={setRightClickState}
+        return <Button variant="contained"
+            onClick={setLeftClickState}
+            onContextMenu={contextMenuHandler.onContextMenu}
+            onTouchStart={contextMenuHandler.onTouchStart}
+            onTouchCancel={contextMenuHandler.onTouchCancel}
+            onTouchEnd={contextMenuHandler.onTouchEnd}
+            onTouchMove={contextMenuHandler.onTouchMove}
             style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}></Button>;
     } else {
-        return <Button variant="outlined" onClick={setLeftClickState} onContextMenu={setRightClickState} disabled={true}
+        return <Button variant="outlined" disabled={true}
+            onClick={setLeftClickState}
+            onContextMenu={contextMenuHandler.onContextMenu}
+            onTouchStart={contextMenuHandler.onTouchStart}
+            onTouchCancel={contextMenuHandler.onTouchCancel}
+            onTouchEnd={contextMenuHandler.onTouchEnd}
+            onTouchMove={contextMenuHandler.onTouchMove}
             style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}>{getIcon(props.numOfMimeNeighbors)}</Button>;
     }
 }
