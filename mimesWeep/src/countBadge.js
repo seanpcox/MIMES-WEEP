@@ -26,7 +26,7 @@ function CountBadge(props) {
     }
 
     return (
-        <StyledBadge badgeContent={mimeBadgeCount} color="error">
+        <StyledBadge badgeContent={mimeBadgeCount} color="warning">
             <img src={mimeIcon} width="40px" height="40px" alt="Grey Mime" />
         </StyledBadge>
     );

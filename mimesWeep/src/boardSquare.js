@@ -32,10 +32,18 @@ function BoardSquare(props) {
         props.btnRightClickCallback(props.indexI, props.indexJ);
     };
 
-    if (props.numOfMimeNeighbors >= 9) {
+    if (props.numOfMimeNeighbors >= 10 && props.numOfMimeNeighbors % 1 === 0) {
         return <Button variant="contained" onClick={setLeftClickState} onContextMenu={setRightClickState}
             style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}
             color="error">{getIcon()}</Button>;
+    } else if (props.numOfMimeNeighbors >= 9 && props.numOfMimeNeighbors % 1 === 0) {
+        return <Button variant="contained" onClick={setLeftClickState} onContextMenu={setRightClickState}
+            style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}
+            color="success">{getIcon()}</Button>;
+    } else if (props.numOfMimeNeighbors >= 9) {
+        return <Button variant="contained" onClick={setLeftClickState} onContextMenu={setRightClickState}
+            style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}
+            color="warning">{getIcon()}</Button>;
     } else if (Math.floor(props.numOfMimeNeighbors) !== props.numOfMimeNeighbors) {
         return <Button variant="contained" onClick={setLeftClickState} onContextMenu={setRightClickState}
             style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}></Button>;
