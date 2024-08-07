@@ -1,6 +1,6 @@
-const longPressDuration = 400;
+const longPressDuration = 600;
 
-export default class ContextMenuHandler {
+export default class IOSContextMenuHandler {
     constructor(leftClickCallback, rightClickback) {
         this.leftClickCallback = leftClickCallback;
         this.rightClickCallback = rightClickback;

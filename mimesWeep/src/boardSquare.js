@@ -12,7 +12,7 @@ import Filter8TwoToneIcon from '@mui/icons-material/Filter8TwoTone';
 import mimeWhiteIcon from './mimeWhiteIcon.png';
 import mimeRedIcon from './mimeRedIcon.png';
 import mimeBlackIcon from './mimeBlackIcon.png';
-import ContextMenuHandler from './iosContextMenuHandler.js';
+import IOSContextMenuHandler from './iosContextMenuHandler.js';
 import { isIOS } from 'react-device-detect';
 import { useState } from 'react';
 
@@ -31,7 +31,7 @@ function BoardSquare(props) {
 
     console.log("ios", isDeviceIOS);
 
-    const contextMenuHandler = new ContextMenuHandler(
+    const contextMenuHandler = new IOSContextMenuHandler(
         () => {
             setLeftClickState();
         },
