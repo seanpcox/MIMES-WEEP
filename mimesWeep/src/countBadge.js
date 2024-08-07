@@ -49,7 +49,7 @@ function CountBadge(props) {
             style={{ maxHeight: 42, minHeight: 42, width: 64, maxWidth: 64, color: '#282c34', borderColor: '#c4c4c4', justifyContent: "left" }}
         >
             <StyledBadge badgeContent={props.numOfMimes - guessCount}
-                color="warning" sx={{ color: (selected) ? grey[900] : grey[500], mr: 2 }} >
+                color="warning" sx={{ color: (selected) ? grey[900] : grey[500] }} >
                 <TourTwoTone />
             </StyledBadge>
         </ToggleButton>

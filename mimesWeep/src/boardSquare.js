@@ -26,7 +26,7 @@ BoardSquare.propTypes = {
 }
 
 function BoardSquare(props) {
-    var btnSize = '40px';
+    var btnSize = '38px';
 
     const isDeviceIOS = useState(isIOS);
 
@@ -111,7 +111,7 @@ function BoardSquare(props) {
 function getIcon(numOfMimeNeighbors) {
     switch (numOfMimeNeighbors) {
         case -2:
-            return <img src={mimeRedIcon} width="30px" height="30px" alt="Red Mime" />;
+            return <img src={mimeRedIcon} width="24px" height="24px" alt="Red Mime" />;
         case -1:
             return <img src={mimeBlackIcon} width="24px" height="24px" alt="Black Mime" />;
         case 0:
