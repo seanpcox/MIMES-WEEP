@@ -35,7 +35,7 @@ function BoardSquare(props) {
         }
     );
 
-    if (props.numOfMimeNeighbors >= 10 && props.numOfMimeNeighbors % 1 === 0) {
+    if (props.numOfMimeNeighbors >= 9) {
         return <Button variant="contained"
             onClick={setLeftClickState}
             onContextMenu={contextMenuHandler.onContextMenu}
@@ -44,27 +44,9 @@ function BoardSquare(props) {
             onTouchEnd={contextMenuHandler.onTouchEnd}
             onTouchMove={contextMenuHandler.onTouchMove}
             style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}
-            color="error">{getIcon()}</Button>;
-    } else if (props.numOfMimeNeighbors >= 9 && props.numOfMimeNeighbors % 1 === 0) {
-        return <Button variant="contained"
-            onClick={setLeftClickState}
-            onContextMenu={contextMenuHandler.onContextMenu}
-            onTouchStart={contextMenuHandler.onTouchStart}
-            onTouchCancel={contextMenuHandler.onTouchCancel}
-            onTouchEnd={contextMenuHandler.onTouchEnd}
-            onTouchMove={contextMenuHandler.onTouchMove}
-            style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}
-            color="success">{getIcon()}</Button>;
-    } else if (props.numOfMimeNeighbors >= 9) {
-        return <Button variant="contained"
-            onClick={setLeftClickState}
-            onContextMenu={contextMenuHandler.onContextMenu}
-            onTouchStart={contextMenuHandler.onTouchStart}
-            onTouchCancel={contextMenuHandler.onTouchCancel}
-            onTouchEnd={contextMenuHandler.onTouchEnd}
-            onTouchMove={contextMenuHandler.onTouchMove}
-            style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}
-            color="warning">{getIcon()}</Button>;
+            color={getButtonColor(props.numOfMimeNeighbors)}>
+            <img src={mimeWhiteIcon} width="24px" height="24px" alt="White Mime" />
+        </Button>;
     } else if (Math.floor(props.numOfMimeNeighbors) !== props.numOfMimeNeighbors) {
         return <Button variant="contained"
             onClick={setLeftClickState}
@@ -73,7 +55,8 @@ function BoardSquare(props) {
             onTouchCancel={contextMenuHandler.onTouchCancel}
             onTouchEnd={contextMenuHandler.onTouchEnd}
             onTouchMove={contextMenuHandler.onTouchMove}
-            style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}></Button>;
+            style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}>
+        </Button>;
     } else {
         return <Button variant="outlined" disabled={true}
             onClick={setLeftClickState}
@@ -82,7 +65,9 @@ function BoardSquare(props) {
             onTouchCancel={contextMenuHandler.onTouchCancel}
             onTouchEnd={contextMenuHandler.onTouchEnd}
             onTouchMove={contextMenuHandler.onTouchMove}
-            style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}>{getIcon(props.numOfMimeNeighbors)}</Button>;
+            style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}>
+            {getIcon(props.numOfMimeNeighbors)}
+        </Button>;
     }
 }
 
@@ -92,8 +77,6 @@ function getIcon(numOfMimeNeighbors) {
             return <img src={mimeRedIcon} width="30px" height="30px" alt="Red Mime" />;
         case -1:
             return <img src={mimeBlackIcon} width="24px" height="24px" alt="Black Mime" />;
-        case 0:
-            return null;
         case 1:
             return <Filter1TwoToneIcon sx={{ color: blue[500] }} />;
         case 2:
@@ -111,8 +94,16 @@ function getIcon(numOfMimeNeighbors) {
         case 8:
             return <Filter8TwoToneIcon sx={{ color: red[500] }} />;
         default:
-            return <img src={mimeWhiteIcon} width="24px" height="24px" alt="White Mime" />;
+            return null;
     }
+}
+
+function getButtonColor(numOfMimeNeighbors) {
+    if (numOfMimeNeighbors % 1 === 0) {
+        return (numOfMimeNeighbors >= 10) ? "error" : "success"
+    }
+
+    return "warning";
 }
 
 export default BoardSquare;

@@ -1,4 +1,4 @@
-const longPressDuration = 610;
+const longPressDuration = 500;
 
 export default class ContextMenuHandler {
     constructor(callback, printLine) {
@@ -17,25 +17,20 @@ export default class ContextMenuHandler {
             this.contextMenuPossible = false;
             this.callback(touch);
         }, longPressDuration);
-
-        e.preventDefault();
     };
 
-    onTouchMove = e => {
+    onTouchMove = () => {
         clearTimeout(this.longPressCountdown);
-        e.preventDefault();
     };
 
-    onTouchCancel = e => {
+    onTouchCancel = () => {
         this.contextMenuPossible = false;
         clearTimeout(this.longPressCountdown);
-        e.preventDefault();
     };
 
-    onTouchEnd = e => {
+    onTouchEnd = () => {
         this.contextMenuPossible = false;
         clearTimeout(this.longPressCountdown);
-        e.preventDefault();
     };
 
     onContextMenu = e => {

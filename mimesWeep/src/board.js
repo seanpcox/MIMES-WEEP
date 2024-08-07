@@ -39,6 +39,7 @@ function Board(props) {
         }
 
         if (array[indexI][indexJ] >= 9) {
+            btnRightClickCallback(indexI, indexJ);
             return;
         }
 
