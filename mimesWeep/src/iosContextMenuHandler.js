@@ -47,6 +47,12 @@ export default class ContextMenuHandler {
     onTouchEnd = e => {
         console.log("onTouchEnd");
         this.contextMenuPossible = false;
+
+        if(this.longPressOccured) {
+            e.preventDefault();
+            this.longPressOccured = false;
+        }
+
         clearTimeout(this.longPressCountdown);
     };
 
