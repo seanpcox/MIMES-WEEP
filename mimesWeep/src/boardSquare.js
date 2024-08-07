@@ -29,8 +29,6 @@ function BoardSquare(props) {
 
     const isDeviceIOS = useState(isIOS);
 
-    console.log("ios", isDeviceIOS);
-
     const contextMenuHandler = new IOSContextMenuHandler(
         () => {
             setLeftClickState();

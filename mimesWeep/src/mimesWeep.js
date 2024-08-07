@@ -1,5 +1,5 @@
 import './mimesWeep.css';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { Box, Button } from '@mui/material';
 import GameBoard from './gameBoard.js'
 import InputLabel from '@mui/material/InputLabel';
@@ -17,6 +17,7 @@ function MimesWeep() {
   function handleDifficultyChange(event) {
     setDifficulty(event.target.value);
     resetGameChildComponentStates();
+    scrollToBottom();
   };
 
   var gameSettings = getGameSettings(difficulty);
@@ -88,6 +89,12 @@ function MimesWeep() {
     setButtonToggleChildFunction(false);
   }
 
+  const messagesEndRef = useRef();
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }
+
   return (
     <div className="mimesWeep" onContextMenu={(e) => {
       e.preventDefault(); // prevent the default behaviour when right clicked
@@ -105,7 +112,7 @@ function MimesWeep() {
           style={{
             maxHeight: 42, minHeight: 42, width: 120, maxWidth: 120, color: '#282c34', borderColor: 'lightGrey', textTransform: 'none', fontSize: 16
           }}>
-          New Game</Button>
+          New</Button>
         <Box width={18} />
         <FormControl>
           <InputLabel id="demo-simple-select-label">Difficulty</InputLabel>
@@ -134,6 +141,7 @@ function MimesWeep() {
         displayLoseMessageCallback={displayLoseMessageCallback} displayWinMessageCallback={displayWinMessageCallback}
         incrementGuessCountCallback={incrementGuessCountCallback} guessButtonToggledCallback={guessButtonToggledCallback} />
       <FinishedMessage displayLoseMessageCallback={displayLoseMessageCallback} displayWinMessageCallback={displayWinMessageCallback} />
+      <div ref={messagesEndRef} />
     </div>
   );
 }
