@@ -13,6 +13,8 @@ import mimeWhiteIcon from './mimeWhiteIcon.png';
 import mimeRedIcon from './mimeRedIcon.png';
 import mimeBlackIcon from './mimeBlackIcon.png';
 import ContextMenuHandler from './iosContextMenuHandler.js';
+import { isIOS } from 'react-device-detect';
+import { useState } from 'react';
 
 BoardSquare.propTypes = {
     numOfMimeNeighbors: PropTypes.number,
@@ -25,48 +27,79 @@ BoardSquare.propTypes = {
 function BoardSquare(props) {
     var btnSize = '40px';
 
+    const isDeviceIOS = useState(isIOS);
+
+    console.log("ios", isDeviceIOS);
+
     const contextMenuHandler = new ContextMenuHandler(
         () => {
-            props.btnLeftClickCallback(props.indexI, props.indexJ);
+            setLeftClickState();
         },
         () => {
-            props.btnRightClickCallback(props.indexI, props.indexJ);
+            setRightClickState();
         }
     );
 
-    if (props.numOfMimeNeighbors >= 9) {
-        return <Button variant="contained"
-            onClick={contextMenuHandler.onClick}
-            onContextMenu={contextMenuHandler.onContextMenu}
-            onTouchStart={contextMenuHandler.onTouchStart}
-            onTouchCancel={contextMenuHandler.onTouchCancel}
-            onTouchEnd={contextMenuHandler.onTouchEnd}
-            onTouchMove={contextMenuHandler.onTouchMove}
-            style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}
-            color={getButtonColor(props.numOfMimeNeighbors)}>
-            <img src={mimeWhiteIcon} width="24px" height="24px" alt="White Mime" />
-        </Button>;
-    } else if (Math.floor(props.numOfMimeNeighbors) !== props.numOfMimeNeighbors) {
-        return <Button variant="contained"
-            onClick={contextMenuHandler.onClick}
-            onContextMenu={contextMenuHandler.onContextMenu}
-            onTouchStart={contextMenuHandler.onTouchStart}
-            onTouchCancel={contextMenuHandler.onTouchCancel}
-            onTouchEnd={contextMenuHandler.onTouchEnd}
-            onTouchMove={contextMenuHandler.onTouchMove}
-            style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}>
-        </Button>;
+    const setLeftClickState = () => {
+        props.btnLeftClickCallback(props.indexI, props.indexJ);
+    };
+
+    const setRightClickState = () => {
+        props.btnRightClickCallback(props.indexI, props.indexJ);
+    };
+
+    if (isDeviceIOS[0]) {
+        if (props.numOfMimeNeighbors >= 9) {
+            return <Button variant="contained"
+                onTouchStart={contextMenuHandler.onTouchStart}
+                onTouchCancel={contextMenuHandler.onTouchCancel}
+                onTouchEnd={contextMenuHandler.onTouchEnd}
+                onTouchMove={contextMenuHandler.onTouchMove}
+                style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}
+                color={getButtonColor(props.numOfMimeNeighbors)}>
+                <img src={mimeWhiteIcon} width="24px" height="24px" alt="White Mime" />
+            </Button>;
+        } else if (Math.floor(props.numOfMimeNeighbors) !== props.numOfMimeNeighbors) {
+            return <Button variant="contained"
+                onTouchStart={contextMenuHandler.onTouchStart}
+                onTouchCancel={contextMenuHandler.onTouchCancel}
+                onTouchEnd={contextMenuHandler.onTouchEnd}
+                onTouchMove={contextMenuHandler.onTouchMove}
+                style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}>
+            </Button>;
+        } else {
+            return <Button variant="outlined" disabled={true}
+                onTouchStart={contextMenuHandler.onTouchStart}
+                onTouchCancel={contextMenuHandler.onTouchCancel}
+                onTouchEnd={contextMenuHandler.onTouchEnd}
+                onTouchMove={contextMenuHandler.onTouchMove}
+                style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}>
+                {getIcon(props.numOfMimeNeighbors)}
+            </Button>;
+        }
     } else {
-        return <Button variant="outlined" disabled={true}
-            onClick={contextMenuHandler.onClick}
-            onContextMenu={contextMenuHandler.onContextMenu}
-            onTouchStart={contextMenuHandler.onTouchStart}
-            onTouchCancel={contextMenuHandler.onTouchCancel}
-            onTouchEnd={contextMenuHandler.onTouchEnd}
-            onTouchMove={contextMenuHandler.onTouchMove}
-            style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}>
-            {getIcon(props.numOfMimeNeighbors)}
-        </Button>;
+        if (props.numOfMimeNeighbors >= 9) {
+            return <Button variant="contained"
+                onClick={setLeftClickState}
+                onContextMenu={setRightClickState}
+                style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}
+                color={getButtonColor(props.numOfMimeNeighbors)}>
+                <img src={mimeWhiteIcon} width="24px" height="24px" alt="White Mime" />
+            </Button>;
+        } else if (Math.floor(props.numOfMimeNeighbors) !== props.numOfMimeNeighbors) {
+            return <Button variant="contained"
+                onClick={setLeftClickState}
+                onContextMenu={setRightClickState}
+                style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}>
+            </Button>;
+        } else {
+            return <Button variant="outlined" disabled={true}
+                onClick={setLeftClickState}
+                onContextMenu={setRightClickState}
+                style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}>
+                {getIcon(props.numOfMimeNeighbors)}
+            </Button>;
+        }
     }
 }
 

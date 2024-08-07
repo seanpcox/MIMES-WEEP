@@ -1,69 +1,47 @@
 const longPressDuration = 250;
 
 export default class ContextMenuHandler {
-    constructor(clickCallback, contextMenuCallback) {
-        this.clickCallback = clickCallback;
-        this.contextMenuCallback = contextMenuCallback;
+    constructor(leftClickCallback, rightClickback) {
+        this.leftClickCallback = leftClickCallback;
+        this.rightClickCallback = rightClickback;
         this.longPressCountdown = null;
-        this.contextMenuPossible = false;
-        this.longPressOccured = false;
-    }
-
-    onClick = e => {
-        if (this.longPressOccured) {
-            this.longPressOccured = false;
-            return;
-        }
-
-        console.log("onClick");
-        this.clickCallback(e);
-        e.preventDefault();
+        this.longPressOccurred = false;
     }
 
     onTouchStart = e => {
+        e.preventDefault();
         console.log("onTouchStart");
-        this.contextMenuPossible = true;
-
-        const touch = e.touches[0];
+        this.longPressOccurred = false;
 
         this.longPressCountdown = setTimeout(() => {
-            this.longPressOccured = true;
-            this.contextMenuPossible = false;
-            this.contextMenuCallback(touch);
+            this.longPressOccurred = true;
+            this.rightClickCallback();
         }, longPressDuration);
     };
 
     onTouchMove = e => {
+        e.preventDefault();
         console.log("onTouchMove");
         clearTimeout(this.longPressCountdown);
+        this.longPressOccurred = false;
     };
 
     onTouchCancel = e => {
+        e.preventDefault();
         console.log("onTouchCancel");
-        this.contextMenuPossible = false;
         clearTimeout(this.longPressCountdown);
+        this.longPressOccurred = false;
     };
 
     onTouchEnd = e => {
+        e.preventDefault();
         console.log("onTouchEnd");
-        this.contextMenuPossible = false;
 
-        if(this.longPressOccured) {
-            e.preventDefault();
-            this.longPressOccured = false;
+        if(!this.longPressOccurred) {
+            this.leftClickCallback();
         }
 
         clearTimeout(this.longPressCountdown);
-    };
-
-    onContextMenu = e => {
-        console.log("onContextMenu");
-
-        this.contextMenuPossible = false;
-
-        clearTimeout(this.longPressCountdown);
-
-        this.contextMenuCallback(e);
-        e.preventDefault();
+        this.longPressOccurred = false;
     };
 }
