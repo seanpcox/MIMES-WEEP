@@ -173,9 +173,9 @@ function getGameSettings(difficulty) {
         width = 9;
         numOfMimes = 34;
       } else {
-        height = 18;
+        height = 16;
         width = 42;
-        numOfMimes = 189;
+        numOfMimes = 169;
       }
       break;
     default:

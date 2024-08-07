@@ -16,6 +16,7 @@ export default class IOSContextMenuHandler {
         this.longPressCountdown = setTimeout(() => {
             this.longPressOccurred = true;
             this.rightClickCallback();
+            this.window.navigator.vibrate([200])
         }, longPressDuration);
     };
 
