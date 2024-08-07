@@ -74,7 +74,7 @@ function Board(props) {
 
     return <Box sx={{ overflowX: "scroll", justifyContent: "center" }}>
         {Array.from(Array(height)).map((_, indexI) => (
-            <Box key={indexI} sx={{ display: "flex", justifyContent: "center" }}>
+            <Box key={indexI} sx={{ display: "flex", justifyContent: "center", mx: 3 }}>
                 {Array.from(Array(width)).map((_, indexJ) => (
                     <BoardSquare numOfMimeNeighbors={array[indexI][indexJ]} indexI={indexI} indexJ={indexJ} key={indexJ}
                         btnLeftClickCallback={btnLeftClickCallback} btnRightClickCallback={btnRightClickCallback} />

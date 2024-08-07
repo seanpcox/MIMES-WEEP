@@ -46,7 +46,7 @@ function CountBadge(props) {
             value="check"
             selected={selected}
             onChange={onToggleAction}
-            style={{ maxHeight: 42, minHeight: 42, minWidth: 84, color: '#282c34', borderColor: 'lightGrey' }}
+            style={{ maxHeight: 42, minHeight: 42, width: 84, maxWidth: 84, color: '#282c34', borderColor: 'lightGrey' }}
         >
             <StyledBadge badgeContent={props.numOfMimes - guessCount} color="warning">
                 <img src={(selected) ? mimeBlackIcon : mimeGreyIcon} width="38px" height="38px" alt="Grey Mime" />

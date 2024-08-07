@@ -103,7 +103,7 @@ function MimesWeep() {
       <Toolbar sx={{ justifyContent: "center" }}>
         <Button variant="outlined" onClick={handleRestart}
           style={{
-            maxHeight: 42, minHeight: 42, minWidth: 120, color: '#282c34', borderColor: 'lightGrey', textTransform: 'none', fontSize: 16
+            maxHeight: 42, minHeight: 42, width: 120, maxWidth: 120, color: '#282c34', borderColor: 'lightGrey', textTransform: 'none', fontSize: 16
           }}>
           New Game</Button>
         <Box width={18} />
@@ -115,7 +115,7 @@ function MimesWeep() {
             value={difficulty}
             label="Difficulty"
             onChange={handleDifficultyChange}
-            style={{ maxHeight: 42, minHeight: 42, minWidth: 120, color: '#282c34', borderColor: 'lightGrey' }}
+            style={{ maxHeight: 42, minHeight: 42, width: 120, maxWidth: 120, color: '#282c34', borderColor: 'lightGrey' }}
           >
             <MenuItem value={1}>Easy</MenuItem>
             <MenuItem value={2}>Medium</MenuItem>
@@ -173,9 +173,9 @@ function getGameSettings(difficulty) {
         width = 9;
         numOfMimes = 34;
       } else {
-        height = 16;
+        height = 18;
         width = 42;
-        numOfMimes = 169;
+        numOfMimes = 189;
       }
       break;
     default:
