@@ -110,19 +110,19 @@ function MimesWeep() {
       <Toolbar sx={{ justifyContent: "center" }}>
         <Button variant="outlined" onClick={handleRestart}
           style={{
-            maxHeight: 42, minHeight: 42, width: 120, maxWidth: 120, color: '#282c34', borderColor: 'lightGrey', textTransform: 'none', fontSize: 16
+            maxHeight: 42, minHeight: 42, width: 120, maxWidth: 120, color: '#282c34', borderColor: '#c4c4c4', textTransform: 'none', fontSize: 16
           }}>
           New</Button>
         <Box width={18} />
         <FormControl>
-          <InputLabel id="demo-simple-select-label">Difficulty</InputLabel>
+          <InputLabel id="demo-simple-select-label" >Difficulty</InputLabel>
           <Select
             labelId="demo-simple-select-label"
             id="demo-simple-select"
             value={difficulty}
             label="Difficulty"
             onChange={handleDifficultyChange}
-            style={{ maxHeight: 42, minHeight: 42, width: 120, maxWidth: 120, color: '#282c34', borderColor: 'lightGrey' }}
+            style={{ maxHeight: 42, minHeight: 42, width: 120, maxWidth: 120, color: '#282c34', borderColor: '#c4c4c4' }}
           >
             <MenuItem value={1}>Easy</MenuItem>
             <MenuItem value={2}>Medium</MenuItem>

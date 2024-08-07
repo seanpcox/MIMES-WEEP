@@ -2,15 +2,15 @@ import './mimesWeep.css';
 import { useState, useEffect } from 'react';
 import Badge from '@mui/material/Badge';
 import { styled } from '@mui/material/styles';
-import mimeGreyIcon from './mimeGreyIcon.png';
-import mimeBlackIcon from './mimeBlackIcon.png';
+import TourTwoTone from '@mui/icons-material/TourTwoTone';
 import PropTypes from 'prop-types';
 import { ToggleButton } from '@mui/material';
+import { grey } from '@mui/material/colors';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
-        right: -5,
-        top: 10,
+        right: -10,
+        top: 9,
         border: `2px solid ${theme.palette.background.paper}`,
         padding: '0 4px',
     },
@@ -46,10 +46,11 @@ function CountBadge(props) {
             value="check"
             selected={selected}
             onChange={onToggleAction}
-            style={{ maxHeight: 42, minHeight: 42, width: 84, maxWidth: 84, color: '#282c34', borderColor: 'lightGrey' }}
+            style={{ maxHeight: 42, minHeight: 42, width: 64, maxWidth: 64, color: '#282c34', borderColor: '#c4c4c4', justifyContent: "left" }}
         >
-            <StyledBadge badgeContent={props.numOfMimes - guessCount} color="warning">
-                <img src={(selected) ? mimeBlackIcon : mimeGreyIcon} width="38px" height="38px" alt="Grey Mime" />
+            <StyledBadge badgeContent={props.numOfMimes - guessCount}
+                color="warning" sx={{ color: (selected) ? grey[900] : grey[500], mr: 2 }} >
+                <TourTwoTone />
             </StyledBadge>
         </ToggleButton>
     );
