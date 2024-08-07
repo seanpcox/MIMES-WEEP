@@ -120,7 +120,7 @@ function MimesWeep() {
             <MenuItem value={1}>Easy</MenuItem>
             <MenuItem value={2}>Medium</MenuItem>
             <MenuItem value={3}>Hard</MenuItem>
-            <MenuItem value={4}>Hardest</MenuItem>
+            <MenuItem value={4}>Expert</MenuItem>
           </Select>
         </FormControl>
         <Box width={18} />
@@ -143,10 +143,11 @@ function getGameSettings(difficulty) {
 
   switch (difficulty) {
     case 2:
+      // ~16% Mime Density
       if (isMobile) {
         height = 13;
         width = 9;
-        numOfMimes = 18;
+        numOfMimes = 19;
       } else {
         height = 16;
         width = 16;
@@ -154,10 +155,11 @@ function getGameSettings(difficulty) {
       }
       break;
     case 3:
+      // ~20% Mime Density
       if (isMobile) {
-        height = 17;
+        height = 15;
         width = 9;
-        numOfMimes = 30;
+        numOfMimes = 28;
       } else {
         height = 16;
         width = 30;
@@ -165,17 +167,19 @@ function getGameSettings(difficulty) {
       }
       break;
     case 4:
+      // ~25% Mime Density
       if (isMobile) {
-        height = 17;
+        height = 15;
         width = 9;
-        numOfMimes = 40;
+        numOfMimes = 34;
       } else {
         height = 18;
         width = 42;
-        numOfMimes = 190;
+        numOfMimes = 189;
       }
       break;
     default:
+      // ~12% Mime Density
       height = 9;
       width = 9;
       numOfMimes = 10;
