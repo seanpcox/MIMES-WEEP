@@ -1,4 +1,4 @@
-const longPressDuration = 500;
+const longPressDuration = 300;
 
 export default class ContextMenuHandler {
     constructor(callback, printLine) {

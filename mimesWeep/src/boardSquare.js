@@ -30,7 +30,7 @@ function BoardSquare(props) {
     };
 
     const contextMenuHandler = new ContextMenuHandler(
-        e => {
+        () => {
             props.btnRightClickCallback(props.indexI, props.indexJ);
         }
     );
