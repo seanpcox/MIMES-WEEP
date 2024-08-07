@@ -25,11 +25,10 @@ BoardSquare.propTypes = {
 function BoardSquare(props) {
     var btnSize = '40px';
 
-    const setLeftClickState = () => {
-        props.btnLeftClickCallback(props.indexI, props.indexJ);
-    };
-
     const contextMenuHandler = new ContextMenuHandler(
+        () => {
+            props.btnLeftClickCallback(props.indexI, props.indexJ);
+        },
         () => {
             props.btnRightClickCallback(props.indexI, props.indexJ);
         }
@@ -37,7 +36,7 @@ function BoardSquare(props) {
 
     if (props.numOfMimeNeighbors >= 9) {
         return <Button variant="contained"
-            onClick={setLeftClickState}
+            onClick={contextMenuHandler.onClick}
             onContextMenu={contextMenuHandler.onContextMenu}
             onTouchStart={contextMenuHandler.onTouchStart}
             onTouchCancel={contextMenuHandler.onTouchCancel}
@@ -49,7 +48,7 @@ function BoardSquare(props) {
         </Button>;
     } else if (Math.floor(props.numOfMimeNeighbors) !== props.numOfMimeNeighbors) {
         return <Button variant="contained"
-            onClick={setLeftClickState}
+            onClick={contextMenuHandler.onClick}
             onContextMenu={contextMenuHandler.onContextMenu}
             onTouchStart={contextMenuHandler.onTouchStart}
             onTouchCancel={contextMenuHandler.onTouchCancel}
@@ -59,7 +58,7 @@ function BoardSquare(props) {
         </Button>;
     } else {
         return <Button variant="outlined" disabled={true}
-            onClick={setLeftClickState}
+            onClick={contextMenuHandler.onClick}
             onContextMenu={contextMenuHandler.onContextMenu}
             onTouchStart={contextMenuHandler.onTouchStart}
             onTouchCancel={contextMenuHandler.onTouchCancel}
