@@ -55,6 +55,8 @@ function BoardSquare(props) {
                 onTouchCancel={contextMenuHandler.onTouchCancel}
                 onTouchEnd={contextMenuHandler.onTouchEnd}
                 onTouchMove={contextMenuHandler.onTouchMove}
+                onContextMenu={(e)=> e.preventDefault()}
+                onClick={(e)=> e.preventDefault()}
                 style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}
                 color={getButtonColor(props.numOfMimeNeighbors)}>
                 <img src={mimeWhiteIcon} width="24px" height="24px" alt="White Mime" />
@@ -65,6 +67,8 @@ function BoardSquare(props) {
                 onTouchCancel={contextMenuHandler.onTouchCancel}
                 onTouchEnd={contextMenuHandler.onTouchEnd}
                 onTouchMove={contextMenuHandler.onTouchMove}
+                onContextMenu={(e)=> e.preventDefault()}
+                onClick={(e)=> e.preventDefault()}
                 style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}>
             </Button>;
         } else {
@@ -73,6 +77,8 @@ function BoardSquare(props) {
                 onTouchCancel={contextMenuHandler.onTouchCancel}
                 onTouchEnd={contextMenuHandler.onTouchEnd}
                 onTouchMove={contextMenuHandler.onTouchMove}
+                onContextMenu={(e)=> e.preventDefault()}
+                onClick={(e)=> e.preventDefault()}
                 style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}>
                 {getIcon(props.numOfMimeNeighbors)}
             </Button>;
