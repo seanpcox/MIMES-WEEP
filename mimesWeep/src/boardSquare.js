@@ -9,6 +9,7 @@ import Filter5TwoToneIcon from '@mui/icons-material/Filter5TwoTone';
 import Filter6TwoToneIcon from '@mui/icons-material/Filter6TwoTone';
 import Filter7TwoToneIcon from '@mui/icons-material/Filter7TwoTone';
 import Filter8TwoToneIcon from '@mui/icons-material/Filter8TwoTone';
+import TourTwoTone from '@mui/icons-material/TourTwoTone';
 import mimeWhiteIcon from './mimeWhiteIcon.png';
 import mimeRedIcon from './mimeRedIcon.png';
 import mimeBlackIcon from './mimeBlackIcon.png';
@@ -53,11 +54,11 @@ function BoardSquare(props) {
                 onTouchCancel={contextMenuHandler.onTouchCancel}
                 onTouchEnd={contextMenuHandler.onTouchEnd}
                 onTouchMove={contextMenuHandler.onTouchMove}
-                onContextMenu={(e)=> e.preventDefault()}
-                onClick={(e)=> e.preventDefault()}
+                onContextMenu={(e) => e.preventDefault()}
+                onClick={(e) => e.preventDefault()}
                 style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}
                 color={getButtonColor(props.numOfMimeNeighbors)}>
-                <img src={mimeWhiteIcon} width="24px" height="24px" alt="White Mime" />
+                {getIcon(props.numOfMimeNeighbors)}
             </Button>;
         } else if (Math.floor(props.numOfMimeNeighbors) !== props.numOfMimeNeighbors) {
             return <Button variant="contained"
@@ -65,8 +66,8 @@ function BoardSquare(props) {
                 onTouchCancel={contextMenuHandler.onTouchCancel}
                 onTouchEnd={contextMenuHandler.onTouchEnd}
                 onTouchMove={contextMenuHandler.onTouchMove}
-                onContextMenu={(e)=> e.preventDefault()}
-                onClick={(e)=> e.preventDefault()}
+                onContextMenu={(e) => e.preventDefault()}
+                onClick={(e) => e.preventDefault()}
                 style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}>
             </Button>;
         } else {
@@ -75,8 +76,8 @@ function BoardSquare(props) {
                 onTouchCancel={contextMenuHandler.onTouchCancel}
                 onTouchEnd={contextMenuHandler.onTouchEnd}
                 onTouchMove={contextMenuHandler.onTouchMove}
-                onContextMenu={(e)=> e.preventDefault()}
-                onClick={(e)=> e.preventDefault()}
+                onContextMenu={(e) => e.preventDefault()}
+                onClick={(e) => e.preventDefault()}
                 style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}>
                 {getIcon(props.numOfMimeNeighbors)}
             </Button>;
@@ -88,7 +89,7 @@ function BoardSquare(props) {
                 onContextMenu={setRightClickState}
                 style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}
                 color={getButtonColor(props.numOfMimeNeighbors)}>
-                <img src={mimeWhiteIcon} width="24px" height="24px" alt="White Mime" />
+                {getIcon(props.numOfMimeNeighbors)}
             </Button>;
         } else if (Math.floor(props.numOfMimeNeighbors) !== props.numOfMimeNeighbors) {
             return <Button variant="contained"
@@ -113,6 +114,8 @@ function getIcon(numOfMimeNeighbors) {
             return <img src={mimeRedIcon} width="30px" height="30px" alt="Red Mime" />;
         case -1:
             return <img src={mimeBlackIcon} width="24px" height="24px" alt="Black Mime" />;
+        case 0:
+            return null;
         case 1:
             return <Filter1TwoToneIcon sx={{ color: blue[500] }} />;
         case 2:
@@ -129,8 +132,10 @@ function getIcon(numOfMimeNeighbors) {
             return <Filter7TwoToneIcon sx={{ color: blueGrey[500] }} />;
         case 8:
             return <Filter8TwoToneIcon sx={{ color: red[500] }} />;
+        case 9:
+            return <img src={mimeWhiteIcon} width="24px" height="24px" alt="White Mime" />;
         default:
-            return null;
+            return <TourTwoTone />;
     }
 }
 
