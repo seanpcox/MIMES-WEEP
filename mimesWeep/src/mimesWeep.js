@@ -113,7 +113,7 @@ function MimesWeep() {
             maxHeight: 42, minHeight: 42, width: 120, maxWidth: 120, color: '#282c34', borderColor: '#c4c4c4', textTransform: 'none', fontSize: 16
           }}>
           New</Button>
-        <Box width={18} />
+        <Box width={18} minWidth={10} />
         <FormControl>
           <InputLabel id="demo-simple-select-label" >Difficulty</InputLabel>
           <Select
@@ -130,7 +130,7 @@ function MimesWeep() {
             <MenuItem value={4}>Expert</MenuItem>
           </Select>
         </FormControl>
-        <Box width={18} />
+        <Box width={18} minWidth={10}/>
         <CountBadge numOfMimes={numOfMimes}
           incrementGuessCountCallback={incrementGuessCountCallback}
           guessButtonToggledCallback={guessButtonToggledCallback}
