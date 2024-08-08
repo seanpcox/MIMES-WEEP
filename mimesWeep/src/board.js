@@ -14,6 +14,7 @@ Board.propTypes = {
 }
 
 function Board(props) {
+    console.log("refresh board");
     const [state, setState] = useState(0);
 
     const [clearBoard, setClearBoard] = useState(false);

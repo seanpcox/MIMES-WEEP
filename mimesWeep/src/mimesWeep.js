@@ -23,7 +23,6 @@ function MimesWeep() {
   const [isCustomGame, setCustomGame] = useState(false);
 
   function handleDifficultyChange(event) {
-    console.log(event);
     if (event.target.value === 4) {
       return;
     }
