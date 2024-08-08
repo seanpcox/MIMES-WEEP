@@ -102,6 +102,7 @@ function CustomDialog(props) {
                         Enter the width, height, and number of mimes.
                     </DialogContentText>
                     <TextField
+                        autoFocus
                         error={heightError}
                         required
                         margin="dense"
@@ -113,7 +114,6 @@ function CustomDialog(props) {
                     <Box width={10} />
                     <TextField
                         error={widthError}
-                        autoFocus
                         required
                         margin="dense"
                         id="width"
