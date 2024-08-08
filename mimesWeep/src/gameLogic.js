@@ -42,6 +42,16 @@ export function clearGameBoard(array) {
     }
 }
 
+export function sanitizeMimeCount(height, width, numOfMimes) {
+    // Check that numOfMimes is less than the number of board squares
+    if (numOfMimes >= (height * width)) {
+        numOfMimes = (height * width) - 1;
+        console.warn("Mime count exceeded board spaces. Mime count will be set to one less than the number of board spaces.");
+    }
+
+    return numOfMimes;
+}
+
 function createEmptyBoard(height, width) {
     const array = new Array(height)
 
@@ -57,10 +67,7 @@ function addMimes(array, numOfMimes) {
     var width = array[0].length;
 
     // Add check that numOfMimes is less than the number of board squares
-    if (numOfMimes > (height * width)) {
-        numOfMimes = (height * width);
-        console.warn("Mime count exceeded board spaces. Mime count will be set to the number of board spaces.")
-    }
+    numOfMimes = sanitizeMimeCount(height, width, numOfMimes);
 
     var arrayIDIndexes = [];
 

@@ -10,17 +10,52 @@ import FinishedMessage from './finishedMessage.js';
 import Toolbar from '@mui/material/Toolbar';
 import CountBadge from './countBadge.js'
 import { isMobile } from 'react-device-detect';
+import CustomDialog from './customDialog.js';
+import * as logic from './gameLogic.js';
 
 function MimesWeep() {
   const [difficulty, setDifficulty] = useState(1);
 
+  const [customHeight, setCustomHeight] = useState(9);
+  const [customWidth, setCustomWidth] = useState(9);
+  const [customNumOfMimes, setCustomNumOfMimes] = useState(9);
+  const [isCustomGame, setCustomGame] = useState(false);
+
   function handleDifficultyChange(event) {
-    setDifficulty(event.target.value);
-    resetGameChildComponentStates();
-    scrollToBottom();
+    console.log(event);
+    if (event.target.value === 4) {
+      openCustomDialogCallback();
+      return;
+    }
+
+    setCustomGame(false);
+    resetGameSettings(event.target.value);
   };
 
-  var gameSettings = getGameSettings(difficulty);
+  function startCustomGameCallback(width, height, numOfMimes) {
+    // Add check that numOfMimes is less than the number of board squares
+    numOfMimes = logic.sanitizeMimeCount(height, width, numOfMimes);
+
+    setCustomGame(true);
+    setCustomHeight(height);
+    setCustomWidth(width);
+    setCustomNumOfMimes(numOfMimes);
+    resetGameSettings(4);
+  }
+
+  function resetGameSettings(value) {
+    setDifficulty(value);
+    resetGameChildComponentStates();
+    scrollToBottom();
+  }
+
+  var gameSettings;
+
+  if(isCustomGame) {
+    gameSettings = [customHeight, customWidth, customNumOfMimes];
+  } else {
+    gameSettings = getGameSettings(difficulty);
+  }
 
   var height = gameSettings[0], width = gameSettings[1], numOfMimes = gameSettings[2];
 
@@ -83,6 +118,16 @@ function MimesWeep() {
     }
   };
 
+  var openCustomDialog;
+
+  const openCustomDialogCallback = (callbackParams) => {
+    if (Array.isArray(callbackParams)) {
+      openCustomDialog = callbackParams[1];
+    } else {
+      openCustomDialog(true);
+    }
+  };
+
   function resetGameChildComponentStates() {
     setGuessCountChildFunction(0);
     setGuessButtonToggledChildFunction(false);
@@ -127,10 +172,10 @@ function MimesWeep() {
             <MenuItem value={1}>Easy</MenuItem>
             <MenuItem value={2}>Medium</MenuItem>
             <MenuItem value={3}>Hard</MenuItem>
-            <MenuItem value={4}>Expert</MenuItem>
+            <MenuItem value={4}>Custom</MenuItem>
           </Select>
         </FormControl>
-        <Box width={18} minWidth={10}/>
+        <Box width={18} minWidth={10} />
         <CountBadge numOfMimes={numOfMimes}
           incrementGuessCountCallback={incrementGuessCountCallback}
           guessButtonToggledCallback={guessButtonToggledCallback}
@@ -141,6 +186,7 @@ function MimesWeep() {
         displayLoseMessageCallback={displayLoseMessageCallback} displayWinMessageCallback={displayWinMessageCallback}
         incrementGuessCountCallback={incrementGuessCountCallback} guessButtonToggledCallback={guessButtonToggledCallback} />
       <FinishedMessage displayLoseMessageCallback={displayLoseMessageCallback} displayWinMessageCallback={displayWinMessageCallback} />
+      <CustomDialog openCustomDialogCallback={openCustomDialogCallback} startCustomGameCallback={startCustomGameCallback}/>
       <div ref={messagesEndRef} />
     </div>
   );

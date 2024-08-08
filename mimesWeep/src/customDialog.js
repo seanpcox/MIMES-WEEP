@@ -1,66 +1,135 @@
-import { useState, Fragment } from 'react';
-import Button from '@mui/material/Button';
+import { useState, useEffect, Fragment } from 'react';
+import { Box, Button } from '@mui/material';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
+import PropTypes from 'prop-types';
 
-export default function CustomDialog() {
+CustomDialog.propTypes = {
+    openCustomDialogCallback: PropTypes.func,
+    startCustomGameCallback: PropTypes.func
+}
+
+function CustomDialog(props) {
     const [open, setOpen] = useState(false);
 
-    const handleClickOpen = () => {
-        setOpen(true);
-    };
+    useEffect(() => {
+        props.openCustomDialogCallback([open, setOpen]);
+    }, [props.openCustomDialogCallback, open]);
 
     const handleClose = () => {
         setOpen(false);
+        setWidthError(false);
+        setHeightError(false);
+        setNumOfMimesError(false);
     };
+
+    const [widthError, setWidthError] = useState(false);
+
+    const [heightError, setHeightError] = useState(false);
+
+    const [numOfMimesError, setNumOfMimesError] = useState(false);
+
+    function onSubmit(event) {
+        event.preventDefault();
+
+        const formData = new FormData(event.currentTarget);
+        const formJson = Object.fromEntries(formData.entries());
+
+        var isInvalid = false;
+
+        const width = formJson.width;
+        const height = formJson.height;
+        const numOfMimes = formJson.numOfMimes;
+
+        console.log(width, height, numOfMimes);
+
+        if (isNaN(width) || width <= 0 || width > 99) {
+            setWidthError(true);
+            isInvalid = true;
+        } else {
+            setWidthError(false);
+        }
+
+        if (isNaN(height) || height <= 0 || height > 99) {
+            setHeightError(true);
+            isInvalid = true;
+        } else {
+            setHeightError(false);
+        }
+
+        if (isNaN(numOfMimes) || numOfMimes <= 0 || numOfMimes > 9800) {
+            setNumOfMimesError(true);
+            isInvalid = true;
+        } else {
+            setNumOfMimesError(false);
+        }
+
+        if(isInvalid) {
+            return;
+        }
+
+        handleClose();
+
+        props.startCustomGameCallback(Number(height), Number(width), Number(numOfMimes));
+    }
 
     return (
         <Fragment>
-            <Button variant="outlined" onClick={handleClickOpen}>
-                Open form dialog
-            </Button>
             <Dialog
                 open={open}
                 onClose={handleClose}
                 PaperProps={{
                     component: 'form',
-                    onSubmit: (event) => {
-                        event.preventDefault();
-                        const formData = new FormData(event.currentTarget);
-                        const formJson = Object.fromEntries(formData.entries());
-                        const email = formJson.email;
-                        console.log(email);
-                        handleClose();
-                    },
+                    onSubmit: onSubmit
                 }}
             >
-                <DialogTitle>Subscribe</DialogTitle>
+                <DialogTitle>Create Custom Board</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        To subscribe to this website, please enter your email address here. We
-                        will send updates occasionally.
+                        Enter the width, height, and number of mimes.
                     </DialogContentText>
                     <TextField
+                        error={widthError}
                         autoFocus
                         required
                         margin="dense"
-                        id="name"
-                        name="email"
-                        label="Email Address"
-                        type="email"
-                        fullWidth
+                        id="width"
+                        name="width"
+                        label="Width (1-99)"
+                        variant="standard"
+                    />
+                    <Box width={10} />
+                    <TextField
+                        error={heightError}
+                        required
+                        margin="dense"
+                        id="height"
+                        name="height"
+                        label="Height (1-99)"
+                        variant="standard"
+                    />
+                    <Box width={10} />
+                    <TextField
+                        error={numOfMimesError}
+                        required
+                        margin="dense"
+                        id="numOfMimes"
+                        name="numOfMimes"
+                        label="Mimes (1-9800)"
                         variant="standard"
                     />
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit">Subscribe</Button>
+                    <Button type="submit">Create</Button>
                 </DialogActions>
             </Dialog>
         </Fragment>
     );
 }
+
+export default CustomDialog;
