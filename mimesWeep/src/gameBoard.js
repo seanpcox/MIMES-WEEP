@@ -2,6 +2,7 @@ import './mimesWeep.css';
 import * as logic from './gameLogic.js';
 import Board from './board.js'
 import PropTypes from 'prop-types';
+import { useEffect, useRef } from 'react';
 
 GameBoard.propTypes = {
     height: PropTypes.number,
@@ -14,28 +15,24 @@ GameBoard.propTypes = {
 }
 
 function GameBoard(props) {
+    var ref = useRef(null);
+
     var height = props.height;
     var width = props.width;
     var numOfMimes = props.numOfMimes;
 
     const array = logic.createNewBoard(height, width, numOfMimes);
 
+    useEffect(() => {
+        ref.current.refresh(array, height, width);
+    });
+
     var squaresToWin = (height * width) - numOfMimes;
     var squaresWon = 0;
 
-    var clearBoardChildFunction;
-
-    const clearBoardCallback = (setStateCallback) => {
-        if (setStateCallback) {
-            clearBoardChildFunction = setStateCallback[1];
-        } else {
-            clearBoardChildFunction(true);
-        }
-    };
-
     function lostGameCallback() {
         logic.clearGameBoard(array);
-        clearBoardCallback();
+        ref.current.refresh(array, height, width);
         props.displayLoseMessageCallback();
     }
 
@@ -44,14 +41,14 @@ function GameBoard(props) {
 
         if (squaresWon === squaresToWin) {
             logic.clearGameBoard(array);
-            clearBoardCallback();
+            ref.current.refresh(array, height, width);
             props.displayWinMessageCallback();
         }
     }
 
     return (
-        <Board array={array} incrementSquaresWonCallback={incrementSquaresWonCallback}
-            lostGameCallback={lostGameCallback} clearBoardCallback={clearBoardCallback}
+        <Board ref={ref} array={array} incrementSquaresWonCallback={incrementSquaresWonCallback}
+            lostGameCallback={lostGameCallback}
             incrementGuessCountCallback={props.incrementGuessCountCallback}
             guessButtonToggledCallback={props.guessButtonToggledCallback} />
     );

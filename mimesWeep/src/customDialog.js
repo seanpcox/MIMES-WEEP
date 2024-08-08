@@ -7,7 +7,6 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import PropTypes from 'prop-types';
-import { isMobile } from 'react-device-detect';
 
 CustomDialog.propTypes = {
     openCustomDialogCallback: PropTypes.func,
@@ -34,13 +33,8 @@ function CustomDialog(props) {
 
     const [numOfMimesError, setNumOfMimesError] = useState(false);
 
-    var maxHeight = 16;
-    var maxWidth = 30;
-
-    if (isMobile) {
-        maxHeight = 15;
-        maxWidth = 9;
-      }
+    var maxHeight = 99;
+    var maxWidth = 99;
 
     function onSubmit(event) {
         event.preventDefault();
@@ -77,7 +71,7 @@ function CustomDialog(props) {
             setNumOfMimesError(false);
         }
 
-        if(isInvalid) {
+        if (isInvalid) {
             return;
         }
 

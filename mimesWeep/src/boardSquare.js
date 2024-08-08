@@ -20,19 +20,17 @@ import { useState, forwardRef, useImperativeHandle, useRef } from 'react';
 const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
     var btnSize = '38px';
 
+    const [numOfMimeNeighbors, setNumOfMimeNeighbors] = useState(props.numOfMimeNeighbors);
+
     const ref = useRef(null);
 
     useImperativeHandle(inputRef, () => {
         return {
-            refresh() {
-                refresh();
+            refresh(newNumOfMimeNeighbors) {
+                setNumOfMimeNeighbors(newNumOfMimeNeighbors);
             }
         };
     }, []);
-
-    function refresh() {
-        console.log("Button Refresh", props.indexI, props.indexJ);
-    }
 
     const isDeviceIOS = useState(isIOS);
 
@@ -54,7 +52,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
     };
 
     if (isDeviceIOS[0]) {
-        if (props.numOfMimeNeighbors >= 9) {
+        if (numOfMimeNeighbors >= 9) {
             return <Button variant="contained"
                 ref={ref}
                 onTouchStart={contextMenuHandler.onTouchStart}
@@ -64,10 +62,10 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 onContextMenu={(e) => e.preventDefault()}
                 onClick={(e) => e.preventDefault()}
                 style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}
-                color={getButtonColor(props.numOfMimeNeighbors)}>
-                {getIcon(props.numOfMimeNeighbors)}
+                color={getButtonColor(numOfMimeNeighbors)}>
+                {getIcon(numOfMimeNeighbors)}
             </Button>;
-        } else if (Math.floor(props.numOfMimeNeighbors) !== props.numOfMimeNeighbors) {
+        } else if (Math.floor(numOfMimeNeighbors) !== numOfMimeNeighbors) {
             return <Button variant="contained"
                 ref={ref}
                 onTouchStart={contextMenuHandler.onTouchStart}
@@ -88,20 +86,20 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 onContextMenu={(e) => e.preventDefault()}
                 onClick={(e) => e.preventDefault()}
                 style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}>
-                {getIcon(props.numOfMimeNeighbors)}
+                {getIcon(numOfMimeNeighbors)}
             </Button>;
         }
     } else {
-        if (props.numOfMimeNeighbors >= 9) {
+        if (numOfMimeNeighbors >= 9) {
             return <Button variant="contained"
                 ref={ref}
                 onClick={setLeftClickState}
                 onContextMenu={setRightClickState}
                 style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}
-                color={getButtonColor(props.numOfMimeNeighbors)}>
-                {getIcon(props.numOfMimeNeighbors)}
+                color={getButtonColor(numOfMimeNeighbors)}>
+                {getIcon(numOfMimeNeighbors)}
             </Button>;
-        } else if (Math.floor(props.numOfMimeNeighbors) !== props.numOfMimeNeighbors) {
+        } else if (Math.floor(numOfMimeNeighbors) !== numOfMimeNeighbors) {
             return <Button variant="contained"
                 ref={ref}
                 onClick={setLeftClickState}
@@ -114,7 +112,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 onClick={setLeftClickState}
                 onContextMenu={setRightClickState}
                 style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}>
-                {getIcon(props.numOfMimeNeighbors)}
+                {getIcon(numOfMimeNeighbors)}
             </Button>;
         }
     }

@@ -1,21 +1,10 @@
 import BoardSquare from './boardSquare.js'
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 import PropTypes from 'prop-types';
 import * as logic from './gameLogic.js';
 import { Box } from '@mui/material';
 
-Board.propTypes = {
-    array: PropTypes.array,
-    incrementSquaresWonCallback: PropTypes.func,
-    lostGameCallback: PropTypes.func,
-    clearBoardCallback: PropTypes.func,
-    incrementGuessCountCallback: PropTypes.func,
-    guessButtonToggledCallback: PropTypes.func
-}
-
-function Board(props) {
-    console.log("refresh board");
-
+const Board = forwardRef(function Board(props, inputRef) {
     var array = props.array;
     var height = array.length;
     var width = array[0].length;
@@ -37,17 +26,20 @@ function Board(props) {
         }
     });
 
-    function getRefIndex(indexI, indexJ, width) {
+    function getRefIndex(width, indexI, indexJ) {
         return (indexI * width) + indexJ;
     }
 
-    const [state, setState] = useState(0);
-
-    const [clearBoard, setClearBoard] = useState(false);
-
-    useEffect(() => {
-        props.clearBoardCallback([clearBoard, setClearBoard]);
-    }, [props.clearBoardCallback, clearBoard]);
+    useImperativeHandle(inputRef, () => {
+        return {
+            refresh(newArray, newHeight, newWidth) {
+                array = newArray;
+                height = newHeight;
+                width = newWidth;
+                refreshAllSquares();
+            }
+        };
+    }, []);
 
     const [guessButtonToggled, setGuessButtonToggled] = useState(false);
 
@@ -71,18 +63,21 @@ function Board(props) {
             array[indexI][indexJ] = -2;
             props.lostGameCallback();
         } else {
-            var squaresWonOnClick = 1;
+            var zeroNeighbors = [];
 
             if (array[indexI][indexJ] === 0) {
-                squaresWonOnClick += logic.visitZeroNeighbors(array, indexI, indexJ);
+                zeroNeighbors = logic.visitZeroNeighbors(array, indexI, indexJ);
             }
 
-            props.incrementSquaresWonCallback(squaresWonOnClick);
+            props.incrementSquaresWonCallback(zeroNeighbors.length + 1);
+
+            for (var n = 0; n < zeroNeighbors.length; n++) {
+                var refIndex = getRefIndex(width, zeroNeighbors[n][0], zeroNeighbors[n][1]);
+                ref.current[refIndex].refresh(array[zeroNeighbors[n][0]][zeroNeighbors[n][1]]);
+            }
         }
 
-        ref.current[getRefIndex(width, indexI, indexJ)].refresh();
-
-        setState(state + 1);
+        ref.current[getRefIndex(width, indexI, indexJ)].refresh(array[indexI][indexJ]);
     }
 
     function btnRightClickCallback(indexI, indexJ) {
@@ -94,9 +89,15 @@ function Board(props) {
             props.incrementGuessCountCallback(1);
         }
 
-        ref.current[getRefIndex(width, indexI, indexJ)].refresh();
+        ref.current[getRefIndex(width, indexI, indexJ)].refresh(array[indexI][indexJ]);
+    }
 
-        setState(state + 1);
+    function refreshAllSquares() {
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+                ref.current[getRefIndex(width, i, j)].refresh(array[i][j]);
+            }
+        }
     }
 
     return <Box sx={{ overflowX: "scroll", justifyContent: "center" }}>
@@ -110,6 +111,14 @@ function Board(props) {
             </Box>
         ))}
     </Box>;
+});
+
+Board.propTypes = {
+    array: PropTypes.array,
+    incrementSquaresWonCallback: PropTypes.func,
+    lostGameCallback: PropTypes.func,
+    incrementGuessCountCallback: PropTypes.func,
+    guessButtonToggledCallback: PropTypes.func
 }
 
 export default Board;

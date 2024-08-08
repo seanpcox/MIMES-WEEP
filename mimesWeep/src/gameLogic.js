@@ -8,7 +8,7 @@ export function createNewBoard(height, width, numOfMimes) {
     return array;
 }
 
-export function visitZeroNeighbors(array, i, j, squaresCleared = 0) {
+export function visitZeroNeighbors(array, i, j, squaresClearedCoords = []) {
     const neighbors = getNeighbourCoordinates(i, j);
 
     for (var count = 0; count < neighbors.length; count++) {
@@ -17,16 +17,21 @@ export function visitZeroNeighbors(array, i, j, squaresCleared = 0) {
             // Update the number of nearby mimes on the neighbour. We ignore neighbors that are themselves mimes.
             if (array[neighbors[count][0]][neighbors[count][1]] === 0.1) {
                 array[neighbors[count][0]][neighbors[count][1]] = 0;
-                squaresCleared++;
-                squaresCleared += visitZeroNeighbors(array, neighbors[count][0], neighbors[count][1]);
+                squaresClearedCoords.push([neighbors[count][0], neighbors[count][1]]);
+
+                var results = visitZeroNeighbors(array, neighbors[count][0], neighbors[count][1]);
+                for (var n = 0; n < results.length; n++) {
+                    squaresClearedCoords.push(results[n]);
+                }
+
             } else if (array[neighbors[count][0]][neighbors[count][1]] % 1 !== 0 && !(array[neighbors[count][0]][neighbors[count][1]] >= 9)) {
                 array[neighbors[count][0]][neighbors[count][1]] = Number((array[neighbors[count][0]][neighbors[count][1]] - 0.1).toFixed(1));
-                squaresCleared++;
+                squaresClearedCoords.push([neighbors[count][0], neighbors[count][1]]);
             }
         }
     }
 
-    return squaresCleared;
+    return squaresClearedCoords;
 }
 
 export function clearGameBoard(array) {
