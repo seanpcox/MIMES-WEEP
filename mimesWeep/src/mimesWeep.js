@@ -31,7 +31,7 @@ function MimesWeep() {
     resetGameSettings(event.target.value);
   };
 
-  function startCustomGameCallback(width, height, numOfMimes) {
+  function startCustomGameCallback(height, width, numOfMimes) {
     // Add check that numOfMimes is less than the number of board squares
     numOfMimes = logic.sanitizeMimeCount(height, width, numOfMimes);
 
@@ -227,18 +227,6 @@ function getGameSettings(difficulty) {
         height = 16;
         width = 30;
         numOfMimes = 99;
-      }
-      break;
-    case 4:
-      // ~25% Mime Density
-      if (isMobile) {
-        height = 15;
-        width = 9;
-        numOfMimes = 34;
-      } else {
-        height = 18;
-        width = 42;
-        numOfMimes = 189;
       }
       break;
     default:

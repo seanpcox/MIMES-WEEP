@@ -7,6 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import PropTypes from 'prop-types';
+import { isMobile } from 'react-device-detect';
 
 CustomDialog.propTypes = {
     openCustomDialogCallback: PropTypes.func,
@@ -33,6 +34,14 @@ function CustomDialog(props) {
 
     const [numOfMimesError, setNumOfMimesError] = useState(false);
 
+    var maxHeight = 16;
+    var maxWidth = 30;
+
+    if (isMobile) {
+        maxHeight = 15;
+        maxWidth = 9;
+      }
+
     function onSubmit(event) {
         event.preventDefault();
 
@@ -47,14 +56,14 @@ function CustomDialog(props) {
 
         console.log(width, height, numOfMimes);
 
-        if (isNaN(width) || width <= 0 || width > 99) {
+        if (isNaN(width) || width <= 0 || width > maxWidth) {
             setWidthError(true);
             isInvalid = true;
         } else {
             setWidthError(false);
         }
 
-        if (isNaN(height) || height <= 0 || height > 99) {
+        if (isNaN(height) || height <= 0 || height > maxHeight) {
             setHeightError(true);
             isInvalid = true;
         } else {
@@ -93,23 +102,23 @@ function CustomDialog(props) {
                         Enter the width, height, and number of mimes.
                     </DialogContentText>
                     <TextField
+                        error={heightError}
+                        required
+                        margin="dense"
+                        id="height"
+                        name="height"
+                        label={"Height (1-" + maxHeight + ")"}
+                        variant="standard"
+                    />
+                    <Box width={10} />
+                    <TextField
                         error={widthError}
                         autoFocus
                         required
                         margin="dense"
                         id="width"
                         name="width"
-                        label="Width (1-99)"
-                        variant="standard"
-                    />
-                    <Box width={10} />
-                    <TextField
-                        error={heightError}
-                        required
-                        margin="dense"
-                        id="height"
-                        name="height"
-                        label="Height (1-99)"
+                        label={"Width (1-" + maxWidth + ")"}
                         variant="standard"
                     />
                     <Box width={10} />
@@ -119,7 +128,7 @@ function CustomDialog(props) {
                         margin="dense"
                         id="numOfMimes"
                         name="numOfMimes"
-                        label="Mimes (1-9800)"
+                        label={"Mimes (1-" + ((maxWidth * maxHeight) - 1) + ")"}
                         variant="standard"
                     />
                 </DialogContent>
