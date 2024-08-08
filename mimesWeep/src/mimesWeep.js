@@ -231,9 +231,9 @@ function getGameSettings(difficulty) {
       break;
     default:
       // ~12% Mime Density
-      height = 9;
-      width = 9;
-      numOfMimes = 10;
+      height = 2;
+      width = 2;
+      numOfMimes = 1;
       break;
   }
 

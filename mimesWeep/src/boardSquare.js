@@ -15,18 +15,24 @@ import mimeRedIcon from './mimeRedIcon.png';
 import mimeBlackIcon from './mimeBlackIcon.png';
 import IOSContextMenuHandler from './iosContextMenuHandler.js';
 import { isIOS } from 'react-device-detect';
-import { useState } from 'react';
+import { useState, forwardRef, useImperativeHandle, useRef } from 'react';
 
-BoardSquare.propTypes = {
-    numOfMimeNeighbors: PropTypes.number,
-    indexI: PropTypes.number,
-    indexJ: PropTypes.number,
-    btnLeftClickCallback: PropTypes.func,
-    btnRightClickCallback: PropTypes.func
-}
-
-function BoardSquare(props) {
+const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
     var btnSize = '38px';
+
+    const ref = useRef(null);
+
+    useImperativeHandle(inputRef, () => {
+        return {
+            refresh() {
+                refresh();
+            }
+        };
+    }, []);
+
+    function refresh() {
+        console.log("Button Refresh", props.indexI, props.indexJ);
+    }
 
     const isDeviceIOS = useState(isIOS);
 
@@ -50,6 +56,7 @@ function BoardSquare(props) {
     if (isDeviceIOS[0]) {
         if (props.numOfMimeNeighbors >= 9) {
             return <Button variant="contained"
+                ref={ref}
                 onTouchStart={contextMenuHandler.onTouchStart}
                 onTouchCancel={contextMenuHandler.onTouchCancel}
                 onTouchEnd={contextMenuHandler.onTouchEnd}
@@ -62,6 +69,7 @@ function BoardSquare(props) {
             </Button>;
         } else if (Math.floor(props.numOfMimeNeighbors) !== props.numOfMimeNeighbors) {
             return <Button variant="contained"
+                ref={ref}
                 onTouchStart={contextMenuHandler.onTouchStart}
                 onTouchCancel={contextMenuHandler.onTouchCancel}
                 onTouchEnd={contextMenuHandler.onTouchEnd}
@@ -72,6 +80,7 @@ function BoardSquare(props) {
             </Button>;
         } else {
             return <Button variant="outlined" disabled={true}
+                ref={ref}
                 onTouchStart={contextMenuHandler.onTouchStart}
                 onTouchCancel={contextMenuHandler.onTouchCancel}
                 onTouchEnd={contextMenuHandler.onTouchEnd}
@@ -85,6 +94,7 @@ function BoardSquare(props) {
     } else {
         if (props.numOfMimeNeighbors >= 9) {
             return <Button variant="contained"
+                ref={ref}
                 onClick={setLeftClickState}
                 onContextMenu={setRightClickState}
                 style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}
@@ -93,12 +103,14 @@ function BoardSquare(props) {
             </Button>;
         } else if (Math.floor(props.numOfMimeNeighbors) !== props.numOfMimeNeighbors) {
             return <Button variant="contained"
+                ref={ref}
                 onClick={setLeftClickState}
                 onContextMenu={setRightClickState}
                 style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}>
             </Button>;
         } else {
             return <Button variant="outlined" disabled={true}
+                ref={ref}
                 onClick={setLeftClickState}
                 onContextMenu={setRightClickState}
                 style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}>
@@ -106,7 +118,7 @@ function BoardSquare(props) {
             </Button>;
         }
     }
-}
+});
 
 function getIcon(numOfMimeNeighbors) {
     switch (numOfMimeNeighbors) {
@@ -145,6 +157,14 @@ function getButtonColor(numOfMimeNeighbors) {
     }
 
     return "warning";
+}
+
+BoardSquare.propTypes = {
+    numOfMimeNeighbors: PropTypes.number,
+    indexI: PropTypes.number,
+    indexJ: PropTypes.number,
+    btnLeftClickCallback: PropTypes.func,
+    btnRightClickCallback: PropTypes.func
 }
 
 export default BoardSquare;

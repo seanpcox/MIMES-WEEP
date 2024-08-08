@@ -1,5 +1,5 @@
 import BoardSquare from './boardSquare.js'
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import * as logic from './gameLogic.js';
 import { Box } from '@mui/material';
@@ -15,6 +15,32 @@ Board.propTypes = {
 
 function Board(props) {
     console.log("refresh board");
+
+    var array = props.array;
+    var height = array.length;
+    var width = array[0].length;
+
+    var ref = useRef(null);
+    var tempRef = [];
+
+    const pushRef = (square) => {
+        if (square !== null) {
+            tempRef.push(square);
+        }
+    };
+
+    useEffect(() => {
+        ref.current = tempRef;
+
+        return () => {
+            ref.current = null;
+        }
+    });
+
+    function getRefIndex(indexI, indexJ, width) {
+        return (indexI * width) + indexJ;
+    }
+
     const [state, setState] = useState(0);
 
     const [clearBoard, setClearBoard] = useState(false);
@@ -28,10 +54,6 @@ function Board(props) {
     useEffect(() => {
         props.guessButtonToggledCallback([guessButtonToggled, setGuessButtonToggled]);
     }, [props.guessButtonToggledCallback, guessButtonToggled]);
-
-    var array = props.array;
-    var height = array.length;
-    var width = array[0].length;
 
     function btnLeftClickCallback(indexI, indexJ) {
         if (guessButtonToggled) {
@@ -58,6 +80,8 @@ function Board(props) {
             props.incrementSquaresWonCallback(squaresWonOnClick);
         }
 
+        ref.current[getRefIndex(width, indexI, indexJ)].refresh();
+
         setState(state + 1);
     }
 
@@ -70,6 +94,8 @@ function Board(props) {
             props.incrementGuessCountCallback(1);
         }
 
+        ref.current[getRefIndex(width, indexI, indexJ)].refresh();
+
         setState(state + 1);
     }
 
@@ -78,6 +104,7 @@ function Board(props) {
             <Box key={indexI} sx={{ display: "flex", justifyContent: "center", mx: 3 }}>
                 {Array.from(Array(width)).map((_, indexJ) => (
                     <BoardSquare numOfMimeNeighbors={array[indexI][indexJ]} indexI={indexI} indexJ={indexJ} key={indexJ}
+                        ref={pushRef}
                         btnLeftClickCallback={btnLeftClickCallback} btnRightClickCallback={btnRightClickCallback} />
                 ))}
             </Box>
