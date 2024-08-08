@@ -178,7 +178,7 @@ function MimesWeep() {
                 style={{
                   color: '#282c34', borderColor: '#c4c4c4', textTransform: 'none', fontSize: 16
                 }}
-                sx={{ justifyContent: "left", minHeight: 0, minWidth: 0, padding: 0 }}
+                sx={{ justifyContent: "left", width: '100%', minHeight: 0, padding: 0 }}
                 onClick={openCustomDialogCallback}>
                 Custom
               </Button>
