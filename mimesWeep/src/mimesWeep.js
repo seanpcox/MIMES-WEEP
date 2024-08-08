@@ -12,6 +12,7 @@ import CountBadge from './countBadge.js'
 import { isMobile } from 'react-device-detect';
 import CustomDialog from './customDialog.js';
 import * as logic from './gameLogic.js';
+import Divider from '@mui/material/Divider';
 
 function MimesWeep() {
   const [difficulty, setDifficulty] = useState(1);
@@ -24,7 +25,6 @@ function MimesWeep() {
   function handleDifficultyChange(event) {
     console.log(event);
     if (event.target.value === 4) {
-      openCustomDialogCallback();
       return;
     }
 
@@ -51,7 +51,7 @@ function MimesWeep() {
 
   var gameSettings;
 
-  if(isCustomGame) {
+  if (isCustomGame) {
     gameSettings = [customHeight, customWidth, customNumOfMimes];
   } else {
     gameSettings = getGameSettings(difficulty);
@@ -172,7 +172,17 @@ function MimesWeep() {
             <MenuItem value={1}>Easy</MenuItem>
             <MenuItem value={2}>Medium</MenuItem>
             <MenuItem value={3}>Hard</MenuItem>
-            <MenuItem value={4}>Custom</MenuItem>
+            <Divider />
+            <MenuItem value={4}>
+              <Button
+                style={{
+                  color: '#282c34', borderColor: '#c4c4c4', textTransform: 'none', fontSize: 16
+                }}
+                sx={{ justifyContent: "left", minHeight: 0, minWidth: 0, padding: 0 }}
+                onClick={openCustomDialogCallback}>
+                Custom
+              </Button>
+            </MenuItem>
           </Select>
         </FormControl>
         <Box width={18} minWidth={10} />
@@ -186,7 +196,7 @@ function MimesWeep() {
         displayLoseMessageCallback={displayLoseMessageCallback} displayWinMessageCallback={displayWinMessageCallback}
         incrementGuessCountCallback={incrementGuessCountCallback} guessButtonToggledCallback={guessButtonToggledCallback} />
       <FinishedMessage displayLoseMessageCallback={displayLoseMessageCallback} displayWinMessageCallback={displayWinMessageCallback} />
-      <CustomDialog openCustomDialogCallback={openCustomDialogCallback} startCustomGameCallback={startCustomGameCallback}/>
+      <CustomDialog openCustomDialogCallback={openCustomDialogCallback} startCustomGameCallback={startCustomGameCallback} />
       <div ref={messagesEndRef} />
     </div>
   );
