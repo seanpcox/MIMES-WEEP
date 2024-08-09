@@ -9,7 +9,7 @@ import Select from '@mui/material/Select';
 import FinishedMessage from './finishedMessage.js';
 import Toolbar from '@mui/material/Toolbar';
 import CountBadge from './countBadge.js'
-import { isMobile } from 'react-device-detect';
+import { isIPad13, isMobile, isTablet } from 'react-device-detect';
 import CustomDialog from './customDialog.js';
 import * as logic from './gameLogic.js';
 import Divider from '@mui/material/Divider';
@@ -199,7 +199,7 @@ function getGameSettings(difficulty) {
   switch (difficulty) {
     case 2:
       // ~16% Mime Density
-      if (isMobile) {
+      if (isMobile && !(isTablet || isIPad13)) {
         height = 13;
         width = 9;
         numOfMimes = 19;
