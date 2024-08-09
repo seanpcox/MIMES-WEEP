@@ -9,14 +9,12 @@ import Select from '@mui/material/Select';
 import FinishedMessage from './finishedMessage.js';
 import Toolbar from '@mui/material/Toolbar';
 import CountBadge from './countBadge.js'
-import { isMobile, isIPad13 } from 'react-device-detect';
+import { isMobile, isTablet, isIPad13 } from 'react-device-detect';
 import CustomDialog from './customDialog.js';
 import * as logic from './gameLogic.js';
 import Divider from '@mui/material/Divider';
 
 function MimesWeep() {
-  const isTablet = ((isMobile || isIPad13) && screen.width >= 760 && screen.height >= 760);
-
   const [difficulty, setDifficulty] = useState(1);
 
   const [customHeight, setCustomHeight] = useState(9);
@@ -54,7 +52,7 @@ function MimesWeep() {
   if (isCustomGame) {
     gameSettings = [customHeight, customWidth, customNumOfMimes];
   } else {
-    gameSettings = getGameSettings(difficulty, isMobile, isTablet);
+    gameSettings = getGameSettings(difficulty);
   }
 
   var height = gameSettings[0], width = gameSettings[1], numOfMimes = gameSettings[2];
@@ -195,13 +193,13 @@ function MimesWeep() {
   );
 }
 
-function getGameSettings(difficulty, isMobile, isTablet) {
+function getGameSettings(difficulty) {
   var height, width, numOfMimes;
 
   switch (difficulty) {
     case 2:
       // ~16% Mime Density
-      if (isMobile && !isTablet) {
+      if (isMobile && !(isTablet || isIPad13)) {
         height = 13;
         width = 9;
         numOfMimes = 19;
@@ -213,7 +211,7 @@ function getGameSettings(difficulty, isMobile, isTablet) {
       break;
     case 3:
       // ~20% Mime Density
-      if(isTablet) {
+      if (isTablet || isIPad13) {
         height = 20;
         width = 20;
         numOfMimes = 80;
