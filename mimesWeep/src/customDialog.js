@@ -64,7 +64,7 @@ function CustomDialog(props) {
             setHeightError(false);
         }
 
-        if (isNaN(numOfMimes) || numOfMimes <= 0 || numOfMimes > 9800) {
+        if (isNaN(numOfMimes) || numOfMimes <= 0 || numOfMimes > ((maxWidth * maxHeight) - 1)) {
             setNumOfMimesError(true);
             isInvalid = true;
         } else {
@@ -93,7 +93,7 @@ function CustomDialog(props) {
                 <DialogTitle>Create Custom Board</DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Enter the width, height, and number of mimes.
+                        Enter the height, width, and number of mimes.
                     </DialogContentText>
                     <TextField
                         autoFocus

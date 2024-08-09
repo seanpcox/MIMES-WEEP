@@ -62,6 +62,7 @@ const Board = forwardRef(function Board(props, inputRef) {
         if (array[indexI][indexJ] === -1) {
             array[indexI][indexJ] = -2;
             props.lostGameCallback();
+            return;
         } else {
             var zeroNeighbors = [];
 

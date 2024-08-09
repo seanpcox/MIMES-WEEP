@@ -1,5 +1,5 @@
 import './mimesWeep.css';
-import { useState, useRef } from 'react';
+import { useState } from 'react';
 import { Box, Button } from '@mui/material';
 import GameBoard from './gameBoard.js'
 import InputLabel from '@mui/material/InputLabel';
@@ -45,7 +45,6 @@ function MimesWeep() {
   function resetGameSettings(value) {
     setDifficulty(value);
     resetGameChildComponentStates();
-    scrollToBottom();
   }
 
   var gameSettings;
@@ -133,12 +132,6 @@ function MimesWeep() {
     setButtonToggleChildFunction(false);
   }
 
-  const messagesEndRef = useRef();
-
-  const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }
-
   return (
     <div className="mimesWeep" onContextMenu={(e) => {
       e.preventDefault(); // prevent the default behaviour when right clicked
@@ -196,7 +189,6 @@ function MimesWeep() {
         incrementGuessCountCallback={incrementGuessCountCallback} guessButtonToggledCallback={guessButtonToggledCallback} />
       <FinishedMessage displayLoseMessageCallback={displayLoseMessageCallback} displayWinMessageCallback={displayWinMessageCallback} />
       <CustomDialog openCustomDialogCallback={openCustomDialogCallback} startCustomGameCallback={startCustomGameCallback} />
-      <div ref={messagesEndRef} />
     </div>
   );
 }
