@@ -33,8 +33,10 @@ function CustomDialog(props) {
 
     const [numOfMimesError, setNumOfMimesError] = useState(false);
 
-    var maxHeight = 99;
-    var maxWidth = 99;
+    // Max that's fits on my Macbook Pro 2021
+    // Scrolling left horizontally can cause the page to go backwards
+    var maxHeight = 45;
+    var maxWidth = 20;
 
     function onSubmit(event) {
         event.preventDefault();
