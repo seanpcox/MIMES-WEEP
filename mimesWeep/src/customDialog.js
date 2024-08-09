@@ -35,8 +35,8 @@ function CustomDialog(props) {
 
     // Max that's fits on my Macbook Pro 2021
     // Scrolling left horizontally can cause the page to go backwards
-    var maxHeight = 45;
-    var maxWidth = 20;
+    var maxHeight = 20;
+    var maxWidth = 45;
 
     function onSubmit(event) {
         event.preventDefault();
