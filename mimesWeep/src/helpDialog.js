@@ -79,12 +79,6 @@ function HelpDialog(props) {
                             <li>
                                 Sean Cox
                             </li>
-                            <li>
-                                Robert Donner
-                            </li>
-                            <li>
-                                Curt Johnson
-                            </li>
                         </ul>
                     </p>
                 </DialogContent>
