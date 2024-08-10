@@ -159,7 +159,8 @@ function MimesWeep() {
       <Toolbar sx={{ justifyContent: "center", padding: 0, margin: 0 }}>
         <Button variant="outlined" onClick={handleRestart}
           style={{
-            maxHeight: 42, minHeight: 42, width: 38, maxWidth: 38, color: '#282c34', borderColor: '#c4c4c4', textTransform: 'none', fontSize: 16
+            maxHeight: 42, minHeight: 42, width: 38, maxWidth: 38, color: '#282c34', borderColor: '#c4c4c4', 
+            textTransform: 'none', fontSize: 16, fontFamily: 'Arial'
           }}>
           New</Button>
         <Box width={7} />
@@ -171,16 +172,17 @@ function MimesWeep() {
             value={difficulty}
             label="Difficulty"
             onChange={handleDifficultyChange}
-            style={{ maxHeight: 42, minHeight: 42, width: 110, maxWidth: 110, color: '#282c34', borderColor: '#c4c4c4' }}
+            style={{ maxHeight: 42, minHeight: 42, width: 110, maxWidth: 110, color: '#282c34', borderColor: '#c4c4c4', 
+              fontSize: 16, fontFamily: 'Arial' }}
           >
-            <MenuItem value={1}>Easy</MenuItem>
-            <MenuItem value={2}>Medium</MenuItem>
-            <MenuItem value={3}>Hard</MenuItem>
+            <MenuItem value={1} style={{ fontSize: 16, fontFamily: 'Arial' }}>Easy</MenuItem>
+            <MenuItem value={2} style={{ fontSize: 16, fontFamily: 'Arial' }}>Medium</MenuItem>
+            <MenuItem value={3} style={{ fontSize: 16, fontFamily: 'Arial' }}>Hard</MenuItem>
             <Divider />
             <MenuItem value={4}>
               <Button
                 style={{
-                  color: '#282c34', borderColor: '#c4c4c4', textTransform: 'none', fontSize: 16
+                  color: '#282c34', borderColor: '#c4c4c4', textTransform: 'none', fontSize: 16, fontFamily: 'Arial'
                 }}
                 sx={{ justifyContent: "left", width: '100%', minHeight: 0, padding: 0 }}
                 onClick={openCustomDialogCallback}>
@@ -197,7 +199,8 @@ function MimesWeep() {
         <Box width={7} />
         <Button variant="outlined" onClick={openHelpDialogCallback}
           style={{
-            maxHeight: 42, minHeight: 42, width: 38, maxWidth: 38, color: '#282c34', borderColor: '#c4c4c4', textTransform: 'none', fontSize: 16
+            maxHeight: 42, minHeight: 42, width: 38, maxWidth: 38, color: '#282c34', borderColor: '#c4c4c4', 
+            textTransform: 'none', fontSize: 16
           }}>
           <HelpTwoTone />
         </Button>
