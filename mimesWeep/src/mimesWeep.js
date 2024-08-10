@@ -222,7 +222,7 @@ function getGameSettings(difficulty) {
       if (isMobile && !(isTablet || isIPad13)) {
         height = 13;
         width = 9;
-        numOfMimes = 19;
+        numOfMimes = 18;
       } else {
         height = 16;
         width = 16;
@@ -236,9 +236,9 @@ function getGameSettings(difficulty) {
         width = 20;
         numOfMimes = 80;
       } else if (isMobile) {
-        height = 15;
+        height = 14;
         width = 9;
-        numOfMimes = 28;
+        numOfMimes = 25;
       } else {
         height = 16;
         width = 30;
