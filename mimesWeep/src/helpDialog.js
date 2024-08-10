@@ -42,7 +42,7 @@ function HelpDialog(props) {
                 <DialogContent>
                     <p><strong><ins>Objective</ins></strong>
                         <ul>
-                            <li>Reveal all squares that do not contain a mime.</li>
+                            <li>Reveal all squares that do not hide a mime.</li>
                         </ul>
                     </p>
                     <p />
@@ -57,13 +57,13 @@ function HelpDialog(props) {
                     <p><strong><ins>Tips</ins></strong>
                         <ul>
                             <li>
-                                The initial count on the flag toggle button shows the number of mimes on the board.
+                                The initial count on the flag toggle button shows the number of mimes hidden on the board.
                             </li>
                             <li>
                                 Place flags on squares you suspect of hiding a mime to avoid revealing them by mistake.
                             </li>
                             <li>
-                                A number on a revealed square indicates how many neighboring squares contain hidden mimes.
+                                A number on a revealed square indicates how many neighboring squares have hidden mimes.
                             </li>
                             {isMobile ?
                                 <li>
