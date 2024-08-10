@@ -13,6 +13,8 @@ import { isMobile, isTablet, isIPad13 } from 'react-device-detect';
 import CustomDialog from './customDialog.js';
 import * as logic from './gameLogic.js';
 import Divider from '@mui/material/Divider';
+import HelpDialog from './helpDialog.js';
+import HelpTwoTone from '@mui/icons-material/HelpTwoTone';
 
 function MimesWeep() {
   const [difficulty, setDifficulty] = useState(1);
@@ -126,6 +128,16 @@ function MimesWeep() {
     }
   };
 
+  var openHelpDialog;
+
+  const openHelpDialogCallback = (callbackParams) => {
+    if (Array.isArray(callbackParams)) {
+      openHelpDialog = callbackParams[1];
+    } else {
+      openHelpDialog(true);
+    }
+  };
+
   function resetGameChildComponentStates() {
     setGuessCountChildFunction(0);
     setGuessButtonToggledChildFunction(false);
@@ -147,10 +159,10 @@ function MimesWeep() {
       <Toolbar sx={{ justifyContent: "center" }}>
         <Button variant="outlined" onClick={handleRestart}
           style={{
-            maxHeight: 42, minHeight: 42, width: 120, maxWidth: 120, color: '#282c34', borderColor: '#c4c4c4', textTransform: 'none', fontSize: 16
+            maxHeight: 42, minHeight: 42, width: 42, maxWidth: 42, color: '#282c34', borderColor: '#c4c4c4', textTransform: 'none', fontSize: 16
           }}>
           New</Button>
-        <Box width={18} minWidth={10} />
+        <Box width={9} />
         <FormControl>
           <InputLabel id="demo-simple-select-label" >Difficulty</InputLabel>
           <Select
@@ -177,11 +189,18 @@ function MimesWeep() {
             </MenuItem>
           </Select>
         </FormControl>
-        <Box width={18} minWidth={10} />
+        <Box width={9} />
         <CountBadge numOfMimes={numOfMimes}
           incrementGuessCountCallback={incrementGuessCountCallback}
           guessButtonToggledCallback={guessButtonToggledCallback}
           setButtonToggleCallback={setButtonToggleCallback} />
+        <Box width={9} />
+        <Button variant="outlined" onClick={openHelpDialogCallback}
+          style={{
+            maxHeight: 42, minHeight: 42, width: 42, maxWidth: 42, color: '#282c34', borderColor: '#c4c4c4', textTransform: 'none', fontSize: 16
+          }}>
+          <HelpTwoTone />
+        </Button>
       </Toolbar>
       <Box height={10} />
       <GameBoard height={height} width={width} numOfMimes={numOfMimes}
@@ -189,6 +208,7 @@ function MimesWeep() {
         incrementGuessCountCallback={incrementGuessCountCallback} guessButtonToggledCallback={guessButtonToggledCallback} />
       <FinishedMessage displayLoseMessageCallback={displayLoseMessageCallback} displayWinMessageCallback={displayWinMessageCallback} />
       <CustomDialog openCustomDialogCallback={openCustomDialogCallback} startCustomGameCallback={startCustomGameCallback} />
+      <HelpDialog openHelpDialogCallback={openHelpDialogCallback} />
     </div>
   );
 }
