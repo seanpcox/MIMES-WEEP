@@ -22,11 +22,11 @@ function HelpDialog(props) {
         setOpen(false);
     };
 
-    var uncoverControl = "Left Click";
+    var revealControl = "Left Click";
     var flagControl = "Right Click";
 
     if (isMobile) {
-        uncoverControl = "Tap";
+        revealControl = "Tap";
         flagControl = "Press";
     }
 
@@ -42,13 +42,13 @@ function HelpDialog(props) {
                 <DialogContent>
                     <p><strong><ins>Objective</ins></strong>
                         <ul>
-                            <li>Uncover all squares that do not contain a mime.</li>
+                            <li>Reveal all squares that do not contain a mime.</li>
                         </ul>
                     </p>
                     <p />
                     <p><strong><ins>Controls</ins></strong>
                         <ul>
-                            <li><strong>{uncoverControl}:</strong> Uncover a square</li>
+                            <li><strong>{revealControl}:</strong> Reveal a square</li>
                             <li><strong>{flagControl}:</strong> Place or remove a flag</li>
                             <li><strong>Flag Toggle Button:</strong> Place or remove a flag</li>
                         </ul>
@@ -60,14 +60,14 @@ function HelpDialog(props) {
                                 The initial count on the flag toggle button shows the number of mimes on the board.
                             </li>
                             <li>
-                                Place flags on squares you suspect of hiding a mime to avoid uncovering them by mistake.
+                                Place flags on squares you suspect of hiding a mime to avoid revealing them by mistake.
                             </li>
                             <li>
-                                A number on an uncovered square indicates how many neighboring squares contain hidden mimes.
+                                A number on a revealed square indicates how many neighboring squares contain hidden mimes.
                             </li>
                             {isMobile ?
                                 <li>
-                                    To avoid accidentally uncovering a square, use the very edge of your screen when scrolling.
+                                    Use the edge of your screen when scrolling to avoid accidentally revealing a square.
                                 </li>
                                 : null
                             }
