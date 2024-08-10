@@ -22,12 +22,12 @@ function HelpDialog(props) {
         setOpen(false);
     };
 
-    var uncoverControl = "Left-click";
-    var flagControl = "Right-click";
+    var uncoverControl = "Left Click";
+    var flagControl = "Right Click";
 
     if (isMobile) {
         uncoverControl = "Tap";
-        flagControl = "Long-press";
+        flagControl = "Press";
     }
 
     return (
@@ -40,17 +40,52 @@ function HelpDialog(props) {
                     Help
                 </DialogTitle>
                 <DialogContent>
-                    <p><strong>Objective: </strong>Reveal all squares that do not contain a mime.</p>
-                    <ul>
-                        <li><strong>{uncoverControl}</strong>: Uncover a square.</li>
-                        <li><strong>{flagControl} / Flag toggle button</strong>: Place or remove a flag.</li>
-                    </ul>
+                    <p><strong>Objective</strong>
+                        <ul>
+                            <li>Reveal all squares that do not contain a mime.</li>
+                        </ul>
+                    </p>
                     <p />
-                    <p><strong>Tips: </strong>The number of mimes on the board is shown by the inital count on the flag toggle button.
-                        Place flags on squares suspected of hiding a mime to avoid accidental uncover.
-                        A number on an uncovered square indicates the number of neighboring squares with hidden mimes.</p>
+                    <p><strong>Controls</strong>
+                        <ul>
+                            <li>{uncoverControl} <b>-&gt;</b> Uncover a square</li>
+                            <li>{flagControl} or Flag Toggle Button <b>-&gt;</b> Place or remove a flag</li>
+                        </ul>
+                    </p>
                     <p />
-                    <p><strong>Credits: </strong>Sean Cox, Robert Donner, Curt Johnson, Microsoft</p>
+                    <p><strong>Tips</strong>
+                        <ul>
+                            <li>
+                                The initial count on the flag toggle button shows the number of mimes on the board.
+                            </li>
+                            <li>
+                                Place flags on squares you suspect of hiding a mime to avoid uncovering them by mistake.
+                            </li>
+                            <li>
+                                A number on an uncovered square indicates how many neighboring squares contain hidden mimes.
+                            </li>
+                            {isMobile ?
+                                <li>
+                                    To avoid accidentally uncovering a square, use the very edge of your screen when scrolling.
+                                </li>
+                                : null
+                            }
+                        </ul>
+                    </p>
+                    <p />
+                    <p><strong>Credits</strong>
+                        <ul>
+                            <li>
+                                Sean Cox
+                            </li>
+                            <li>
+                                Robert Donner
+                            </li>
+                            <li>
+                                Curt Johnson
+                            </li>
+                        </ul>
+                    </p>
                 </DialogContent>
                 <DialogActions>
                     <Button onClick={handleClose}>OK</Button>
