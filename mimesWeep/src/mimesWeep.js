@@ -156,7 +156,7 @@ function MimesWeep() {
         </header>
       </div>
       <Box height={10} />
-      <Toolbar sx={{ justifyContent: "center" }}>
+      <Toolbar sx={{ justifyContent: "center", padding: 0, margin: 0 }}>
         <Button variant="outlined" onClick={handleRestart}
           style={{
             maxHeight: 42, minHeight: 42, width: 38, maxWidth: 38, color: '#282c34', borderColor: '#c4c4c4', textTransform: 'none', fontSize: 16

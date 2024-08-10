@@ -7,6 +7,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import PropTypes from 'prop-types';
+import { isMobile, isTablet, isIPad13 } from 'react-device-detect';
 
 CustomDialog.propTypes = {
     openCustomDialogCallback: PropTypes.func,
@@ -37,6 +38,19 @@ function CustomDialog(props) {
     // Scrolling left horizontally can cause the page to go backwards
     var maxHeight = 20;
     var maxWidth = 45;
+
+    // Max of 9 squares fit horizontally on smallest phone I had
+    // Allow vertical only scroll, as horizontal scroll can cause the page to go backwards
+    if(isMobile && !(isTablet || isIPad13)) {
+        maxHeight = 100;
+        maxWidth = 9;
+    } 
+    // Max of 20 squares fit horizontally on iPad I have
+    // Allow vertical only scroll, as horizontal scroll can cause the page to go backwards
+    else if(isTablet || isIPad13) {
+        maxHeight = 45;
+        maxWidth = 20;
+    }
 
     function onSubmit(event) {
         event.preventDefault();
