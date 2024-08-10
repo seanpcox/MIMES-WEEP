@@ -40,20 +40,21 @@ function HelpDialog(props) {
                     Help
                 </DialogTitle>
                 <DialogContent>
-                    <p><strong>Objective</strong>
+                    <p><strong><ins>Objective</ins></strong>
                         <ul>
                             <li>Reveal all squares that do not contain a mime.</li>
                         </ul>
                     </p>
                     <p />
-                    <p><strong>Controls</strong>
+                    <p><strong><ins>Controls</ins></strong>
                         <ul>
-                            <li>{uncoverControl} <b>-&gt;</b> Uncover a square</li>
-                            <li>{flagControl} or Flag Toggle Button <b>-&gt;</b> Place or remove a flag</li>
+                            <li><strong>{uncoverControl}:</strong> Uncover a square</li>
+                            <li><strong>{flagControl}:</strong> Place or remove a flag</li>
+                            <li><strong>Flag Toggle Button:</strong> Place or remove a flag</li>
                         </ul>
                     </p>
                     <p />
-                    <p><strong>Tips</strong>
+                    <p><strong><ins>Tips</ins></strong>
                         <ul>
                             <li>
                                 The initial count on the flag toggle button shows the number of mimes on the board.
@@ -73,7 +74,7 @@ function HelpDialog(props) {
                         </ul>
                     </p>
                     <p />
-                    <p><strong>Credits</strong>
+                    <p><strong><ins>Credits</ins></strong>
                         <ul>
                             <li>
                                 Sean Cox
