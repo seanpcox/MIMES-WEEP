@@ -18,7 +18,7 @@ import { isIOS } from 'react-device-detect';
 import { useState, forwardRef, useImperativeHandle, useRef } from 'react';
 
 const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
-    var btnSize = '38px';
+    var btnSize = '36px';
 
     const [numOfMimeNeighbors, setNumOfMimeNeighbors] = useState(props.numOfMimeNeighbors);
 

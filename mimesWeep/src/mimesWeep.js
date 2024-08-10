@@ -159,10 +159,10 @@ function MimesWeep() {
       <Toolbar sx={{ justifyContent: "center" }}>
         <Button variant="outlined" onClick={handleRestart}
           style={{
-            maxHeight: 42, minHeight: 42, width: 42, maxWidth: 42, color: '#282c34', borderColor: '#c4c4c4', textTransform: 'none', fontSize: 16
+            maxHeight: 42, minHeight: 42, width: 38, maxWidth: 38, color: '#282c34', borderColor: '#c4c4c4', textTransform: 'none', fontSize: 16
           }}>
           New</Button>
-        <Box width={9} />
+        <Box width={7} />
         <FormControl>
           <InputLabel id="demo-simple-select-label" >Difficulty</InputLabel>
           <Select
@@ -171,7 +171,7 @@ function MimesWeep() {
             value={difficulty}
             label="Difficulty"
             onChange={handleDifficultyChange}
-            style={{ maxHeight: 42, minHeight: 42, width: 120, maxWidth: 120, color: '#282c34', borderColor: '#c4c4c4' }}
+            style={{ maxHeight: 42, minHeight: 42, width: 110, maxWidth: 110, color: '#282c34', borderColor: '#c4c4c4' }}
           >
             <MenuItem value={1}>Easy</MenuItem>
             <MenuItem value={2}>Medium</MenuItem>
@@ -189,15 +189,15 @@ function MimesWeep() {
             </MenuItem>
           </Select>
         </FormControl>
-        <Box width={9} />
+        <Box width={7} />
         <CountBadge numOfMimes={numOfMimes}
           incrementGuessCountCallback={incrementGuessCountCallback}
           guessButtonToggledCallback={guessButtonToggledCallback}
           setButtonToggleCallback={setButtonToggleCallback} />
-        <Box width={9} />
+        <Box width={7} />
         <Button variant="outlined" onClick={openHelpDialogCallback}
           style={{
-            maxHeight: 42, minHeight: 42, width: 42, maxWidth: 42, color: '#282c34', borderColor: '#c4c4c4', textTransform: 'none', fontSize: 16
+            maxHeight: 42, minHeight: 42, width: 38, maxWidth: 38, color: '#282c34', borderColor: '#c4c4c4', textTransform: 'none', fontSize: 16
           }}>
           <HelpTwoTone />
         </Button>
