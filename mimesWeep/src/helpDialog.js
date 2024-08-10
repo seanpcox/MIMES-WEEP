@@ -42,7 +42,7 @@ function HelpDialog(props) {
                 <DialogContent>
                     <p><strong><ins>Objective</ins></strong>
                         <ul>
-                            <li>Reveal all squares that do not contain a mime.</li>
+                            <li>Uncover all squares that do not contain a mime.</li>
                         </ul>
                     </p>
                     <p />
