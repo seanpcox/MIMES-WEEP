@@ -1,4 +1,3 @@
-import './mimesWeep.css';
 import * as gameText from './resources/text/gameText';
 import Badge from '@mui/material/Badge';
 import PropTypes from 'prop-types';
@@ -53,7 +52,7 @@ function FlagBadge(props) {
                 style={{
                     maxHeight: 42, minHeight: 42, width: 64, maxWidth: 64,
                     color: '#282c34', borderColor: '#c4c4c4',
-                    justifyContent: (props.numOfMimes - guessCount == 0) ? "center" : "left"
+                    justifyContent: (props.numOfMimes - guessCount === 0) ? "center" : "left"
                 }}
             >
                 <StyledBadge

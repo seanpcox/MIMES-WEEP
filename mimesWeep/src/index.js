@@ -1,4 +1,4 @@
-import './index.css';
+import './css/index.css';
 import MimesWeep from './mimesWeep.js';
 import ReactDOM from 'react-dom/client';
 import React from 'react';

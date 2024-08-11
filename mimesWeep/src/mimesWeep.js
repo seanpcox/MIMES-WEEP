@@ -1,4 +1,4 @@
-import './mimesWeep.css';
+import './css/mimesWeep.css';
 import * as gameText from './resources/text/gameText';
 import * as logic from './gameLogic.js';
 import CustomDialog from './customDialog.js';

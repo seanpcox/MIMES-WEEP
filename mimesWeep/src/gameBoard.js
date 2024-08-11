@@ -1,4 +1,3 @@
-import './mimesWeep.css';
 import * as logic from './gameLogic.js';
 import Board from './board.js'
 import PropTypes from 'prop-types';

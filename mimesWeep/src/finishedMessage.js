@@ -1,4 +1,3 @@
-import './mimesWeep.css';
 import * as gameText from './resources/text/gameText';
 import Alert from '@mui/material/Alert';
 import PropTypes from 'prop-types';
