@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import PropTypes from 'prop-types';
+import * as gameText from './resources/text/gameText';
 
 FinishedMessage.propTypes = {
     displayLoseMessageCallback: PropTypes.func,
@@ -31,26 +32,34 @@ function FinishedMessage(props) {
 
     return (
         <div>
-            <Snackbar open={openLoseSnackbar} autoHideDuration={3000} onClose={handleLoseSnackbarClose}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+            <Snackbar
+                open={openLoseSnackbar}
+                autoHideDuration={3000}
+                onClose={handleLoseSnackbarClose}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            >
                 <Alert
                     severity="error"
                     variant="filled"
                     onClose={handleLoseSnackbarClose}
                     sx={{ width: '100%' }}
                 >
-                    Sorry, you have lost.
+                    {gameText.loseMessage}
                 </Alert>
             </Snackbar>
-            <Snackbar open={openWinSnackbar} autoHideDuration={3000} onClose={handleWinSnackbarClose}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
+            <Snackbar
+                open={openWinSnackbar}
+                autoHideDuration={3000}
+                onClose={handleWinSnackbarClose}
+                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+            >
                 <Alert
                     severity="success"
                     variant="filled"
                     onClose={handleWinSnackbarClose}
                     sx={{ width: '100%' }}
                 >
-                    Congratulations, you have won!
+                    {gameText.winMessage}
                 </Alert>
             </Snackbar>
         </div>

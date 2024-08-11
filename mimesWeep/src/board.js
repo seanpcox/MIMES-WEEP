@@ -101,13 +101,23 @@ const Board = forwardRef(function Board(props, inputRef) {
         }
     }
 
-    return <Box sx={{ overflowX: "scroll", justifyContent: "center" }}>
+    return <Box
+        sx={{ overflowX: "scroll", justifyContent: "center" }}
+    >
         {Array.from(Array(height)).map((_, indexI) => (
-            <Box key={indexI} sx={{ display: "flex", justifyContent: "center", mx: 3 }}>
+            <Box
+                key={indexI}
+                sx={{ display: "flex", justifyContent: "center", mx: 3 }}
+            >
                 {Array.from(Array(width)).map((_, indexJ) => (
-                    <BoardSquare numOfMimeNeighbors={array[indexI][indexJ]} indexI={indexI} indexJ={indexJ} key={indexJ}
+                    <BoardSquare
+                        key={indexI + "_" + indexJ}
                         ref={pushRef}
-                        btnLeftClickCallback={btnLeftClickCallback} btnRightClickCallback={btnRightClickCallback} />
+                        numOfMimeNeighbors={array[indexI][indexJ]}
+                        indexI={indexI}
+                        indexJ={indexJ}
+                        btnLeftClickCallback={btnLeftClickCallback} btnRightClickCallback={btnRightClickCallback}
+                    />
                 ))}
             </Box>
         ))}

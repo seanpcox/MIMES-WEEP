@@ -8,6 +8,7 @@ import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import PropTypes from 'prop-types';
 import { isMobile, isTablet, isIPad13 } from 'react-device-detect';
+import * as gameText from './resources/text/gameText';
 
 CustomDialog.propTypes = {
     openCustomDialogCallback: PropTypes.func,
@@ -41,13 +42,13 @@ function CustomDialog(props) {
 
     // Max of 9 squares fit horizontally on smallest phone I had
     // Allow vertical only scroll, as horizontal scroll can cause the page to go backwards
-    if(isMobile && !(isTablet || isIPad13)) {
+    if (isMobile && !(isTablet || isIPad13)) {
         maxHeight = 100;
         maxWidth = 9;
-    } 
+    }
     // Max of 20 squares fit horizontally on iPad I have
     // Allow vertical only scroll, as horizontal scroll can cause the page to go backwards
-    else if(isTablet || isIPad13) {
+    else if (isTablet || isIPad13) {
         maxHeight = 45;
         maxWidth = 20;
     }
@@ -106,10 +107,12 @@ function CustomDialog(props) {
                     onSubmit: onSubmit
                 }}
             >
-                <DialogTitle>Create Custom Board</DialogTitle>
+                <DialogTitle>
+                    {gameText.customDialogTitle}
+                </DialogTitle>
                 <DialogContent>
                     <DialogContentText>
-                        Enter the height, width, and number of mimes.
+                        {gameText.customDialogMessage}
                     </DialogContentText>
                     <TextField
                         autoFocus
@@ -118,7 +121,7 @@ function CustomDialog(props) {
                         margin="dense"
                         id="height"
                         name="height"
-                        label={"Height (1-" + maxHeight + ")"}
+                        label={gameText.customDialogHeight + " (1-" + maxHeight + ")"}
                         variant="standard"
                     />
                     <Box width={10} />
@@ -128,7 +131,7 @@ function CustomDialog(props) {
                         margin="dense"
                         id="width"
                         name="width"
-                        label={"Width (1-" + maxWidth + ")"}
+                        label={gameText.customDialogWidth + " (1-" + maxWidth + ")"}
                         variant="standard"
                     />
                     <Box width={10} />
@@ -138,13 +141,21 @@ function CustomDialog(props) {
                         margin="dense"
                         id="numOfMimes"
                         name="numOfMimes"
-                        label={"Mimes (1-" + ((maxWidth * maxHeight) - 1) + ")"}
+                        label={gameText.customDialogMimes + " (1-" + ((maxWidth * maxHeight) - 1) + ")"}
                         variant="standard"
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button type="submit">Create</Button>
+                    <Button
+                        onClick={handleClose}
+                    >
+                        {gameText.cancelButtonText}
+                    </Button>
+                    <Button
+                        type="submit"
+                    >
+                        {gameText.createButtonText}
+                    </Button>
                 </DialogActions>
             </Dialog>
         </Fragment>

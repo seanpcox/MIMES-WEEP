@@ -6,6 +6,9 @@ import TourTwoTone from '@mui/icons-material/TourTwoTone';
 import PropTypes from 'prop-types';
 import { ToggleButton } from '@mui/material';
 import { grey } from '@mui/material/colors';
+import * as gameText from './resources/text/gameText';
+import Tooltip from '@mui/material/Tooltip';
+import { isMobile } from 'react-device-detect';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {
@@ -16,14 +19,14 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     },
 }));
 
-CountBadge.propTypes = {
+FlagBadge.propTypes = {
     numOfMimes: PropTypes.number,
     incrementGuessCountCallback: PropTypes.func,
     guessButtonToggledCallback: PropTypes.func,
     setButtonToggleCallback: PropTypes.func
 }
 
-function CountBadge(props) {
+function FlagBadge(props) {
     const [guessCount, setGuessCount] = useState(0);
 
     useEffect(() => {
@@ -42,21 +45,27 @@ function CountBadge(props) {
     }
 
     return (
-        <ToggleButton
-            value="check"
-            selected={selected}
-            onChange={onToggleAction}
-            style={{
-                maxHeight: 42, minHeight: 42, width: 64, maxWidth: 64, color: '#282c34', borderColor: '#c4c4c4',
-                justifyContent: (props.numOfMimes - guessCount == 0) ? "center" : "left"
-            }}
-        >
-            <StyledBadge badgeContent={props.numOfMimes - guessCount}
-                color="warning" sx={{ color: (selected) ? grey[900] : grey[500] }} >
-                <TourTwoTone />
-            </StyledBadge>
-        </ToggleButton>
+        <Tooltip title={gameText.tooltipFlagToogle + ((isMobile) ? gameText.controlsTapLC : gameText.controlsLClickLC)}>
+            <ToggleButton
+                value="check"
+                selected={selected}
+                onChange={onToggleAction}
+                style={{
+                    maxHeight: 42, minHeight: 42, width: 64, maxWidth: 64,
+                    color: '#282c34', borderColor: '#c4c4c4',
+                    justifyContent: (props.numOfMimes - guessCount == 0) ? "center" : "left"
+                }}
+            >
+                <StyledBadge
+                    badgeContent={props.numOfMimes - guessCount}
+                    color="warning"
+                    sx={{ color: (selected) ? grey[900] : grey[500] }}
+                >
+                    <TourTwoTone />
+                </StyledBadge>
+            </ToggleButton>
+        </Tooltip>
     );
 }
 
-export default CountBadge;
+export default FlagBadge;

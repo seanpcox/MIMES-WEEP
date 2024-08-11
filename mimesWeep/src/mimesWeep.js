@@ -2,19 +2,20 @@ import './mimesWeep.css';
 import { useState } from 'react';
 import { Box, Button } from '@mui/material';
 import GameBoard from './gameBoard.js'
-import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
 import FinishedMessage from './finishedMessage.js';
 import Toolbar from '@mui/material/Toolbar';
-import CountBadge from './countBadge.js'
+import FlagBadge from './flagBadge.js'
 import { isMobile, isTablet, isIPad13 } from 'react-device-detect';
 import CustomDialog from './customDialog.js';
 import * as logic from './gameLogic.js';
 import Divider from '@mui/material/Divider';
 import HelpDialog from './helpDialog.js';
 import HelpTwoTone from '@mui/icons-material/HelpTwoTone';
+import * as gameText from './resources/text/gameText';
+import Tooltip from '@mui/material/Tooltip';
 
 function MimesWeep() {
   const [difficulty, setDifficulty] = useState(1);
@@ -151,66 +152,104 @@ function MimesWeep() {
       <div>
         <header className="mimesWeep-header">
           <p>
-            M I M E S W E E P
+            {gameText.title}
           </p>
         </header>
       </div>
       <Box height={10} />
       <Toolbar sx={{ justifyContent: "center", padding: 0, margin: 0 }}>
-        <Button variant="outlined" onClick={handleRestart}
-          style={{
-            maxHeight: 42, minHeight: 42, width: 38, maxWidth: 38, color: '#282c34', borderColor: '#c4c4c4', 
-            textTransform: 'none', fontSize: 16, fontFamily: 'Arial'
-          }}>
-          New</Button>
+        <Tooltip title={gameText.tooltipNew}>
+          <Button
+            variant="outlined"
+            onClick={handleRestart}
+            style={{
+              maxHeight: 42, minHeight: 42, width: 38, maxWidth: 38, color: '#282c34',
+              borderColor: '#c4c4c4', textTransform: 'none', fontSize: 16, fontFamily: 'Arial'
+            }}>
+            {gameText.newButtonText}
+          </Button>
+        </Tooltip>
         <Box width={7} />
-        <FormControl>
-          <InputLabel id="demo-simple-select-label" >Difficulty</InputLabel>
-          <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={difficulty}
-            label="Difficulty"
-            onChange={handleDifficultyChange}
-            style={{ maxHeight: 42, minHeight: 42, width: 110, maxWidth: 110, color: '#282c34', borderColor: '#c4c4c4', 
-              fontSize: 16, fontFamily: 'Arial' }}
-          >
-            <MenuItem value={1} style={{ fontSize: 16, fontFamily: 'Arial' }}>Easy</MenuItem>
-            <MenuItem value={2} style={{ fontSize: 16, fontFamily: 'Arial' }}>Medium</MenuItem>
-            <MenuItem value={3} style={{ fontSize: 16, fontFamily: 'Arial' }}>Hard</MenuItem>
-            <Divider />
-            <MenuItem value={4}>
-              <Button
-                style={{
-                  color: '#282c34', borderColor: '#c4c4c4', textTransform: 'none', fontSize: 16, fontFamily: 'Arial'
-                }}
-                sx={{ justifyContent: "left", width: '100%', minHeight: 0, padding: 0 }}
-                onClick={openCustomDialogCallback}>
-                Custom
-              </Button>
-            </MenuItem>
-          </Select>
-        </FormControl>
+        <Tooltip title={gameText.tooltipDifficulty}>
+          <FormControl>
+            <Select
+              value={difficulty}
+              onChange={handleDifficultyChange}
+              style={{
+                maxHeight: 42, minHeight: 42, width: 110, maxWidth: 110, color: '#282c34', borderColor: '#c4c4c4',
+                fontSize: 16, fontFamily: 'Arial'
+              }}
+            >
+              <MenuItem
+                value={1}
+                style={{ fontSize: 16, fontFamily: 'Arial' }}
+              >
+                {gameText.difficultyEasy}
+              </MenuItem>
+              <MenuItem
+                value={2}
+                style={{ fontSize: 16, fontFamily: 'Arial' }}
+              >
+                {gameText.difficultyMedium}
+              </MenuItem>
+              <MenuItem
+                value={3}
+                style={{ fontSize: 16, fontFamily: 'Arial' }}
+              >
+                {gameText.difficultyHard}
+              </MenuItem>
+              <Divider />
+              <MenuItem
+                value={4}>
+                <Button
+                  style={{
+                    color: '#282c34', borderColor: '#c4c4c4', textTransform: 'none', fontSize: 16, fontFamily: 'Arial'
+                  }}
+                  sx={{ justifyContent: "left", width: '100%', minHeight: 0, padding: 0 }}
+                  onClick={openCustomDialogCallback}
+                >
+                  {gameText.difficultyCustom}
+                </Button>
+              </MenuItem>
+            </Select>
+          </FormControl>
+        </Tooltip>
         <Box width={7} />
-        <CountBadge numOfMimes={numOfMimes}
+        <FlagBadge
+          numOfMimes={numOfMimes}
           incrementGuessCountCallback={incrementGuessCountCallback}
           guessButtonToggledCallback={guessButtonToggledCallback}
           setButtonToggleCallback={setButtonToggleCallback} />
         <Box width={7} />
-        <Button variant="outlined" onClick={openHelpDialogCallback}
-          style={{
-            maxHeight: 42, minHeight: 42, width: 38, maxWidth: 38, color: '#282c34', borderColor: '#c4c4c4', 
-            textTransform: 'none', fontSize: 16
-          }}>
-          <HelpTwoTone />
-        </Button>
+        <Tooltip title={gameText.tooltipHelp}>
+          <Button
+            variant="outlined"
+            onClick={openHelpDialogCallback}
+            style={{
+              maxHeight: 42, minHeight: 42, width: 38, maxWidth: 38, color: '#282c34',
+              borderColor: '#c4c4c4', textTransform: 'none', fontSize: 16
+            }}>
+            <HelpTwoTone />
+          </Button>
+        </Tooltip>
       </Toolbar>
       <Box height={10} />
-      <GameBoard height={height} width={width} numOfMimes={numOfMimes}
-        displayLoseMessageCallback={displayLoseMessageCallback} displayWinMessageCallback={displayWinMessageCallback}
-        incrementGuessCountCallback={incrementGuessCountCallback} guessButtonToggledCallback={guessButtonToggledCallback} />
-      <FinishedMessage displayLoseMessageCallback={displayLoseMessageCallback} displayWinMessageCallback={displayWinMessageCallback} />
-      <CustomDialog openCustomDialogCallback={openCustomDialogCallback} startCustomGameCallback={startCustomGameCallback} />
+      <GameBoard
+        height={height}
+        width={width}
+        numOfMimes={numOfMimes}
+        displayLoseMessageCallback={displayLoseMessageCallback}
+        displayWinMessageCallback={displayWinMessageCallback}
+        incrementGuessCountCallback={incrementGuessCountCallback}
+        guessButtonToggledCallback={guessButtonToggledCallback}
+      />
+      <FinishedMessage
+        displayLoseMessageCallback={displayLoseMessageCallback}
+        displayWinMessageCallback={displayWinMessageCallback} />
+      <CustomDialog
+        openCustomDialogCallback={openCustomDialogCallback}
+        startCustomGameCallback={startCustomGameCallback}
+      />
       <HelpDialog openHelpDialogCallback={openHelpDialogCallback} />
     </div>
   );

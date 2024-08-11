@@ -10,9 +10,9 @@ import Filter6TwoToneIcon from '@mui/icons-material/Filter6TwoTone';
 import Filter7TwoToneIcon from '@mui/icons-material/Filter7TwoTone';
 import Filter8TwoToneIcon from '@mui/icons-material/Filter8TwoTone';
 import TourTwoTone from '@mui/icons-material/TourTwoTone';
-import mimeWhiteIcon from './mimeWhiteIcon.png';
-import mimeRedIcon from './mimeRedIcon.png';
-import mimeBlackIcon from './mimeBlackIcon.png';
+import mimeWhiteIcon from './resources/images/mimeWhiteIcon.png';
+import mimeRedIcon from './resources/images/mimeRedIcon.png';
+import mimeBlackIcon from './resources/images/mimeBlackIcon.png';
 import IOSContextMenuHandler from './iosContextMenuHandler.js';
 import { isIOS } from 'react-device-detect';
 import { useState, forwardRef, useImperativeHandle, useRef } from 'react';
@@ -53,8 +53,9 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 
     if (isDeviceIOS[0]) {
         if (numOfMimeNeighbors >= 9) {
-            return <Button variant="contained"
+            return <Button
                 ref={ref}
+                variant="contained"
                 onTouchStart={contextMenuHandler.onTouchStart}
                 onTouchCancel={contextMenuHandler.onTouchCancel}
                 onTouchEnd={contextMenuHandler.onTouchEnd}
@@ -62,56 +63,66 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 onContextMenu={(e) => e.preventDefault()}
                 onClick={(e) => e.preventDefault()}
                 style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}
-                color={getButtonColor(numOfMimeNeighbors)}>
+                color={getButtonColor(numOfMimeNeighbors)}
+            >
                 {getIcon(numOfMimeNeighbors)}
             </Button>;
         } else if (Math.floor(numOfMimeNeighbors) !== numOfMimeNeighbors) {
-            return <Button variant="contained"
+            return <Button
                 ref={ref}
+                variant="contained"
                 onTouchStart={contextMenuHandler.onTouchStart}
                 onTouchCancel={contextMenuHandler.onTouchCancel}
                 onTouchEnd={contextMenuHandler.onTouchEnd}
                 onTouchMove={contextMenuHandler.onTouchMove}
                 onContextMenu={(e) => e.preventDefault()}
                 onClick={(e) => e.preventDefault()}
-                style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}>
-            </Button>;
+                style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }} />
         } else {
-            return <Button variant="outlined" disabled={true}
+            return <Button
                 ref={ref}
+                variant="outlined"
+                disabled={true}
                 onTouchStart={contextMenuHandler.onTouchStart}
                 onTouchCancel={contextMenuHandler.onTouchCancel}
                 onTouchEnd={contextMenuHandler.onTouchEnd}
                 onTouchMove={contextMenuHandler.onTouchMove}
                 onContextMenu={(e) => e.preventDefault()}
                 onClick={(e) => e.preventDefault()}
-                style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}>
+                style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}
+            >
                 {getIcon(numOfMimeNeighbors)}
             </Button>;
         }
     } else {
         if (numOfMimeNeighbors >= 9) {
-            return <Button variant="contained"
+            return <Button
+                variant="contained"
                 ref={ref}
                 onClick={setLeftClickState}
                 onContextMenu={setRightClickState}
                 style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}
-                color={getButtonColor(numOfMimeNeighbors)}>
+                color={getButtonColor(numOfMimeNeighbors)}
+            >
                 {getIcon(numOfMimeNeighbors)}
             </Button>;
         } else if (Math.floor(numOfMimeNeighbors) !== numOfMimeNeighbors) {
-            return <Button variant="contained"
+            return <Button
+                variant="contained"
                 ref={ref}
                 onClick={setLeftClickState}
                 onContextMenu={setRightClickState}
-                style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}>
-            </Button>;
+                style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}
+            />
         } else {
-            return <Button variant="outlined" disabled={true}
+            return <Button
+                variant="outlined"
+                disabled={true}
                 ref={ref}
                 onClick={setLeftClickState}
                 onContextMenu={setRightClickState}
-                style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}>
+                style={{ maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize }}
+            >
                 {getIcon(numOfMimeNeighbors)}
             </Button>;
         }

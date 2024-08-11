@@ -6,6 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import PropTypes from 'prop-types';
 import { isMobile } from 'react-device-detect';
+import * as gameText from './resources/text/gameText';
 
 HelpDialog.propTypes = {
     openHelpDialogCallback: PropTypes.func
@@ -22,12 +23,14 @@ function HelpDialog(props) {
         setOpen(false);
     };
 
-    var revealControl = "Left Click";
-    var flagControl = "Right Click";
+    var revealControl = gameText.helpDialogControlsLClick;
+    var flagControl = gameText.helpDialogControlsRClick;
+    var flagControlSecondary = gameText.controlsLClickLC;
 
     if (isMobile) {
-        revealControl = "Tap";
-        flagControl = "Press";
+        revealControl = gameText.helpDialogControlsTap;
+        flagControl = gameText.helpDialogControlsPress;
+        flagControlSecondary = gameText.controlsTapLC;
     }
 
     return (
@@ -37,53 +40,72 @@ function HelpDialog(props) {
                 onClose={handleClose}
             >
                 <DialogTitle>
-                    Help
+                    {gameText.helpDialogTitle}
                 </DialogTitle>
                 <DialogContent>
-                    <p><strong><ins>Objective</ins></strong>
+                    <p>
+                        <strong><ins>{gameText.helpDialogObjective}</ins></strong>
                         <ul>
-                            <li>Reveal all squares that do not hide a mime.</li>
+                            <li>
+                                {gameText.helpDialogObjectiveText}
+                            </li>
                         </ul>
                     </p>
                     <p />
-                    <p><strong><ins>Controls</ins></strong>
+                    <p>
+                        <strong><ins>{gameText.helpDialogControls}</ins></strong>
                         <ul>
-                            <li><strong>{revealControl}:</strong> Reveal a square</li>
-                            <li><strong>{flagControl}:</strong> Place or remove a flag</li>
-                            <li><strong>Flag Toggle Button:</strong> Place or remove a flag</li>
+                            <li>
+                                <strong>{revealControl}</strong>
+                                {gameText.helpDialogControlsRevealText}
+                            </li>
+                            <li>
+                                <strong>{flagControl}</strong>
+                                {gameText.helpDialogControlsFlagText}
+                            </li>
+                            <li>
+                                <strong>{gameText.helpDialogControlsFlagButton}</strong>
+                                {gameText.helpDialogControlsFlagTextToggle + flagControlSecondary}
+                            </li>
                         </ul>
                     </p>
                     <p />
-                    <p><strong><ins>Tips</ins></strong>
+                    <p>
+                        <strong><ins>{gameText.helpDialogTips}</ins></strong>
                         <ul>
                             <li>
-                                The initial count on the flag toggle button shows the number of mimes hidden on the board.
+                                {gameText.helpDialogTipsBullet1}
                             </li>
                             <li>
-                                Place flags on squares you suspect of hiding a mime to avoid revealing them by mistake.
+                                {gameText.helpDialogTipsBullet2}
                             </li>
                             <li>
-                                A number on a revealed square indicates how many neighboring squares have hidden mimes.
+                                {gameText.helpDialogTipsBullet3}
                             </li>
                             {isMobile ?
                                 <li>
-                                    Use the edge of your screen when scrolling to avoid accidentally revealing a square.
+                                    {gameText.helpDialogTipsBullet4}
                                 </li>
                                 : null
                             }
                         </ul>
                     </p>
                     <p />
-                    <p><strong><ins>Credits</ins></strong>
+                    <p>
+                        <strong><ins>{gameText.helpDialogCredits}</ins></strong>
                         <ul>
                             <li>
-                                Sean Cox
+                                {gameText.helpDialogCreditsBullet1}
                             </li>
                         </ul>
                     </p>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>OK</Button>
+                    <Button
+                        onClick={handleClose}
+                    >
+                        {gameText.okButtonText}
+                    </Button>
                 </DialogActions>
             </Dialog>
         </Fragment>

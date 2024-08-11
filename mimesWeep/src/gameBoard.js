@@ -47,10 +47,14 @@ function GameBoard(props) {
     }
 
     return (
-        <Board ref={ref} array={array} incrementSquaresWonCallback={incrementSquaresWonCallback}
+        <Board
+            ref={ref}
+            array={array}
+            incrementSquaresWonCallback={incrementSquaresWonCallback}
             lostGameCallback={lostGameCallback}
             incrementGuessCountCallback={props.incrementGuessCountCallback}
-            guessButtonToggledCallback={props.guessButtonToggledCallback} />
+            guessButtonToggledCallback={props.guessButtonToggledCallback}
+        />
     );
 }
 
