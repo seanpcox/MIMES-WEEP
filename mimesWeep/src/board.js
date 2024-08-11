@@ -1,8 +1,8 @@
-import BoardSquare from './boardSquare.js'
-import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
-import PropTypes from 'prop-types';
 import * as logic from './gameLogic.js';
+import BoardSquare from './boardSquare.js'
+import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
+import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 
 const Board = forwardRef(function Board(props, inputRef) {
     var array = props.array;

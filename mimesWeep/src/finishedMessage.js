@@ -1,9 +1,9 @@
 import './mimesWeep.css';
-import { useState, useEffect } from 'react';
-import Snackbar from '@mui/material/Snackbar';
+import * as gameText from './resources/text/gameText';
 import Alert from '@mui/material/Alert';
 import PropTypes from 'prop-types';
-import * as gameText from './resources/text/gameText';
+import Snackbar from '@mui/material/Snackbar';
+import { useState, useEffect } from 'react';
 
 FinishedMessage.propTypes = {
     displayLoseMessageCallback: PropTypes.func,

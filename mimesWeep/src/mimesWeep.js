@@ -1,21 +1,21 @@
 import './mimesWeep.css';
-import { useState } from 'react';
-import { Box, Button } from '@mui/material';
-import GameBoard from './gameBoard.js'
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import Select from '@mui/material/Select';
-import FinishedMessage from './finishedMessage.js';
-import Toolbar from '@mui/material/Toolbar';
-import FlagBadge from './flagBadge.js'
-import { isMobile, isTablet, isIPad13 } from 'react-device-detect';
-import CustomDialog from './customDialog.js';
+import * as gameText from './resources/text/gameText';
 import * as logic from './gameLogic.js';
+import CustomDialog from './customDialog.js';
 import Divider from '@mui/material/Divider';
+import FinishedMessage from './finishedMessage.js';
+import FlagBadge from './flagBadge.js'
+import FormControl from '@mui/material/FormControl';
+import GameBoard from './gameBoard.js'
 import HelpDialog from './helpDialog.js';
 import HelpTwoTone from '@mui/icons-material/HelpTwoTone';
-import * as gameText from './resources/text/gameText';
+import MenuItem from '@mui/material/MenuItem';
+import Select from '@mui/material/Select';
+import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
+import { Box, Button } from '@mui/material';
+import { isMobile, isTablet, isIPad13 } from 'react-device-detect';
+import { useState } from 'react';
 
 function MimesWeep() {
   const [difficulty, setDifficulty] = useState(1);

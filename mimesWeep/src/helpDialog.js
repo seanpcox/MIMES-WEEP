@@ -1,12 +1,12 @@
-import { useState, useEffect, Fragment } from 'react';
-import { Button } from '@mui/material';
-import Dialog from '@mui/material/Dialog';
+import * as gameText from './resources/text/gameText';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
+import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import PropTypes from 'prop-types';
+import { Button } from '@mui/material';
 import { isMobile } from 'react-device-detect';
-import * as gameText from './resources/text/gameText';
+import { useState, useEffect, Fragment } from 'react';
 
 HelpDialog.propTypes = {
     openHelpDialogCallback: PropTypes.func

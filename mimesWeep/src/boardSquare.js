@@ -1,6 +1,3 @@
-import { Button } from '@mui/material';
-import PropTypes from 'prop-types';
-import { blue, green, pink, red, deepPurple, purple, blueGrey, teal } from '@mui/material/colors';
 import Filter1TwoToneIcon from '@mui/icons-material/Filter1TwoTone';
 import Filter2TwoToneIcon from '@mui/icons-material/Filter2TwoTone';
 import Filter3TwoToneIcon from '@mui/icons-material/Filter3TwoTone';
@@ -9,11 +6,14 @@ import Filter5TwoToneIcon from '@mui/icons-material/Filter5TwoTone';
 import Filter6TwoToneIcon from '@mui/icons-material/Filter6TwoTone';
 import Filter7TwoToneIcon from '@mui/icons-material/Filter7TwoTone';
 import Filter8TwoToneIcon from '@mui/icons-material/Filter8TwoTone';
-import TourTwoTone from '@mui/icons-material/TourTwoTone';
-import mimeWhiteIcon from './resources/images/mimeWhiteIcon.png';
-import mimeRedIcon from './resources/images/mimeRedIcon.png';
-import mimeBlackIcon from './resources/images/mimeBlackIcon.png';
 import IOSContextMenuHandler from './iosContextMenuHandler.js';
+import mimeBlackIcon from './resources/images/mimeBlackIcon.png';
+import mimeRedIcon from './resources/images/mimeRedIcon.png';
+import mimeWhiteIcon from './resources/images/mimeWhiteIcon.png';
+import PropTypes from 'prop-types';
+import TourTwoTone from '@mui/icons-material/TourTwoTone';
+import { blue, green, pink, red, deepPurple, purple, blueGrey, teal } from '@mui/material/colors';
+import { Button } from '@mui/material';
 import { isIOS } from 'react-device-detect';
 import { useState, forwardRef, useImperativeHandle, useRef } from 'react';
 

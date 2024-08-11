@@ -1,14 +1,14 @@
 import './mimesWeep.css';
-import { useState, useEffect } from 'react';
-import Badge from '@mui/material/Badge';
-import { styled } from '@mui/material/styles';
-import TourTwoTone from '@mui/icons-material/TourTwoTone';
-import PropTypes from 'prop-types';
-import { ToggleButton } from '@mui/material';
-import { grey } from '@mui/material/colors';
 import * as gameText from './resources/text/gameText';
+import Badge from '@mui/material/Badge';
+import PropTypes from 'prop-types';
 import Tooltip from '@mui/material/Tooltip';
+import TourTwoTone from '@mui/icons-material/TourTwoTone';
+import { grey } from '@mui/material/colors';
 import { isMobile } from 'react-device-detect';
+import { styled } from '@mui/material/styles';
+import { ToggleButton } from '@mui/material';
+import { useState, useEffect } from 'react';
 
 const StyledBadge = styled(Badge)(({ theme }) => ({
     '& .MuiBadge-badge': {

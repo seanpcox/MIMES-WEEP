@@ -1,5 +1,5 @@
-import { render, screen } from '@testing-library/react';
 import MimesWeep from './mimesWeep';
+import { render, screen } from '@testing-library/react';
 
 test('renders learn react link', () => {
   render(<MimesWeep />);

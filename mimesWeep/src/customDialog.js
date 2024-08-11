@@ -1,14 +1,14 @@
-import { useState, useEffect, Fragment } from 'react';
-import { Box, Button } from '@mui/material';
-import TextField from '@mui/material/TextField';
-import Dialog from '@mui/material/Dialog';
+import * as gameText from './resources/text/gameText';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
+import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import PropTypes from 'prop-types';
+import TextField from '@mui/material/TextField';
+import { Box, Button } from '@mui/material';
 import { isMobile, isTablet, isIPad13 } from 'react-device-detect';
-import * as gameText from './resources/text/gameText';
+import { useState, useEffect, Fragment } from 'react';
 
 CustomDialog.propTypes = {
     openCustomDialogCallback: PropTypes.func,
