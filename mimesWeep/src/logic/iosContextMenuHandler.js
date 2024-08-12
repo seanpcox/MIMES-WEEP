@@ -33,7 +33,7 @@ export default class IOSContextMenuHandler {
     onTouchEnd = e => {
         e.preventDefault();
 
-        if(!this.longPressOccurred) {
+        if (!this.longPressOccurred) {
             this.leftClickCallback();
         }
 
