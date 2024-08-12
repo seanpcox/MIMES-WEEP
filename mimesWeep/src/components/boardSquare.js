@@ -6,7 +6,7 @@ import Filter5TwoToneIcon from '@mui/icons-material/Filter5TwoTone';
 import Filter6TwoToneIcon from '@mui/icons-material/Filter6TwoTone';
 import Filter7TwoToneIcon from '@mui/icons-material/Filter7TwoTone';
 import Filter8TwoToneIcon from '@mui/icons-material/Filter8TwoTone';
-import IOSContextMenuHandler from './iosContextMenuHandler.js';
+import IOSContextMenuHandler from '../logic/iosContextMenuHandler.js';
 import mimeBlackIcon from '../resources/images/mimeBlackIcon.png';
 import mimeRedIcon from '../resources/images/mimeRedIcon.png';
 import mimeWhiteIcon from '../resources/images/mimeWhiteIcon.png';

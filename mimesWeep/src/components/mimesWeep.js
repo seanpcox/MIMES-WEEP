@@ -158,7 +158,11 @@ function MimesWeep() {
       </div>
       <Box height={10} />
       <Toolbar sx={{ justifyContent: "center", padding: 0, margin: 0 }}>
-        <Tooltip title={gameText.tooltipNew} placement="top" arrow>
+        <Tooltip 
+        title={gameText.tooltipNew} 
+        placement="top" 
+        arrow
+        >
           <Button
             variant="outlined"
             onClick={handleRestart}
@@ -170,7 +174,11 @@ function MimesWeep() {
           </Button>
         </Tooltip>
         <Box width={7} />
-        <Tooltip title={gameText.tooltipDifficulty} placement="top" arrow>
+        <Tooltip 
+        title={gameText.tooltipDifficulty} 
+        placement="top" 
+        arrow
+        >
           <FormControl>
             <Select
               value={difficulty}
@@ -221,7 +229,11 @@ function MimesWeep() {
           guessButtonToggledCallback={guessButtonToggledCallback}
           setButtonToggleCallback={setButtonToggleCallback} />
         <Box width={7} />
-        <Tooltip title={gameText.tooltipHelp} placement="top" arrow>
+        <Tooltip 
+        title={gameText.tooltipHelp} 
+        placement="top" 
+        arrow
+        >
           <Button
             variant="outlined"
             onClick={openHelpDialogCallback}

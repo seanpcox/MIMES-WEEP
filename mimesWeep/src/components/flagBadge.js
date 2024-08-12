@@ -44,8 +44,10 @@ function FlagBadge(props) {
     }
 
     return (
-        <Tooltip title={gameText.tooltipFlagToogle + ((isMobile) ? gameText.controlsTapLC : gameText.controlsLClickLC)}
-            placement="top" arrow
+        <Tooltip
+            title={gameText.tooltipFlagToogle + ((isMobile) ? gameText.controlsTapLC : gameText.controlsLClickLC)}
+            placement="top"
+            arrow
         >
             <ToggleButton
                 value="check"

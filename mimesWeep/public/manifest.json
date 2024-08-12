@@ -1,10 +1,10 @@
 {
-  "short_name": "M I M E S W E E P",
-  "name": "Game to clear all the mimes from the board",
+  "short_name": "MIMESWEEP",
+  "name": "MIMESWEEP",
   "icons": [
     {
       "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
+      "sizes": "256x256 192x192 180x180 144x144 96x96 64x64 32x32 24x24 20x20 16x16",
       "type": "image/x-icon"
     }
   ],
