@@ -10,7 +10,6 @@ export default class IOSContextMenuHandler {
 
     onTouchStart = e => {
         e.preventDefault();
-        console.log("onTouchStart");
         this.longPressOccurred = false;
 
         this.longPressCountdown = setTimeout(() => {
@@ -21,21 +20,18 @@ export default class IOSContextMenuHandler {
 
     onTouchMove = e => {
         e.preventDefault();
-        console.log("onTouchMove");
         clearTimeout(this.longPressCountdown);
         this.longPressOccurred = false;
     };
 
     onTouchCancel = e => {
         e.preventDefault();
-        console.log("onTouchCancel");
         clearTimeout(this.longPressCountdown);
         this.longPressOccurred = false;
     };
 
     onTouchEnd = e => {
         e.preventDefault();
-        console.log("onTouchEnd");
 
         if(!this.longPressOccurred) {
             this.leftClickCallback();

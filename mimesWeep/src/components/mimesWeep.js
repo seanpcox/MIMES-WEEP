@@ -1,13 +1,13 @@
-import './css/mimesWeep.css';
-import * as gameText from './resources/text/gameText';
-import * as logic from './gameLogic.js';
-import CustomDialog from './customDialog.js';
+import '../css/mimesWeep.css';
+import * as gameText from '../resources/text/gameText.js';
+import * as logic from '../logic/gameLogic.js';
+import CustomDialog from './dialogs/customDialog.js';
 import Divider from '@mui/material/Divider';
-import FinishedMessage from './finishedMessage.js';
+import FinishedMessage from './dialogs/finishedMessage.js';
 import FlagBadge from './flagBadge.js'
 import FormControl from '@mui/material/FormControl';
 import GameBoard from './gameBoard.js'
-import HelpDialog from './helpDialog.js';
+import HelpDialog from './dialogs/helpDialog.js';
 import HelpTwoTone from '@mui/icons-material/HelpTwoTone';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
@@ -158,7 +158,7 @@ function MimesWeep() {
       </div>
       <Box height={10} />
       <Toolbar sx={{ justifyContent: "center", padding: 0, margin: 0 }}>
-        <Tooltip title={gameText.tooltipNew}>
+        <Tooltip title={gameText.tooltipNew} placement="top" arrow>
           <Button
             variant="outlined"
             onClick={handleRestart}
@@ -170,7 +170,7 @@ function MimesWeep() {
           </Button>
         </Tooltip>
         <Box width={7} />
-        <Tooltip title={gameText.tooltipDifficulty}>
+        <Tooltip title={gameText.tooltipDifficulty} placement="top" arrow>
           <FormControl>
             <Select
               value={difficulty}
@@ -221,7 +221,7 @@ function MimesWeep() {
           guessButtonToggledCallback={guessButtonToggledCallback}
           setButtonToggleCallback={setButtonToggleCallback} />
         <Box width={7} />
-        <Tooltip title={gameText.tooltipHelp}>
+        <Tooltip title={gameText.tooltipHelp} placement="top" arrow>
           <Button
             variant="outlined"
             onClick={openHelpDialogCallback}

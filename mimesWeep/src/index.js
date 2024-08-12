@@ -1,8 +1,8 @@
 import './css/index.css';
-import MimesWeep from './mimesWeep.js';
+import MimesWeep from './components/mimesWeep.js';
 import ReactDOM from 'react-dom/client';
 import React from 'react';
-import reportWebVitals from './reportWebVitals';
+import reportWebVitals from './reportWebVitals.js';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

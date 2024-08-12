@@ -1,4 +1,4 @@
-import * as gameText from './resources/text/gameText';
+import * as gameText from '../resources/text/gameText';
 import Badge from '@mui/material/Badge';
 import PropTypes from 'prop-types';
 import Tooltip from '@mui/material/Tooltip';
@@ -44,7 +44,9 @@ function FlagBadge(props) {
     }
 
     return (
-        <Tooltip title={gameText.tooltipFlagToogle + ((isMobile) ? gameText.controlsTapLC : gameText.controlsLClickLC)}>
+        <Tooltip title={gameText.tooltipFlagToogle + ((isMobile) ? gameText.controlsTapLC : gameText.controlsLClickLC)}
+            placement="top" arrow
+        >
             <ToggleButton
                 value="check"
                 selected={selected}

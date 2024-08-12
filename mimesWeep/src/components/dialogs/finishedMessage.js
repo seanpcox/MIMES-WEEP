@@ -1,4 +1,4 @@
-import * as gameText from './resources/text/gameText';
+import * as gameText from '../../resources/text/gameText';
 import Alert from '@mui/material/Alert';
 import PropTypes from 'prop-types';
 import Snackbar from '@mui/material/Snackbar';

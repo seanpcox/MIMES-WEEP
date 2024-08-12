@@ -1,4 +1,4 @@
-import * as gameText from './resources/text/gameText';
+import * as gameText from '../../resources/text/gameText';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';

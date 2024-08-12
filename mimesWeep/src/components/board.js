@@ -1,4 +1,4 @@
-import * as logic from './gameLogic.js';
+import * as logic from '../logic/gameLogic.js';
 import BoardSquare from './boardSquare.js'
 import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
