@@ -1,4 +1,5 @@
 import * as gameText from '../../resources/text/gameText';
+import * as sx from '../../style/finishedMessageSx.js';
 import Alert from '@mui/material/Alert';
 import PropTypes from 'prop-types';
 import Snackbar from '@mui/material/Snackbar';
@@ -43,7 +44,7 @@ function FinishedMessage(props) {
                     severity="error"
                     variant="filled"
                     onClose={handleLoseSnackbarClose}
-                    sx={style}
+                    sx={sx.width}
                 >
                     {gameText.loseMessage}
                 </Alert>

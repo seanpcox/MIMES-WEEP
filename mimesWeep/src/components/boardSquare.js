@@ -1,3 +1,5 @@
+import * as gameText from '../resources/text/gameText.js';
+import * as sx from '../style/boardSquareSx.js';
 import Filter1TwoToneIcon from '@mui/icons-material/Filter1TwoTone';
 import Filter2TwoToneIcon from '@mui/icons-material/Filter2TwoTone';
 import Filter3TwoToneIcon from '@mui/icons-material/Filter3TwoTone';
@@ -12,7 +14,6 @@ import mimeRedIcon from '../resources/images/mimeRedIcon.png';
 import mimeWhiteIcon from '../resources/images/mimeWhiteIcon.png';
 import PropTypes from 'prop-types';
 import TourTwoTone from '@mui/icons-material/TourTwoTone';
-import { blue, green, pink, red, deepPurple, purple, blueGrey, teal } from '@mui/material/colors';
 import { Button } from '@mui/material';
 import { isIOS } from 'react-device-detect';
 import { useState, forwardRef, useImperativeHandle, useRef } from 'react';
@@ -49,9 +50,6 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
         props.btnRightClickCallback(props.indexI, props.indexJ);
     };
 
-    const btnSize = '36px';
-    const btnStyle = { maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize };
-
     if (isDeviceIOS[0]) {
         if (numOfMimeNeighbors >= 9) {
             return <Button
@@ -63,8 +61,8 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 onTouchMove={contextMenuHandler.onTouchMove}
                 onContextMenu={(e) => e.preventDefault()}
                 onClick={(e) => e.preventDefault()}
-                sx={btnStyle}
-                color={getButtonColor(numOfMimeNeighbors)}
+                sx={sx.squareSx}
+                color={getButtonStatus(numOfMimeNeighbors)}
             >
                 {getIcon(numOfMimeNeighbors)}
             </Button>;
@@ -78,7 +76,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 onTouchMove={contextMenuHandler.onTouchMove}
                 onContextMenu={(e) => e.preventDefault()}
                 onClick={(e) => e.preventDefault()}
-                sx={btnStyle} />
+                sx={sx.squareSx} />
         } else {
             return <Button
                 ref={ref}
@@ -90,7 +88,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 onTouchMove={contextMenuHandler.onTouchMove}
                 onContextMenu={(e) => e.preventDefault()}
                 onClick={(e) => e.preventDefault()}
-                sx={btnStyle}
+                sx={sx.squareSx}
             >
                 {getIcon(numOfMimeNeighbors)}
             </Button>;
@@ -102,8 +100,8 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 ref={ref}
                 onClick={setLeftClickState}
                 onContextMenu={setRightClickState}
-                sx={btnStyle}
-                color={getButtonColor(numOfMimeNeighbors)}
+                sx={sx.squareSx}
+                color={getButtonStatus(numOfMimeNeighbors)}
             >
                 {getIcon(numOfMimeNeighbors)}
             </Button>;
@@ -113,7 +111,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 ref={ref}
                 onClick={setLeftClickState}
                 onContextMenu={setRightClickState}
-                sx={btnStyle}
+                sx={sx.squareSx}
             />
         } else {
             return <Button
@@ -122,7 +120,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 ref={ref}
                 onClick={setLeftClickState}
                 onContextMenu={setRightClickState}
-                sx={btnStyle}
+                sx={sx.squareSx}
             >
                 {getIcon(numOfMimeNeighbors)}
             </Button>;
@@ -131,59 +129,49 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 });
 
 function getIcon(numOfMimeNeighbors) {
-    const iconSize = '24px';
-
     switch (numOfMimeNeighbors) {
         case -2:
             return <img
                 src={mimeRedIcon}
-                width={iconSize}
-                height={iconSize}
-                alt="Red Mime" />;
+                width={sx.iconSize}
+                height={sx.iconSize}
+                alt={gameText.altRedMime} />;
         case -1:
             return <img
                 src={mimeBlackIcon}
-                width={iconSize}
-                height={iconSize}
-                alt="Black Mime" />;
+                width={sx.iconSize}
+                height={sx.iconSize}
+                alt={gameText.altBlackMime} />;
         case 0:
             return null;
         case 1:
-            return <Filter1TwoToneIcon
-                sx={{ color: blue[500] }} />;
+            return <Filter1TwoToneIcon sx={sx.one} />;
         case 2:
-            return <Filter2TwoToneIcon
-                sx={{ color: green[500] }} />;
+            return <Filter2TwoToneIcon sx={sx.two} />;
         case 3:
-            return <Filter3TwoToneIcon
-                sx={{ color: pink[300] }} />;
+            return <Filter3TwoToneIcon sx={sx.three} />;
         case 4:
-            return <Filter4TwoToneIcon
-                sx={{ color: purple[300] }} />;
+            return <Filter4TwoToneIcon sx={sx.four} />;
         case 5:
-            return <Filter5TwoToneIcon
-                sx={{ color: teal[500] }} />;
+            return <Filter5TwoToneIcon sx={sx.five} />;
         case 6:
-            return <Filter6TwoToneIcon
-                sx={{ color: deepPurple[500] }} />;
+            return <Filter6TwoToneIcon sx={sx.six} />;
         case 7:
-            return <Filter7TwoToneIcon
-                sx={{ color: blueGrey[500] }} />;
+            return <Filter7TwoToneIcon sx={sx.seven} />;
         case 8:
-            return <Filter8TwoToneIcon
-                sx={{ color: red[500] }} />;
+            return <Filter8TwoToneIcon sx={sx.eight} />;
         case 9:
             return <img
                 src={mimeWhiteIcon}
-                width={iconSize}
-                height={iconSize}
-                alt="White Mime" />;
+                width={sx.iconSize}
+                height={sx.iconSize}
+                alt={gameText.altWhiteMime} />;
         default:
             return <TourTwoTone />;
     }
 }
 
-function getButtonColor(numOfMimeNeighbors) {
+function getButtonStatus(numOfMimeNeighbors) {
     if (numOfMimeNeighbors % 1 === 0) {
         return (numOfMimeNeighbors >= 10) ? "error" : "success"
     }

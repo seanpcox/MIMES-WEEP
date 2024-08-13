@@ -1,8 +1,9 @@
 import '../style/mimesWeep.css';
+import * as commonSx from '../style/common.js';
 import * as gameText from '../resources/text/gameText.js';
 import * as logic from '../logic/gameLogic.js';
-import * as sx from '../style/mimesweepSx.js';
 import * as settings from '../logic/gameSettings.js';
+import * as sx from '../style/mimesweepSx.js';
 import CustomDialog from './dialogs/customDialog.js';
 import Divider from '@mui/material/Divider';
 import FinishedMessage from './dialogs/finishedMessage.js';
@@ -200,19 +201,19 @@ function MimesWeep() {
             >
               <MenuItem
                 value={1}
-                sx={sx.font}
+                sx={commonSx.font}
               >
                 {gameText.difficultyEasy}
               </MenuItem>
               <MenuItem
                 value={2}
-                sx={sx.font}
+                sx={commonSx.font}
               >
                 {gameText.difficultyMedium}
               </MenuItem>
               <MenuItem
                 value={3}
-                sx={sx.font}
+                sx={commonSx.font}
               >
                 {gameText.difficultyHard}
               </MenuItem>

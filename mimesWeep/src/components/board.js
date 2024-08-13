@@ -1,4 +1,5 @@
 import * as logic from '../logic/gameLogic.js';
+import * as sx from '../style/boardSx.js';
 import BoardSquare from './boardSquare.js'
 import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
@@ -101,16 +102,13 @@ const Board = forwardRef(function Board(props, inputRef) {
         }
     }
 
-    const boardStyle = { overflowX: "scroll", justifyContent: "center" };
-    const squareRowStyle = { display: "flex", justifyContent: "center", mx: 3 };
-
     return <Box
-        sx={boardStyle}
+        sx={sx.board}
     >
         {Array.from(Array(height)).map((_, indexI) => (
             <Box
                 key={indexI}
-                sx={squareRowStyle}
+                sx={sx.squareRow}
             >
                 {Array.from(Array(width)).map((_, indexJ) => (
                     <BoardSquare

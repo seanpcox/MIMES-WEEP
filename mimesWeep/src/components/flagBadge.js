@@ -1,22 +1,11 @@
 import * as gameText from '../resources/text/gameText';
-import Badge from '@mui/material/Badge';
+import * as sx from '../style/flagBadgeSx.js';
 import PropTypes from 'prop-types';
 import Tooltip from '@mui/material/Tooltip';
 import TourTwoTone from '@mui/icons-material/TourTwoTone';
-import { grey } from '@mui/material/colors';
 import { isMobile } from 'react-device-detect';
-import { styled } from '@mui/material/styles';
 import { ToggleButton } from '@mui/material';
 import { useState, useEffect } from 'react';
-
-const StyledBadge = styled(Badge)(({ theme }) => ({
-    '& .MuiBadge-badge': {
-        right: -10,
-        top: 9,
-        border: `2px solid ${theme.palette.background.paper}`,
-        padding: '0 4px',
-    },
-}));
 
 FlagBadge.propTypes = {
     numOfMimes: PropTypes.number,
@@ -43,14 +32,6 @@ function FlagBadge(props) {
         props.guessButtonToggledCallback(selected);
     }
 
-    const buttonStyle = {
-        maxHeight: 42, minHeight: 42, width: 64, maxWidth: 64,
-        color: '#282c34', borderColor: '#c4c4c4',
-        justifyContent: (props.numOfMimes - guessCount === 0) ? "center" : "left"
-    };
-
-    const badgeStyle = { color: (selected) ? grey[900] : grey[500] };
-
     return (
         <Tooltip
             title={gameText.tooltipFlagToogle + ((isMobile) ? gameText.controlsTapLC : gameText.controlsLClickLC)}
@@ -61,15 +42,20 @@ function FlagBadge(props) {
                 value="check"
                 selected={selected}
                 onChange={onToggleAction}
-                sx={buttonStyle}
+                sx={{
+                    justifyContent: (props.numOfMimes - guessCount === 0) ? "center" : "left",
+                    ...sx.flagBtn
+                }}
             >
-                <StyledBadge
+                <sx.StyledBadge
                     badgeContent={props.numOfMimes - guessCount}
                     color="warning"
-                    sx={badgeStyle}
+                    sx={{
+                        color: (selected) ? sx.selected : sx.unselected
+                    }}
                 >
                     <TourTwoTone />
-                </StyledBadge>
+                </sx.StyledBadge>
             </ToggleButton>
         </Tooltip>
     );

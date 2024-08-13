@@ -79,3 +79,9 @@ export const tooltipDifficulty = "Change the difficulty level";
 export const tooltipFlagToogle = "Place flags using ";
 
 export const tooltipHelp = "Open help";
+
+export const altRedMime = "Red Mime";
+
+export const altBlackMime = "Black Mime";
+
+export const altWhiteMime = "White Mime";
