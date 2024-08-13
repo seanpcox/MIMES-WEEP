@@ -10,8 +10,6 @@ FinishedMessage.propTypes = {
 }
 
 function FinishedMessage(props) {
-    const style = { width: '100%' };
-
     const [openLoseSnackbar, setOpenLoseSnackbar] = useState(false);
     const [openWinSnackbar, setOpenWinSnackbar] = useState(false);
 
@@ -30,6 +28,8 @@ function FinishedMessage(props) {
     const handleWinSnackbarClose = () => {
         setOpenWinSnackbar(false)
     };
+
+    const style = { width: '100%' };
 
     return (
         <Fragment>

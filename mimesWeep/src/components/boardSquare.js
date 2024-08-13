@@ -18,9 +18,6 @@ import { isIOS } from 'react-device-detect';
 import { useState, forwardRef, useImperativeHandle, useRef } from 'react';
 
 const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
-    const btnSize = '36px';
-    const btnStyle = { maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize };
-
     const [numOfMimeNeighbors, setNumOfMimeNeighbors] = useState(props.numOfMimeNeighbors);
 
     const ref = useRef(null);
@@ -51,6 +48,9 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
     const setRightClickState = () => {
         props.btnRightClickCallback(props.indexI, props.indexJ);
     };
+
+    const btnSize = '36px';
+    const btnStyle = { maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize };
 
     if (isDeviceIOS[0]) {
         if (numOfMimeNeighbors >= 9) {

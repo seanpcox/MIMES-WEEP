@@ -26,12 +26,6 @@ FlagBadge.propTypes = {
 }
 
 function FlagBadge(props) {
-    const buttonStyle = {
-        maxHeight: 42, minHeight: 42, width: 64, maxWidth: 64,
-        color: '#282c34', borderColor: '#c4c4c4',
-        justifyContent: (props.numOfMimes - guessCount === 0) ? "center" : "left"
-    };
-
     const badgeStyle = { color: (selected) ? grey[900] : grey[500] };
 
     const [guessCount, setGuessCount] = useState(0);
@@ -50,6 +44,12 @@ function FlagBadge(props) {
         setSelected(!selected);
         props.guessButtonToggledCallback(selected);
     }
+
+    const buttonStyle = {
+        maxHeight: 42, minHeight: 42, width: 64, maxWidth: 64,
+        color: '#282c34', borderColor: '#c4c4c4',
+        justifyContent: (props.numOfMimes - guessCount === 0) ? "center" : "left"
+    };
 
     return (
         <Tooltip
