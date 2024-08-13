@@ -26,6 +26,14 @@ FlagBadge.propTypes = {
 }
 
 function FlagBadge(props) {
+    const buttonStyle = {
+        maxHeight: 42, minHeight: 42, width: 64, maxWidth: 64,
+        color: '#282c34', borderColor: '#c4c4c4',
+        justifyContent: (props.numOfMimes - guessCount === 0) ? "center" : "left"
+    };
+
+    const badgeStyle = { color: (selected) ? grey[900] : grey[500] };
+
     const [guessCount, setGuessCount] = useState(0);
 
     useEffect(() => {
@@ -53,16 +61,12 @@ function FlagBadge(props) {
                 value="check"
                 selected={selected}
                 onChange={onToggleAction}
-                style={{
-                    maxHeight: 42, minHeight: 42, width: 64, maxWidth: 64,
-                    color: '#282c34', borderColor: '#c4c4c4',
-                    justifyContent: (props.numOfMimes - guessCount === 0) ? "center" : "left"
-                }}
+                sx={buttonStyle}
             >
                 <StyledBadge
                     badgeContent={props.numOfMimes - guessCount}
                     color="warning"
-                    sx={{ color: (selected) ? grey[900] : grey[500] }}
+                    sx={badgeStyle}
                 >
                     <TourTwoTone />
                 </StyledBadge>

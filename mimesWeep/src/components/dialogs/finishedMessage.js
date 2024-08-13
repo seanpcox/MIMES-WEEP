@@ -2,7 +2,7 @@ import * as gameText from '../../resources/text/gameText';
 import Alert from '@mui/material/Alert';
 import PropTypes from 'prop-types';
 import Snackbar from '@mui/material/Snackbar';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 
 FinishedMessage.propTypes = {
     displayLoseMessageCallback: PropTypes.func,
@@ -10,6 +10,8 @@ FinishedMessage.propTypes = {
 }
 
 function FinishedMessage(props) {
+    const style = { width: '100%' };
+
     const [openLoseSnackbar, setOpenLoseSnackbar] = useState(false);
     const [openWinSnackbar, setOpenWinSnackbar] = useState(false);
 
@@ -30,7 +32,7 @@ function FinishedMessage(props) {
     };
 
     return (
-        <div>
+        <Fragment>
             <Snackbar
                 open={openLoseSnackbar}
                 autoHideDuration={3000}
@@ -41,7 +43,7 @@ function FinishedMessage(props) {
                     severity="error"
                     variant="filled"
                     onClose={handleLoseSnackbarClose}
-                    sx={{ width: '100%' }}
+                    sx={style}
                 >
                     {gameText.loseMessage}
                 </Alert>
@@ -56,12 +58,12 @@ function FinishedMessage(props) {
                     severity="success"
                     variant="filled"
                     onClose={handleWinSnackbarClose}
-                    sx={{ width: '100%' }}
+                    sx={style}
                 >
                     {gameText.winMessage}
                 </Alert>
             </Snackbar>
-        </div>
+        </Fragment>
     );
 }
 

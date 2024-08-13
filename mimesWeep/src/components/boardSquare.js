@@ -18,8 +18,8 @@ import { isIOS } from 'react-device-detect';
 import { useState, forwardRef, useImperativeHandle, useRef } from 'react';
 
 const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
-    var btnSize = '36px';
-    var btnStyle = { maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize };
+    const btnSize = '36px';
+    const btnStyle = { maxWidth: btnSize, maxHeight: btnSize, minWidth: btnSize, minHeight: btnSize };
 
     const [numOfMimeNeighbors, setNumOfMimeNeighbors] = useState(props.numOfMimeNeighbors);
 
@@ -63,7 +63,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 onTouchMove={contextMenuHandler.onTouchMove}
                 onContextMenu={(e) => e.preventDefault()}
                 onClick={(e) => e.preventDefault()}
-                style={btnStyle}
+                sx={btnStyle}
                 color={getButtonColor(numOfMimeNeighbors)}
             >
                 {getIcon(numOfMimeNeighbors)}
@@ -78,7 +78,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 onTouchMove={contextMenuHandler.onTouchMove}
                 onContextMenu={(e) => e.preventDefault()}
                 onClick={(e) => e.preventDefault()}
-                style={btnStyle} />
+                sx={btnStyle} />
         } else {
             return <Button
                 ref={ref}
@@ -90,7 +90,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 onTouchMove={contextMenuHandler.onTouchMove}
                 onContextMenu={(e) => e.preventDefault()}
                 onClick={(e) => e.preventDefault()}
-                style={btnStyle}
+                sx={btnStyle}
             >
                 {getIcon(numOfMimeNeighbors)}
             </Button>;
@@ -102,7 +102,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 ref={ref}
                 onClick={setLeftClickState}
                 onContextMenu={setRightClickState}
-                style={btnStyle}
+                sx={btnStyle}
                 color={getButtonColor(numOfMimeNeighbors)}
             >
                 {getIcon(numOfMimeNeighbors)}
@@ -113,7 +113,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 ref={ref}
                 onClick={setLeftClickState}
                 onContextMenu={setRightClickState}
-                style={btnStyle}
+                sx={btnStyle}
             />
         } else {
             return <Button
@@ -122,7 +122,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 ref={ref}
                 onClick={setLeftClickState}
                 onContextMenu={setRightClickState}
-                style={btnStyle}
+                sx={btnStyle}
             >
                 {getIcon(numOfMimeNeighbors)}
             </Button>;

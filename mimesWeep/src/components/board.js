@@ -5,6 +5,9 @@ import { Box } from '@mui/material';
 import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 
 const Board = forwardRef(function Board(props, inputRef) {
+    const boardStyle = { overflowX: "scroll", justifyContent: "center" };
+    const squareRowStyle = { display: "flex", justifyContent: "center", mx: 3 };
+
     var array = props.array;
     var height = array.length;
     var width = array[0].length;
@@ -102,12 +105,12 @@ const Board = forwardRef(function Board(props, inputRef) {
     }
 
     return <Box
-        sx={{ overflowX: "scroll", justifyContent: "center" }}
+        sx={boardStyle}
     >
         {Array.from(Array(height)).map((_, indexI) => (
             <Box
                 key={indexI}
-                sx={{ display: "flex", justifyContent: "center", mx: 3 }}
+                sx={squareRowStyle}
             >
                 {Array.from(Array(width)).map((_, indexJ) => (
                     <BoardSquare

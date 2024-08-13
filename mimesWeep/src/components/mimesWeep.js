@@ -158,15 +158,15 @@ function MimesWeep() {
       </div>
       <Box height={10} />
       <Toolbar sx={{ justifyContent: "center", padding: 0, margin: 0 }}>
-        <Tooltip 
-        title={gameText.tooltipNew} 
-        placement="top" 
-        arrow
+        <Tooltip
+          title={gameText.tooltipNew}
+          placement="top"
+          arrow
         >
           <Button
             variant="outlined"
             onClick={handleRestart}
-            style={{
+            sx={{
               maxHeight: 42, minHeight: 42, width: 38, maxWidth: 38, color: '#282c34',
               borderColor: '#c4c4c4', textTransform: 'none', fontSize: 16, fontFamily: 'Arial'
             }}>
@@ -174,35 +174,35 @@ function MimesWeep() {
           </Button>
         </Tooltip>
         <Box width={7} />
-        <Tooltip 
-        title={gameText.tooltipDifficulty} 
-        placement="top" 
-        arrow
+        <Tooltip
+          title={gameText.tooltipDifficulty}
+          placement="top"
+          arrow
         >
           <FormControl>
             <Select
               value={difficulty}
               onChange={handleDifficultyChange}
-              style={{
+              sx={{
                 maxHeight: 42, minHeight: 42, width: 110, maxWidth: 110, color: '#282c34', borderColor: '#c4c4c4',
                 fontSize: 16, fontFamily: 'Arial'
               }}
             >
               <MenuItem
                 value={1}
-                style={{ fontSize: 16, fontFamily: 'Arial' }}
+                sx={{ fontSize: 16, fontFamily: 'Arial' }}
               >
                 {gameText.difficultyEasy}
               </MenuItem>
               <MenuItem
                 value={2}
-                style={{ fontSize: 16, fontFamily: 'Arial' }}
+                sx={{ fontSize: 16, fontFamily: 'Arial' }}
               >
                 {gameText.difficultyMedium}
               </MenuItem>
               <MenuItem
                 value={3}
-                style={{ fontSize: 16, fontFamily: 'Arial' }}
+                sx={{ fontSize: 16, fontFamily: 'Arial' }}
               >
                 {gameText.difficultyHard}
               </MenuItem>
@@ -210,10 +210,10 @@ function MimesWeep() {
               <MenuItem
                 value={4}>
                 <Button
-                  style={{
-                    color: '#282c34', borderColor: '#c4c4c4', textTransform: 'none', fontSize: 16, fontFamily: 'Arial'
+                  sx={{
+                    color: '#282c34', borderColor: '#c4c4c4', textTransform: 'none', fontSize: 16, fontFamily: 'Arial',
+                    justifyContent: "left", width: '100%', minHeight: 0, padding: 0
                   }}
-                  sx={{ justifyContent: "left", width: '100%', minHeight: 0, padding: 0 }}
                   onClick={openCustomDialogCallback}
                 >
                   {gameText.difficultyCustom}
@@ -229,15 +229,15 @@ function MimesWeep() {
           guessButtonToggledCallback={guessButtonToggledCallback}
           setButtonToggleCallback={setButtonToggleCallback} />
         <Box width={7} />
-        <Tooltip 
-        title={gameText.tooltipHelp} 
-        placement="top" 
-        arrow
+        <Tooltip
+          title={gameText.tooltipHelp}
+          placement="top"
+          arrow
         >
           <Button
             variant="outlined"
             onClick={openHelpDialogCallback}
-            style={{
+            sx={{
               maxHeight: 42, minHeight: 42, width: 38, maxWidth: 38, color: '#282c34',
               borderColor: '#c4c4c4', textTransform: 'none', fontSize: 16
             }}>
