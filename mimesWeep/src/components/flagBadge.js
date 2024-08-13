@@ -26,8 +26,6 @@ FlagBadge.propTypes = {
 }
 
 function FlagBadge(props) {
-    const badgeStyle = { color: (selected) ? grey[900] : grey[500] };
-
     const [guessCount, setGuessCount] = useState(0);
 
     useEffect(() => {
@@ -50,6 +48,8 @@ function FlagBadge(props) {
         color: '#282c34', borderColor: '#c4c4c4',
         justifyContent: (props.numOfMimes - guessCount === 0) ? "center" : "left"
     };
+
+    const badgeStyle = { color: (selected) ? grey[900] : grey[500] };
 
     return (
         <Tooltip

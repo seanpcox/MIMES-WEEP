@@ -119,7 +119,8 @@ const Board = forwardRef(function Board(props, inputRef) {
                         numOfMimeNeighbors={array[indexI][indexJ]}
                         indexI={indexI}
                         indexJ={indexJ}
-                        btnLeftClickCallback={btnLeftClickCallback} btnRightClickCallback={btnRightClickCallback}
+                        btnLeftClickCallback={btnLeftClickCallback} 
+                        btnRightClickCallback={btnRightClickCallback}
                     />
                 ))}
             </Box>

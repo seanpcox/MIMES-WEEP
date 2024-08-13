@@ -131,31 +131,53 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 });
 
 function getIcon(numOfMimeNeighbors) {
+    const iconSize = '24px';
+
     switch (numOfMimeNeighbors) {
         case -2:
-            return <img src={mimeRedIcon} width="24px" height="24px" alt="Red Mime" />;
+            return <img
+                src={mimeRedIcon}
+                width={iconSize}
+                height={iconSize}
+                alt="Red Mime" />;
         case -1:
-            return <img src={mimeBlackIcon} width="24px" height="24px" alt="Black Mime" />;
+            return <img
+                src={mimeBlackIcon}
+                width={iconSize}
+                height={iconSize}
+                alt="Black Mime" />;
         case 0:
             return null;
         case 1:
-            return <Filter1TwoToneIcon sx={{ color: blue[500] }} />;
+            return <Filter1TwoToneIcon
+                sx={{ color: blue[500] }} />;
         case 2:
-            return <Filter2TwoToneIcon sx={{ color: green[500] }} />;
+            return <Filter2TwoToneIcon
+                sx={{ color: green[500] }} />;
         case 3:
-            return <Filter3TwoToneIcon sx={{ color: pink[300] }} />;
+            return <Filter3TwoToneIcon
+                sx={{ color: pink[300] }} />;
         case 4:
-            return <Filter4TwoToneIcon sx={{ color: purple[300] }} />;
+            return <Filter4TwoToneIcon
+                sx={{ color: purple[300] }} />;
         case 5:
-            return <Filter5TwoToneIcon sx={{ color: teal[500] }} />;
+            return <Filter5TwoToneIcon
+                sx={{ color: teal[500] }} />;
         case 6:
-            return <Filter6TwoToneIcon sx={{ color: deepPurple[500] }} />;
+            return <Filter6TwoToneIcon
+                sx={{ color: deepPurple[500] }} />;
         case 7:
-            return <Filter7TwoToneIcon sx={{ color: blueGrey[500] }} />;
+            return <Filter7TwoToneIcon
+                sx={{ color: blueGrey[500] }} />;
         case 8:
-            return <Filter8TwoToneIcon sx={{ color: red[500] }} />;
+            return <Filter8TwoToneIcon
+                sx={{ color: red[500] }} />;
         case 9:
-            return <img src={mimeWhiteIcon} width="24px" height="24px" alt="White Mime" />;
+            return <img
+                src={mimeWhiteIcon}
+                width={iconSize}
+                height={iconSize}
+                alt="White Mime" />;
         default:
             return <TourTwoTone />;
     }
