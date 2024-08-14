@@ -23,22 +23,6 @@ export const squareSx = {
 
 export const iconSize = '24px';
 
-const oneColor = { color: blue[400] };
-
-const twoColor = { color: green[400] };
-
-const threeColor = { color: pink[300] };
-
-const fourColor = { color: purple[300] };
-
-const fiveColor = { color: teal[600] };
-
-const sixColor = { color: deepPurple[500] };
-
-const sevenColor = { color: blueGrey[500] };
-
-const eightColor = { color: red[500] };
-
 export const mimeDetonated = <img
     src={mimeRedIcon}
     width={iconSize}
@@ -56,6 +40,22 @@ export const mimeFlagged = <img
     width={iconSize}
     height={iconSize}
     alt={gameText.altWhiteMime} />;
+
+const oneColor = { color: blue[400] };
+
+const twoColor = { color: green[400] };
+
+const threeColor = { color: pink[300] };
+
+const fourColor = { color: purple[300] };
+
+const fiveColor = { color: teal[600] };
+
+const sixColor = { color: deepPurple[500] };
+
+const sevenColor = { color: blueGrey[500] };
+
+const eightColor = { color: red[500] };
 
 export const oneIcon = <Filter1TwoToneIcon sx={oneColor} />;
 
@@ -78,3 +78,7 @@ export const flaggedUnknownColor = "warning";
 export const flaggedIncorrectColor = "error";
 
 export const flaggedCorrectColor = "success";
+
+export const unrevealedVariant = "contained";
+
+export const revealedVariant = "outlined";

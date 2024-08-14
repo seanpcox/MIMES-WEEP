@@ -15,6 +15,8 @@ export const btnSmall = {
     ...btnSmallWidth
 };
 
+export const btnVariant = "outlined";
+
 export const toolbar = {
     justifyContent: "center",
     padding: 0,

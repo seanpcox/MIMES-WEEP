@@ -177,11 +177,11 @@ function MimesWeep() {
       <Toolbar sx={sx.toolbar}>
         <Tooltip
           title={gameText.tooltipNew}
-          placement="top"
-          arrow
+          placement={commonSx.tooltipPlacement}
+          arrow={commonSx.tooltipArrow}
         >
           <Button
-            variant="outlined"
+            variant={sx.btnVariant}
             onClick={handleRestart}
             sx={sx.btnSmall}
           >
@@ -191,8 +191,8 @@ function MimesWeep() {
         <Box width={sx.btnSpacingWidth} />
         <Tooltip
           title={gameText.tooltipDifficulty}
-          placement="top"
-          arrow
+          placement={commonSx.tooltipPlacement}
+          arrow={commonSx.tooltipArrow}
         >
           <FormControl>
             <Select
@@ -240,11 +240,11 @@ function MimesWeep() {
         <Box sx={sx.btnSpacingWidth} />
         <Tooltip
           title={gameText.tooltipHelp}
-          placement="top"
-          arrow
+          placement={commonSx.tooltipPlacement}
+          arrow={commonSx.tooltipArrow}
         >
           <Button
-            variant="outlined"
+            variant={sx.btnVariant}
             onClick={openHelpDialogCallback}
             sx={sx.btnSmall}>
             <sx.helpIcon />

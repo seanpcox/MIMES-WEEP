@@ -47,13 +47,13 @@ function FinishedMessage(props) {
         <Fragment>
             <Snackbar
                 open={openLoseSnackbar}
-                autoHideDuration={3000}
+                autoHideDuration={sx.autoHideDuration}
                 onClose={handleLoseSnackbarClose}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                anchorOrigin={sx.anchorOrigin}
             >
                 <Alert
                     severity="error"
-                    variant="filled"
+                    variant={sx.alertVariant}
                     onClose={handleLoseSnackbarClose}
                     sx={sx.width}
                 >
@@ -62,13 +62,13 @@ function FinishedMessage(props) {
             </Snackbar>
             <Snackbar
                 open={openWinSnackbar}
-                autoHideDuration={3000}
+                autoHideDuration={sx.autoHideDuration}
                 onClose={handleWinSnackbarClose}
-                anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+                anchorOrigin={sx.anchorOrigin}
             >
                 <Alert
                     severity="success"
-                    variant="filled"
+                    variant={sx.alertVariant}
                     onClose={handleWinSnackbarClose}
                     sx={sx.width}
                 >

@@ -1,4 +1,5 @@
 import * as settings from '../../logic/gameSettings.js';
+import * as sx from '../../style/customDialogSx.js';
 import * as gameText from '../../resources/text/gameText';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -118,31 +119,31 @@ function CustomDialog(props) {
                         autoFocus
                         error={heightError}
                         required
-                        margin="dense"
+                        margin={sx.tfMarginType}
                         id="height"
                         name="height"
                         label={gameText.customDialogHeight + " (1-" + maxHeight + ")"}
-                        variant="standard"
+                        variant={sx.tfVariantType}
                     />
-                    <Box width={10} />
+                    <Box sx={sx.spacingHeight} />
                     <TextField
                         error={widthError}
                         required
-                        margin="dense"
+                        margin={sx.tfMarginType}
                         id="width"
                         name="width"
                         label={gameText.customDialogWidth + " (1-" + maxWidth + ")"}
-                        variant="standard"
+                        variant={sx.tfVariantType}
                     />
-                    <Box width={10} />
+                    <Box sx={sx.spacingHeight} />
                     <TextField
                         error={numOfMimesError}
                         required
-                        margin="dense"
+                        margin={sx.tfMarginType}
                         id="numOfMimes"
                         name="numOfMimes"
                         label={gameText.customDialogMimes + " (1-" + ((maxWidth * maxHeight) - 1) + ")"}
-                        variant="standard"
+                        variant={sx.tfVariantType}
                     />
                 </DialogContent>
                 <DialogActions>

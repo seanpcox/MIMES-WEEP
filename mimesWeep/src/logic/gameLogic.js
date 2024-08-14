@@ -51,7 +51,7 @@ export function sanitizeMimeCount(height, width, numOfMimes) {
     // Check that numOfMimes is less than the number of board squares
     if (numOfMimes >= (height * width)) {
         numOfMimes = (height * width) - 1;
-        console.warn("Mime count exceeded board spaces. Mime count will be set to one less than the number of board spaces.");
+        console.warn("Mime count exceeded board squares. Mime count will be set to one less than the number of board squares.");
     }
 
     return numOfMimes;

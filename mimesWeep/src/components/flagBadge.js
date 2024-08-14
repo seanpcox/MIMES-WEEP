@@ -48,23 +48,24 @@ function FlagBadge(props) {
     return (
         <Tooltip
             title={gameText.tooltipFlagToogle + ((isMobile) ? gameText.controlsTapLC : gameText.controlsLClickLC)}
-            placement="top"
-            arrow
+            placement={commonSx.tooltipPlacement}
+            arrow={commonSx.tooltipArrow}
         >
             <ToggleButton
                 value="check"
                 selected={selected}
                 onChange={onToggleAction}
-                sx={{
-                    justifyContent: (props.numOfMimes - guessCount === 0) ? "center" : "left",
-                    ...sx.flagBtn
-                }}
+                sx={
+                    (props.numOfMimes - guessCount === 0) ?
+                        sx.flagBtnNoBadge :
+                        sx.flagBtnBadge
+                }
             >
                 <sx.StyledBadge
                     badgeContent={props.numOfMimes - guessCount}
                     color={sx.badgeColor}
                     sx={{
-                        color: (selected) ? sx.selected : sx.unselected
+                        color: (selected) ? sx.selectedColor : sx.unselectedColor
                     }}
                 >
                     <commonSx.flagIcon />

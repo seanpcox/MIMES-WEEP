@@ -23,3 +23,7 @@ export const btn = {
 };
 
 export const flagIcon = TourTwoTone;
+
+export const tooltipPlacement = "top";
+
+export const tooltipArrow = true;

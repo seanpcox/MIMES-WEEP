@@ -55,7 +55,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
         if (numOfMimeNeighbors >= 9) {
             return <Button
                 ref={ref}
-                variant="contained"
+                variant={sx.unrevealedVariant}
                 onTouchStart={contextMenuHandler.onTouchStart}
                 onTouchCancel={contextMenuHandler.onTouchCancel}
                 onTouchEnd={contextMenuHandler.onTouchEnd}
@@ -70,7 +70,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
         } else if (Math.floor(numOfMimeNeighbors) !== numOfMimeNeighbors) {
             return <Button
                 ref={ref}
-                variant="contained"
+                variant={sx.unrevealedVariant}
                 onTouchStart={contextMenuHandler.onTouchStart}
                 onTouchCancel={contextMenuHandler.onTouchCancel}
                 onTouchEnd={contextMenuHandler.onTouchEnd}
@@ -81,7 +81,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
         } else {
             return <Button
                 ref={ref}
-                variant="outlined"
+                variant={sx.revealedVariant}
                 disabled={true}
                 onTouchStart={contextMenuHandler.onTouchStart}
                 onTouchCancel={contextMenuHandler.onTouchCancel}
@@ -97,7 +97,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
     } else {
         if (numOfMimeNeighbors >= 9) {
             return <Button
-                variant="contained"
+                variant={sx.unrevealedVariant}
                 ref={ref}
                 onClick={setLeftClickState}
                 onContextMenu={setRightClickState}
@@ -108,7 +108,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
             </Button>;
         } else if (Math.floor(numOfMimeNeighbors) !== numOfMimeNeighbors) {
             return <Button
-                variant="contained"
+                variant={sx.unrevealedVariant}
                 ref={ref}
                 onClick={setLeftClickState}
                 onContextMenu={setRightClickState}
@@ -116,7 +116,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
             />
         } else {
             return <Button
-                variant="outlined"
+                variant={sx.revealedVariant}
                 disabled={true}
                 ref={ref}
                 onClick={setLeftClickState}

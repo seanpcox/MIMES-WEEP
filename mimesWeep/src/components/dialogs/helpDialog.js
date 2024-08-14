@@ -58,62 +58,54 @@ function HelpDialog(props) {
                     {gameText.helpDialogTitle}
                 </DialogTitle>
                 <DialogContent>
-                    <p>
-                        <strong><ins>{gameText.helpDialogObjective}</ins></strong>
-                        <ul>
-                            <li>
-                                {gameText.helpDialogObjectiveText}
-                            </li>
-                        </ul>
-                    </p>
+                    <strong><ins>{gameText.helpDialogObjective}</ins></strong>
+                    <ul>
+                        <li>
+                            {gameText.helpDialogObjectiveText}
+                        </li>
+                    </ul>
                     <p />
-                    <p>
-                        <strong><ins>{gameText.helpDialogControls}</ins></strong>
-                        <ul>
-                            <li>
-                                <strong>{revealControl}</strong>
-                                {gameText.helpDialogControlsRevealText}
-                            </li>
-                            <li>
-                                <strong>{flagControl}</strong>
-                                {gameText.helpDialogControlsFlagText}
-                            </li>
-                            <li>
-                                <strong>{gameText.helpDialogControlsFlagButton}</strong>
-                                {gameText.helpDialogControlsFlagTextToggle + flagControlSecondary}
-                            </li>
-                        </ul>
-                    </p>
+                    <strong><ins>{gameText.helpDialogControls}</ins></strong>
+                    <ul>
+                        <li>
+                            <strong>{revealControl}</strong>
+                            {gameText.helpDialogControlsRevealText}
+                        </li>
+                        <li>
+                            <strong>{flagControl}</strong>
+                            {gameText.helpDialogControlsFlagText}
+                        </li>
+                        <li>
+                            <strong>{gameText.helpDialogControlsFlagButton}</strong>
+                            {gameText.helpDialogControlsFlagTextToggle + flagControlSecondary}
+                        </li>
+                    </ul>
                     <p />
-                    <p>
-                        <strong><ins>{gameText.helpDialogTips}</ins></strong>
-                        <ul>
+                    <strong><ins>{gameText.helpDialogTips}</ins></strong>
+                    <ul>
+                        <li>
+                            {gameText.helpDialogTipsBullet1}
+                        </li>
+                        <li>
+                            {gameText.helpDialogTipsBullet2}
+                        </li>
+                        <li>
+                            {gameText.helpDialogTipsBullet3}
+                        </li>
+                        {isMobile ?
                             <li>
-                                {gameText.helpDialogTipsBullet1}
+                                {gameText.helpDialogTipsBullet4}
                             </li>
-                            <li>
-                                {gameText.helpDialogTipsBullet2}
-                            </li>
-                            <li>
-                                {gameText.helpDialogTipsBullet3}
-                            </li>
-                            {isMobile ?
-                                <li>
-                                    {gameText.helpDialogTipsBullet4}
-                                </li>
-                                : null
-                            }
-                        </ul>
-                    </p>
+                            : null
+                        }
+                    </ul>
                     <p />
-                    <p>
-                        <strong><ins>{gameText.helpDialogCredits}</ins></strong>
-                        <ul>
-                            <li>
-                                {gameText.helpDialogCreditsBullet1}
-                            </li>
-                        </ul>
-                    </p>
+                    <strong><ins>{gameText.helpDialogCredits}</ins></strong>
+                    <ul>
+                        <li>
+                            {gameText.helpDialogCreditsBullet1}
+                        </li>
+                    </ul>
                 </DialogContent>
                 <DialogActions>
                     <Button

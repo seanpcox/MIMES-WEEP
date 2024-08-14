@@ -4,14 +4,24 @@ import Badge from '@mui/material/Badge';
 import { grey } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
 
-export const selected = grey[900]
+export const selectedColor = grey[900]
 
-export const unselected = grey[500]
+export const unselectedColor = grey[500]
 
-export const flagBtn = {
+const flagBtn = {
     width: 64,
     maxWidth: 64,
     ...commonSx.btn
+};
+
+export const flagBtnNoBadge = {
+    justifyContent: "center",
+    ...flagBtn
+};
+
+export const flagBtnBadge = {
+    justifyContent: "left",
+    ...flagBtn
 };
 
 export const StyledBadge = styled(Badge)(({ theme }) => ({
