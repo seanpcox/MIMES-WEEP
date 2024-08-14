@@ -1,3 +1,4 @@
+import * as settings from '../../logic/gameSettings.js';
 import * as gameText from '../../resources/text/gameText';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -7,27 +8,22 @@ import DialogTitle from '@mui/material/DialogTitle';
 import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
 import { Box, Button } from '@mui/material';
-import { isMobile, isTablet, isIPad13 } from 'react-device-detect';
 import { useState, useEffect, Fragment } from 'react';
+
+// PROP LIST
 
 CustomDialog.propTypes = {
     openCustomDialogCallback: PropTypes.func,
     startCustomGameCallback: PropTypes.func
 }
 
+// COMPONENT
+
 function CustomDialog(props) {
+
+    // STATES
+
     const [open, setOpen] = useState(false);
-
-    useEffect(() => {
-        props.openCustomDialogCallback([open, setOpen]);
-    }, [props.openCustomDialogCallback, open]);
-
-    const handleClose = () => {
-        setOpen(false);
-        setWidthError(false);
-        setHeightError(false);
-        setNumOfMimesError(false);
-    };
 
     const [widthError, setWidthError] = useState(false);
 
@@ -35,23 +31,27 @@ function CustomDialog(props) {
 
     const [numOfMimesError, setNumOfMimesError] = useState(false);
 
-    // Max that's fits on my Macbook Pro 2021
-    // Scrolling left horizontally can cause the page to go backwards
-    var maxHeight = 20;
-    var maxWidth = 45;
+    // LOCAL VARIABLES
 
-    // Max of 9 squares fit horizontally on smallest phone I had
-    // Allow vertical only scroll, as horizontal scroll can cause the page to go backwards
-    if (isMobile && !(isTablet || isIPad13)) {
-        maxHeight = 100;
-        maxWidth = 9;
-    }
-    // Max of 20 squares fit horizontally on iPad I have
-    // Allow vertical only scroll, as horizontal scroll can cause the page to go backwards
-    else if (isTablet || isIPad13) {
-        maxHeight = 45;
-        maxWidth = 20;
-    }
+    const maxDimensions = settings.getMaxCustomHeightWidth();
+
+    var maxHeight = maxDimensions[0];
+    var maxWidth = maxDimensions[1];
+
+    // EFFECTS
+
+    useEffect(() => {
+        props.openCustomDialogCallback([open, setOpen]);
+    }, [props.openCustomDialogCallback, open]);
+
+    // INTERNAL FUNCTIONS
+
+    const handleClose = () => {
+        setOpen(false);
+        setWidthError(false);
+        setHeightError(false);
+        setNumOfMimesError(false);
+    };
 
     function onSubmit(event) {
         event.preventDefault();
@@ -64,8 +64,6 @@ function CustomDialog(props) {
         const width = formJson.width;
         const height = formJson.height;
         const numOfMimes = formJson.numOfMimes;
-
-        console.log(width, height, numOfMimes);
 
         if (isNaN(width) || width <= 0 || width > maxWidth) {
             setWidthError(true);
@@ -96,6 +94,8 @@ function CustomDialog(props) {
 
         props.startCustomGameCallback(Number(height), Number(width), Number(numOfMimes));
     }
+
+    // RENDER
 
     return (
         <Fragment>
@@ -161,5 +161,7 @@ function CustomDialog(props) {
         </Fragment>
     );
 }
+
+// EXPORT
 
 export default CustomDialog;

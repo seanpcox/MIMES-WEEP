@@ -18,10 +18,21 @@ import { Button } from '@mui/material';
 import { isIOS } from 'react-device-detect';
 import { useState, forwardRef, useImperativeHandle, useRef } from 'react';
 
+// COMPONENT
+
 const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
+
+    // STATES
+
     const [numOfMimeNeighbors, setNumOfMimeNeighbors] = useState(props.numOfMimeNeighbors);
 
+    const isDeviceIOS = useState(isIOS);
+
+    // REFS
+
     const ref = useRef(null);
+
+    // HANDLER
 
     useImperativeHandle(inputRef, () => {
         return {
@@ -31,7 +42,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
         };
     }, []);
 
-    const isDeviceIOS = useState(isIOS);
+    // LOCAL FUNCTIONS
 
     const contextMenuHandler = new IOSContextMenuHandler(
         () => {
@@ -49,6 +60,8 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
     const setRightClickState = () => {
         props.btnRightClickCallback(props.indexI, props.indexJ);
     };
+
+    // RENDER
 
     if (isDeviceIOS[0]) {
         if (numOfMimeNeighbors >= 9) {
@@ -128,6 +141,8 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
     }
 });
 
+// EXTERNAL FUNCTIONS
+
 function getIcon(numOfMimeNeighbors) {
     switch (numOfMimeNeighbors) {
         case -2:
@@ -179,6 +194,8 @@ function getButtonStatus(numOfMimeNeighbors) {
     return "warning";
 }
 
+// PROP LIST
+
 BoardSquare.propTypes = {
     numOfMimeNeighbors: PropTypes.number,
     indexI: PropTypes.number,
@@ -186,5 +203,7 @@ BoardSquare.propTypes = {
     btnLeftClickCallback: PropTypes.func,
     btnRightClickCallback: PropTypes.func
 }
+
+// EXPORT
 
 export default BoardSquare;

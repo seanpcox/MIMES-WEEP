@@ -5,13 +5,25 @@ import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
 import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 
+// COMPONENT
+
 const Board = forwardRef(function Board(props, inputRef) {
+
+    // STATES
+
+    const [guessButtonToggled, setGuessButtonToggled] = useState(false);
+
+    // LOCAL VARIABLES
+
+    var tempRef = [];
+
     var array = props.array;
     var height = array.length;
     var width = array[0].length;
 
+    // REFS
+
     var ref = useRef(null);
-    var tempRef = [];
 
     const pushRef = (square) => {
         if (square !== null) {
@@ -19,17 +31,7 @@ const Board = forwardRef(function Board(props, inputRef) {
         }
     };
 
-    useEffect(() => {
-        ref.current = tempRef;
-
-        return () => {
-            ref.current = null;
-        }
-    });
-
-    function getRefIndex(width, indexI, indexJ) {
-        return (indexI * width) + indexJ;
-    }
+    // HANDLER
 
     useImperativeHandle(inputRef, () => {
         return {
@@ -42,11 +44,25 @@ const Board = forwardRef(function Board(props, inputRef) {
         };
     }, []);
 
-    const [guessButtonToggled, setGuessButtonToggled] = useState(false);
+    // EFFECTS
+
+    useEffect(() => {
+        ref.current = tempRef;
+
+        return () => {
+            ref.current = null;
+        }
+    });
 
     useEffect(() => {
         props.guessButtonToggledCallback([guessButtonToggled, setGuessButtonToggled]);
     }, [props.guessButtonToggledCallback, guessButtonToggled]);
+
+    // LOCAL FUNCTIONS
+
+    function getRefIndex(width, indexI, indexJ) {
+        return (indexI * width) + indexJ;
+    }
 
     function btnLeftClickCallback(indexI, indexJ) {
         if (guessButtonToggled) {
@@ -102,6 +118,8 @@ const Board = forwardRef(function Board(props, inputRef) {
         }
     }
 
+    // RENDER
+
     return <Box
         sx={sx.board}
     >
@@ -126,6 +144,8 @@ const Board = forwardRef(function Board(props, inputRef) {
     </Box>;
 });
 
+// PROP LIST
+
 Board.propTypes = {
     array: PropTypes.array,
     incrementSquaresWonCallback: PropTypes.func,
@@ -133,5 +153,7 @@ Board.propTypes = {
     incrementGuessCountCallback: PropTypes.func,
     guessButtonToggledCallback: PropTypes.func
 }
+
+// EXPORT
 
 export default Board;

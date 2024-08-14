@@ -32,9 +32,11 @@ function MimesWeep() {
   const [customNumOfMimes, setCustomNumOfMimes] = useState(9);
   const [isCustomGame, setCustomGame] = useState(false);
 
-  // CALLBACK METHODS
+  // LOCAL VARIABLES
 
   var guessCount = 0;
+
+  // CALLBACK METHODS
 
   var setGuessCountChildFunction;
 

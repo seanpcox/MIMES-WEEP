@@ -5,32 +5,43 @@ import PropTypes from 'prop-types';
 import Snackbar from '@mui/material/Snackbar';
 import { useState, useEffect, Fragment } from 'react';
 
+// PROP LIST
+
 FinishedMessage.propTypes = {
     displayLoseMessageCallback: PropTypes.func,
     displayWinMessageCallback: PropTypes.func
 }
 
+// COMPONENT
+
 function FinishedMessage(props) {
+
+    // STATES
+
     const [openLoseSnackbar, setOpenLoseSnackbar] = useState(false);
     const [openWinSnackbar, setOpenWinSnackbar] = useState(false);
+
+    // EFFECTS
 
     useEffect(() => {
         props.displayLoseMessageCallback([openLoseSnackbar, setOpenLoseSnackbar]);
     }, [props.displayLoseMessageCallback, openLoseSnackbar]);
 
-    const handleLoseSnackbarClose = () => {
-        setOpenLoseSnackbar(false)
-    };
-
     useEffect(() => {
         props.displayWinMessageCallback([openWinSnackbar, setOpenWinSnackbar]);
     }, [props.displayWinMessageCallback, openWinSnackbar]);
+
+    // INTERNAL FUNCTIONS
+
+    const handleLoseSnackbarClose = () => {
+        setOpenLoseSnackbar(false)
+    };
 
     const handleWinSnackbarClose = () => {
         setOpenWinSnackbar(false)
     };
 
-    const style = { width: '100%' };
+    // RENDER
 
     return (
         <Fragment>
@@ -59,7 +70,7 @@ function FinishedMessage(props) {
                     severity="success"
                     variant="filled"
                     onClose={handleWinSnackbarClose}
-                    sx={style}
+                    sx={sx.width}
                 >
                     {gameText.winMessage}
                 </Alert>
@@ -67,5 +78,7 @@ function FinishedMessage(props) {
         </Fragment>
     );
 }
+
+// EXPORT
 
 export default FinishedMessage;

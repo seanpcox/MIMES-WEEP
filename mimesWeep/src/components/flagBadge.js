@@ -7,6 +7,8 @@ import { isMobile } from 'react-device-detect';
 import { ToggleButton } from '@mui/material';
 import { useState, useEffect } from 'react';
 
+// PROP LIST
+
 FlagBadge.propTypes = {
     numOfMimes: PropTypes.number,
     incrementGuessCountCallback: PropTypes.func,
@@ -14,23 +16,34 @@ FlagBadge.propTypes = {
     setButtonToggleCallback: PropTypes.func
 }
 
+// COMPONENT
+
 function FlagBadge(props) {
+
+    // STATES
+
     const [guessCount, setGuessCount] = useState(0);
+
+    const [selected, setSelected] = useState(false);
+
+    // EFFECTS
 
     useEffect(() => {
         props.incrementGuessCountCallback([guessCount, setGuessCount]);
     }, [props.incrementGuessCountCallback, guessCount]);
 
-    const [selected, setSelected] = useState(false);
-
     useEffect(() => {
         props.setButtonToggleCallback([selected, setSelected]);
     }, [props.setButtonToggleCallback, selected]);
+
+    // INTERNAL FUNCTIONS
 
     function onToggleAction() {
         setSelected(!selected);
         props.guessButtonToggledCallback(selected);
     }
+
+    // RENDER
 
     return (
         <Tooltip
@@ -60,5 +73,7 @@ function FlagBadge(props) {
         </Tooltip>
     );
 }
+
+// EXPORT
 
 export default FlagBadge;

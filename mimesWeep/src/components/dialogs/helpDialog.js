@@ -8,20 +8,21 @@ import { Button } from '@mui/material';
 import { isMobile } from 'react-device-detect';
 import { useState, useEffect, Fragment } from 'react';
 
+// PROP LIST
+
 HelpDialog.propTypes = {
     openHelpDialogCallback: PropTypes.func
 }
 
+// COMPONENT
+
 function HelpDialog(props) {
+
+    // STATES
+
     const [open, setOpen] = useState(false);
 
-    useEffect(() => {
-        props.openHelpDialogCallback([open, setOpen]);
-    }, [props.openHelpDialogCallback, open]);
-
-    const handleClose = () => {
-        setOpen(false);
-    };
+    // LOCAL VARIABLES
 
     var revealControl = gameText.helpDialogControlsLClick;
     var flagControl = gameText.helpDialogControlsRClick;
@@ -32,6 +33,20 @@ function HelpDialog(props) {
         flagControl = gameText.helpDialogControlsPress;
         flagControlSecondary = gameText.controlsTapLC;
     }
+
+    // EFFECTS
+
+    useEffect(() => {
+        props.openHelpDialogCallback([open, setOpen]);
+    }, [props.openHelpDialogCallback, open]);
+
+    // LOCAL FUNCTIONS
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    // RENDER
 
     return (
         <Fragment>
@@ -111,5 +126,7 @@ function HelpDialog(props) {
         </Fragment>
     );
 }
+
+// EXPORT
 
 export default HelpDialog;
