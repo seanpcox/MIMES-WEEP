@@ -1,5 +1,5 @@
 import '../style/mimesWeep.css';
-import * as commonSx from '../style/common.js';
+import * as commonSx from '../style/commonSx.js';
 import * as gameText from '../resources/text/gameText.js';
 import * as logic from '../logic/gameLogic.js';
 import * as settings from '../logic/gameSettings.js';
@@ -11,7 +11,6 @@ import FlagBadge from './flagBadge.js'
 import FormControl from '@mui/material/FormControl';
 import GameBoard from './gameBoard.js'
 import HelpDialog from './dialogs/helpDialog.js';
-import HelpTwoTone from '@mui/icons-material/HelpTwoTone';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Toolbar from '@mui/material/Toolbar';
@@ -248,7 +247,7 @@ function MimesWeep() {
             variant="outlined"
             onClick={openHelpDialogCallback}
             sx={sx.btnSmall}>
-            <HelpTwoTone />
+            <sx.helpIcon />
           </Button>
         </Tooltip>
       </Toolbar>

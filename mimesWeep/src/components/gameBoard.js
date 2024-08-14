@@ -3,6 +3,8 @@ import Board from './board.js'
 import PropTypes from 'prop-types';
 import { useEffect, useRef } from 'react';
 
+// PROP LIST
+
 GameBoard.propTypes = {
     height: PropTypes.number,
     width: PropTypes.number,
@@ -13,8 +15,15 @@ GameBoard.propTypes = {
     guessButtonToggledCallback: PropTypes.func
 }
 
+// COMPONENT
+
 function GameBoard(props) {
+
+    // REFS
+
     var ref = useRef(null);
+
+    // LOCAL VARIABLES
 
     var height = props.height;
     var width = props.width;
@@ -22,12 +31,16 @@ function GameBoard(props) {
 
     const array = logic.createNewBoard(height, width, numOfMimes);
 
+    var squaresToWin = (height * width) - numOfMimes;
+    var squaresWon = 0;
+
+    // EFFECTS
+
     useEffect(() => {
         ref.current.refresh(array, height, width);
     });
 
-    var squaresToWin = (height * width) - numOfMimes;
-    var squaresWon = 0;
+    // LOCAL FUNCTIONS
 
     function lostGameCallback() {
         logic.clearGameBoard(array);
@@ -45,6 +58,8 @@ function GameBoard(props) {
         }
     }
 
+    // RENDER
+
     return (
         <Board
             ref={ref}
@@ -56,5 +71,7 @@ function GameBoard(props) {
         />
     );
 }
+
+// EXPORT
 
 export default GameBoard;

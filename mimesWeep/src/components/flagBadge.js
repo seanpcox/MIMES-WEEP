@@ -1,8 +1,8 @@
+import * as commonSx from '../style/commonSx.js';
 import * as gameText from '../resources/text/gameText';
 import * as sx from '../style/flagBadgeSx.js';
 import PropTypes from 'prop-types';
 import Tooltip from '@mui/material/Tooltip';
-import TourTwoTone from '@mui/icons-material/TourTwoTone';
 import { isMobile } from 'react-device-detect';
 import { ToggleButton } from '@mui/material';
 import { useState, useEffect } from 'react';
@@ -62,12 +62,12 @@ function FlagBadge(props) {
             >
                 <sx.StyledBadge
                     badgeContent={props.numOfMimes - guessCount}
-                    color="warning"
+                    color={sx.badgeColor}
                     sx={{
                         color: (selected) ? sx.selected : sx.unselected
                     }}
                 >
-                    <TourTwoTone />
+                    <commonSx.flagIcon />
                 </sx.StyledBadge>
             </ToggleButton>
         </Tooltip>

@@ -1,4 +1,5 @@
-import * as commonSx from '../style/common.js';
+import * as commonSx from './commonSx.js';
+import HelpTwoTone from '@mui/icons-material/HelpTwoTone';
 
 export const spacingHeight = { height: 10 };
 
@@ -34,3 +35,5 @@ export const customBtn = {
     ...commonSx.font,
     ...commonSx.btnColor
 };
+
+export const helpIcon = HelpTwoTone;

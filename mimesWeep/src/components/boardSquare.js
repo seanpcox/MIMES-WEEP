@@ -1,19 +1,7 @@
-import * as gameText from '../resources/text/gameText.js';
+import * as commonSx from '../style/commonSx.js';
 import * as sx from '../style/boardSquareSx.js';
-import Filter1TwoToneIcon from '@mui/icons-material/Filter1TwoTone';
-import Filter2TwoToneIcon from '@mui/icons-material/Filter2TwoTone';
-import Filter3TwoToneIcon from '@mui/icons-material/Filter3TwoTone';
-import Filter4TwoToneIcon from '@mui/icons-material/Filter4TwoTone';
-import Filter5TwoToneIcon from '@mui/icons-material/Filter5TwoTone';
-import Filter6TwoToneIcon from '@mui/icons-material/Filter6TwoTone';
-import Filter7TwoToneIcon from '@mui/icons-material/Filter7TwoTone';
-import Filter8TwoToneIcon from '@mui/icons-material/Filter8TwoTone';
 import IOSContextMenuHandler from '../logic/iosContextMenuHandler.js';
-import mimeBlackIcon from '../resources/images/mimeBlackIcon.png';
-import mimeRedIcon from '../resources/images/mimeRedIcon.png';
-import mimeWhiteIcon from '../resources/images/mimeWhiteIcon.png';
 import PropTypes from 'prop-types';
-import TourTwoTone from '@mui/icons-material/TourTwoTone';
 import { Button } from '@mui/material';
 import { isIOS } from 'react-device-detect';
 import { useState, forwardRef, useImperativeHandle, useRef } from 'react';
@@ -75,7 +63,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 onContextMenu={(e) => e.preventDefault()}
                 onClick={(e) => e.preventDefault()}
                 sx={sx.squareSx}
-                color={getButtonStatus(numOfMimeNeighbors)}
+                color={getButtonColor(numOfMimeNeighbors)}
             >
                 {getIcon(numOfMimeNeighbors)}
             </Button>;
@@ -114,7 +102,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 onClick={setLeftClickState}
                 onContextMenu={setRightClickState}
                 sx={sx.squareSx}
-                color={getButtonStatus(numOfMimeNeighbors)}
+                color={getButtonColor(numOfMimeNeighbors)}
             >
                 {getIcon(numOfMimeNeighbors)}
             </Button>;
@@ -146,52 +134,40 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 function getIcon(numOfMimeNeighbors) {
     switch (numOfMimeNeighbors) {
         case -2:
-            return <img
-                src={mimeRedIcon}
-                width={sx.iconSize}
-                height={sx.iconSize}
-                alt={gameText.altRedMime} />;
+            return sx.mimeDetonated;
         case -1:
-            return <img
-                src={mimeBlackIcon}
-                width={sx.iconSize}
-                height={sx.iconSize}
-                alt={gameText.altBlackMime} />;
+            return sx.mime;
         case 0:
             return null;
         case 1:
-            return <Filter1TwoToneIcon sx={sx.one} />;
+            return sx.oneIcon;
         case 2:
-            return <Filter2TwoToneIcon sx={sx.two} />;
+            return sx.twoIcon;
         case 3:
-            return <Filter3TwoToneIcon sx={sx.three} />;
+            return sx.threeIcon;
         case 4:
-            return <Filter4TwoToneIcon sx={sx.four} />;
+            return sx.fourIcon;
         case 5:
-            return <Filter5TwoToneIcon sx={sx.five} />;
+            return sx.fiveIcon;
         case 6:
-            return <Filter6TwoToneIcon sx={sx.six} />;
+            return sx.sixIcon;
         case 7:
-            return <Filter7TwoToneIcon sx={sx.seven} />;
+            return sx.sevenIcon;
         case 8:
-            return <Filter8TwoToneIcon sx={sx.eight} />;
+            return sx.eightIcon;
         case 9:
-            return <img
-                src={mimeWhiteIcon}
-                width={sx.iconSize}
-                height={sx.iconSize}
-                alt={gameText.altWhiteMime} />;
+            return sx.mimeFlagged;
         default:
-            return <TourTwoTone />;
+            return <commonSx.flagIcon />;
     }
 }
 
-function getButtonStatus(numOfMimeNeighbors) {
+function getButtonColor(numOfMimeNeighbors) {
     if (numOfMimeNeighbors % 1 === 0) {
-        return (numOfMimeNeighbors >= 10) ? "error" : "success"
+        return (numOfMimeNeighbors >= 10) ? sx.flaggedIncorrectColor : sx.flaggedCorrectColor;
     }
 
-    return "warning";
+    return sx.flaggedUnknownColor;
 }
 
 // PROP LIST

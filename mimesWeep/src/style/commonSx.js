@@ -1,3 +1,5 @@
+import TourTwoTone from '@mui/icons-material/TourTwoTone';
+
 export const font = {
     fontSize: 16,
     fontFamily: 'Arial',
@@ -19,3 +21,5 @@ export const btn = {
     ...btnColor,
     ...btnHeight
 };
+
+export const flagIcon = TourTwoTone;
