@@ -12,33 +12,35 @@ import mimeBlackIcon from '../resources/images/mimeBlackIcon.png';
 import mimeRedIcon from '../resources/images/mimeRedIcon.png';
 import mimeWhiteIcon from '../resources/images/mimeWhiteIcon.png';
 
-const squareSize = '36px';
+const squareSize = 36;
+
+const squareSizePx = squareSize + 'px';
 
 export const squareSx = {
-    maxWidth: squareSize,
-    maxHeight: squareSize,
-    minWidth: squareSize,
-    minHeight: squareSize
+    maxWidth: squareSizePx,
+    maxHeight: squareSizePx,
+    minWidth: squareSizePx,
+    minHeight: squareSizePx
 };
 
-export const iconSize = '24px';
+export const mimeIconSize = 24;
 
-export const mimeDetonated = <img
-    src={mimeRedIcon}
-    width={iconSize}
-    height={iconSize}
-    alt={gameText.altRedMime} />;
+const mimeIconSizePx = mimeIconSize + 'px';
 
-export const mime = <img
+export const mimeDetonatedImage = mimeRedIcon;
+
+export const mimeDetonatedAltText = gameText.altRedMime;
+
+export const mimeIcon = <img
     src={mimeBlackIcon}
-    width={iconSize}
-    height={iconSize}
+    width={mimeIconSizePx}
+    height={mimeIconSizePx}
     alt={gameText.altBlackMime} />;
 
-export const mimeFlagged = <img
+export const mimeFlaggedIcon = <img
     src={mimeWhiteIcon}
-    width={iconSize}
-    height={iconSize}
+    width={mimeIconSizePx}
+    height={mimeIconSizePx}
     alt={gameText.altWhiteMime} />;
 
 const oneColor = { color: blue[400] };
@@ -82,3 +84,9 @@ export const flaggedCorrectColor = "success";
 export const unrevealedVariant = "contained";
 
 export const revealedVariant = "outlined";
+
+export const mimeDetonatedIconInitialSize = 15;
+
+export const mimeDetonatedIconMaxSize = 64;
+
+export const mimeDetonatedAnimationSpeed = 7;

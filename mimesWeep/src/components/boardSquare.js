@@ -20,10 +20,21 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 
     const isDeviceIOS = useState(isIOS);
 
+    const [mimeDetonatedIconSize, setMimeDetonatedIconSize] = useState(sx,sx.mimeDetonatedIconInitialSize);
 
     // REFS
 
     const ref = useRef(null);
+
+
+    // LOCAL VARIABLES
+
+    // Mime detonated is declared locally as we need to adjust its size for mime detonated animation
+    const mimeDetonatedIcon = <img
+        src={sx.mimeDetonatedImage}
+        width={mimeDetonatedIconSize}
+        height={mimeDetonatedIconSize}
+        alt={sx.mimeDetonatedAltText} />;
 
 
     // HANDLER
@@ -66,6 +77,11 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
      */
     const setLeftClickState = () => {
         props.btnLeftClickCallback(props.indexI, props.indexJ);
+
+        // If the square selected hid a mime then trigger an animation
+        if (numOfMimeNeighbors == -0.9) {
+            triggeredMimeDetonatedAnimation();
+        }
     };
 
     /**
@@ -75,6 +91,132 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
         props.btnRightClickCallback(props.indexI, props.indexJ);
     };
 
+    /**
+     * Function to return the icon that represents a revealed or flagged square's current state
+     * @param {Square's number of neighboring mimes} numOfMimeNeighbors 
+     * @returns Icon that represents revealed square's state
+     */
+    function getIcon(numOfMimeNeighbors) {
+        switch (numOfMimeNeighbors) {
+
+            // Mime Square Detonated
+            case -2:
+                return mimeDetonatedIcon;
+
+            // Mime
+            case -1:
+                return sx.mimeIcon;
+
+            // Square No Mime Neighbors
+            case 0:
+                return null;
+
+            // Square One Mime Neighbor
+            case 1:
+                return sx.oneIcon;
+
+            // Square Two Mime Neighbors
+            case 2:
+                return sx.twoIcon;
+
+            // Square Three Mime Neighbors
+            case 3:
+                return sx.threeIcon;
+
+            // Square Four Mime Neighbors
+            case 4:
+                return sx.fourIcon;
+
+            // Square Five Mime Neighbors
+            case 5:
+                return sx.fiveIcon;
+
+            // Square Six Mime Neighbors
+            case 6:
+                return sx.sixIcon;
+
+            // Square Seven Mime Neighbors
+            case 7:
+                return sx.sevenIcon;
+
+            // Square Eight Mime Neighbors
+            case 8:
+                return sx.eightIcon;
+
+            // Corrently Flagged Mime
+            case 9:
+                return sx.mimeFlaggedIcon;
+
+            // Flagged Square, Unrevealed or Incorrect
+            default:
+                return <commonSx.flagIcon />;
+        }
+    }
+
+    /**
+    * Function to return a color, representing the status, of a flagged square
+    * @param {Function} numOfMimeNeighbors 
+    * @returns Color of flagged square
+    */
+    function getFlaggedColor(numOfMimeNeighbors) {
+
+        // If the flagged square has been revealed (represented by a whole number)
+        if (numOfMimeNeighbors % 1 === 0) {
+
+            // Correctly revealed flagged square, i.e. contains a mime, is represented by 9
+            // Incorrectly revealed flagged square, i.e. didn't contain a mime, is represented by > 9
+            return (numOfMimeNeighbors >= 10) ? sx.flaggedIncorrectColor : sx.flaggedCorrectColor;
+        }
+
+        // Else the square has been flagged but not revealed so we do not know if correct or incorrect yet
+        return sx.flaggedUnknownColor;
+    }
+
+    /**
+     * Function to trigger an animation on the clicked on mime square
+     */
+    function triggeredMimeDetonatedAnimation() {
+        let id = null;
+        let increment = true;
+        let iconSize = sx.mimeDetonatedIconInitialSize;
+
+        // Set the square's state to indicate tripped mime and set inital icon size for animation
+        setNumOfMimeNeighbors(-2);
+        setMimeDetonatedIconSize(iconSize);
+
+        // Clear any previous timer and start a new one
+        clearInterval(id);
+        id = setInterval(frame, sx.mimeDetonatedAnimationSpeed);
+
+        /**
+         * Function to perform while the timer runs
+         * We will first increment the mime detonated icon size then decrement it to the normal icon sizes
+         */
+        function frame() {
+
+            // If we are decrementing the icon size and reach the original size then quit
+            if (!increment && iconSize <= sx.mimeIconSize) {
+                clearInterval(id);
+            }
+
+            // Else we are incrementing and we reach the max icon size we desire then we start decrement
+            else if (increment && iconSize >= sx.mimeDetonatedIconMaxSize) {
+                increment = false;
+            }
+
+            // Else increment the icon size
+            else if (increment) {
+                iconSize++;
+                setMimeDetonatedIconSize(iconSize);
+            }
+
+            // Else`decrement the icon size
+            else {
+                iconSize--;
+                setMimeDetonatedIconSize(iconSize);
+            }
+        }
+    }
 
     // RENDER
 
@@ -175,89 +317,6 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
         }
     }
 });
-
-// EXTERNAL FUNCTIONS
-
-/**
- * Function to return the icon that represents a revealed or flagged square's current state
- * @param {Square's number of neighboring mimes} numOfMimeNeighbors 
- * @returns Icon that represents revealed square's state
- */
-function getIcon(numOfMimeNeighbors) {
-    switch (numOfMimeNeighbors) {
-
-        // Mime Square Detonated
-        case -2:
-            return sx.mimeDetonated;
-
-        // Mime
-        case -1:
-            return sx.mime;
-
-        // Square No Mime Neighbors
-        case 0:
-            return null;
-
-        // Square One Mime Neighbor
-        case 1:
-            return sx.oneIcon;
-
-        // Square Two Mime Neighbors
-        case 2:
-            return sx.twoIcon;
-
-        // Square Three Mime Neighbors
-        case 3:
-            return sx.threeIcon;
-
-        // Square Four Mime Neighbors
-        case 4:
-            return sx.fourIcon;
-
-        // Square Five Mime Neighbors
-        case 5:
-            return sx.fiveIcon;
-
-        // Square Six Mime Neighbors
-        case 6:
-            return sx.sixIcon;
-
-        // Square Seven Mime Neighbors
-        case 7:
-            return sx.sevenIcon;
-
-        // Square Eight Mime Neighbors
-        case 8:
-            return sx.eightIcon;
-
-        // Corrently Flagged Mime
-        case 9:
-            return sx.mimeFlagged;
-
-        // Flagged Square, Unrevealed or Incorrect
-        default:
-            return <commonSx.flagIcon />;
-    }
-}
-
-/**
- * Function to return a color, representing the status, of a flagged square
- * @param {Function} numOfMimeNeighbors 
- * @returns 
- */
-function getFlaggedColor(numOfMimeNeighbors) {
-
-    // If the flagged square has been revealed (represented by a whole number)
-    if (numOfMimeNeighbors % 1 === 0) {
-
-        // Correctly revealed flagged square, i.e. contains a mime, is represented by 9
-        // Incorrectly revealed flagged square, i.e. didn't contain a mime, is represented by > 9
-        return (numOfMimeNeighbors >= 10) ? sx.flaggedIncorrectColor : sx.flaggedCorrectColor;
-    }
-
-    // Else the square has been flagged but not revealed so we do not know if correct or incorrect yet
-    return sx.flaggedUnknownColor;
-}
 
 // PROP LIST
 
