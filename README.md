@@ -22,7 +22,7 @@
 <img width="500" alt="Screenshot 2024-08-13 at 12 12 31 AM" src="https://github.com/user-attachments/assets/393bddaa-1b53-4b2b-8936-a7ef71001743">
 
 #### Desktop
-<img width="1103" alt="Desktop Screenshot" src="mimesweep/src/resources/images/desktopScreenshot.png">
+<img width="1103" alt="Desktop Screenshot" src="mimesWeep/src/resources/images/desktopScreenshot.png">
 
 ## Build, Install, & Launch Commands
 
