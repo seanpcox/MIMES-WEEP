@@ -3,7 +3,7 @@
   * Reveal all squares that do not hide a mime. 
   * Adapted for mobile, tablet, and desktop. 
   * Try on Easy, Medium, Hard, or make your own level.
-  * Play Now for Free: [mimesweep.com](https://www.mimesweep.com/)
+  * Play now for free online: [mimesweep.com](https://www.mimesweep.com/)
 
 ## Controls
   * Left Click or Tap: Reveal a square
