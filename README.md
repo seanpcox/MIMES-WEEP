@@ -40,7 +40,7 @@ Notes:
 * Developed on a 2021 Macbook Pro with an Apple M1 Max chip running Mac OS 14.4.1
 * Tested on Mac & Windows Desktop, iPad, iPhone, and Android Phone
 * Code was developed in Visual Studio Code version 1.92.0
-* NPM version 10.8.2 was used to create React project and download requirements (Material UI, ESLint, Amplify etc.)
+* NPM version 10.8.2 used to create React project and download requirements (Material UI, ESLint, Amplify etc.)
 * React version 11.13.0 was used with Material UI version 5.16.6
 * Code was lint checked using ESLint version 9.7.0
 * Device detection provided by react-device-detect version 2.0.0
