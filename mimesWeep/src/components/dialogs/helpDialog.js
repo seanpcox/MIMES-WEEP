@@ -8,6 +8,10 @@ import { Button } from '@mui/material';
 import { isMobile } from 'react-device-detect';
 import { useState, useEffect, Fragment } from 'react';
 
+/**
+ * Dialog to display game help and instructions to the user
+ */
+
 // PROP LIST
 
 HelpDialog.propTypes = {
@@ -22,6 +26,7 @@ function HelpDialog(props) {
 
     const [open, setOpen] = useState(false);
 
+
     // LOCAL VARIABLES
 
     var revealControl = gameText.helpDialogControlsLClick;
@@ -34,17 +39,24 @@ function HelpDialog(props) {
         flagControlSecondary = gameText.controlsTapLC;
     }
 
+
     // EFFECTS
 
+    // Effect to open the help dialog
     useEffect(() => {
         props.openHelpDialogCallback([open, setOpen]);
     }, [props.openHelpDialogCallback, open]);
 
+
     // LOCAL FUNCTIONS
 
+    /**
+     * Function to close the help dialog
+     */
     const handleClose = () => {
         setOpen(false);
     };
+
 
     // RENDER
 

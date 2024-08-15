@@ -5,6 +5,10 @@ import PropTypes from 'prop-types';
 import Snackbar from '@mui/material/Snackbar';
 import { useState, useEffect, Fragment } from 'react';
 
+/**
+ * Snackbar type message to show on game win or lose
+ */
+
 // PROP LIST
 
 FinishedMessage.propTypes = {
@@ -21,25 +25,36 @@ function FinishedMessage(props) {
     const [openLoseSnackbar, setOpenLoseSnackbar] = useState(false);
     const [openWinSnackbar, setOpenWinSnackbar] = useState(false);
 
+
     // EFFECTS
 
+    // Effect to open the lose message snackbar
     useEffect(() => {
         props.displayLoseMessageCallback([openLoseSnackbar, setOpenLoseSnackbar]);
     }, [props.displayLoseMessageCallback, openLoseSnackbar]);
 
+    // Effect to open the win message snackbar
     useEffect(() => {
         props.displayWinMessageCallback([openWinSnackbar, setOpenWinSnackbar]);
     }, [props.displayWinMessageCallback, openWinSnackbar]);
 
+
     // INTERNAL FUNCTIONS
 
+    /**
+     * Function to close the lose message snackbar
+     */
     const handleLoseSnackbarClose = () => {
         setOpenLoseSnackbar(false)
     };
 
+    /**
+    * Function to close the win message snackbar
+    */
     const handleWinSnackbarClose = () => {
         setOpenWinSnackbar(false)
     };
+
 
     // RENDER
 

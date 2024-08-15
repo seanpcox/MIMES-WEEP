@@ -15,6 +15,10 @@ GameBoard.propTypes = {
     guessButtonToggledCallback: PropTypes.func
 }
 
+/**
+ * Component that wraps the board and tracks the game progress
+ */
+
 // COMPONENT
 
 function GameBoard(props) {
@@ -23,37 +27,68 @@ function GameBoard(props) {
 
     var ref = useRef(null);
 
+
     // LOCAL VARIABLES
 
+    // Game properties
     var height = props.height;
     var width = props.width;
     var numOfMimes = props.numOfMimes;
 
+    // Create the 2D array that represents the game board
     const array = logic.createNewBoard(height, width, numOfMimes);
 
+    // Track the number of squares we need to reveal to win (all squares except mimes must be revealed)
     var squaresToWin = (height * width) - numOfMimes;
+
+    // Track the number of squares currently revealed
     var squaresWon = 0;
+
 
     // EFFECTS
 
+    // Effect to refresh the child board component with the new game array
     useEffect(() => {
-        ref.current.refresh(array, height, width);
+        ref.current.refresh(array);
     });
+
 
     // LOCAL FUNCTIONS
 
+    /**
+     * Function called when the game has been lost
+     */
     function lostGameCallback() {
+
+        // Reveals all values in the gameboard 2D array not yet revealed
         logic.clearGameBoard(array);
-        ref.current.refresh(array, height, width);
+
+        // Refresh all square components on the board
+        ref.current.refresh(array);
+
+        // Display lose message to the user
         props.displayLoseMessageCallback();
     }
 
+    /**
+     * Function called when square, or squares, none a mime, is successfully revealed
+     * @param {Number of squares revealed} count 
+     */
     function incrementSquaresWonCallback(count) {
+
+        // Increment the number fo squares successfully revealed
         squaresWon += count;
 
+        // If the number of squares revealed equal the number of squares need to win, we have won
         if (squaresWon === squaresToWin) {
+
+            // Reveals all values in the gameboard 2D array not yet revealed, which would be unflagged mimes
             logic.clearGameBoard(array);
-            ref.current.refresh(array, height, width);
+
+            // Refresh all square components on the board
+            ref.current.refresh(array);
+
+            // Display win message to the user
             props.displayWinMessageCallback();
         }
     }

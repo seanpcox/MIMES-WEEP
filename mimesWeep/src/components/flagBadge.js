@@ -7,6 +7,11 @@ import { isMobile } from 'react-device-detect';
 import { ToggleButton } from '@mui/material';
 import { useState, useEffect } from 'react';
 
+/**
+ * Component that is both a toggle button, allowing users to place flags using primary action (left-click or tap),
+ * and a badge count, initially showing the total number of board mimes and then tracks the number of flags placed
+ */
+
 // PROP LIST
 
 FlagBadge.propTypes = {
@@ -26,22 +31,34 @@ function FlagBadge(props) {
 
     const [selected, setSelected] = useState(false);
 
+
     // EFFECTS
 
+    // Effect to incremement (or decrement if a negative value) the number of flags placed on the board
     useEffect(() => {
         props.incrementGuessCountCallback([guessCount, setGuessCount]);
     }, [props.incrementGuessCountCallback, guessCount]);
 
+    // Effect to mark the toggle button selected or unselected
     useEffect(() => {
         props.setButtonToggleCallback([selected, setSelected]);
     }, [props.setButtonToggleCallback, selected]);
 
+
     // INTERNAL FUNCTIONS
 
+    /**
+     * Function to toggle the Flag button on and off 
+     */
     function onToggleAction() {
+
+        // Set the selected state, which will refresh the component
         setSelected(!selected);
+
+        // Callback to inform other componets flag button's toggled state
         props.guessButtonToggledCallback(selected);
     }
+
 
     // RENDER
 
@@ -56,14 +73,18 @@ function FlagBadge(props) {
                 selected={selected}
                 onChange={onToggleAction}
                 sx={
+                    // Set the look based on whether their will be a badge count or not
+                    // Badge disappears if the count is zero
                     (props.numOfMimes - guessCount === 0) ?
                         sx.flagBtnNoBadge :
                         sx.flagBtnBadge
                 }
             >
                 <sx.StyledBadge
-                    badgeContent={props.numOfMimes - guessCount}
                     color={sx.badgeColor}
+                    // Set the badge count
+                    badgeContent={props.numOfMimes - guessCount}
+                    // Set the color of the component based on selected state
                     sx={{
                         color: (selected) ? sx.selectedColor : sx.unselectedColor
                     }}
