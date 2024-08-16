@@ -11,4 +11,6 @@
   justify-content: center;
   font-size: 6vmin;
   color: #61dafb;
+  letter-spacing: 12px;
+  margin-right:-12px; 
 }

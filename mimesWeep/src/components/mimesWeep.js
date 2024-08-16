@@ -288,7 +288,7 @@ function MimesWeep() {
       e.preventDefault();
     }}>
       <div>
-        <header className="mimesWeep-header">
+        <header className="mimesWeep-header" >
           <p>
             {gameText.title}
           </p>
