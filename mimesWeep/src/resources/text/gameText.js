@@ -1,4 +1,4 @@
-export const title = "M I M E S W E E P";
+export const title = "M I M E S W E E P E R";
 
 export const newButtonText = "New";
 
