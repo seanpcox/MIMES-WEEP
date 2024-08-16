@@ -85,8 +85,8 @@ export const unrevealedVariant = "contained";
 
 export const revealedVariant = "outlined";
 
-export const mimeDetonatedIconInitialSize = 24;
+export const mimeDetonatedIconInitialSize = mimeIconSize;
 
-export const mimeDetonatedIconMaxSize = 48;
+export const mimeDetonatedIconMaxSize = squareSize;
 
-export const mimeDetonatedAnimationSpeed = 7;
+export const mimeDetonatedAnimationSpeed = 20;
