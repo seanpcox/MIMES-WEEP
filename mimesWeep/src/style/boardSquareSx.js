@@ -90,3 +90,5 @@ export const mimeDetonatedIconInitialSize = mimeIconSize;
 export const mimeDetonatedIconMaxSize = squareSize;
 
 export const mimeDetonatedAnimationSpeed = 20;
+
+export const mimeDetonatedAnimationPlayCount = 2;

@@ -20,7 +20,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 
     const isDeviceIOS = useState(isIOS);
 
-    const [mimeDetonatedIconSize, setMimeDetonatedIconSize] = useState(sx,sx.mimeDetonatedIconInitialSize);
+    const [mimeDetonatedIconSize, setMimeDetonatedIconSize] = useState(sx, sx.mimeDetonatedIconInitialSize);
 
     // REFS
 
@@ -79,7 +79,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
         props.btnLeftClickCallback(props.indexI, props.indexJ);
 
         // If the square selected hid a mime then trigger an animation
-        if (numOfMimeNeighbors == -0.9) {
+        if (numOfMimeNeighbors === -0.9) {
             triggeredMimeDetonatedAnimation();
         }
     };
@@ -176,9 +176,16 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
      * Function to trigger an animation on the clicked on mime square
      */
     function triggeredMimeDetonatedAnimation() {
+
+        // Return if no animation plays are requested
+        if (sx.mimeDetonatedAnimationPlayCount <= 0) {
+            return;
+        }
+
         let id = null;
         let increment = true;
         let iconSize = sx.mimeDetonatedIconInitialSize;
+        let playCount = 0;
 
         // Set the square's state to indicate tripped mime and set inital icon size for animation
         setNumOfMimeNeighbors(-2);
@@ -194,9 +201,21 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
          */
         function frame() {
 
-            // If we are decrementing the icon size and reach the original size then quit
+            // If we are decrementing the icon size and reach the original size then check if we are finished
             if (!increment && iconSize <= sx.mimeIconSize) {
-                clearInterval(id);
+
+                // Increase the number of times we have played the animation
+                playCount++;
+
+                // If we have played the animation the requested amount of times then quit
+                if (playCount >= sx.mimeDetonatedAnimationPlayCount) {
+                    clearInterval(id);
+                }
+
+                // Else continue the animation and start to increase the icon size from its original size again
+                else {
+                    increment = true;
+                }
             }
 
             // Else we are incrementing and we reach the max icon size we desire then we start decrement
