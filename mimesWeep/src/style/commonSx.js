@@ -1,7 +1,7 @@
 import TourTwoTone from '@mui/icons-material/TourTwoTone';
 
 export const font = {
-    fontSize: 15,
+    fontSize: 16,
     fontFamily: 'Arial',
     textTransform: 'none'
 };
