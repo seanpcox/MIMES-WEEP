@@ -12,8 +12,8 @@ export const btnColor = {
 };
 
 export const btnHeight = {
-    maxHeight: 38,
-    minHeight: 38
+    maxHeight: 40,
+    minHeight: 40
 };
 
 export const btn = {
