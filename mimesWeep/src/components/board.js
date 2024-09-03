@@ -127,6 +127,9 @@ const Board = forwardRef(function Board(props, inputRef) {
             // Callback that the game has been lost
             props.lostGameCallback();
 
+            // Call the mime revealed function on the board square
+            ref.current[getRefIndex(width, indexI, indexJ)].mimeRevealed();
+
             // Exit function
             return;
         }

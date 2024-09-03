@@ -49,6 +49,14 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 
                 // Setting to a new state refreshes the component
                 setNumOfMimeNeighbors(newNumOfMimeNeighbors);
+            },
+            /**
+             * Function to call when a mime has been revealed
+             */
+            mimeRevealed() {
+
+                // Trigger the mime detonated animation
+                triggeredMimeDetonatedAnimation();
             }
         };
     }, []);
@@ -77,12 +85,6 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
      */
     const setLeftClickState = () => {
         props.btnLeftClickCallback(props.indexI, props.indexJ);
-
-        // BUG!!! Triggers if trying to place a flag on mime when flag toggle is on
-        // If the square selected hid a mime then trigger an animation
-        if (numOfMimeNeighbors === -0.9) {
-            triggeredMimeDetonatedAnimation();
-        }
     };
 
     /**
