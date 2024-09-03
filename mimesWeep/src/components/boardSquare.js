@@ -78,6 +78,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
     const setLeftClickState = () => {
         props.btnLeftClickCallback(props.indexI, props.indexJ);
 
+        // BUG!!! Triggers if trying to place a flag on mime when flag toggle is on
         // If the square selected hid a mime then trigger an animation
         if (numOfMimeNeighbors === -0.9) {
             triggeredMimeDetonatedAnimation();
