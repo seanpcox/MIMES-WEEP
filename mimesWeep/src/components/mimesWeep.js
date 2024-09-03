@@ -18,7 +18,6 @@ import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import { Box, Button } from '@mui/material';
 import { useRef, useState } from 'react';
-import FiberNewTwoToneIcon from '@mui/icons-material/FiberNewTwoTone';
 
 /**
  * Component at the root of the game. Contains the header, toolbar, and game board.
@@ -52,7 +51,7 @@ function MimesWeep() {
 
   function firstSquareRevealvedCallback() {
     timerRef.current.startTimer();
-  } 
+  }
 
   var setGuessCountChildFunction;
 
@@ -325,9 +324,9 @@ function MimesWeep() {
           <Button
             variant={commonSx.btnVariant}
             onClick={handleRestart}
-            sx={commonSx.btnSmall}
+            sx={sx.btnNew}
           >
-            {<FiberNewTwoToneIcon/>}
+            {<sx.newIcon fontSize={sx.newIconFontSize} />}
           </Button>
         </Tooltip>
         <Box width={sx.btnSpacingWidth} />
