@@ -4,6 +4,10 @@ import Tooltip from '@mui/material/Tooltip';
 import { Button } from '@mui/material';
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
+/**
+ * Component displaying the time elapsed, in minutes and seconds, in the current game since the first square was revealed
+ */
+
 // COMPONENT
 
 const Timer = forwardRef(function Timer(props, inputRef) {
@@ -29,18 +33,26 @@ const Timer = forwardRef(function Timer(props, inputRef) {
     useImperativeHandle(inputRef, () => {
         return {
             /**
-             * Function to update the square with a new number of mime neighbors
-             * @param {New number of mime neighbors} newNumOfMimeNeighbors 
+             * Function to start the timer
              */
             startTimer() {
                 start();
             },
+            /**
+             * Function to stop the timer
+             */
             stopTimer() {
                 stop();
             },
+            /**
+             * Function to reset the timer
+             */
             resetTimer() {
                 reset();
             },
+            /**
+             * Function to retrieve the elapsed time in milliseconds
+             */
             getTimeElapsedTimer() {
                 return getTimeElapsed();
             }
@@ -50,6 +62,7 @@ const Timer = forwardRef(function Timer(props, inputRef) {
 
     // EFFECTS
 
+    // Effect to update the timer display every 100ms
     useEffect(() => {
         const interval = setInterval(() => udpateTimeElapsed(), 100);
 
@@ -59,30 +72,57 @@ const Timer = forwardRef(function Timer(props, inputRef) {
 
     // LOCAL FUNCTIONS
 
+    /**
+     * Function to start the timer from zero
+     */
     function start() {
         timerRunning = true;
         startTime = Date.now();
         setTimeElapsed(0);
     }
 
+    /**
+     * Function to stop the timer at the current value
+     */
     function stop() {
         timerRunning = false;
     }
 
+    /**
+     * Function to stop the timer and reset it to zero
+     */
     function reset() {
         stop();
         setTimeElapsed(0);
     }
 
+    /**
+     * Function to get the time elapsed in milliseconds
+     * @returns Time elapsed in milliseconds
+     */
     function getTimeElapsed() {
         return timeElapsed;
     }
 
+    /**
+     * Funtion to get the time elapsed in human readable minutes and seconds
+     * @returns Time elapsed string
+     */
     function getTimeElapsedString() {
+
+        // Convert time elapsed from millseconds into seconds
         let timeElapsedSeconds = getTimeElapsed() / 1000;
+
+        // Calculate how many minutes, floored to the nearest integer, have elapsed
         let minutes = Math.floor(timeElapsedSeconds / 60);
+
+        // Calculate how many seconds, floored to the nearest integer, have elapsed
         let seconds = Math.floor(timeElapsedSeconds % 60);
+
+        // Create the human readable minutes and seconds elapsed string
         let secondsString = (seconds < 10) ? "0" + seconds : seconds;
+
+        // Return the human readable string
         return minutes + ":" + secondsString;
     }
 
