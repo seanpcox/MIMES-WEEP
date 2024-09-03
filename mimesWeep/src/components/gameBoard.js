@@ -12,7 +12,8 @@ GameBoard.propTypes = {
     displayLoseMessageCallback: PropTypes.func,
     displayWinMessageCallback: PropTypes.func,
     incrementGuessCountCallback: PropTypes.func,
-    guessButtonToggledCallback: PropTypes.func
+    guessButtonToggledCallback: PropTypes.func,
+    firstSquareRevealvedCallback: PropTypes.func
 }
 
 /**
@@ -76,7 +77,12 @@ function GameBoard(props) {
      */
     function incrementSquaresWonCallback(count) {
 
-        // Increment the number fo squares successfully revealed
+        // If the first square clicked then start the timer
+        if (squaresWon === 0) {
+            props.firstSquareRevealvedCallback();
+        }
+
+        // Increment the number of squares successfully revealed
         squaresWon += count;
 
         // If the number of squares revealed equal the number of squares need to win, we have won

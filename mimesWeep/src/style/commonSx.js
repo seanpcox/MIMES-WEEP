@@ -1,7 +1,7 @@
 import TourTwoTone from '@mui/icons-material/TourTwoTone';
 
 export const font = {
-    fontSize: 16,
+    fontSize: 15,
     fontFamily: 'Arial',
     textTransform: 'none'
 };
@@ -12,8 +12,8 @@ export const btnColor = {
 };
 
 export const btnHeight = {
-    maxHeight: 42,
-    minHeight: 42
+    maxHeight: 40,
+    minHeight: 40
 };
 
 export const btn = {
@@ -21,6 +21,25 @@ export const btn = {
     ...btnColor,
     ...btnHeight
 };
+
+export const btnSmallWidth = {
+    minWidth: 42,
+    width: 42,
+    maxWidth: 42
+};
+
+export const btnSmall = {
+    ...btn,
+    ...btnSmallWidth
+};
+
+export const btnMedium = {
+    width: 64,
+    maxWidth: 64,
+    ...btn
+};
+
+export const btnVariant = "outlined";
 
 export const flagIcon = TourTwoTone;
 

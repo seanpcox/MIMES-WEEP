@@ -13,10 +13,12 @@ import GameBoard from './gameBoard.js'
 import HelpDialog from './dialogs/helpDialog.js';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import Timer from './timer.js';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import { Box, Button } from '@mui/material';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
+import FiberNewTwoToneIcon from '@mui/icons-material/FiberNewTwoTone';
 
 /**
  * Component at the root of the game. Contains the header, toolbar, and game board.
@@ -35,6 +37,10 @@ function MimesWeep() {
   const [customNumOfMimes, setCustomNumOfMimes] = useState(9);
   const [isCustomGame, setCustomGame] = useState(false);
 
+  // REFS
+
+  const timerRef = useRef(null);
+
 
   // LOCAL VARIABLES
 
@@ -43,6 +49,10 @@ function MimesWeep() {
 
 
   // CALLBACK METHODS
+
+  function firstSquareRevealvedCallback() {
+    timerRef.current.startTimer();
+  } 
 
   var setGuessCountChildFunction;
 
@@ -121,6 +131,10 @@ function MimesWeep() {
 
     // Else display the lost game message to the user
     else {
+      // Stop the game timer
+      timerRef.current.stopTimer();
+
+      // Show the lose message
       showLoseMessage(true);
     }
   };
@@ -140,6 +154,10 @@ function MimesWeep() {
 
     // Else display the won game message to the user
     else {
+      // Stop the game timer
+      timerRef.current.stopTimer();
+
+      // Show the win message
       showWinMessage(true);
     }
   };
@@ -254,6 +272,9 @@ function MimesWeep() {
    */
   function resetGameChildComponentStates() {
 
+    // Reset the timer
+    timerRef.current.resetTimer();
+
     // No flags are now placed
     setGuessCountChildFunction(0);
 
@@ -302,11 +323,11 @@ function MimesWeep() {
           arrow={commonSx.tooltipArrow}
         >
           <Button
-            variant={sx.btnVariant}
+            variant={commonSx.btnVariant}
             onClick={handleRestart}
-            sx={sx.btnSmall}
+            sx={commonSx.btnSmall}
           >
-            {gameText.newButtonText}
+            {<FiberNewTwoToneIcon/>}
           </Button>
         </Tooltip>
         <Box width={sx.btnSpacingWidth} />
@@ -353,6 +374,8 @@ function MimesWeep() {
           </FormControl>
         </Tooltip>
         <Box sx={sx.btnSpacingWidth} />
+        <Timer ref={timerRef} />
+        <Box sx={sx.btnSpacingWidth} />
         <FlagBadge
           numOfMimes={numOfMimes}
           incrementGuessCountCallback={incrementGuessCountCallback}
@@ -365,9 +388,9 @@ function MimesWeep() {
           arrow={commonSx.tooltipArrow}
         >
           <Button
-            variant={sx.btnVariant}
+            variant={commonSx.btnVariant}
             onClick={openHelpDialogCallback}
-            sx={sx.btnSmall}>
+            sx={commonSx.btnSmall}>
             <sx.helpIcon />
           </Button>
         </Tooltip>
@@ -381,6 +404,7 @@ function MimesWeep() {
         displayWinMessageCallback={displayWinMessageCallback}
         incrementGuessCountCallback={incrementGuessCountCallback}
         guessButtonToggledCallback={guessButtonToggledCallback}
+        firstSquareRevealvedCallback={firstSquareRevealvedCallback}
       />
       <FinishedMessage
         displayLoseMessageCallback={displayLoseMessageCallback}

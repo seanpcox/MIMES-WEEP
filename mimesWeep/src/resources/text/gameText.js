@@ -85,3 +85,5 @@ export const altRedMime = "Red Mime";
 export const altBlackMime = "Black Mime";
 
 export const altWhiteMime = "White Mime";
+
+export const tooltipTimeElapsed = "Time elapsed since game start";

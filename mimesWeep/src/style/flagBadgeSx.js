@@ -8,20 +8,14 @@ export const selectedColor = grey[900]
 
 export const unselectedColor = grey[500]
 
-const flagBtn = {
-    width: 64,
-    maxWidth: 64,
-    ...commonSx.btn
-};
-
 export const flagBtnNoBadge = {
     justifyContent: "center",
-    ...flagBtn
+    ...commonSx.btnMedium
 };
 
 export const flagBtnBadge = {
     justifyContent: "left",
-    ...flagBtn
+    ...commonSx.btnMedium
 };
 
 export const StyledBadge = styled(Badge)(({ theme }) => ({

@@ -3,19 +3,7 @@ import HelpTwoTone from '@mui/icons-material/HelpTwoTone';
 
 export const spacingHeight = { height: 10 };
 
-export const btnSpacingWidth = { width: 7 };
-
-export const btnSmallWidth = {
-    width: 38,
-    maxWidth: 38
-};
-
-export const btnSmall = {
-    ...commonSx.btn,
-    ...btnSmallWidth
-};
-
-export const btnVariant = "outlined";
+export const btnSpacingWidth = { width: 5 };
 
 export const toolbar = {
     justifyContent: "center",
