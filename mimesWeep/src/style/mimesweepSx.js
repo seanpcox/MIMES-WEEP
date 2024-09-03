@@ -35,9 +35,9 @@ export const btnHelp = {
 
 export const btnNew = {
     ...commonSx.btn,
-    minWidth: 50,
-    width: 50,
-    maxWidth: 50
+    minWidth: 52,
+    width: 52,
+    maxWidth: 52
 };
 
 export const helpIcon = HelpTwoTone;
