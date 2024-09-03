@@ -23,8 +23,8 @@ export const btn = {
 };
 
 export const btnMedium = {
-    width: 62,
-    maxWidth: 62,
+    width: 60,
+    maxWidth: 60,
     ...btn
 };
 
