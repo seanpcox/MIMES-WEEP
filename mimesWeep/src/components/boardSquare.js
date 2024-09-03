@@ -3,7 +3,7 @@ import * as sx from '../style/boardSquareSx.js';
 import IOSContextMenuHandler from '../logic/iosContextMenuHandler.js';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
-import { isIOS, isMobile } from 'react-device-detect';
+import { isIOS, isIPad13, isMobile, isTablet } from 'react-device-detect';
 import { useState, forwardRef, useImperativeHandle, useRef } from 'react';
 
 /**
@@ -18,7 +18,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 
     const [numOfMimeNeighbors, setNumOfMimeNeighbors] = useState(props.numOfMimeNeighbors);
 
-    const isDeviceMobile = useState(isMobile || isIOS)
+    const isNotDesktop = useState(isMobile || isIOS || isTablet || isIPad13)
 
     const [mimeDetonatedIconSize, setMimeDetonatedIconSize] = useState(sx, sx.mimeDetonatedIconInitialSize);
 
@@ -239,8 +239,8 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 
     // RENDER
 
-    // Mobile Square
-    if (isDeviceMobile[0]) {
+    // Mobile or Tablet Square
+    if (isNotDesktop[0]) {
 
         // Flagged Square
         if (numOfMimeNeighbors >= 9) {
