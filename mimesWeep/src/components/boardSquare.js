@@ -3,7 +3,7 @@ import * as sx from '../style/boardSquareSx.js';
 import IOSContextMenuHandler from '../logic/iosContextMenuHandler.js';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
-import { isIOS } from 'react-device-detect';
+import { isIOS, isMobile } from 'react-device-detect';
 import { useState, forwardRef, useImperativeHandle, useRef } from 'react';
 
 /**
@@ -18,7 +18,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 
     const [numOfMimeNeighbors, setNumOfMimeNeighbors] = useState(props.numOfMimeNeighbors);
 
-    const isDeviceIOS = useState(isIOS);
+    const isDeviceMobile = useState(isMobile || isIOS)
 
     const [mimeDetonatedIconSize, setMimeDetonatedIconSize] = useState(sx, sx.mimeDetonatedIconInitialSize);
 
@@ -239,8 +239,8 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 
     // RENDER
 
-    // IOS Square
-    if (isDeviceIOS[0]) {
+    // Mobile Square
+    if (isDeviceMobile[0]) {
 
         // Flagged Square
         if (numOfMimeNeighbors >= 9) {
@@ -251,6 +251,10 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 onTouchCancel={contextMenuHandler.onTouchCancel}
                 onTouchEnd={contextMenuHandler.onTouchEnd}
                 onTouchMove={contextMenuHandler.onTouchMove}
+                onMouseDown={contextMenuHandler.onTouchStart}
+                onMouseLeave={contextMenuHandler.onTouchCancel}
+                onMouseUp={contextMenuHandler.onTouchEnd}
+                onMouseMove={contextMenuHandler.onTouchMove}
                 onContextMenu={(e) => e.preventDefault()}
                 onClick={(e) => e.preventDefault()}
                 sx={sx.squareSx}
@@ -269,6 +273,10 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 onTouchCancel={contextMenuHandler.onTouchCancel}
                 onTouchEnd={contextMenuHandler.onTouchEnd}
                 onTouchMove={contextMenuHandler.onTouchMove}
+                onMouseDown={contextMenuHandler.onTouchStart}
+                onMouseLeave={contextMenuHandler.onTouchCancel}
+                onMouseUp={contextMenuHandler.onTouchEnd}
+                onMouseMove={contextMenuHandler.onTouchMove}
                 onContextMenu={(e) => e.preventDefault()}
                 onClick={(e) => e.preventDefault()}
                 sx={sx.squareSx} />
@@ -284,6 +292,10 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 onTouchCancel={contextMenuHandler.onTouchCancel}
                 onTouchEnd={contextMenuHandler.onTouchEnd}
                 onTouchMove={contextMenuHandler.onTouchMove}
+                onMouseDown={contextMenuHandler.onTouchStart}
+                onMouseLeave={contextMenuHandler.onTouchCancel}
+                onMouseUp={contextMenuHandler.onTouchEnd}
+                onMouseMove={contextMenuHandler.onTouchMove}
                 onContextMenu={(e) => e.preventDefault()}
                 onClick={(e) => e.preventDefault()}
                 sx={sx.squareSx}
@@ -293,7 +305,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
         }
     }
 
-    // Desktop or Android Square
+    // Desktop Square
     else {
 
         // Flagged Square
