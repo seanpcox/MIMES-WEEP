@@ -1,5 +1,4 @@
 import * as commonSx from './commonSx.js';
-import FiberNewTwoToneIcon from '@mui/icons-material/FiberNewTwoTone';
 import HelpTwoTone from '@mui/icons-material/HelpTwoTone';
 
 export const spacingHeight = { height: 10 };
@@ -27,13 +26,18 @@ export const customBtn = {
     ...commonSx.btnColor
 };
 
-export const btnNew = {
-    ...commonSx.btnSmall,
-    fontSize: 28
+export const btnHelp = {
+    ...commonSx.btn,
+    minWidth: 40,
+    width: 40,
+    maxWidth: 40
 };
 
-export const newIcon = FiberNewTwoToneIcon;
-
-export const newIconFontSize = 'inherit';
+export const btnNew = {
+    ...commonSx.btn,
+    minWidth: 50,
+    width: 50,
+    maxWidth: 50
+};
 
 export const helpIcon = HelpTwoTone;

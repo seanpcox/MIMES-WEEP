@@ -22,17 +22,6 @@ export const btn = {
     ...btnHeight
 };
 
-export const btnSmallWidth = {
-    minWidth: 42,
-    width: 42,
-    maxWidth: 42
-};
-
-export const btnSmall = {
-    ...btn,
-    ...btnSmallWidth
-};
-
 export const btnMedium = {
     width: 64,
     maxWidth: 64,

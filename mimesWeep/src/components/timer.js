@@ -1,5 +1,6 @@
 import * as commonSx from '../style/commonSx.js';
 import * as gameText from '../resources/text/gameText.js';
+import * as sx from '../style/timerSx.js';
 import Tooltip from '@mui/material/Tooltip';
 import { Button } from '@mui/material';
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
@@ -135,6 +136,21 @@ const Timer = forwardRef(function Timer(props, inputRef) {
     }
 
 
+    // LOGIC
+
+    // This will be what we display in our timer container
+    let timerContent;
+
+    // If we have not begun conuting then display the high score icon
+    if (timeElapsed === 0) {
+        timerContent = <sx.highScoresIcon />;
+    }
+    // Else if we have started counting then display the current elapsed time
+    else {
+        timerContent = getTimeElapsedString();
+    }
+
+
     // RENDER
 
     return <Tooltip
@@ -147,7 +163,7 @@ const Timer = forwardRef(function Timer(props, inputRef) {
             sx={commonSx.btnMedium}
             ref={ref}
         >
-            {getTimeElapsedString()}
+            {timerContent}
         </Button>
     </Tooltip>;
 });
