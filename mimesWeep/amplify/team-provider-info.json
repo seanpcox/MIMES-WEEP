@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-mimesweep-dev-2f92b-authRole",
+      "UnauthRoleArn": "arn:aws:iam::339712962408:role/amplify-mimesweep-dev-2f92b-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::339712962408:role/amplify-mimesweep-dev-2f92b-authRole",
+      "Region": "us-east-1",
+      "DeploymentBucketName": "amplify-mimesweep-dev-2f92b-deployment",
+      "UnauthRoleName": "amplify-mimesweep-dev-2f92b-unauthRole",
+      "StackName": "amplify-mimesweep-dev-2f92b",
+      "StackId": "arn:aws:cloudformation:us-east-1:339712962408:stack/amplify-mimesweep-dev-2f92b/aac9c5a0-6a51-11ef-9d96-0affd864f6bb",
+      "AmplifyAppId": "d1fujl3unbzc0o"
+    }
+  }
+}
