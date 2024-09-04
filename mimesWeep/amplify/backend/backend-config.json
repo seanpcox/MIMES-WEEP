@@ -1,1 +1,22 @@
-{}
+{
+  "api": {
+    "mimesweep": {
+      "dependsOn": [],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [],
+          "defaultAuthentication": {
+            "apiKeyConfig": {
+              "apiKeyExpirationDate": "2025-09-04T00:16:15.654Z",
+              "apiKeyExpirationDays": 365,
+              "description": "mimesweep"
+            },
+            "authenticationType": "API_KEY"
+          }
+        }
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync"
+    }
+  }
+}
