@@ -3,6 +3,7 @@ import Board from './board.js'
 import PropTypes from 'prop-types';
 import { useEffect, useRef } from 'react';
 
+
 // PROP LIST
 
 GameBoard.propTypes = {
@@ -88,16 +89,26 @@ function GameBoard(props) {
         // If the number of squares revealed equal the number of squares need to win, we have won
         if (squaresWon === squaresToWin) {
 
-            // Reveals all values in the gameboard 2D array not yet revealed, which would be unflagged mimes
-            logic.clearGameBoard(array);
-
-            // Refresh all square components on the board
-            ref.current.refresh(array);
-
-            // Display win message to the user
-            props.displayWinMessageCallback();
+            // Call the game won function
+            gameWon();
         }
     }
+
+    /**
+     * Function to call if the user wins a game
+     */
+    function gameWon() {
+
+        // Reveals all values in the gameboard 2D array not yet revealed, which would be unflagged mimes
+        logic.clearGameBoard(array);
+
+        // Refresh all square components on the board
+        ref.current.refresh(array);
+
+        // Display win message to the user
+        props.displayWinMessageCallback();
+    }
+
 
     // RENDER
 

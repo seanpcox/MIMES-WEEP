@@ -1,5 +1,6 @@
 import '../style/mimesWeep.css';
 import * as commonSx from '../style/commonSx.js';
+import * as datastore from '../resources/config/datastore.js';
 import * as gameText from '../resources/text/gameText.js';
 import * as logic from '../logic/gameLogic.js';
 import * as settings from '../logic/gameSettings.js';
@@ -16,7 +17,10 @@ import Select from '@mui/material/Select';
 import Timer from './timer.js';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
+import { Amplify } from 'aws-amplify';
 import { Box, Button } from '@mui/material';
+import { DataStore } from "@aws-amplify/datastore";
+import { Period, Todo } from "../models/index.js";
 import { useRef, useState } from 'react';
 
 /**
@@ -25,7 +29,14 @@ import { useRef, useState } from 'react';
 
 function MimesWeep() {
 
+  // SETUP DATASTORE
+
+  Amplify.configure(datastore.settings);
+
+
   // STATES
+
+  const deviceType = useState(settings.getDeviceType());
 
   const [numOfGamesPlayed, setNumOfGamesPlayed] = useState(1);
 
@@ -51,6 +62,26 @@ function MimesWeep() {
 
   function firstSquareRevealvedCallback() {
     timerRef.current.startTimer();
+  }
+
+  /**
+   * Callback function when a custom game is started 
+   * @param {Rows in the custom game} height 
+   * @param {Columns in the custom game} width 
+   * @param {Mimes in the custom game} mimeCount 
+   */
+  function startCustomGameCallback(height, width, mimeCount) {
+
+    // Add check that numOfMimes not greater than number of board squares, 
+    // if not it is set to number of board squares
+    mimeCount = logic.sanitizeMimeCount(height, width, mimeCount);
+
+    // Set all the states to represent the custom game, if New game selected these will be reused
+    setCustomGame(true);
+    setCustomHeight(height);
+    setCustomWidth(width);
+    setCustomNumOfMimes(mimeCount);
+    resetGameSettings(4);
   }
 
   var setGuessCountChildFunction;
@@ -116,7 +147,6 @@ function MimesWeep() {
 
   var showLoseMessage;
 
-
   /**
    * Function to display the lost game message to the user
    * @param {Either the child function or a command to display the lost game message} setStateCallback 
@@ -158,6 +188,9 @@ function MimesWeep() {
 
       // Show the win message
       showWinMessage(true);
+
+      // Persist the user's score
+      persistScore();
     }
   };
 
@@ -234,26 +267,6 @@ function MimesWeep() {
   };
 
   /**
-   * Callback function when a custom game is started 
-   * @param {Rows in the custom game} height 
-   * @param {Columns in the custom game} width 
-   * @param {Mimes in the custom game} mimeCount 
-   */
-  function startCustomGameCallback(height, width, mimeCount) {
-
-    // Add check that numOfMimes not greater than number of board squares, 
-    // if not it is set to number of board squares
-    mimeCount = logic.sanitizeMimeCount(height, width, mimeCount);
-
-    // Set all the states to represent the custom game, if New game selected these will be reused
-    setCustomGame(true);
-    setCustomHeight(height);
-    setCustomWidth(width);
-    setCustomNumOfMimes(mimeCount);
-    resetGameSettings(4);
-  }
-
-  /**
    * Function to change the difficulty and start a new game
    * @param {Difficulty value} value 
    */
@@ -280,6 +293,29 @@ function MimesWeep() {
     // Set Flag Guess button to unselected and inform child component
     setGuessButtonToggledChildFunction(false);
     setButtonToggleChildFunction(false);
+  }
+
+  /**
+  * Function to persist the user's score in the data store
+  */
+  function persistScore() {
+
+    console.log("Timer", timerRef.current.getTimeElapsedTimer());
+
+    // Create the score data
+    const scoreData = {
+      level: settings.getDifficultyString(difficulty),
+      deviceType: deviceType[0],
+      time: timerRef.current.getTimeElapsedTimer(),
+      user: "Unknown",
+      date: Math.round(Date.now() / 1000),
+      datePeriod: Period.ALL
+    };
+
+    // Persist the store data
+    DataStore.save(
+      new Todo(scoreData)
+    );
   }
 
 
@@ -345,19 +381,19 @@ function MimesWeep() {
                 value={1}
                 sx={commonSx.font}
               >
-                {gameText.difficultyEasy}
+                {settings.getDifficultyString(1)}
               </MenuItem>
               <MenuItem
                 value={2}
                 sx={commonSx.font}
               >
-                {gameText.difficultyMedium}
+                {settings.getDifficultyString(2)}
               </MenuItem>
               <MenuItem
                 value={3}
                 sx={commonSx.font}
               >
-                {gameText.difficultyHard}
+                {settings.getDifficultyString(3)}
               </MenuItem>
               <Divider />
               <MenuItem
@@ -366,7 +402,7 @@ function MimesWeep() {
                   sx={sx.customBtn}
                   onClick={openCustomDialogCallback}
                 >
-                  {gameText.difficultyCustom}
+                  {settings.getDifficultyString(4)}
                 </Button>
               </MenuItem>
             </Select>

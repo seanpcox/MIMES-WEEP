@@ -26,6 +26,7 @@ const Timer = forwardRef(function Timer(props, inputRef) {
     // LOCAL VARIABLES
 
     var timerRunning = false;
+    var timeElapsedLocal = 0;
     var startTime = Date.now();
 
 
@@ -99,10 +100,11 @@ const Timer = forwardRef(function Timer(props, inputRef) {
 
     /**
      * Function to get the time elapsed in milliseconds
+     * Uses a local variable as state variable updated value is only accessible inside this component
      * @returns Time elapsed in milliseconds
      */
     function getTimeElapsed() {
-        return timeElapsed;
+        return timeElapsedLocal;
     }
 
     /**
@@ -112,7 +114,7 @@ const Timer = forwardRef(function Timer(props, inputRef) {
     function getTimeElapsedString() {
 
         // Convert time elapsed from millseconds into seconds
-        let timeElapsedSeconds = getTimeElapsed() / 1000;
+        let timeElapsedSeconds = timeElapsed / 1000;
 
         // Calculate how many minutes, floored to the nearest integer, have elapsed
         let minutes = Math.floor(timeElapsedSeconds / 60);
@@ -127,12 +129,23 @@ const Timer = forwardRef(function Timer(props, inputRef) {
         return minutes + ":" + secondsString;
     }
 
+    /**
+     * Function to update the time elapsed variables
+     * @returns Exit if timer stopped
+     */
     function udpateTimeElapsed() {
         if (!timerRunning) {
             return;
         }
 
-        setTimeElapsed(Date.now() - startTime);
+        // Calculate the time elapsed in ms by subtraing the start time from the current time
+        let newTimeElapsed = Date.now() - startTime;
+
+        // Update our state variable used in this component
+        setTimeElapsed(newTimeElapsed);
+
+        // Update our local variable which can be queried by external components
+        timeElapsedLocal = newTimeElapsed;
     }
 
 

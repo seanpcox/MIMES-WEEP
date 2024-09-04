@@ -1,9 +1,10 @@
 import * as commonSx from '../style/commonSx.js';
 import * as gameText from '../resources/text/gameText';
+import * as settings from '../logic/gameSettings.js';
 import * as sx from '../style/flagBadgeSx.js';
 import PropTypes from 'prop-types';
 import Tooltip from '@mui/material/Tooltip';
-import { isMobile } from 'react-device-detect';
+import { Device } from "../models/index.js";
 import { ToggleButton } from '@mui/material';
 import { useState, useEffect } from 'react';
 
@@ -30,6 +31,8 @@ function FlagBadge(props) {
     const [guessCount, setGuessCount] = useState(0);
 
     const [selected, setSelected] = useState(false);
+
+    const isNotDesktop = useState(settings.getDeviceType() != Device.DESKTOP);
 
 
     // EFFECTS
@@ -64,7 +67,8 @@ function FlagBadge(props) {
 
     return (
         <Tooltip
-            title={gameText.tooltipFlagToogle + ((isMobile) ? gameText.controlsTapLC : gameText.controlsLClickLC)}
+            title={gameText.tooltipFlagToogle +
+                ((isNotDesktop[0]) ? gameText.controlsTapLC : gameText.controlsLClickLC)}
             placement={commonSx.tooltipPlacement}
             arrow={commonSx.tooltipArrow}
         >

@@ -1,4 +1,6 @@
-import { isMobile, isTablet, isIPad13 } from 'react-device-detect';
+import * as gameText from '../resources/text/gameText.js';
+import { isIOS, isIPad13, isMobile, isTablet } from 'react-device-detect';
+import { Device } from "../models/index.js";
 
 /**
  * Logic to determine board sizes for Easy, Medium, and Hard levels. Also sets max Custom board settings.
@@ -115,4 +117,40 @@ export function getMaxCustomHeightWidth() {
 
   // Return 2 value array
   return [maxHeight, maxWidth];
-} 
+}
+
+/**
+ * Function to return a string representation of the difficulty level
+ * @param {Number value representing the game difficulty desired} difficulty 
+ * @returns String representation of the difficulty level
+ */
+export function getDifficultyString(difficulty) {
+  if (difficulty === 1) {
+    return gameText.difficultyEasy;
+  }
+  else if (difficulty === 2) {
+    return gameText.difficultyMedium;
+  }
+  else if (difficulty === 3) {
+    return gameText.difficultyHard;
+  }
+  else {
+    return gameText.difficultyCustom;
+  }
+}
+
+/**
+ * Function to get user's device type
+ * @returns Device type enum: Device.MOBILE, Device.TABLET, Device.DESKTOP
+ */
+export function getDeviceType() {
+  if (isTablet || isIPad13) {
+    return Device.TABLET;
+  }
+  else if (isMobile || isIOS) {
+    return Device.MOBILE;
+  }
+  else {
+    return Device.DESKTOP;
+  }
+}

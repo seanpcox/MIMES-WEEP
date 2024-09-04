@@ -1,11 +1,12 @@
 import * as gameText from '../../resources/text/gameText';
+import * as settings from '../../logic/gameSettings.js';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
-import { isMobile } from 'react-device-detect';
+import { Device } from "../../models/index.js";
 import { useState, useEffect, Fragment } from 'react';
 
 /**
@@ -26,6 +27,8 @@ function HelpDialog(props) {
 
     const [open, setOpen] = useState(false);
 
+    const isNotDesktop = useState(settings.getDeviceType() != Device.DESKTOP);
+
 
     // LOCAL VARIABLES
 
@@ -33,7 +36,7 @@ function HelpDialog(props) {
     var flagControl = gameText.helpDialogControlsRClick;
     var flagControlSecondary = gameText.controlsLClickLC;
 
-    if (isMobile) {
+    if (isNotDesktop[0]) {
         revealControl = gameText.helpDialogControlsTap;
         flagControl = gameText.helpDialogControlsPress;
         flagControlSecondary = gameText.controlsTapLC;
@@ -104,7 +107,7 @@ function HelpDialog(props) {
                         <li>
                             {gameText.helpDialogTipsBullet3}
                         </li>
-                        {isMobile ?
+                        {isNotDesktop[0] ?
                             <li>
                                 {gameText.helpDialogTipsBullet4}
                             </li>
