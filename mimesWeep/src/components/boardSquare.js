@@ -68,6 +68,9 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
      * IOS device handler that allows us to distinguish between tap and long-press
      * IOS devices do not support long-press triggers like onContextMenu so we have to 
      * implement it ourselves
+     * 
+     * Note: Using this for Android as well, to ensure the long-press time is consistent across devices.
+     * This is to ensure high-scores are not easier to achieve on one device type vs another.
      */
     const contextMenuHandler = new IOSContextMenuHandler(
         () => {
@@ -243,6 +246,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
     // RENDER
 
     // Mobile or Tablet Square
+    // Touch events are IOS and Mouse events are Android
     if (isNotDesktop[0]) {
 
         // Flagged Square

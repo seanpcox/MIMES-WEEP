@@ -2,6 +2,9 @@
  * IOS devices (iPhones, iPads) do not support onContextMenu trigger components.
  * onContextMenu is trigged by a right-click on desktops or long-press on Android devices.
  * This code is a workaround that allows us to differentiate between a tap or a long-press on IOS devices.
+ * 
+ * Note: Using this for Android as well, to ensure the long-press time is consistent across devices.
+ * This is to ensure high-scores are not easier to achieve on one device type vs another.
  */
 
 // Number of milliseconds that represents a long-press
