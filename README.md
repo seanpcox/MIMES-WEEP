@@ -19,7 +19,7 @@
 ## Screenshots
 
 #### Mobile
-<img width="500" alt="Mobile Screenshot" src="mimesWeep/src/resources/images/mobileScreenshot.png">
+<img width="500" alt="Mobile Screenshot" src="mimesWeep/src/resources/images/mobileScreenshot.jpg">
 
 #### Desktop
 <img width="1103" alt="Desktop Screenshot" src="mimesWeep/src/resources/images/desktopScreenshot.png">
