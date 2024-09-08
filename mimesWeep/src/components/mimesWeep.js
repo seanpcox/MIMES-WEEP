@@ -1,5 +1,6 @@
 import '../style/mimesWeep.css';
 import * as commonSx from '../style/commonSx.js';
+import * as highScoreDB from '../logic/highScoreDB.js';
 import * as gameText from '../resources/text/gameText.js';
 import * as logic from '../logic/gameLogic.js';
 import * as settings from '../logic/gameSettings.js';
@@ -17,8 +18,7 @@ import Timer from './timer.js';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import { Box, Button } from '@mui/material';
-import { DataStore } from "@aws-amplify/datastore";
-import { Period, Todo } from "../models/index.js";
+import { Period } from "../models/index.js";
 import { useRef, useState } from 'react';
 
 /**
@@ -306,9 +306,7 @@ function MimesWeep() {
     };
 
     // Persist the store data
-    DataStore.save(
-      new Todo(scoreData)
-    );
+    highScoreDB.save(scoreData);
   }
 
 
@@ -328,6 +326,7 @@ function MimesWeep() {
   var width = gameSettings[1];
   var numOfMimes = gameSettings[2];
 
+  highScoreDB.getTopTenResults("Easy", Period.ALL);
 
   // COMPONENT
 
