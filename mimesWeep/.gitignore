@@ -11,9 +11,6 @@
 # production
 /build
 
-# config
-src/resources/config/datastore.js
-
 # misc
 **/.DS_Store
 .env.local
