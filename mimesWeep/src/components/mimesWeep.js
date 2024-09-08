@@ -1,6 +1,5 @@
 import '../style/mimesWeep.css';
 import * as commonSx from '../style/commonSx.js';
-import * as datastore from '../resources/config/datastore.js';
 import * as gameText from '../resources/text/gameText.js';
 import * as logic from '../logic/gameLogic.js';
 import * as settings from '../logic/gameSettings.js';
@@ -17,7 +16,6 @@ import Select from '@mui/material/Select';
 import Timer from './timer.js';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
-import { Amplify } from 'aws-amplify';
 import { Box, Button } from '@mui/material';
 import { DataStore } from "@aws-amplify/datastore";
 import { Period, Todo } from "../models/index.js";
@@ -28,11 +26,6 @@ import { useRef, useState } from 'react';
  */
 
 function MimesWeep() {
-
-  // SETUP DATASTORE
-
-  Amplify.configure(datastore.settings);
-
 
   // STATES
 
