@@ -1,12 +1,10 @@
-import { secret } from '@aws-amplify/backend';
-
 export const settings = {
     API: {
         GraphQL: {
-            endpoint: secret("endpoint"),
-            defaultAuthMode: secret("defaultAuthMode"),
-            apiKey: secret("apiKey"),
-            region: secret("region")
+            endpoint: 'https://fha5mz4fmvgf7gx5wu6tcs4x7y.appsync-api.us-east-1.amazonaws.com/graphql',
+            defaultAuthMode: 'apiKey',
+            apiKey: 'da2-sareqdfolbaxrm2hduryboysym',
+            region: 'us-east-1',
         }
     }
 };
