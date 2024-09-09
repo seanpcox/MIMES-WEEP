@@ -325,8 +325,10 @@ function MimesWeep() {
       datePeriod: Period.ALL
     };
 
-    // Persist the store data
-    highScoreDB.save(scoreData);
+    // Persist the high score data, unless we are playing a custom board
+    if (difficulty !== 4) {
+      highScoreDB.save(scoreData);
+    }
   }
 
   function getLevelString() {
@@ -424,6 +426,7 @@ function MimesWeep() {
         <Box sx={sx.btnSpacingWidth} />
         <Timer
           openHighScoreDialogCallback={openHighScoreDialogCallback}
+          difficulty={difficulty}
           ref={timerRef}
         />
         <Box sx={sx.btnSpacingWidth} />

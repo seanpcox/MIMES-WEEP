@@ -155,6 +155,7 @@ const Timer = forwardRef(function Timer(props, inputRef) {
             variant={commonSx.btnVariant}
             sx={commonSx.btnMedium}
             onClick={props.openHighScoreDialogCallback}
+            disabled={props.difficulty === 4}
             ref={ref}
         >
             {timerContent}
@@ -165,7 +166,8 @@ const Timer = forwardRef(function Timer(props, inputRef) {
 // PROP LIST
 
 Timer.propTypes = {
-    openHighScoreDialogCallback: PropTypes.func
+    openHighScoreDialogCallback: PropTypes.func,
+    difficulty: PropTypes.number
 }
 
 // EXPORT
