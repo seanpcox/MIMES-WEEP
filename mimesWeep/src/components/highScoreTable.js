@@ -11,21 +11,16 @@ import { Period } from "../models/index.js";
 import { styled } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
+const StyledTableCell = styled(TableCell)(() => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: "#282c34",
-        color: theme.palette.common.white,
-        fontSize: 12
-    },
-    [`&.${tableCellClasses.body}`]: {
-        fontSize: 12
-    },
+        color: "white"
+    }
 }));
 
-const StyledTableRow = styled(TableRow)(({ theme }) => ({
+const StyledTableRow = styled(TableRow)(() => ({
     '&:nth-of-type(even)': {
-        backgroundColor: "#e9e9e9",
-        color: theme.palette.common.white
+        backgroundColor: "#e9e9e9"
     },
     // hide last border
     '&:last-child td, &:last-child th': {

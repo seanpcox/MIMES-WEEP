@@ -61,7 +61,7 @@ export async function getTopResults(level, period, callback, resultLimit = 10) {
       if (i + 1 <= results.length) {
         rows.push(createData(i + 1, results[i].user, settings.getTimeElapsedString(results[i].time), convertEpochToString(results[i].date)));
       } else {
-        rows.push(createData(i + 1, "012345678", "", ""));
+        rows.push(createData(i + 1, "WWWWWWWWW", "", ""));
       }
     }
 
