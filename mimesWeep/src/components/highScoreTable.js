@@ -60,6 +60,7 @@ export default function HighScoreTable(props) {
                         <StyledTableCell>User</StyledTableCell>
                         <StyledTableCell>Time</StyledTableCell>
                         <StyledTableCell>Date</StyledTableCell>
+                        <StyledTableCell>Device</StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -71,6 +72,7 @@ export default function HighScoreTable(props) {
                             <StyledTableCell>{row.user}</StyledTableCell>
                             <StyledTableCell>{row.time}</StyledTableCell>
                             <StyledTableCell>{row.date}</StyledTableCell>
+                            <StyledTableCell>{row.device}</StyledTableCell>
                         </StyledTableRow>
                     ))}
                 </TableBody>

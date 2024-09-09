@@ -39,8 +39,8 @@ export async function save(scoreData) {
  */
 export async function getTopResults(level, period, callback, resultLimit = 10) {
 
-  function createData(position, user, time, date) {
-    return { position, user, time, date };
+  function createData(position, user, time, date, device) {
+    return { position, user, time, date, device };
   }
 
   await DataStore.query(
@@ -59,9 +59,9 @@ export async function getTopResults(level, period, callback, resultLimit = 10) {
     // Loop through every square on the board
     for (var i = 0; i < resultLimit; i++) {
       if (i + 1 <= results.length) {
-        rows.push(createData(i + 1, results[i].user, settings.getTimeElapsedString(results[i].time), convertEpochToString(results[i].date)));
+        rows.push(createData(i + 1, results[i].user, settings.getTimeElapsedString(results[i].time), convertEpochToString(results[i].date), results[i].deviceType[0].toUpperCase() + results[i].deviceType.slice(1)));
       } else {
-        rows.push(createData(i + 1, "WWWWWWWWWW", "", ""));
+        rows.push(createData(i + 1, "WWWWWWWWWW", "", "", ""));
       }
     }
 
