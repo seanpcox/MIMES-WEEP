@@ -45,6 +45,8 @@ function MimesWeep() {
 
   const timerRef = useRef(null);
 
+  const highScoreHighlightRow = useRef(-1);
+
 
   // LOCAL VARIABLES
 
@@ -54,8 +56,15 @@ function MimesWeep() {
 
   // CALLBACK METHODS
 
+  /**
+   * Function called when the user reveals the first square in a game
+   */
   function firstSquareRevealvedCallback() {
     timerRef.current.startTimer();
+  }
+
+  function setHighScoreHighlightRow(row) {
+    highScoreHighlightRow.current = row;
   }
 
   /**
@@ -325,9 +334,9 @@ function MimesWeep() {
       datePeriod: Period.ALL
     };
 
-    // Persist the high score data, unless we are playing a custom board
+    // Persist the high score data if applicable, unless we are playing a custom board
     if (difficulty !== 4) {
-      highScoreDB.save(scoreData);
+      highScoreDB.saveIfHighScore(scoreData, openHighScoreDialog, setHighScoreHighlightRow);
     }
   }
 
@@ -475,7 +484,9 @@ function MimesWeep() {
       <HelpDialog openHelpDialogCallback={openHelpDialogCallback} />
       <HighScoreDialog
         openHighScoreDialogCallback={openHighScoreDialogCallback}
+        setHighlightRowCallback={setHighScoreHighlightRow}
         subTitle={getLevelString()}
+        highlightRowNumber={highScoreHighlightRow}
       />
     </div>
   );

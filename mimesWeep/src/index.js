@@ -6,7 +6,7 @@ import React from 'react';
 import reportWebVitals from './reportWebVitals.js';
 
 // Setup and sync the data store
-highScoreDB.configure();
+highScoreDB.init();
 
 // Render parent component
 const root = ReactDOM.createRoot(document.getElementById('root'));

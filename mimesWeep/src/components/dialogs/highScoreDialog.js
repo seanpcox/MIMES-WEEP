@@ -16,7 +16,9 @@ import { useEffect, useState, Fragment } from 'react';
 
 HighScoreDialog.propTypes = {
     openHighScoreDialogCallback: PropTypes.func,
-    subTitle: PropTypes.string
+    setHighlightRowCallback: PropTypes.func,
+    subTitle: PropTypes.string,
+    highlightRowNumber: PropTypes.object
 }
 
 // COMPONENT
@@ -26,6 +28,7 @@ function HighScoreDialog(props) {
     // STATES
 
     const [open, setOpen] = useState(false);
+
 
     // EFFECTS
 
@@ -42,6 +45,7 @@ function HighScoreDialog(props) {
      */
     const handleClose = () => {
         setOpen(false);
+        props.setHighlightRowCallback(-1);
     };
 
     /**
@@ -64,7 +68,7 @@ function HighScoreDialog(props) {
                     {getTitle()}
                 </DialogTitle>
                 <DialogContent>
-                    <HighScoreTable level={props.subTitle} />
+                    <HighScoreTable level={props.subTitle} highlightRowNumber={props.highlightRowNumber.current} />
                 </DialogContent>
                 <DialogActions>
                     <Button

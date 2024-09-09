@@ -7,33 +7,37 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import PropTypes from 'prop-types';
+import { orange } from '@mui/material/colors';
 import { Period } from "../models/index.js";
 import { styled } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 
 // TABLE STYLES
 
-const StyledTableCell = styled(TableCell)(() => ({
+const StyledTableCell = styled(TableCell)(({theme}) => ({
+    // Set the table header colors
     [`&.${tableCellClasses.head}`]: {
-        backgroundColor: "#282c34",
+        backgroundColor: theme.palette.primary.dark,
         color: "white"
     }
 }));
 
 const StyledTableRow = styled(TableRow)(() => ({
+    // Alternate background color between rows
     '&:nth-of-type(even)': {
         backgroundColor: "#e9e9e9"
-    },
-    // hide last border
-    '&:last-child td, &:last-child th': {
-        border: 0
-    },
+    }
+}));
+
+const HighlightedTableRow = styled(TableRow)(() => ({
+    backgroundColor: orange[100]
 }));
 
 // PROP LIST
 
 HighScoreTable.propTypes = {
-    level: PropTypes.string
+    level: PropTypes.string,
+    highlightRowNumber: PropTypes.number
 }
 
 /**
@@ -56,7 +60,6 @@ export default function HighScoreTable(props) {
         highScoreDB.getTopResults(props.level, Period.ALL, setRows);
     }, []);
 
-
     // RENDER
 
     return (
@@ -72,17 +75,30 @@ export default function HighScoreTable(props) {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {rows.map((row) => (
-                        <StyledTableRow key={row.position}>
-                            <StyledTableCell component="th" scope="row">
-                                {row.position}
-                            </StyledTableCell>
-                            <StyledTableCell>{row.user}</StyledTableCell>
-                            <StyledTableCell>{row.time}</StyledTableCell>
-                            <StyledTableCell>{row.date}</StyledTableCell>
-                            <StyledTableCell>{row.device}</StyledTableCell>
-                        </StyledTableRow>
-                    ))}
+                    {rows.map((row) =>
+                        row.position !== props.highlightRowNumber ? (
+                            <StyledTableRow key={row.position}>
+                                <StyledTableCell component="th" scope="row">
+                                    {row.position}
+                                </StyledTableCell>
+                                <StyledTableCell>{row.user}</StyledTableCell>
+                                <StyledTableCell>{row.time}</StyledTableCell>
+                                <StyledTableCell>{row.date}</StyledTableCell>
+                                <StyledTableCell>{row.device}</StyledTableCell>
+                            </StyledTableRow>
+                        )
+                            : (
+                                <HighlightedTableRow key={row.position}>
+                                    <StyledTableCell component="th" scope="row">
+                                        {row.position}
+                                    </StyledTableCell>
+                                    <StyledTableCell>{row.user}</StyledTableCell>
+                                    <StyledTableCell>{row.time}</StyledTableCell>
+                                    <StyledTableCell>{row.date}</StyledTableCell>
+                                    <StyledTableCell>{row.device}</StyledTableCell>
+                                </HighlightedTableRow>
+                            )
+                    )}
                 </TableBody>
             </Table>
         </TableContainer>

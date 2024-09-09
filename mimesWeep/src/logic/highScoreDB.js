@@ -1,29 +1,80 @@
 import * as dsConfig from '../resources/config/datastore.js';
 import * as settings from '../logic/gameSettings.js';
 import { Amplify } from 'aws-amplify';
-import { DataStore, SortDirection } from "@aws-amplify/datastore";
+import { DataStore, Predicates, SortDirection } from "@aws-amplify/datastore";
 import { Todo } from "../models/index.js";
 
 /**
- * Function to setup datas tore
+ * Function to initialize the data store
  */
-export async function configure() {
+export async function init() {
   Amplify.configure(dsConfig.settings);
-  start();
+  DataStore.start()
+  DataStore.clear().then(() => {
+    DataStore.query(Todo, Predicates.ALL, { limit: 1 });
+  });
 }
 
 /**
- * Function to sync the data store
+ * Function to determine if the user's time lists in a high score position 
+ * and to persist the result and execute the callback if they do.
+ * @param {The user's score data} scoreData
+ * @param {Callback method to open the dialog if the user got a high score position} openDialogCallback
+ * @param {Callback method to set the highlighted row if the user got a high score position} setHighlightRowCallback
+ * @param {The max number of results to check} highScoreLimit
  */
-export async function start() {
-  await DataStore.start();
+export async function saveIfHighScore(scoreData, openDialogCallback, setHighlightRowCallback, highScoreLimit = 10) {
+  // Query the datastore for the top results
+  console.log(scoreData);
+
+  await DataStore.query(
+    Todo,
+    (hs) => hs.and(hs => [
+      // Apply the supplied level and period conditions
+      hs.level.eq(scoreData.level),
+      hs.datePeriod.eq(scoreData.datePeriod)
+    ]),
+    {
+      // Sort by shortest time first
+      sort: (s) => s.time(SortDirection.ASCENDING),
+      // Limit the results returned to the supplied amount
+      limit: highScoreLimit
+    }
+  )
+    // Executed once results have been retrieved 
+    .then((results) => {
+      console.log(results);
+
+      // If no results user is position 1, else assume the user did not place to start
+      var position = (results.length === 0) ? 1 : -1
+
+      // Loop through the results to see if the user time placed
+      for (var i = 0; i < results.length; i++) {
+        // Check if the user's time is better than each time in our high score list, fastest time first
+        console.log(scoreData.time, results[i].time);
+        if (scoreData.time < results[i].time) {
+          // High score positions start at 1
+          position = i + 1;
+          // If the user time has already placed we can break out of the loop
+          break;
+        }
+      }
+
+      // If the user placed then we execute the callback function
+      if (position > 0) {
+        save(scoreData);
+        setHighlightRowCallback(position);
+        openDialogCallback(true);
+      }
+
+    });
 }
 
 /**
  * Function to save the score data
  * @param {Score data for game} scoreData 
  */
-export async function save(scoreData) {
+async function save(scoreData) {
   // Persist the high score data
   await DataStore.save(
     new Todo(scoreData)
@@ -35,12 +86,12 @@ export async function save(scoreData) {
  * @param {Game difficulty level} level 
  * @param {Period: DAY, MONTH, ALL} period 
  * @param {Callback method to load the rows into} callback
- * @param {The max number of results to return} resultLimit
+ * @param {The max number of results to return} highScoreLimit
  */
-export async function getTopResults(level, period, callback, resultLimit = 10) {
+export async function getTopResults(level, period, callback, highScoreLimit = 10) {
 
   // Get the user's browser's preferred locale
-  const locale = (navigator && navigator.language) || "en";
+  const locale = (navigator && navigator.language) || "en-US";
 
   /**
    * Function to create a row of data
@@ -67,41 +118,41 @@ export async function getTopResults(level, period, callback, resultLimit = 10) {
       // Sort by shortest time first
       sort: (s) => s.time(SortDirection.ASCENDING),
       // Limit the results returned to the supplied amount
-      limit: resultLimit
+      limit: highScoreLimit
     }
   )
-  // Executed once results have been retrieved 
-  .then((results) => {
-    // Rows to supply to our callback function
-    var rows = [];
+    // Executed once results have been retrieved 
+    .then((results) => {
+      // Rows to supply to our callback function
+      var rows = [];
 
-    // Loop through to the result limit supplied
-    for (var i = 0; i < resultLimit; i++) {
-      // If we have data for the result position then use it
-      if (i + 1 <= results.length) {
-        rows.push(
-          createData(
-            // Result position starts at 1
-            i + 1, 
-            // User name
-            results[i].user,
-            // Time taken in minute and second format
-            settings.getTimeElapsedString(results[i].time),
-            // Date in localized format
-            convertEpochToString(results[i].date, locale), 
-            // Device type used with first letter capitalized
-            results[i].deviceType[0].toUpperCase() + results[i].deviceType.slice(1)
-          ));
-      } 
-      // Else create a row placeholder
-      else {
-        rows.push(createData(i + 1, "", "", "", ""));
+      // Loop through to the result limit supplied
+      for (var i = 0; i < highScoreLimit; i++) {
+        // If we have data for the result position then use it
+        if (i + 1 <= results.length) {
+          rows.push(
+            createData(
+              // Result position starts at 1
+              i + 1,
+              // User name
+              results[i].user,
+              // Time taken in minute and second format
+              settings.getTimeElapsedString(results[i].time),
+              // Date in localized format
+              convertEpochToString(results[i].date, locale),
+              // Device type used with first letter capitalized
+              results[i].deviceType[0].toUpperCase() + results[i].deviceType.slice(1)
+            ));
+        }
+        // Else create a row placeholder
+        else {
+          rows.push(createData(i + 1, "", "", "", ""));
+        }
       }
-    }
 
-    // Supply the rows to our callback function
-    callback(rows);
-  });
+      // Supply the rows to our callback function
+      callback(rows);
+    });
 }
 
 /**
@@ -110,7 +161,7 @@ export async function getTopResults(level, period, callback, resultLimit = 10) {
  * @param {User's locale string} [locale="en-US"]
  * @returns Localized date string
  */
-function convertEpochToString(timeEpochSeconds, locale="en-US") {
+function convertEpochToString(timeEpochSeconds, locale = "en-US") {
   // Date is expecting milliseconds so multiply seconds by 1000
   var date = new Date(timeEpochSeconds * 1000);
 
