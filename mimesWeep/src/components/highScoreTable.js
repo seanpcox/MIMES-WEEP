@@ -11,6 +11,8 @@ import { Period } from "../models/index.js";
 import { styled } from '@mui/material/styles';
 import { useEffect, useState } from 'react';
 
+// TABLE STYLES
+
 const StyledTableCell = styled(TableCell)(() => ({
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: "#282c34",
@@ -43,13 +45,19 @@ HighScoreTable.propTypes = {
 
 export default function HighScoreTable(props) {
 
+    // STATES
+
     const [rows, setRows] = useState([]);
+
 
     // EFFECTS
 
     useEffect(() => {
         highScoreDB.getTopResults(props.level, Period.ALL, setRows);
     }, []);
+
+
+    // RENDER
 
     return (
         <TableContainer component={Paper}>

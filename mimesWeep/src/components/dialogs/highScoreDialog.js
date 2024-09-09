@@ -79,4 +79,6 @@ function HighScoreDialog(props) {
 
 }
 
+// EXPORT
+
 export default HighScoreDialog;

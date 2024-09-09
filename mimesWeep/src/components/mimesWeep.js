@@ -331,6 +331,11 @@ function MimesWeep() {
     }
   }
 
+  /**
+   * Function to get a human readable difficulty level string including board size
+   * Includes board size as different devices have differing board sizes for the same difficulty level
+   * @returns Human readable difficulty level string
+   */
   function getLevelString() {
     return settings.getDifficultyString(difficulty) + " (" + height + "x" + width + ")"
   }
