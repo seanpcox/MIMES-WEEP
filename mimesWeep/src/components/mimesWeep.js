@@ -12,6 +12,7 @@ import FlagBadge from './flagBadge.js'
 import FormControl from '@mui/material/FormControl';
 import GameBoard from './gameBoard.js'
 import HelpDialog from './dialogs/helpDialog.js';
+import HighScoreDialog from './dialogs/highScoreDialog.js';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
 import Timer from './timer.js';
@@ -225,6 +226,25 @@ function MimesWeep() {
     }
   };
 
+  var openHighScoreDialog;
+
+  /**
+   * Function to display the high score dialog to the user
+   * @param {Either the child function or a command to display the help dialog} callbackParams 
+   */
+  const openHighScoreDialogCallback = (callbackParams) => {
+
+    // If an array we are getting the child callback function we need, store it
+    if (Array.isArray(callbackParams)) {
+      openHighScoreDialog = callbackParams[1];
+    }
+
+    // Else display the help dialog to the user
+    else {
+      openHighScoreDialog(true);
+    }
+  };
+
 
   // LOCAL METHODS
 
@@ -297,7 +317,7 @@ function MimesWeep() {
 
     // Create the score data
     const scoreData = {
-      level: settings.getDifficultyString(difficulty),
+      level: getLevelString(),
       deviceType: deviceType[0],
       time: timerRef.current.getTimeElapsedTimer(),
       user: "Unknown",
@@ -309,6 +329,9 @@ function MimesWeep() {
     highScoreDB.save(scoreData);
   }
 
+  function getLevelString() {
+    return settings.getDifficultyString(difficulty) + " (" + height + "x" + width + ")"
+  }
 
   // LOGIC
 
@@ -325,8 +348,6 @@ function MimesWeep() {
   var height = gameSettings[0];
   var width = gameSettings[1];
   var numOfMimes = gameSettings[2];
-
-  highScoreDB.getTopTenResults("Easy", Period.ALL);
 
   // COMPONENT
 
@@ -401,7 +422,10 @@ function MimesWeep() {
           </FormControl>
         </Tooltip>
         <Box sx={sx.btnSpacingWidth} />
-        <Timer ref={timerRef} />
+        <Timer
+          openHighScoreDialogCallback={openHighScoreDialogCallback}
+          ref={timerRef}
+        />
         <Box sx={sx.btnSpacingWidth} />
         <FlagBadge
           numOfMimes={numOfMimes}
@@ -441,6 +465,10 @@ function MimesWeep() {
         startCustomGameCallback={startCustomGameCallback}
       />
       <HelpDialog openHelpDialogCallback={openHelpDialogCallback} />
+      <HighScoreDialog
+        openHighScoreDialogCallback={openHighScoreDialogCallback}
+        subTitle={getLevelString()}
+      />
     </div>
   );
 }

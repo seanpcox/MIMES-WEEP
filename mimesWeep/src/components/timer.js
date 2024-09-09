@@ -1,6 +1,8 @@
 import * as commonSx from '../style/commonSx.js';
 import * as gameText from '../resources/text/gameText.js';
+import * as settings from '../logic/gameSettings.js';
 import * as sx from '../style/timerSx.js';
+import PropTypes from 'prop-types';
 import Tooltip from '@mui/material/Tooltip';
 import { Button } from '@mui/material';
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
@@ -108,28 +110,6 @@ const Timer = forwardRef(function Timer(props, inputRef) {
     }
 
     /**
-     * Funtion to get the time elapsed in human readable minutes and seconds
-     * @returns Time elapsed string
-     */
-    function getTimeElapsedString() {
-
-        // Convert time elapsed from millseconds into seconds
-        let timeElapsedSeconds = timeElapsed / 1000;
-
-        // Calculate how many minutes, floored to the nearest integer, have elapsed
-        let minutes = Math.floor(timeElapsedSeconds / 60);
-
-        // Calculate how many seconds, floored to the nearest integer, have elapsed
-        let seconds = Math.floor(timeElapsedSeconds % 60);
-
-        // Create the human readable minutes and seconds elapsed string
-        let secondsString = (seconds < 10) ? "0" + seconds : seconds;
-
-        // Return the human readable string
-        return minutes + ":" + secondsString;
-    }
-
-    /**
      * Function to update the time elapsed variables
      * @returns Exit if timer stopped
      */
@@ -160,7 +140,7 @@ const Timer = forwardRef(function Timer(props, inputRef) {
     }
     // Else if we have started counting then display the current elapsed time
     else {
-        timerContent = getTimeElapsedString();
+        timerContent = settings.getTimeElapsedString(timeElapsed);
     }
 
 
@@ -174,12 +154,19 @@ const Timer = forwardRef(function Timer(props, inputRef) {
         <Button
             variant={commonSx.btnVariant}
             sx={commonSx.btnMedium}
+            onClick={props.openHighScoreDialogCallback}
             ref={ref}
         >
             {timerContent}
         </Button>
     </Tooltip>;
 });
+
+// PROP LIST
+
+Timer.propTypes = {
+    openHighScoreDialogCallback: PropTypes.func
+}
 
 // EXPORT
 

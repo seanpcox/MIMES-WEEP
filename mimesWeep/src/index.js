@@ -1,13 +1,12 @@
 import './style/index.css';
-import * as datastore from './resources/config/datastore.js';
+import * as highScoreDB from './logic/highScoreDB.js';
 import MimesWeep from './components/mimesWeep.js';
 import ReactDOM from 'react-dom/client';
 import React from 'react';
 import reportWebVitals from './reportWebVitals.js';
-import { Amplify } from 'aws-amplify';
 
-// Setup datastore
-Amplify.configure(datastore.settings);
+// Setup and sync the data store
+highScoreDB.configure();
 
 // Render parent component
 const root = ReactDOM.createRoot(document.getElementById('root'));

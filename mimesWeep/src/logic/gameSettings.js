@@ -154,3 +154,25 @@ export function getDeviceType() {
     return Device.DESKTOP;
   }
 }
+
+/**
+ * Funtion to get the time elapsed in human readable minutes and seconds
+ * @returns Time elapsed string
+ */
+export function getTimeElapsedString(timeElapsedMs) {
+
+  // Convert time elapsed from millseconds into seconds
+  let timeElapsedSeconds = timeElapsedMs / 1000;
+
+  // Calculate how many minutes, floored to the nearest integer, have elapsed
+  let minutes = Math.floor(timeElapsedSeconds / 60);
+
+  // Calculate how many seconds, floored to the nearest integer, have elapsed
+  let seconds = Math.floor(timeElapsedSeconds % 60);
+
+  // Create the human readable minutes and seconds elapsed string
+  let secondsString = (seconds < 10) ? "0" + seconds : seconds;
+
+  // Return the human readable string
+  return minutes + ":" + secondsString;
+}
