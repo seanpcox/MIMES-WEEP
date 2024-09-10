@@ -8,10 +8,16 @@ import { Todo } from "../models/index.js";
  * Function to initialize the data store
  */
 export async function init() {
+  // Configure the data store with our settings
   Amplify.configure(dsConfig.settings);
-  DataStore.start()
-  DataStore.clear().then(() => {
-    DataStore.query(Todo, Predicates.ALL, { limit: 1 });
+  // Start the data store
+  await DataStore.start().then(() => {
+    // Clear the local data store
+    DataStore.clear().then(() => {
+      // Perform a query, first query always returns nothing (seems to be stanard for Amplify data store)
+      // So perform it on startup so user related queries will work
+      DataStore.query(Todo, Predicates.ALL, { limit: 1 });
+    })
   });
 }
 
