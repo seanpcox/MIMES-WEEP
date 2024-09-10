@@ -101,3 +101,7 @@ export const hsTableTime = "Time";
 export const hsTableDate = "Date";
 
 export const hsTableDevice = "Device";
+
+export const hsDialogInputLabel = "Enter Username to Save";
+
+export const hsDialogErrorLabel = "Enter 1-10 Characters";

@@ -1,5 +1,7 @@
 import * as gameText from '../../resources/text/gameText';
 import * as highScoreDB from '../../logic/highScoreDB';
+import * as settings from '../../logic/gameSettings.js';
+import * as sx from '../../style/highScoreDialogSx.js'
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
@@ -107,7 +109,7 @@ function HighScoreDialog(props) {
                 highScoreDB.updateUsername(tableRef.current.getSelectedRowID(), username);
 
                 // Save the provided username in local storage so we can display it by default next time
-                localStorage.setItem("mimesweepUser", username);
+                localStorage.setItem(settings.usernameLocalStorageKey, username);
             }
         }
         // If invalid warn user and return
@@ -150,26 +152,29 @@ function HighScoreDialog(props) {
 
         // Label input is updated if an invalid username is entered
         if (isError) {
-            inputLabel = "Enter 1-10 Characters"
+            inputLabel = gameText.hsDialogErrorLabel;
         } else {
-            inputLabel = "Enter Username to Save";
+            inputLabel = gameText.hsDialogInputLabel;
         }
+
+        // Retrieve the username last used on this device, if any, from local storage
+        var defaultUsername = localStorage.getItem(settings.usernameLocalStorageKey);
 
         dialogContent =
             <DialogContent>
-                <Box sx={{ height: 8 }} />
-                <FormControl error={isError} sx={{ width: '100%' }}>
+                <Box sx={sx.spacingTopHeight} />
+                <FormControl error={isError} sx={sx.inputAreaWidth}>
                     <InputLabel htmlFor="username">{inputLabel}</InputLabel>
                     <OutlinedInput
                         autoFocus
                         id="username"
                         name="username"
-                        defaultValue={localStorage.getItem("mimesweepUser")}
+                        defaultValue={defaultUsername}
                         label={inputLabel}
-                        sx={{ maxHeight: 55 }}
+                        sx={sx.inputAreaHeight}
                     />
                 </FormControl>
-                <Box sx={{ height: 20 }} />
+                <Box sx={sx.spacingBottomHeight} />
                 {highScoreTable}
             </DialogContent>
 
@@ -191,7 +196,7 @@ function HighScoreDialog(props) {
     else {
         dialogContent =
             <DialogContent>
-                <Box sx={{ height: 10 }} />
+                <Box sx={sx.spacingTopHeight} />
                 {highScoreTable}
             </DialogContent>
 

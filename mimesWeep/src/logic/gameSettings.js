@@ -186,3 +186,5 @@ export function getTimeElapsedString(timeElapsedMs, alwaysShowMinutes = true) {
     return seconds.toString();
   }
 }
+
+export const usernameLocalStorageKey = "mimesweepUser";
