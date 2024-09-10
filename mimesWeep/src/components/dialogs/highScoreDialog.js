@@ -119,11 +119,71 @@ function HighScoreDialog(props) {
 
     // RENDER
 
+    var dialogContent;
+
+    var dialogActions;
+
+    var highScoreTable =
+        <HighScoreTable
+            ref={tableRef}
+            level={props.subTitle}
+            highlightRowNumber={props.highlightRowNumber.current}
+        />;
+
+    if (props.highlightRowNumber.current >= 0) {
+        dialogContent =
+            <DialogContent>
+                <Box sx={{ height: 5 }} />
+                <FormControl sx={{ width: '100%' }}>
+                    <InputLabel htmlFor="username">Supply Username to Save</InputLabel>
+                    <OutlinedInput
+                        autoFocus
+                        id="username"
+                        name="username"
+                        defaultValue=""
+                        label="Supply a Username to Save"
+                        sx={{ maxHeight: 55 }}
+                    />
+                </FormControl>
+                <Box sx={{ height: 20 }} />
+                {highScoreTable}
+            </DialogContent>
+
+        dialogActions =
+            <DialogActions>
+                <Button
+                    onClick={handleCancel}
+                >
+                    {gameText.cancelButtonText}
+                </Button>
+                <Button
+                    type="submit"
+                >
+                    {gameText.saveButtonText}
+                </Button>
+            </DialogActions>;
+    } else {
+        dialogContent =
+            <DialogContent>
+                <Box sx={{ height: 10 }} />
+                {highScoreTable}
+            </DialogContent>
+
+        dialogActions =
+            <DialogActions>
+                <Button
+                    onClick={handleCancel}
+                >
+                    {gameText.okButtonText}
+                </Button>
+            </DialogActions>;
+    }
+
     return (
         <Fragment>
             <Dialog
                 open={open}
-                onClose={handleCancel}
+                onClose={props.highlightRowNumber.current >= 0 ? handleCancel : handleClose}
                 PaperProps={{
                     component: 'form',
                     onSubmit: onSubmit
@@ -132,38 +192,8 @@ function HighScoreDialog(props) {
                 <DialogTitle>
                     {getTitle()}
                 </DialogTitle>
-                <DialogContent>
-                    <Box sx={{ height: 5 }} />
-                    <FormControl sx={{ width: '100%' }}>
-                        <InputLabel htmlFor="username">Supply Username to Save</InputLabel>
-                        <OutlinedInput
-                            autoFocus
-                            id="username"
-                            name="username"
-                            defaultValue=""
-                            label="Supply a Username to Save"
-                            sx={{ maxHeight: 55 }}
-                        />
-                    </FormControl>
-                    <Box sx={{ height: 20 }} />
-                    <HighScoreTable
-                        ref={tableRef}
-                        level={props.subTitle}
-                        highlightRowNumber={props.highlightRowNumber.current}
-                    />
-                </DialogContent>
-                <DialogActions>
-                    <Button
-                        onClick={handleCancel}
-                    >
-                        {gameText.cancelButtonText}
-                    </Button>
-                    <Button
-                        type="submit"
-                    >
-                        {gameText.saveButtonText}
-                    </Button>
-                </DialogActions>
+                {dialogContent}
+                {dialogActions}
             </Dialog>
         </Fragment>
     );
