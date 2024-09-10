@@ -106,6 +106,7 @@ function HighScoreDialog(props) {
             if (id !== -1) {
                 highScoreDB.updateUsername(tableRef.current.getSelectedRowID(), username);
 
+                // Save the provided username in local storage so we can display it by default next time
                 localStorage.setItem("mimesweepUser", username);
             }
         }

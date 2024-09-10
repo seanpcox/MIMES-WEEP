@@ -136,7 +136,7 @@ export async function getTopResults(level, period, callback, highScoreLimit = 10
           // Convert the time milliseconds into a string
           var timeString = results[i].time.toString();
           // Get the time string in human readable format in minutes (if applicable) and seconds
-          var timeHRString = settings.getTimeElapsedString(results[i].time);
+          var timeHRString = settings.getTimeElapsedString(results[i].time, false);
 
           // If we have a time whose seconds match the last time add the first decimal of millseconds
           if (lastTime && Math.round(lastTime / 1000) === Math.round(results[i].time / 1000)) {
