@@ -33,6 +33,8 @@ function HighScoreDialog(props) {
 
     const [open, setOpen] = useState(false);
 
+    const [isError, setError] = useState(false);
+
 
     // REFS
 
@@ -57,6 +59,8 @@ function HighScoreDialog(props) {
         props.setHighlightRowCallback(-1);
         // Close the dialog
         setOpen(false);
+        // Reset the error state for the next launch
+        setError(false);
     };
 
     /**
@@ -92,6 +96,9 @@ function HighScoreDialog(props) {
 
         // Check the username is valid
         if (username && username.length > 0 && username.length <= 10) {
+            // If the username is valid set error to false
+            setError(false);
+
             // Get the data store id of the new high score row
             var id = tableRef.current.getSelectedRowID();
 
@@ -102,6 +109,9 @@ function HighScoreDialog(props) {
         }
         // If invalid warn user and return
         else {
+            // If the username is valid set error to true
+            setError(true);
+            // Return for further input
             return;
         }
 
@@ -123,6 +133,7 @@ function HighScoreDialog(props) {
 
     var dialogActions;
 
+    // High score table is the same whether just viewing the table or saving a high score
     var highScoreTable =
         <HighScoreTable
             ref={tableRef}
@@ -130,18 +141,28 @@ function HighScoreDialog(props) {
             highlightRowNumber={props.highlightRowNumber.current}
         />;
 
+    // If we are saving a high score
     if (props.highlightRowNumber.current >= 0) {
+        var inputLabel;
+
+        // Label input is updated if an invalid username is entered
+        if (isError) {
+            inputLabel = "Enter 1-10 Characters"
+        } else {
+            inputLabel = "Supply Username to Save";
+        }
+
         dialogContent =
             <DialogContent>
                 <Box sx={{ height: 5 }} />
-                <FormControl sx={{ width: '100%' }}>
-                    <InputLabel htmlFor="username">Supply Username to Save</InputLabel>
+                <FormControl error={isError} sx={{ width: '100%' }}>
+                    <InputLabel htmlFor="username">{inputLabel}</InputLabel>
                     <OutlinedInput
                         autoFocus
                         id="username"
                         name="username"
                         defaultValue=""
-                        label="Supply a Username to Save"
+                        label={inputLabel}
                         sx={{ maxHeight: 55 }}
                     />
                 </FormControl>
@@ -162,7 +183,9 @@ function HighScoreDialog(props) {
                     {gameText.saveButtonText}
                 </Button>
             </DialogActions>;
-    } else {
+    } 
+    // Else if we are just viewing high scores
+    else {
         dialogContent =
             <DialogContent>
                 <Box sx={{ height: 10 }} />
