@@ -86,21 +86,7 @@ async function save(scoreData) {
 export async function getTopResults(level, period, callback, highScoreLimit = settings.highScorePositions) {
 
   // Get the user's browser's preferred locale
-  const locale = (navigator && navigator.language) || "en-US";
-
-  /**
-   * Function to create a row of data
-   * @param {Function to create} position
-   * @param {Username of player} user
-   * @param {Human readable time taken string} time
-   * @param {Date game was completed} date
-   * @param {Type of device game was played on} device
-   * @param {Time taken in milliseconds} timeMs
-   * @returns Row for table display
-   */
-  function createData(position, user, time, date, device, id, timeMs) {
-    return { position, user, time, date, device, id, timeMs };
-  }
+  const locale = settings.getLocale();
 
   // We return one extra result to use for delete purposes (if required)
   // We will delete this result and all those whose time is greater than it
@@ -121,53 +107,30 @@ export async function getTopResults(level, period, callback, highScoreLimit = se
       for (var i = 0; i < highScoreLimit; i++) {
         // If we have data for the result position then use it
         if (i + 1 <= results.length) {
-          // Convert the time milliseconds into a string
-          var timeString = results[i].time.toString();
-          // Get the time string in human readable format in minutes (if applicable) and seconds
-          var timeHRString = settings.getTimeElapsedString(results[i].time, false);
-
-          // If we have a time whose seconds match the last time add the first decimal of millseconds
-          if (lastTime && Math.floor(lastTime / 1000) === Math.floor(results[i].time / 1000)) {
-            timeHRString = timeHRString + "." + timeString[timeString.length - 3];
-          }
-
-          // If the times still match add the second decimal of millseconds
-          if (lastTime && Math.floor(lastTime / 100) === Math.floor(results[i].time / 100)) {
-            timeHRString = timeHRString + timeString[timeString.length - 2];
-          }
-
-          // If the times still match add the third decimal of millseconds
-          if (lastTime && Math.floor(lastTime / 10) === Math.floor(results[i].time / 10)) {
-            timeHRString = timeHRString + timeString[timeString.length - 1];
-          }
+          // Add the data to the row array
+          rows.push(
+            settings.createDataRow(
+              // Result position starts at 1
+              i + 1,
+              results[i].user,
+              results[i].time,
+              results[i].date,
+              results[i].deviceType,
+              locale,
+              lastTime,
+              results[i].id)
+          );
 
           // Record this time to use to test for a match with the next result
           lastTime = results[i].time;
-
-          // Add the data to the row array
-          rows.push(
-            createData(
-              // Result position starts at 1
-              i + 1,
-              // User name
-              results[i].user,
-              // Time taken in minutes (if applicable) and seconds string format
-              timeHRString,
-              // Date in localized format
-              convertEpochToString(results[i].date, locale),
-              // Device type used with first letter capitalized
-              results[i].deviceType[0].toUpperCase() + results[i].deviceType.slice(1),
-              // The database id
-              results[i].id,
-              // Time taken in millisecond format
-              results[i].time
-            ));
         }
         // Else create an empty row placeholder
         else {
-          rows.push(createData(i + 1));
+          rows.push(settings.createData(i + 1));
         }
       }
+
+      rows.push(settings.getPersonalBestDataRow(level));
 
       // Supply the rows to our callback function
       callback(rows);
@@ -197,29 +160,6 @@ function getTopResultsQuery(level, period, highScoreLimit) {
       limit: highScoreLimit
     }
   );
-}
-
-/**
- * Function to create our epoch, in seconds, to a localized data string
- * @param {Date in epoch seconds} timeEpochSeconds 
- * @param {User's locale string} [locale="en-US"]
- * @returns Localized date string
- */
-function convertEpochToString(timeEpochSeconds, locale = "en-US") {
-  // Date is expecting milliseconds so multiply seconds by 1000
-  var date = new Date(timeEpochSeconds * 1000);
-
-  // Format for our date string, using user's browser locale
-  // eslint-disable-next-line no-undef
-  let formattedDate = new Intl.DateTimeFormat(locale, {
-    year: "2-digit",
-    month: "2-digit",
-    day: "2-digit",
-    hour12: false
-  }).format(date);
-
-  // Return the date string
-  return formattedDate;
 }
 
 /**

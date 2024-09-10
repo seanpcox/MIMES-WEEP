@@ -15,6 +15,10 @@ export const StyledTableRow = styled(TableRow)(() => ({
     // Alternate background color between rows
     '&:nth-of-type(even)': {
         backgroundColor: "#e9e9e9"
+    },
+    // No border for last row
+    '&:last-child td, &:last-child th': {
+        border: 0
     }
 }));
 

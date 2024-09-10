@@ -123,7 +123,7 @@ function HighScoreDialog(props) {
                 }
 
                 // Save the provided username in local storage so we can display it by default next time
-                localStorage.setItem(settings.usernameLocalStorageKey, username);
+                localStorage.setItem(settings.usernameLSKey, username);
             }
         }
         // If invalid warn user and return
@@ -212,7 +212,7 @@ function HighScoreDialog(props) {
         }
 
         // Retrieve the username last used on this device, if any, from local storage
-        var defaultUsername = localStorage.getItem(settings.usernameLocalStorageKey);
+        var defaultUsername = localStorage.getItem(settings.usernameLSKey);
 
         dialogContent =
             <DialogContent>

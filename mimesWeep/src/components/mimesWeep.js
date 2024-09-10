@@ -334,6 +334,10 @@ function MimesWeep() {
 
     // Persist the high score data if applicable, unless we are playing a custom board
     if (difficulty !== 4) {
+      // Save to local storage if a personal best
+      settings.updatePersonalBestTime(scoreData);
+
+      // Save to the database if a high score
       highScoreDB.saveIfHighScore(scoreData, openHighScoreDialog, setHighScoreHighlightRow);
     }
   }

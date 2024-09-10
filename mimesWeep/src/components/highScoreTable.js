@@ -56,9 +56,9 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
                 }
             },
             getReplacedHighScoreTimeMs() {
-                // Get the last row of our high score data, this is the extra row we don't display
+                // Get the second last row of our high score data, this is the extra row we don't display
                 // And the row that the new high score will replace if the user chooses to save it
-                let extraRow = rowsLocal[rowsLocal.length - 1];
+                let extraRow = rowsLocal[rowsLocal.length - 2];
 
                 // If the extra row has a valid time, that is not an empty row, return it
                 if (!isNaN(extraRow.timeMs)) {
@@ -103,8 +103,8 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
                 </TableHead>
                 <TableBody>
                     {rows.map((row) =>
-                        // Do not display the last row, we include an extra row for delete purposes in our query results
-                        row.position === rows.length ? null :
+                        // Do not display the second last row, we include an extra row for delete purposes in our query results
+                        row.position === rows.length - 1 ? null :
                             // Check if row is the highlighted one we want to save and style accordingly
                             row.position !== props.highlightRowNumber ?
                                 (
