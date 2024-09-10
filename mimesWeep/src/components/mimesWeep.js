@@ -483,7 +483,7 @@ function MimesWeep() {
       <HighScoreDialog
         openHighScoreDialogCallback={openHighScoreDialogCallback}
         setHighlightRowCallback={setHighScoreHighlightRow}
-        subTitle={getLevelString()}
+        level={getLevelString()}
         highlightRowNumber={highScoreHighlightRow}
       />
     </div>

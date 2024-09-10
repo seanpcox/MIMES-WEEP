@@ -13,6 +13,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import PropTypes from 'prop-types';
 import { Box, Button } from '@mui/material';
 import { Fragment, useEffect, useRef, useState } from 'react';
+import { Period } from "../../models/index.js";
 
 /**
  * Dialog to display the high scores of the current board level displayed
@@ -23,7 +24,7 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 HighScoreDialog.propTypes = {
     openHighScoreDialogCallback: PropTypes.func,
     setHighlightRowCallback: PropTypes.func,
-    subTitle: PropTypes.string,
+    level: PropTypes.string,
     highlightRowNumber: PropTypes.object
 }
 
@@ -105,8 +106,21 @@ function HighScoreDialog(props) {
             var id = tableRef.current.getSelectedRowID();
 
             // If we have a valid data store id then update the new high score with the new username
+            // And delete scores that we no longer need in the database
             if (id !== -1) {
-                highScoreDB.updateUsername(tableRef.current.getSelectedRowID(), username);
+                // Update the username on the newly saved high score row
+                highScoreDB.updateUsername(id, username);
+
+                // Retrieve the time that the new high score puts outside of our high score list
+                var replacedHighScoreTime = tableRef.current.getReplacedHighScoreTimeMs();
+
+                // If we get a valid time returned then delete all times greater than it from the database
+                // Note: We delete all times greater, and not greater or equal to, as we may have a tie
+                // for last high score place (which is decided by date) and don't wish to accidently delete
+                // a tied high score place.
+                if (replacedHighScoreTime !== -1) {
+                    highScoreDB.deleteScoresGreaterThanTime(replacedHighScoreTime, props.level, Period.ALL);
+                }
 
                 // Save the provided username in local storage so we can display it by default next time
                 localStorage.setItem(settings.usernameLocalStorageKey, username);
@@ -129,7 +143,7 @@ function HighScoreDialog(props) {
      * @returns Title for high score dialog
      */
     function getTitle() {
-        return gameText.highScoreDialogTitle + " - " + props.subTitle;
+        return gameText.highScoreDialogTitle + " - " + props.level;
     }
 
     // RENDER
@@ -142,7 +156,7 @@ function HighScoreDialog(props) {
     var highScoreTable =
         <HighScoreTable
             ref={tableRef}
-            level={props.subTitle}
+            level={props.level}
             highlightRowNumber={props.highlightRowNumber.current}
         />;
 

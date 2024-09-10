@@ -33,6 +33,7 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
     // EFFECTS
 
     useEffect(() => {
+        // We retrieve the top results, plus one extra one that is used for delete purposes if needed
         highScoreDB.getTopResults(props.level, Period.ALL, setRowsCallback);
     }, []);
 
@@ -48,6 +49,20 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
                 // Check the highlighted row is valid and return it's data store id
                 if (props.highlightRowNumber >= 0 && props.highlightRowNumber <= rowsLocal.length) {
                     return rowsLocal[props.highlightRowNumber - 1].id;
+                }
+                // Else return error condition
+                else {
+                    return -1;
+                }
+            },
+            getReplacedHighScoreTimeMs() {
+                // Get the last row of our high score data, this is the extra row we don't display
+                // And the row that the new high score will replace if the user chooses to save it
+                let extraRow = rowsLocal[rowsLocal.length - 1];
+
+                // If the extra row has a valid time, that is not an empty row, return it
+                if (!isNaN(extraRow.timeMs)) {
+                    return extraRow.timeMs;
                 }
                 // Else return error condition
                 else {
@@ -88,28 +103,33 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
                 </TableHead>
                 <TableBody>
                     {rows.map((row) =>
-                        row.position !== props.highlightRowNumber ? (
-                            <sx.StyledTableRow key={row.position}>
-                                <sx.StyledTableCell component="th" scope="row">
-                                    {row.position}
-                                </sx.StyledTableCell>
-                                <sx.StyledTableCell>{row.user}</sx.StyledTableCell>
-                                <sx.StyledTableCell align="right">{row.time}</sx.StyledTableCell>
-                                <sx.StyledTableCell>{row.date}</sx.StyledTableCell>
-                                <sx.StyledTableCell>{row.device}</sx.StyledTableCell>
-                            </sx.StyledTableRow>
-                        )
-                            : (
-                                <sx.HighlightedTableRow key={row.position}>
-                                    <sx.StyledTableCell component="th" scope="row">
-                                        {row.position}
-                                    </sx.StyledTableCell>
-                                    <sx.StyledTableCell>{row.user}</sx.StyledTableCell>
-                                    <sx.StyledTableCell align={sx.timeColumnDataAlign}>{row.time}</sx.StyledTableCell>
-                                    <sx.StyledTableCell>{row.date}</sx.StyledTableCell>
-                                    <sx.StyledTableCell>{row.device}</sx.StyledTableCell>
-                                </sx.HighlightedTableRow>
-                            )
+                        // Do not display the last row, we include an extra row for delete purposes in our query results
+                        row.position === rows.length ? null :
+                            // Check if row is the highlighted one we want to save and style accordingly
+                            row.position !== props.highlightRowNumber ?
+                                (
+                                    <sx.StyledTableRow key={row.position}>
+                                        <sx.StyledTableCell component="th" scope="row">
+                                            {row.position}
+                                        </sx.StyledTableCell>
+                                        <sx.StyledTableCell>{row.user}</sx.StyledTableCell>
+                                        <sx.StyledTableCell align="right">{row.time}</sx.StyledTableCell>
+                                        <sx.StyledTableCell>{row.date}</sx.StyledTableCell>
+                                        <sx.StyledTableCell>{row.device}</sx.StyledTableCell>
+                                    </sx.StyledTableRow>
+                                )
+                                // Else apply the default style to the row
+                                : (
+                                    <sx.HighlightedTableRow key={row.position}>
+                                        <sx.StyledTableCell component="th" scope="row">
+                                            {row.position}
+                                        </sx.StyledTableCell>
+                                        <sx.StyledTableCell>{row.user}</sx.StyledTableCell>
+                                        <sx.StyledTableCell align={sx.timeColumnDataAlign}>{row.time}</sx.StyledTableCell>
+                                        <sx.StyledTableCell>{row.date}</sx.StyledTableCell>
+                                        <sx.StyledTableCell>{row.device}</sx.StyledTableCell>
+                                    </sx.HighlightedTableRow>
+                                )
                     )}
                 </TableBody>
             </Table>

@@ -23,22 +23,9 @@ export async function init() {
  * @param {Callback method to set the highlighted row if the user got a high score position} setHighlightRowCallback
  * @param {The max number of results to check} highScoreLimit
  */
-export async function saveIfHighScore(scoreData, openDialogCallback, setHighlightRowCallback, highScoreLimit = 10) {
+export async function saveIfHighScore(scoreData, openDialogCallback, setHighlightRowCallback, highScoreLimit = settings.highScorePositions) {
   // Query the datastore for the top results
-  await DataStore.query(
-    Todo,
-    (hs) => hs.and(hs => [
-      // Apply the supplied level and period conditions
-      hs.level.eq(scoreData.level),
-      hs.datePeriod.eq(scoreData.datePeriod)
-    ]),
-    {
-      // Sort by shortest time first, followed by oldest date first (which will break any ties)
-      sort: (s) => s.time(SortDirection.ASCENDING).date(SortDirection.ASCENDING),
-      // Limit the results returned to the supplied amount
-      limit: highScoreLimit
-    }
-  )
+  await getTopResultsQuery(scoreData.level, scoreData.datePeriod, highScoreLimit)
     // Executed once results have been retrieved 
     .then((results) => {
       // If no results user is position 1, else assume the user did not place to start
@@ -83,45 +70,40 @@ async function save(scoreData) {
 }
 
 /**
- * Function to get the top ten results from the DB and format them into rows for table display
- * @param {Game difficulty level} level 
- * @param {Period: DAY, MONTH, ALL} period 
+ * Function to get the top n+1 results from the DB and format them into rows for table display
+ * Note: Only n results are display and the extra one is used for delete purposes (if required)
+ * @param {Game difficulty level} level
+ * @param {Period: DAY, MONTH, ALL} period
  * @param {Callback method to load the rows into} callback
  * @param {The max number of results to return} highScoreLimit
  */
-export async function getTopResults(level, period, callback, highScoreLimit = 10) {
+export async function getTopResults(level, period, callback, highScoreLimit = settings.highScorePositions) {
 
   // Get the user's browser's preferred locale
   const locale = (navigator && navigator.language) || "en-US";
 
   /**
    * Function to create a row of data
-   * @param {Function to create} position 
-   * @param {Username of player} user 
-   * @param {Time taken to complete the game} time 
-   * @param {Date game was completed} date 
-   * @param {Type of device game was played on} device 
+   * @param {Function to create} position
+   * @param {Username of player} user
+   * @param {Human readable time taken string} time
+   * @param {Date game was completed} date
+   * @param {Type of device game was played on} device
+   * @param {Time taken in milliseconds} timeMs
    * @returns Row for table display
    */
-  function createData(position, user, time, date, device, id) {
-    return { position, user, time, date, device, id };
+  function createData(position, user, time, date, device, id, timeMs) {
+    return { position, user, time, date, device, id, timeMs };
   }
 
+  // We return one extra result to use for delete purposes (if required)
+  // We will delete this result and all those whose time is greater than it
+  // if the user chooses to save a new top result.
+  // This is to keep the DB free of un-needed data.
+  highScoreLimit = highScoreLimit + 1;
+
   // Query the datastore for the top results
-  await DataStore.query(
-    Todo,
-    (hs) => hs.and(hs => [
-      // Apply the supplied level and period conditions
-      hs.level.eq(level),
-      hs.datePeriod.eq(period)
-    ]),
-    {
-      // Sort by shortest time first, followed by oldest date first (which will break any ties)
-      sort: (s) => s.time(SortDirection.ASCENDING).date(SortDirection.ASCENDING),
-      // Limit the results returned to the supplied amount
-      limit: highScoreLimit
-    }
-  )
+  await getTopResultsQuery(level, period, highScoreLimit)
     // Executed once results have been retrieved 
     .then((results) => {
       // Rows to supply to our callback function
@@ -133,24 +115,23 @@ export async function getTopResults(level, period, callback, highScoreLimit = 10
       for (var i = 0; i < highScoreLimit; i++) {
         // If we have data for the result position then use it
         if (i + 1 <= results.length) {
-          console.log(results[i].date);
           // Convert the time milliseconds into a string
           var timeString = results[i].time.toString();
           // Get the time string in human readable format in minutes (if applicable) and seconds
           var timeHRString = settings.getTimeElapsedString(results[i].time, false);
 
           // If we have a time whose seconds match the last time add the first decimal of millseconds
-          if (lastTime && Math.round(lastTime / 1000) === Math.round(results[i].time / 1000)) {
+          if (lastTime && Math.floor(lastTime / 1000) === Math.floor(results[i].time / 1000)) {
             timeHRString = timeHRString + "." + timeString[timeString.length - 3];
           }
 
           // If the times still match add the second decimal of millseconds
-          if (lastTime && Math.round(lastTime / 100) === Math.round(results[i].time / 100)) {
+          if (lastTime && Math.floor(lastTime / 100) === Math.floor(results[i].time / 100)) {
             timeHRString = timeHRString + timeString[timeString.length - 2];
           }
 
           // If the times still match add the third decimal of millseconds
-          if (lastTime && Math.round(lastTime / 10) === Math.round(results[i].time / 10)) {
+          if (lastTime && Math.floor(lastTime / 10) === Math.floor(results[i].time / 10)) {
             timeHRString = timeHRString + timeString[timeString.length - 1];
           }
 
@@ -164,25 +145,52 @@ export async function getTopResults(level, period, callback, highScoreLimit = 10
               i + 1,
               // User name
               results[i].user,
-              // Time taken in minute (if applicable) and second format
+              // Time taken in minutes (if applicable) and seconds string format
               timeHRString,
               // Date in localized format
               convertEpochToString(results[i].date, locale),
               // Device type used with first letter capitalized
               results[i].deviceType[0].toUpperCase() + results[i].deviceType.slice(1),
               // The database id
-              results[i].id
+              results[i].id,
+              // Time taken in millisecond format
+              results[i].time
             ));
         }
-        // Else create a row placeholder
+        // Else create an empty row placeholder
         else {
-          rows.push(createData(i + 1, "", "", "", ""));
+          rows.push(createData(i + 1));
         }
       }
 
       // Supply the rows to our callback function
       callback(rows);
     });
+}
+
+/**
+ * Function that returns a datastore query to get the top results for the
+ * specified difficulty level and win period.
+ * @param {Difficulty level string} level
+ * @param {Win period enum} period
+ * @param {Number of results} highScoreLimit
+ * @returns Datastore query
+ */
+function getTopResultsQuery(level, period, highScoreLimit) {
+  return DataStore.query(
+    Todo,
+    (hs) => hs.and(hs => [
+      // Apply the supplied level and period conditions
+      hs.level.eq(level),
+      hs.datePeriod.eq(period)
+    ]),
+    {
+      // Sort by shortest time first, followed by oldest date first (which will break any ties)
+      sort: (s) => s.time(SortDirection.ASCENDING).date(SortDirection.ASCENDING),
+      // Limit the results returned to the supplied amount
+      limit: highScoreLimit
+    }
+  );
 }
 
 /**
@@ -231,4 +239,21 @@ export async function updateUsername(id, username) {
  */
 export async function deleteScore(id) {
   await DataStore.delete(Todo, id);
+}
+
+/**
+ * Function to delete all entries greater than the supplied time for the
+ * specified difficulty level and win period.
+ * @param {Time in milliseconds} time
+ * @param {Difficulty level string} level
+ * @param {Win period enum} period
+ */
+export async function deleteScoresGreaterThanTime(time, level, period) {
+  await DataStore.delete(Todo,
+    (hs) => hs.and(hs => [
+      // Apply the supplied time, level, and period conditions
+      hs.time.gt(time),
+      hs.level.eq(level),
+      hs.datePeriod.eq(period)
+    ]));
 }
