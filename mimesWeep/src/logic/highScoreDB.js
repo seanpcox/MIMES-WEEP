@@ -248,7 +248,7 @@ export async function deleteScore(id) {
  * @param {Difficulty level string} level
  * @param {Win period enum} period
  */
-export async function deleteScoresGreaterThanTime(time, level, period) {
+export async function deleteDeprecatedScores(time, level, period) {
   await DataStore.delete(Todo,
     (hs) => hs.and(hs => [
       // Apply the supplied time, level, and period conditions

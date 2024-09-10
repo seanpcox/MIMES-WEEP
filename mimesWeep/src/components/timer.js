@@ -82,7 +82,7 @@ const Timer = forwardRef(function Timer(props, inputRef) {
     function start() {
         timerRunning = true;
         startTime = Date.now();
-        setTimeElapsed(0);
+        setNewTimeElapsed(0);
     }
 
     /**
@@ -97,7 +97,7 @@ const Timer = forwardRef(function Timer(props, inputRef) {
      */
     function reset() {
         stop();
-        setTimeElapsed(0);
+        setNewTimeElapsed(0);
     }
 
     /**
@@ -107,6 +107,17 @@ const Timer = forwardRef(function Timer(props, inputRef) {
      */
     function getTimeElapsed() {
         return timeElapsedLocal;
+    }
+
+    /**
+     * Function to set the new time elapsed on both the local and state time elapsed variables
+     */
+    function setNewTimeElapsed(newTimeElapsed) {
+        // Update our local variable time, which can be queried by external components
+        timeElapsedLocal = newTimeElapsed;
+
+        // Update our state variable time
+        setTimeElapsed(newTimeElapsed);
     }
 
     /**
@@ -121,11 +132,8 @@ const Timer = forwardRef(function Timer(props, inputRef) {
         // Calculate the time elapsed in ms by subtraing the start time from the current time
         let newTimeElapsed = Date.now() - startTime;
 
-        // Update our state variable used in this component
-        setTimeElapsed(newTimeElapsed);
-
-        // Update our local variable which can be queried by external components
-        timeElapsedLocal = newTimeElapsed;
+        // Set the new time elapsed
+        setNewTimeElapsed(newTimeElapsed);
     }
 
 

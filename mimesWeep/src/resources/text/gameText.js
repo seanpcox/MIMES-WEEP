@@ -104,4 +104,6 @@ export const hsTableDevice = "Device";
 
 export const hsDialogInputLabel = "Enter Username to Save";
 
-export const hsDialogErrorLabel = "Enter 1-10 Characters";
+export const hsDialogFormatErrorLabel = "Enter 1-10 Characters";
+
+export const hsDialogExcludedWordErrorLabel = "Enter Non Excluded Word";

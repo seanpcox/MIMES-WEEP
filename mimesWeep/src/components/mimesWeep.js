@@ -45,7 +45,7 @@ function MimesWeep() {
 
   const timerRef = useRef(null);
 
-  const highScoreHighlightRow = useRef(-1);
+  const highScoreHighlightRowRef = useRef(-1);
 
 
   // LOCAL VARIABLES
@@ -64,7 +64,7 @@ function MimesWeep() {
   }
 
   function setHighScoreHighlightRow(row) {
-    highScoreHighlightRow.current = row;
+    highScoreHighlightRowRef.current = row;
   }
 
   /**
@@ -327,7 +327,7 @@ function MimesWeep() {
       level: getLevelString(),
       deviceType: deviceType[0],
       time: timerRef.current.getTimeElapsedTimer(),
-      user: "Unknown",
+      user: settings.unknownUser,
       date: Math.round(Date.now() / 1000),
       datePeriod: Period.ALL
     };
@@ -484,7 +484,7 @@ function MimesWeep() {
         openHighScoreDialogCallback={openHighScoreDialogCallback}
         setHighlightRowCallback={setHighScoreHighlightRow}
         level={getLevelString()}
-        highlightRowNumber={highScoreHighlightRow}
+        highlightRowNumberRef={highScoreHighlightRowRef}
       />
     </div>
   );

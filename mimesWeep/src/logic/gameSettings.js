@@ -187,6 +187,8 @@ export function getTimeElapsedString(timeElapsedMs, alwaysShowMinutes = true) {
   }
 }
 
+export const unknownUser = "Unknown";
+
 export const usernameLocalStorageKey = "mimesweepUser";
 
 export const highScorePositions = 10;

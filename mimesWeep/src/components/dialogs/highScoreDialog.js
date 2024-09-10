@@ -25,7 +25,7 @@ HighScoreDialog.propTypes = {
     openHighScoreDialogCallback: PropTypes.func,
     setHighlightRowCallback: PropTypes.func,
     level: PropTypes.string,
-    highlightRowNumber: PropTypes.object
+    highlightRowNumberRef: PropTypes.object
 }
 
 // COMPONENT
@@ -36,7 +36,7 @@ function HighScoreDialog(props) {
 
     const [open, setOpen] = useState(false);
 
-    const [isError, setError] = useState(false);
+    const [isError, setError] = useState(0);
 
 
     // REFS
@@ -63,7 +63,7 @@ function HighScoreDialog(props) {
         // Close the dialog
         setOpen(false);
         // Reset the error state for the next launch
-        setError(false);
+        setError(0);
     };
 
     /**
@@ -97,10 +97,10 @@ function HighScoreDialog(props) {
         // Get the entered username
         const username = formJson.username;
 
-        // Check the username is valid
-        if (username && username.length > 0 && username.length <= 10) {
+        // Check the username is valid format and not an excluded word
+        if (isUsernameFormatValid(username) && isUsernameNonExcludedWord(username)) {
             // If the username is valid set error to false
-            setError(false);
+            setError(0);
 
             // Get the data store id of the new high score row
             var id = tableRef.current.getSelectedRowID();
@@ -119,7 +119,7 @@ function HighScoreDialog(props) {
                 // for last high score place (which is decided by date) and don't wish to accidently delete
                 // a tied high score place.
                 if (replacedHighScoreTime !== -1) {
-                    highScoreDB.deleteScoresGreaterThanTime(replacedHighScoreTime, props.level, Period.ALL);
+                    highScoreDB.deleteDeprecatedScores(replacedHighScoreTime, props.level, Period.ALL);
                 }
 
                 // Save the provided username in local storage so we can display it by default next time
@@ -128,8 +128,15 @@ function HighScoreDialog(props) {
         }
         // If invalid warn user and return
         else {
-            // If the username is valid set error to true
-            setError(true);
+            // If the username is a excluded word then set that error code
+            if (!isUsernameNonExcludedWord(username)) {
+                setError(2);
+            }
+            // Else the username format must be invalid so set that error code
+            else {
+                setError(1);
+            }
+
             // Return for further input
             return;
         }
@@ -139,12 +146,39 @@ function HighScoreDialog(props) {
     }
 
     /**
+     * Function to determine if the HS Dialog is for saving or viewing High Scores
+     * @returns True if HS Save Dialog, False if High Score View Dialog
+     */
+    function isHighScoreSaveDialog() {
+        // If we have a highlighted row it means we are asking the user to save a high score
+        return props.highlightRowNumberRef.current >= 0;
+    }
+
+    /**
+     * Function to determine if the supplied username is in a valid format
+     * @param {String} username
+     */
+    function isUsernameFormatValid(username) {
+        return username && username.length > 0 && username.length <= 10;
+    }
+
+    /**
+    * Function to determine if the supplied username is an excluded word
+    * @param {String} username
+    */
+    function isUsernameNonExcludedWord(username) {
+        return username && username.length > 0 &&
+            username.toLowerCase() !== settings.unknownUser.toLowerCase();
+    }
+
+    /**
      * Create and return the title for the high score dialog
      * @returns Title for high score dialog
      */
     function getTitle() {
         return gameText.highScoreDialogTitle + " - " + props.level;
     }
+
 
     // RENDER
 
@@ -157,17 +191,23 @@ function HighScoreDialog(props) {
         <HighScoreTable
             ref={tableRef}
             level={props.level}
-            highlightRowNumber={props.highlightRowNumber.current}
+            highlightRowNumber={props.highlightRowNumberRef.current}
         />;
 
     // If we are saving a high score
-    if (props.highlightRowNumber.current >= 0) {
+    if (isHighScoreSaveDialog()) {
         var inputLabel;
 
-        // Label input is updated if an invalid username is entered
-        if (isError) {
-            inputLabel = gameText.hsDialogErrorLabel;
-        } else {
+        // Label input is updated if an invalid format username is entered
+        if (isError === 1) {
+            inputLabel = gameText.hsDialogFormatErrorLabel;
+        }
+        // Label input is updated if an excluded word username is entered
+        else if (isError === 2) {
+            inputLabel = gameText.hsDialogExcludedWordErrorLabel;
+        }
+        // Else input label is set to the default instructions
+        else {
             inputLabel = gameText.hsDialogInputLabel;
         }
 
@@ -177,7 +217,7 @@ function HighScoreDialog(props) {
         dialogContent =
             <DialogContent>
                 <Box sx={sx.spacingTopHeight} />
-                <FormControl error={isError} sx={sx.inputAreaWidth}>
+                <FormControl error={isError !== 0} sx={sx.inputAreaWidth}>
                     <InputLabel htmlFor="username">{inputLabel}</InputLabel>
                     <OutlinedInput
                         autoFocus
@@ -228,7 +268,7 @@ function HighScoreDialog(props) {
         <Fragment>
             <Dialog
                 open={open}
-                onClose={props.highlightRowNumber.current >= 0 ? handleCancel : handleClose}
+                onClose={isHighScoreSaveDialog() ? handleCancel : handleClose}
                 PaperProps={{
                     component: 'form',
                     onSubmit: onSubmit
