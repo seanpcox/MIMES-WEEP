@@ -90,4 +90,14 @@ export const altWhiteMime = "White Mime";
 
 export const tooltipTimeElapsed = "Time elapsed / High scores";
 
-export const highScoreDialogTitle = "High Scores"
+export const highScoreDialogTitle = "High Scores";
+
+export const hsTablePosition = "#";
+
+export const hsTableUsername = "Username";
+
+export const hsTableTime = "Time";
+
+export const hsTableDate = "Date";
+
+export const hsTableDevice = "Device";

@@ -1,41 +1,19 @@
+import * as gameText from '../resources/text/gameText.js';
 import * as highScoreDB from '../logic/highScoreDB.js';
+import * as sx from '../style/highScoreTableSx.js'
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
-import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import PropTypes from 'prop-types';
-import { orange } from '@mui/material/colors';
 import { Period } from "../models/index.js";
-import { styled } from '@mui/material/styles';
 import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 
 /**
  * Component table showing high scores for different difficulty levels
  */
-
-// STYLES
-
-const StyledTableCell = styled(TableCell)(({ theme }) => ({
-    // Set the table header colors
-    [`&.${tableCellClasses.head}`]: {
-        backgroundColor: theme.palette.primary.dark,
-        color: "white"
-    }
-}));
-
-const StyledTableRow = styled(TableRow)(() => ({
-    // Alternate background color between rows
-    '&:nth-of-type(even)': {
-        backgroundColor: "#e9e9e9"
-    }
-}));
-
-const HighlightedTableRow = styled(TableRow)(() => ({
-    backgroundColor: orange[100]
-}));
 
 // COMPONENT
 
@@ -98,39 +76,39 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
 
     return (
         <TableContainer component={Paper}>
-            <Table size="small">
+            <Table size={sx.tableSize}>
                 <TableHead>
                     <TableRow>
-                        <StyledTableCell>#</StyledTableCell>
-                        <StyledTableCell>Username</StyledTableCell>
-                        <StyledTableCell>Time</StyledTableCell>
-                        <StyledTableCell>Date</StyledTableCell>
-                        <StyledTableCell>Device</StyledTableCell>
+                        <sx.StyledTableCell>{gameText.hsTablePosition}</sx.StyledTableCell>
+                        <sx.StyledTableCell>{gameText.hsTableUsername}</sx.StyledTableCell>
+                        <sx.StyledTableCell>{gameText.hsTableTime}</sx.StyledTableCell>
+                        <sx.StyledTableCell>{gameText.hsTableDate}</sx.StyledTableCell>
+                        <sx.StyledTableCell>{gameText.hsTableDevice}</sx.StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {rows.map((row) =>
                         row.position !== props.highlightRowNumber ? (
-                            <StyledTableRow key={row.position}>
-                                <StyledTableCell component="th" scope="row">
+                            <sx.StyledTableRow key={row.position}>
+                                <sx.StyledTableCell component="th" scope="row">
                                     {row.position}
-                                </StyledTableCell>
-                                <StyledTableCell>{row.user}</StyledTableCell>
-                                <StyledTableCell align="right">{row.time}</StyledTableCell>
-                                <StyledTableCell>{row.date}</StyledTableCell>
-                                <StyledTableCell>{row.device}</StyledTableCell>
-                            </StyledTableRow>
+                                </sx.StyledTableCell>
+                                <sx.StyledTableCell>{row.user}</sx.StyledTableCell>
+                                <sx.StyledTableCell align="right">{row.time}</sx.StyledTableCell>
+                                <sx.StyledTableCell>{row.date}</sx.StyledTableCell>
+                                <sx.StyledTableCell>{row.device}</sx.StyledTableCell>
+                            </sx.StyledTableRow>
                         )
                             : (
-                                <HighlightedTableRow key={row.position}>
-                                    <StyledTableCell component="th" scope="row">
+                                <sx.HighlightedTableRow key={row.position}>
+                                    <sx.StyledTableCell component="th" scope="row">
                                         {row.position}
-                                    </StyledTableCell>
-                                    <StyledTableCell>{row.user}</StyledTableCell>
-                                    <StyledTableCell align="right">{row.time}</StyledTableCell>
-                                    <StyledTableCell>{row.date}</StyledTableCell>
-                                    <StyledTableCell>{row.device}</StyledTableCell>
-                                </HighlightedTableRow>
+                                    </sx.StyledTableCell>
+                                    <sx.StyledTableCell>{row.user}</sx.StyledTableCell>
+                                    <sx.StyledTableCell align={sx.timeColumnDataAlign}>{row.time}</sx.StyledTableCell>
+                                    <sx.StyledTableCell>{row.date}</sx.StyledTableCell>
+                                    <sx.StyledTableCell>{row.device}</sx.StyledTableCell>
+                                </sx.HighlightedTableRow>
                             )
                     )}
                 </TableBody>
