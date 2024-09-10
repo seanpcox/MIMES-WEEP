@@ -33,8 +33,8 @@ export async function saveIfHighScore(scoreData, openDialogCallback, setHighligh
       hs.datePeriod.eq(scoreData.datePeriod)
     ]),
     {
-      // Sort by shortest time first
-      sort: (s) => s.time(SortDirection.ASCENDING),
+      // Sort by shortest time first, followed by oldest date first (which will break any ties)
+      sort: (s) => s.time(SortDirection.ASCENDING).date(SortDirection.ASCENDING),
       // Limit the results returned to the supplied amount
       limit: highScoreLimit
     }
@@ -116,8 +116,8 @@ export async function getTopResults(level, period, callback, highScoreLimit = 10
       hs.datePeriod.eq(period)
     ]),
     {
-      // Sort by shortest time first
-      sort: (s) => s.time(SortDirection.ASCENDING),
+      // Sort by shortest time first, followed by oldest date first (which will break any ties)
+      sort: (s) => s.time(SortDirection.ASCENDING).date(SortDirection.ASCENDING),
       // Limit the results returned to the supplied amount
       limit: highScoreLimit
     }
@@ -133,6 +133,7 @@ export async function getTopResults(level, period, callback, highScoreLimit = 10
       for (var i = 0; i < highScoreLimit; i++) {
         // If we have data for the result position then use it
         if (i + 1 <= results.length) {
+          console.log(results[i].date);
           // Convert the time milliseconds into a string
           var timeString = results[i].time.toString();
           // Get the time string in human readable format in minutes (if applicable) and seconds
