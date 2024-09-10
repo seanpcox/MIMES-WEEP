@@ -116,7 +116,7 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
                                     {row.position}
                                 </StyledTableCell>
                                 <StyledTableCell>{row.user}</StyledTableCell>
-                                <StyledTableCell>{row.time}</StyledTableCell>
+                                <StyledTableCell align="right">{row.time}</StyledTableCell>
                                 <StyledTableCell>{row.date}</StyledTableCell>
                                 <StyledTableCell>{row.device}</StyledTableCell>
                             </StyledTableRow>
@@ -127,7 +127,7 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
                                         {row.position}
                                     </StyledTableCell>
                                     <StyledTableCell>{row.user}</StyledTableCell>
-                                    <StyledTableCell>{row.time}</StyledTableCell>
+                                    <StyledTableCell align="right">{row.time}</StyledTableCell>
                                     <StyledTableCell>{row.date}</StyledTableCell>
                                     <StyledTableCell>{row.device}</StyledTableCell>
                                 </HighlightedTableRow>

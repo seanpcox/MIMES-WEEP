@@ -156,7 +156,7 @@ export function getDeviceType() {
 }
 
 /**
- * Funtion to get the time elapsed in human readable minutes and seconds
+ * Funtion to get the time elapsed in human readable minutes (if applicable) and seconds
  * @returns Time elapsed string
  */
 export function getTimeElapsedString(timeElapsedMs) {
@@ -170,9 +170,17 @@ export function getTimeElapsedString(timeElapsedMs) {
   // Calculate how many seconds, floored to the nearest integer, have elapsed
   let seconds = Math.floor(timeElapsedSeconds % 60);
 
-  // Create the human readable minutes and seconds elapsed string
-  let secondsString = (seconds < 10) ? "0" + seconds : seconds;
+  // If we have minutes return a minutes and seconds format
+  if (minutes > 0) {
+    // Create the human readable minutes and seconds elapsed string
+    let secondsString = (seconds < 10) ? "0" + seconds : seconds;
 
-  // Return the human readable string
-  return minutes + ":" + secondsString;
+    // Return the human readable string
+    return minutes + ":" + secondsString;
+  }
+  // Else return just a seconds format
+  else {
+    // Return the human readable string
+    return seconds.toString();
+  }
 }

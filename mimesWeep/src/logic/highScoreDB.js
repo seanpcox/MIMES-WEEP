@@ -127,18 +127,44 @@ export async function getTopResults(level, period, callback, highScoreLimit = 10
       // Rows to supply to our callback function
       var rows = [];
 
+      var lastTime;
+
       // Loop through to the result limit supplied
       for (var i = 0; i < highScoreLimit; i++) {
         // If we have data for the result position then use it
         if (i + 1 <= results.length) {
+          // Convert the time milliseconds into a string
+          var timeString = results[i].time.toString();
+          // Get the time string in human readable format in minutes (if applicable) and seconds
+          var timeHRString = settings.getTimeElapsedString(results[i].time);
+
+          // If we have a time whose seconds match the last time add the first decimal of millseconds
+          if (lastTime && Math.round(lastTime / 1000) === Math.round(results[i].time / 1000)) {
+            timeHRString = timeHRString + "." + timeString[timeString.length - 3];
+          }
+
+          // If the times still match add the second decimal of millseconds
+          if (lastTime && Math.round(lastTime / 100) === Math.round(results[i].time / 100)) {
+            timeHRString = timeHRString + timeString[timeString.length - 2];
+          }
+
+          // If the times still match add the third decimal of millseconds
+          if (lastTime && Math.round(lastTime / 10) === Math.round(results[i].time / 10)) {
+            timeHRString = timeHRString + timeString[timeString.length - 1];
+          }
+
+          // Record this time to use to test for a match with the next result
+          lastTime = results[i].time;
+
+          // Add the data to the row array
           rows.push(
             createData(
               // Result position starts at 1
               i + 1,
               // User name
               results[i].user,
-              // Time taken in minute and second format
-              settings.getTimeElapsedString(results[i].time),
+              // Time taken in minute (if applicable) and second format
+              timeHRString,
               // Date in localized format
               convertEpochToString(results[i].date, locale),
               // Device type used with first letter capitalized
