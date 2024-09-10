@@ -322,8 +322,6 @@ function MimesWeep() {
   */
   function persistScore() {
 
-    console.log("Timer", timerRef.current.getTimeElapsedTimer());
-
     // Create the score data
     const scoreData = {
       level: getLevelString(),

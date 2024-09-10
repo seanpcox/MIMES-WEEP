@@ -24,6 +24,8 @@ export const cancelButtonText = "Cancel";
 
 export const createButtonText = "Create";
 
+export const saveButtonText = "Save";
+
 export const okButtonText = "OK";
 
 export const loseMessage = "Sorry, you have lost.";

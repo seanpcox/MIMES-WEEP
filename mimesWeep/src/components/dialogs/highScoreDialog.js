@@ -1,12 +1,16 @@
 import * as gameText from '../../resources/text/gameText';
+import * as highScoreDB from '../../logic/highScoreDB';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
+import InputLabel from '@mui/material/InputLabel';
+import FormControl from '@mui/material/FormControl';
 import HighScoreTable from '../highScoreTable';
+import OutlinedInput from '@mui/material/OutlinedInput';
 import PropTypes from 'prop-types';
-import { Button } from '@mui/material';
-import { useEffect, useState, Fragment } from 'react';
+import { Box, Button } from '@mui/material';
+import { Fragment, useEffect, useRef, useState } from 'react';
 
 /**
  * Dialog to display the high scores of the current board level displayed
@@ -30,6 +34,11 @@ function HighScoreDialog(props) {
     const [open, setOpen] = useState(false);
 
 
+    // REFS
+
+    const tableRef = useRef(null);
+
+
     // EFFECTS
 
     // Effect to open the high score dialog
@@ -44,9 +53,61 @@ function HighScoreDialog(props) {
      * Function to close the high score dialog
      */
     const handleClose = () => {
-        setOpen(false);
+        // Reset the highlighted row to none for next launch
         props.setHighlightRowCallback(-1);
+        // Close the dialog
+        setOpen(false);
     };
+
+    /**
+     * Function to execute if save high score is cancelled
+     */
+    function handleCancel() {
+        // Get the data store id of the new high score row
+        var id = tableRef.current.getSelectedRowID();
+
+        // If we have a valid data store id then delete the new high score
+        if (id !== -1) {
+            highScoreDB.deleteScore(tableRef.current.getSelectedRowID());
+        }
+
+        // Close the dialog
+        handleClose();
+    }
+
+    /**
+     * Function to validate and parse user input data on form submit
+     * @param {Form submit event} event
+     */
+    function onSubmit(event) {
+        // This prevents the entire page from reloading on submit
+        event.preventDefault();
+
+        // Retrieve the user game parameters for height, width, and number of mimes
+        const formData = new FormData(event.currentTarget);
+        const formJson = Object.fromEntries(formData.entries());
+
+        // Get the entered username
+        const username = formJson.username;
+
+        // Check the username is valid
+        if (username && username.length > 0 && username.length <= 10) {
+            // Get the data store id of the new high score row
+            var id = tableRef.current.getSelectedRowID();
+
+            // If we have a valid data store id then update the new high score with the new username
+            if (id !== -1) {
+                highScoreDB.updateUsername(tableRef.current.getSelectedRowID(), username);
+            }
+        }
+        // If invalid warn user and return
+        else {
+            return;
+        }
+
+        // Close the dialog
+        handleClose();
+    }
 
     /**
      * Create and return the title for the high score dialog
@@ -62,19 +123,45 @@ function HighScoreDialog(props) {
         <Fragment>
             <Dialog
                 open={open}
-                onClose={handleClose}
+                onClose={handleCancel}
+                PaperProps={{
+                    component: 'form',
+                    onSubmit: onSubmit
+                }}
             >
                 <DialogTitle>
                     {getTitle()}
                 </DialogTitle>
                 <DialogContent>
-                    <HighScoreTable level={props.subTitle} highlightRowNumber={props.highlightRowNumber.current} />
+                    <Box sx={{ height: 5 }} />
+                    <FormControl sx={{ width: '100%' }}>
+                        <InputLabel htmlFor="username">Supply Username to Save</InputLabel>
+                        <OutlinedInput
+                            autoFocus
+                            id="username"
+                            name="username"
+                            defaultValue=""
+                            label="Supply a Username to Save"
+                            sx={{ maxHeight: 55 }}
+                        />
+                    </FormControl>
+                    <Box sx={{ height: 20 }} />
+                    <HighScoreTable
+                        ref={tableRef}
+                        level={props.subTitle}
+                        highlightRowNumber={props.highlightRowNumber.current}
+                    />
                 </DialogContent>
                 <DialogActions>
                     <Button
-                        onClick={handleClose}
+                        onClick={handleCancel}
                     >
-                        {gameText.okButtonText}
+                        {gameText.cancelButtonText}
+                    </Button>
+                    <Button
+                        type="submit"
+                    >
+                        {gameText.saveButtonText}
                     </Button>
                 </DialogActions>
             </Dialog>

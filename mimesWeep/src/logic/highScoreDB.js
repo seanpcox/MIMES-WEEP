@@ -25,8 +25,6 @@ export async function init() {
  */
 export async function saveIfHighScore(scoreData, openDialogCallback, setHighlightRowCallback, highScoreLimit = 10) {
   // Query the datastore for the top results
-  console.log(scoreData);
-
   await DataStore.query(
     Todo,
     (hs) => hs.and(hs => [
@@ -43,21 +41,24 @@ export async function saveIfHighScore(scoreData, openDialogCallback, setHighligh
   )
     // Executed once results have been retrieved 
     .then((results) => {
-      console.log(results);
-
       // If no results user is position 1, else assume the user did not place to start
       var position = (results.length === 0) ? 1 : -1
 
       // Loop through the results to see if the user time placed
       for (var i = 0; i < results.length; i++) {
         // Check if the user's time is better than each time in our high score list, fastest time first
-        console.log(scoreData.time, results[i].time);
         if (scoreData.time < results[i].time) {
           // High score positions start at 1
           position = i + 1;
           // If the user time has already placed we can break out of the loop
           break;
         }
+      }
+
+      // If we did not find a position but there are not enough results to fill our limit
+      // then we have a high score at the next available spot.
+      if (position <= 0 && results.length < highScoreLimit) {
+        position = results.length + 1;
       }
 
       // If the user placed then we execute the callback function
@@ -102,8 +103,8 @@ export async function getTopResults(level, period, callback, highScoreLimit = 10
    * @param {Type of device game was played on} device 
    * @returns Row for table display
    */
-  function createData(position, user, time, date, device) {
-    return { position, user, time, date, device };
+  function createData(position, user, time, date, device, id) {
+    return { position, user, time, date, device, id };
   }
 
   // Query the datastore for the top results
@@ -141,7 +142,9 @@ export async function getTopResults(level, period, callback, highScoreLimit = 10
               // Date in localized format
               convertEpochToString(results[i].date, locale),
               // Device type used with first letter capitalized
-              results[i].deviceType[0].toUpperCase() + results[i].deviceType.slice(1)
+              results[i].deviceType[0].toUpperCase() + results[i].deviceType.slice(1),
+              // The database id
+              results[i].id
             ));
         }
         // Else create a row placeholder
@@ -166,6 +169,7 @@ function convertEpochToString(timeEpochSeconds, locale = "en-US") {
   var date = new Date(timeEpochSeconds * 1000);
 
   // Format for our date string, using user's browser locale
+  // eslint-disable-next-line no-undef
   let formattedDate = new Intl.DateTimeFormat(locale, {
     year: "2-digit",
     month: "2-digit",
@@ -175,4 +179,29 @@ function convertEpochToString(timeEpochSeconds, locale = "en-US") {
 
   // Return the date string
   return formattedDate;
+}
+
+/**
+ * Function to update the username of a high score entry
+ * @param {ID of the original entry} id
+ * @param {Username to update} username
+ */
+export async function updateUsername(id, username) {
+  const original = await DataStore.query(Todo, id);
+
+  if (original) {
+    await DataStore.save(
+      Todo.copyOf(original, updated => {
+        updated.user = username
+      })
+    );
+  }
+}
+
+/**
+ * Function to delete a high score entry
+ * @param {ID of the entry} id
+ */
+export async function deleteScore(id) {
+  await DataStore.delete(Todo, id);
 }

@@ -10,11 +10,15 @@ import PropTypes from 'prop-types';
 import { orange } from '@mui/material/colors';
 import { Period } from "../models/index.js";
 import { styled } from '@mui/material/styles';
-import { useEffect, useState } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 
-// TABLE STYLES
+/**
+ * Component table showing high scores for different difficulty levels
+ */
 
-const StyledTableCell = styled(TableCell)(({theme}) => ({
+// STYLES
+
+const StyledTableCell = styled(TableCell)(({ theme }) => ({
     // Set the table header colors
     [`&.${tableCellClasses.head}`]: {
         backgroundColor: theme.palette.primary.dark,
@@ -33,32 +37,62 @@ const HighlightedTableRow = styled(TableRow)(() => ({
     backgroundColor: orange[100]
 }));
 
-// PROP LIST
-
-HighScoreTable.propTypes = {
-    level: PropTypes.string,
-    highlightRowNumber: PropTypes.number
-}
-
-/**
- * Component table showing high scores for different difficulty levels
- */
-
-
 // COMPONENT
 
-export default function HighScoreTable(props) {
+const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
 
     // STATES
 
     const [rows, setRows] = useState([]);
 
 
+    // LOCAL VARIABLES
+
+    // Store the rows locally as well, as state rows will not return on callback
+    var rowsLocal = [];
+
+
     // EFFECTS
 
     useEffect(() => {
-        highScoreDB.getTopResults(props.level, Period.ALL, setRows);
+        highScoreDB.getTopResults(props.level, Period.ALL, setRowsCallback);
     }, []);
+
+
+    // HANDLER
+
+    useImperativeHandle(inputRef, () => {
+        return {
+            /**
+             * Function to get the highlighted row id
+             */
+            getSelectedRowID() {
+                // Check the highlighted row is valid and return it's data store id
+                if (props.highlightRowNumber >= 0 && props.highlightRowNumber <= rowsLocal.length) {
+                    return rowsLocal[props.highlightRowNumber - 1].id;
+                }
+                // Else return error condition
+                else {
+                    return -1;
+                }
+            }
+        };
+    }, []);
+
+
+    // LOCAL FUNCTIONS
+
+    /**
+     * Function to load in the new rows from the data store
+     * @param {High score rows retrieved from the data store} rows 
+     */
+    function setRowsCallback(rows) {
+        // We save a local copy as these are needed for callback functions, state rows do not return
+        rowsLocal = rows;
+        // Set the state rows for render
+        setRows(rows);
+    }
+
 
     // RENDER
 
@@ -68,7 +102,7 @@ export default function HighScoreTable(props) {
                 <TableHead>
                     <TableRow>
                         <StyledTableCell>#</StyledTableCell>
-                        <StyledTableCell>User</StyledTableCell>
+                        <StyledTableCell>Username</StyledTableCell>
                         <StyledTableCell>Time</StyledTableCell>
                         <StyledTableCell>Date</StyledTableCell>
                         <StyledTableCell>Device</StyledTableCell>
@@ -103,4 +137,15 @@ export default function HighScoreTable(props) {
             </Table>
         </TableContainer>
     );
+});
+
+// PROP LIST
+
+HighScoreTable.propTypes = {
+    level: PropTypes.string,
+    highlightRowNumber: PropTypes.number
 }
+
+// EXPORT
+
+export default HighScoreTable;
