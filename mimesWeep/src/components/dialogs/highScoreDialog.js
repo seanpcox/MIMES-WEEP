@@ -105,6 +105,8 @@ function HighScoreDialog(props) {
             // If we have a valid data store id then update the new high score with the new username
             if (id !== -1) {
                 highScoreDB.updateUsername(tableRef.current.getSelectedRowID(), username);
+
+                localStorage.setItem("mimesweepUser", username);
             }
         }
         // If invalid warn user and return
@@ -149,19 +151,19 @@ function HighScoreDialog(props) {
         if (isError) {
             inputLabel = "Enter 1-10 Characters"
         } else {
-            inputLabel = "Supply Username to Save";
+            inputLabel = "Enter Username to Save";
         }
 
         dialogContent =
             <DialogContent>
-                <Box sx={{ height: 5 }} />
+                <Box sx={{ height: 8 }} />
                 <FormControl error={isError} sx={{ width: '100%' }}>
                     <InputLabel htmlFor="username">{inputLabel}</InputLabel>
                     <OutlinedInput
                         autoFocus
                         id="username"
                         name="username"
-                        defaultValue=""
+                        defaultValue={localStorage.getItem("mimesweepUser")}
                         label={inputLabel}
                         sx={{ maxHeight: 55 }}
                     />
@@ -183,7 +185,7 @@ function HighScoreDialog(props) {
                     {gameText.saveButtonText}
                 </Button>
             </DialogActions>;
-    } 
+    }
     // Else if we are just viewing high scores
     else {
         dialogContent =
