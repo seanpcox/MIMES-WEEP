@@ -19,8 +19,6 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 
     const [numOfMimeNeighbors, setNumOfMimeNeighbors] = useState(props.numOfMimeNeighbors);
 
-    const isNotDesktop = useState(settings.getDeviceType() != Device.DESKTOP)
-
     const [mimeDetonatedIconSize, setMimeDetonatedIconSize] = useState(sx, sx.mimeDetonatedIconInitialSize);
 
     // REFS
@@ -248,7 +246,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 
     // Mobile or Tablet Square
     // Touch events are IOS and Mouse events are Android
-    if (isNotDesktop[0]) {
+    if (settings.deviceType != Device.DESKTOP) {
 
         // Flagged Square
         if (numOfMimeNeighbors >= 9) {

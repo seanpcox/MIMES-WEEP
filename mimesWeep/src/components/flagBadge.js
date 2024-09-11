@@ -32,8 +32,6 @@ function FlagBadge(props) {
 
     const [selected, setSelected] = useState(false);
 
-    const isNotDesktop = useState(settings.getDeviceType() != Device.DESKTOP);
-
 
     // EFFECTS
 
@@ -68,7 +66,7 @@ function FlagBadge(props) {
     return (
         <Tooltip
             title={gameText.tooltipFlagToogle +
-                ((isNotDesktop[0]) ? gameText.controlsTapLC : gameText.controlsLClickLC)}
+                ((settings.deviceType != Device.DESKTOP) ? gameText.controlsTapLC : gameText.controlsLClickLC)}
             placement={commonSx.tooltipPlacement}
             arrow={commonSx.tooltipArrow}
         >

@@ -27,8 +27,6 @@ function HelpDialog(props) {
 
     const [open, setOpen] = useState(false);
 
-    const isNotDesktop = useState(settings.getDeviceType() != Device.DESKTOP);
-
 
     // LOCAL VARIABLES
 
@@ -36,7 +34,7 @@ function HelpDialog(props) {
     var flagControl = gameText.helpDialogControlsRClick;
     var flagControlSecondary = gameText.controlsLClickLC;
 
-    if (isNotDesktop[0]) {
+    if (settings.deviceType !== Device.DESKTOP) {
         revealControl = gameText.helpDialogControlsTap;
         flagControl = gameText.helpDialogControlsPress;
         flagControlSecondary = gameText.controlsTapLC;
@@ -107,7 +105,7 @@ function HelpDialog(props) {
                         <li>
                             {gameText.helpDialogTipsBullet3}
                         </li>
-                        {isNotDesktop[0] ?
+                        {settings.deviceType !== Device.DESKTOP?
                             <li>
                                 {gameText.helpDialogTipsBullet4}
                             </li>

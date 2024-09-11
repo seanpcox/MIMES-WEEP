@@ -1,5 +1,5 @@
 import * as dsConfig from '../resources/config/datastore.js';
-import * as settings from '../logic/gameSettings.js';
+import * as scoreLogic from './scoreLogic.js';
 import { Amplify } from 'aws-amplify';
 import { DataStore, Predicates, SortDirection } from "@aws-amplify/datastore";
 import { Todo } from "../models/index.js";
@@ -12,13 +12,31 @@ export async function init() {
   Amplify.configure(dsConfig.settings);
   // Start the data store
   await DataStore.start().then(() => {
-    // Clear the local data store
-    DataStore.clear().then(() => {
-      // Perform a query, first query always returns nothing (seems to be stanard for Amplify data store)
-      // So perform it on startup so user related queries will work
-      DataStore.query(Todo, Predicates.ALL, { limit: 1 });
-    })
+    // Clear the local data store once data store started
+    clearLocalData();
   });
+}
+
+/**
+ * Function to clear the local data store
+ */
+async function clearLocalData() {
+  // Clear the local data store
+  await DataStore.clear().then(() => {
+    // Perform a query, first query always returns nothing (seems to be stanard for Amplify data store)
+    performDummyQuery();
+  })
+}
+
+/**
+ * Function to perform a dummy query
+ * The first data store query seems to always return an empty result nothing. This seems to be standard 
+ * for Amplify data store from what I have read online. Therefore we perform this query on startup so the 
+ * first genunie application query will work.
+ */
+async function performDummyQuery() {
+  // Perform a query for one result from the data store
+  await DataStore.query(Todo, Predicates.ALL, { limit: 1 });
 }
 
 /**
@@ -31,7 +49,7 @@ export async function init() {
  * @param {The max number of results to check} highScoreLimit
  */
 export async function saveIfHighScore(scoreData, openDialogCallback, setHighlightRowCallback,
-  setPersonalBestRowHighlighed, isPB, highScoreLimit = settings.highScorePositions) {
+  setPersonalBestRowHighlighed, isPB, highScoreLimit = scoreLogic.highScorePositions) {
   // Query the datastore for the top results
   await getTopResultsQuery(scoreData.level, scoreData.datePeriod, highScoreLimit)
     // Executed once results have been retrieved 
@@ -104,10 +122,7 @@ async function save(scoreData) {
  * @param {Callback method to load the rows into} callback
  * @param {The max number of results to return} highScoreLimit
  */
-export async function getTopResults(level, period, callback, highScoreLimit = settings.highScorePositions) {
-
-  // Get the user's browser's preferred locale
-  const locale = settings.getLocale();
+export async function getTopResults(level, period, callback, highScoreLimit = scoreLogic.highScorePositions) {
 
   // We return one extra result to use for delete purposes (if required)
   // We will delete this result and all those whose time is greater than it
@@ -131,14 +146,13 @@ export async function getTopResults(level, period, callback, highScoreLimit = se
         if (i + 1 <= results.length) {
           // Add the data to the row array
           rows.push(
-            settings.createDataRow(
+            scoreLogic.createDataRow(
               // Result position starts at 1
               i + 1,
               results[i].user,
               results[i].time,
               results[i].date,
               results[i].deviceType,
-              locale,
               lastTime,
               results[i].id)
           );
@@ -148,12 +162,12 @@ export async function getTopResults(level, period, callback, highScoreLimit = se
         }
         // Else create an empty row placeholder
         else {
-          rows.push(settings.createData(i + 1));
+          rows.push(scoreLogic.createData(i + 1));
         }
       }
 
       // Add the personal best time at the end
-      rows.push(settings.getPersonalBestDataRow(level))
+      rows.push(scoreLogic.getPersonalBestDataRow(level))
 
       // Supply the rows to our callback function
       callback(rows);

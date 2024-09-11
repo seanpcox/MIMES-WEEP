@@ -1,3 +1,4 @@
+import * as commonLogic from '../logic/commonLogic.js';
 import * as commonSx from '../style/commonSx.js';
 import * as gameText from '../resources/text/gameText.js';
 import * as settings from '../logic/gameSettings.js';
@@ -148,7 +149,7 @@ const Timer = forwardRef(function Timer(props, inputRef) {
     }
     // Else if we have started counting then display the current elapsed time
     else {
-        timerContent = settings.getTimeElapsedString(timeElapsed);
+        timerContent = commonLogic.getTimeElapsedString(timeElapsed);
     }
 
 

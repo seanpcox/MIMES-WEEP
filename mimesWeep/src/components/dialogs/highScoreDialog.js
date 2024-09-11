@@ -1,6 +1,6 @@
 import * as gameText from '../../resources/text/gameText';
 import * as highScoreDB from '../../logic/highScoreDB';
-import * as settings from '../../logic/gameSettings.js';
+import * as scoreLogic from '../../logic/scoreLogic.js';
 import * as sx from '../../style/highScoreDialogSx.js'
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -116,13 +116,13 @@ function HighScoreDialog(props) {
                 }
 
                 // Save the provided username in local storage so we can display it by default next time
-                settings.setLSUsername(username);
+                scoreLogic.setLSUsername(username);
 
-                settings.updatePersonalBestName(props.level, row.timeMs, row.dateES, username);
+                scoreLogic.updatePersonalBestName(props.level, row.timeMs, row.dateES, username);
             }
             // An ID of -2 means we scored a personal best and want to update the associated name
             else if (row === -2) {
-                settings.savePersonalBestName(props.level, username);
+                scoreLogic.savePersonalBestName(props.level, username);
             }
         }
         // If invalid warn user and return
@@ -167,7 +167,7 @@ function HighScoreDialog(props) {
     */
     function isUsernameNonExcludedWord(username) {
         return username && username.length > 0 &&
-            username.toLowerCase() !== settings.unknownUser.toLowerCase();
+            username.toLowerCase() !== scoreLogic.unknownUser.toLowerCase();
     }
 
     /**
@@ -212,10 +212,10 @@ function HighScoreDialog(props) {
         }
 
         // Retrieve the username last used on this device, if any, from local storage
-        var defaultUsername = settings.getLSUsername();
+        var defaultUsername = scoreLogic.getLSUsername();
 
         // If the last username used the excluded word "Unknown" then clear it
-        if (defaultUsername == settings.unknownUser) {
+        if (defaultUsername == scoreLogic.unknownUser) {
             defaultUsername = "";
         }
 

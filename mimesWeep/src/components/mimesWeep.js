@@ -3,6 +3,7 @@ import * as commonSx from '../style/commonSx.js';
 import * as highScoreDB from '../logic/highScoreDB.js';
 import * as gameText from '../resources/text/gameText.js';
 import * as logic from '../logic/gameLogic.js';
+import * as scoreLogic from '../logic/scoreLogic.js';
 import * as settings from '../logic/gameSettings.js';
 import * as sx from '../style/mimesweepSx.js';
 import CustomDialog from './dialogs/customDialog.js';
@@ -30,15 +31,16 @@ function MimesWeep() {
 
   // STATES
 
-  const deviceType = useState(settings.getDeviceType());
-
   const [numOfGamesPlayed, setNumOfGamesPlayed] = useState(1);
 
   const [difficulty, setDifficulty] = useState(1);
 
   const [customHeight, setCustomHeight] = useState(9);
+
   const [customWidth, setCustomWidth] = useState(9);
+
   const [customNumOfMimes, setCustomNumOfMimes] = useState(9);
+
   const [isCustomGame, setCustomGame] = useState(false);
 
 
@@ -339,9 +341,9 @@ function MimesWeep() {
     // Create the score data, use the last high score or personal best username if available
     const scoreData = {
       level: getLevelString(),
-      deviceType: deviceType[0],
+      deviceType: settings.deviceType,
       time: timerRef.current.getTimeElapsedTimer(),
-      user: settings.getBestGuessUsername(),
+      user: scoreLogic.getBestGuessUsername(),
       date: Math.round(Date.now() / 1000),
       datePeriod: Period.ALL
     };
@@ -349,7 +351,7 @@ function MimesWeep() {
     // Persist the high score and personal best data if applicable, unless we are playing a custom board
     if (difficulty !== 4) {
       // Save to local storage if a personal best
-      var isPB = settings.updatePersonalBestTimeWithScoreData(scoreData);
+      var isPB = scoreLogic.updatePersonalBestTimeWithScoreData(scoreData);
 
       // Save to the database if a high score
       highScoreDB.saveIfHighScore(scoreData, openHighScoreDialog,
