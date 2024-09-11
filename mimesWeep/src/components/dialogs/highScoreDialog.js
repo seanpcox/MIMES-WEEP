@@ -24,8 +24,10 @@ import { Period } from "../../models/index.js";
 HighScoreDialog.propTypes = {
     openHighScoreDialogCallback: PropTypes.func,
     setHighlightRowCallback: PropTypes.func,
+    setPersonalBestRowHighlighed: PropTypes.func,
     level: PropTypes.string,
-    highlightRowNumberRef: PropTypes.object
+    highlightRowNumberRef: PropTypes.object,
+    personalBestRowHightlightedRef: PropTypes.object
 }
 
 // COMPONENT
@@ -60,6 +62,8 @@ function HighScoreDialog(props) {
     const handleClose = () => {
         // Reset the highlighted row to none for next launch
         props.setHighlightRowCallback(-1);
+        // Reset the personal best highlighted flag
+        props.setPersonalBestRowHighlighed(false);
         // Close the dialog
         setOpen(false);
         // Reset the error state for the next launch
@@ -187,6 +191,7 @@ function HighScoreDialog(props) {
             ref={tableRef}
             level={props.level}
             highlightRowNumber={props.highlightRowNumberRef.current}
+            highlightPersonalBest={props.personalBestRowHightlightedRef.current}
         />;
 
     // If we are saving a high score

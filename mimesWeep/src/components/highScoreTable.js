@@ -119,7 +119,7 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
      * @returns True if valid personal best row, else False
      */
     function isPersonalBestRowHighlighted() {
-        return props.highlightRowNumber == rowsLocal.length;
+        return props.highlightPersonalBest;
     }
 
     /**
@@ -139,11 +139,20 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
      * @param {all table rows} rows
      * @returns True if this is the row to highlight, else False
      */
-    function isHighlightedRow(currentRow, rows) {
-        // We are highlighting a high score row
-        return currentRow.position === props.highlightRowNumber ||
-            // We are highlighting the personal best row
-            (props.highlightRowNumber === rows.length && currentRow.position === gameText.personalBestRowID)
+    function isHighlightedHighScoreRow(currentRow) {
+        // Are we highlighting a high score row
+        return currentRow.position === props.highlightRowNumber;
+    }
+
+    /**
+     * Function to return whether this is the personal best row and whether it should be highlighted
+     * @param {table row} currentRow
+     * @param {all table rows} rows
+     * @returns True if we want to highlight the personal best row, else False
+     */
+    function isHighlightPersonalBestRow(currentRow) {
+        // Are we highlighting the personal best row
+        return props.highlightPersonalBest && currentRow.position === gameText.personalBestRowID;
     }
 
 
@@ -166,7 +175,7 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
                         // Do not display the second last row, we include an extra row for delete purposes in our query results
                         isHiddenHighScoreRow(row, rows) ? null :
                             // Check if row is the one we wish to highlight and style accordingly
-                            isHighlightedRow(row, rows) ?
+                            isHighlightedHighScoreRow(row) || isHighlightPersonalBestRow(row) ?
                                 (
                                     <sx.HighlightedTableRow key={row.position}>
                                         <sx.StyledTableCell component="th" scope="row">
@@ -201,7 +210,8 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
 
 HighScoreTable.propTypes = {
     level: PropTypes.string,
-    highlightRowNumber: PropTypes.number
+    highlightRowNumber: PropTypes.number,
+    highlightPersonalBest: PropTypes.bool
 }
 
 // EXPORT

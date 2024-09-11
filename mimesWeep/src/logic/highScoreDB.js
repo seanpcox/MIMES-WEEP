@@ -27,9 +27,11 @@ export async function init() {
  * @param {The user's score data} scoreData
  * @param {Callback method to open the dialog if the user got a high score position} openDialogCallback
  * @param {Callback method to set the highlighted row if the user got a high score position} setHighlightRowCallback
+ * @param {Callback method to set the personal best row highlighted} setPersonalBestRowHighlighed
  * @param {The max number of results to check} highScoreLimit
  */
-export async function saveIfHighScore(scoreData, openDialogCallback, setHighlightRowCallback, isPB, highScoreLimit = settings.highScorePositions) {
+export async function saveIfHighScore(scoreData, openDialogCallback, setHighlightRowCallback,
+  setPersonalBestRowHighlighed, isPB, highScoreLimit = settings.highScorePositions) {
   // Query the datastore for the top results
   await getTopResultsQuery(scoreData.level, scoreData.datePeriod, highScoreLimit)
     // Executed once results have been retrieved 
@@ -60,13 +62,23 @@ export async function saveIfHighScore(scoreData, openDialogCallback, setHighligh
         save(scoreData);
         // Set the highscore row position to highlight in the table
         setHighlightRowCallback(position);
+
+        // Set whether we also want to highlight the personal best row
+        if (isPB) {
+          setPersonalBestRowHighlighed(true);
+        } else {
+          setPersonalBestRowHighlighed(false);
+        }
+
         // Open the highscore dialog
         openDialogCallback(true);
       }
       // If the user did not place but scored a personal best we also execute the callback function
       else if (isPB) {
+        // Set no highscore row position highlighted
+        setHighlightRowCallback(-1);
         // Set the personal best row to highlight, it is the second row we add to our highscore data
-        setHighlightRowCallback(highScoreLimit + 2);
+        setPersonalBestRowHighlighed(true);
         // Open the highscore dialog
         openDialogCallback(true);
       }
