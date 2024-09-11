@@ -47,7 +47,7 @@ export function getGameSettings(difficulty) {
       else {
         height = 16;
         width = 16;
-        numOfMimes = 1;
+        numOfMimes = 40;
       }
 
       break;
@@ -84,7 +84,7 @@ export function getGameSettings(difficulty) {
       // Mobile, Tablet, or Desktop
       height = 9;
       width = 9;
-      numOfMimes = 1;
+      numOfMimes = 10;
 
       break;
   }
@@ -485,4 +485,4 @@ export const unknownUser = "Unknown";
 
 export const usernameLSKey = "mimesweepUser";
 
-export const highScorePositions = 3;
+export const highScorePositions = 10;
