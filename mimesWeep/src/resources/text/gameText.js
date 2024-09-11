@@ -24,9 +24,9 @@ export const cancelButtonText = "Cancel";
 
 export const createButtonText = "Create";
 
-export const saveButtonText = "Save";
-
 export const okButtonText = "OK";
+
+export const updateButtonText = "Update";
 
 export const loseMessage = "Sorry, you have lost.";
 
@@ -102,8 +102,10 @@ export const hsTableDate = "Date";
 
 export const hsTableDevice = "Device";
 
-export const hsDialogInputLabel = "Enter Username to Save";
+export const hsDialogInputLabel = "Update Score Username";
 
 export const hsDialogFormatErrorLabel = "Enter 1-10 Characters";
 
 export const hsDialogExcludedWordErrorLabel = "Enter Non Excluded Word";
+
+export const personalBestRowID = "PB";

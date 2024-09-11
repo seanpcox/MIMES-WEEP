@@ -67,22 +67,6 @@ function HighScoreDialog(props) {
     };
 
     /**
-     * Function to execute if save high score is cancelled
-     */
-    function handleCancel() {
-        // Get the data store id of the new high score row
-        var id = tableRef.current.getSelectedRowID();
-
-        // If we have a valid data store id then delete the new high score
-        if (id !== -1) {
-            highScoreDB.deleteScore(tableRef.current.getSelectedRowID());
-        }
-
-        // Close the dialog
-        handleClose();
-    }
-
-    /**
      * Function to validate and parse user input data on form submit
      * @param {Form submit event} event
      */
@@ -102,12 +86,17 @@ function HighScoreDialog(props) {
             // If the username is valid set error to false
             setError(0);
 
-            // Get the data store id of the new high score row
-            var id = tableRef.current.getSelectedRowID();
+            // Get the new high score row
+            var row = tableRef.current.getSelectedRow();
 
             // If we have a valid data store id then update the new high score with the new username
             // And delete scores that we no longer need in the database
-            if (id !== -1) {
+            // An ID of -2 means we scored a personal best and want to update the associated name
+            // An ID of -1 means an error condition and we do nothing in that case
+            if (row !== -1 && row !== -2) {
+                // Get the data store id of the new high score row
+                var id = row.id;
+
                 // Update the username on the newly saved high score row
                 highScoreDB.updateUsername(id, username);
 
@@ -123,7 +112,13 @@ function HighScoreDialog(props) {
                 }
 
                 // Save the provided username in local storage so we can display it by default next time
-                localStorage.setItem(settings.usernameLSKey, username);
+                settings.setLSUsername(username);
+
+                settings.updatePersonalBestName(props.level, row.timeMs, row.dateES, username);
+            }
+            // An ID of -2 means we scored a personal best and want to update the associated name
+            else if (row === -2) {
+                settings.savePersonalBestName(props.level, username);
             }
         }
         // If invalid warn user and return
@@ -212,7 +207,12 @@ function HighScoreDialog(props) {
         }
 
         // Retrieve the username last used on this device, if any, from local storage
-        var defaultUsername = localStorage.getItem(settings.usernameLSKey);
+        var defaultUsername = settings.getLSUsername();
+
+        // If the last username used the excluded word "Unknown" then clear it
+        if (defaultUsername == settings.unknownUser) {
+            defaultUsername = "";
+        }
 
         dialogContent =
             <DialogContent>
@@ -235,14 +235,14 @@ function HighScoreDialog(props) {
         dialogActions =
             <DialogActions>
                 <Button
-                    onClick={handleCancel}
+                    onClick={handleClose}
                 >
                     {gameText.cancelButtonText}
                 </Button>
                 <Button
                     type="submit"
                 >
-                    {gameText.saveButtonText}
+                    {gameText.updateButtonText}
                 </Button>
             </DialogActions>;
     }
@@ -257,7 +257,7 @@ function HighScoreDialog(props) {
         dialogActions =
             <DialogActions>
                 <Button
-                    onClick={handleCancel}
+                    onClick={handleClose}
                 >
                     {gameText.okButtonText}
                 </Button>
@@ -268,7 +268,7 @@ function HighScoreDialog(props) {
         <Fragment>
             <Dialog
                 open={open}
-                onClose={isHighScoreSaveDialog() ? handleCancel : handleClose}
+                onClose={handleClose}
                 PaperProps={{
                     component: 'form',
                     onSubmit: onSubmit

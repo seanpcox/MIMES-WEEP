@@ -321,24 +321,23 @@ function MimesWeep() {
   * Function to persist the user's score in the data store
   */
   function persistScore() {
-
-    // Create the score data
+    // Create the score data, use the last high score or personal best username if available
     const scoreData = {
       level: getLevelString(),
       deviceType: deviceType[0],
       time: timerRef.current.getTimeElapsedTimer(),
-      user: settings.unknownUser,
+      user: settings.getBestGuessUsername(),
       date: Math.round(Date.now() / 1000),
       datePeriod: Period.ALL
     };
 
-    // Persist the high score data if applicable, unless we are playing a custom board
+    // Persist the high score and personal best data if applicable, unless we are playing a custom board
     if (difficulty !== 4) {
       // Save to local storage if a personal best
-      settings.updatePersonalBestTime(scoreData);
+      var isPB = settings.updatePersonalBestTimeWithScoreData(scoreData);
 
       // Save to the database if a high score
-      highScoreDB.saveIfHighScore(scoreData, openHighScoreDialog, setHighScoreHighlightRow);
+      highScoreDB.saveIfHighScore(scoreData, openHighScoreDialog, setHighScoreHighlightRow, isPB);
     }
   }
 

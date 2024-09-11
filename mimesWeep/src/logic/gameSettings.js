@@ -47,7 +47,7 @@ export function getGameSettings(difficulty) {
       else {
         height = 16;
         width = 16;
-        numOfMimes = 40;
+        numOfMimes = 1;
       }
 
       break;
@@ -84,7 +84,7 @@ export function getGameSettings(difficulty) {
       // Mobile, Tablet, or Desktop
       height = 9;
       width = 9;
-      numOfMimes = 10;
+      numOfMimes = 1;
 
       break;
   }
@@ -235,7 +235,9 @@ export function createDataRow(position, user, time, date, deviceType, locale, la
     // The database id
     id,
     // Time taken in millisecond format
-    time
+    time,
+    // Date in epoch seconds format
+    date
   );
 }
 
@@ -248,27 +250,62 @@ export function createDataRow(position, user, time, date, deviceType, locale, la
  * @param {Type of device game was played on} device
  * @param {Database ID} id
  * @param {Time taken in milliseconds} timeMs
+ * @param {Time taken in milliseconds} dateES
  * @returns Row for table display
  */
-export function createData(position, user, time, date, device, id, timeMs) {
-  return { position, user, time, date, device, id, timeMs };
+export function createData(position, user, time, date, device, id, timeMs, dateES) {
+  return { position, user, time, date, device, id, timeMs, dateES };
 }
 
 /**
  * Function to save personal data to local storage if it beats the previous personal best
  * @param {object} scoreData
+ * @returns True if a personal best, else False
  */
-export function updatePersonalBestTime(scoreData) {
-  // Get the current personal best time for the supplied level
-  var pbTime = localStorage.getItem(getPersonalBestTimeKey(scoreData.level));
+export function updatePersonalBestTimeWithScoreData(scoreData) {
+  return updatePersonalBestTime(scoreData.level, scoreData.time, scoreData.date, scoreData.user);
+}
 
-  console.log(pbTime, scoreData.time, isNaN(pbTime));
+/**
+ * Function to save personal data to local storage if it beats the previous personal best
+ * @param {string} level
+ * @param {number} time
+ * @param {number} date
+ * @param {string} user
+ * @returns True if a personal best, else False
+ */
+export function updatePersonalBestTime(level, time, date, user) {
+  // Get the current personal best time for the supplied level
+  var pbTime = localStorage.getItem(getPersonalBestTimeKey(level));
 
   // If we have no personal best time for the supplied level or the new time
   // is better then save the new time.
-  if (pbTime === null || pbTime === "" || isNaN(pbTime) || scoreData.time < Number(pbTime)) {
-    console.log("save time");
-    savePersonalBestTime(scoreData);
+  if (pbTime === null || pbTime === "" || isNaN(pbTime) || time < Number(pbTime)) {
+    savePersonalBestData(level, time, date, user);
+    return true;
+  }
+
+  return false;
+}
+
+/**
+ * Function to update the personal best time at this level
+ * @param {string} level
+ * @param {number} time
+ * @param {number} date
+ * @param {string} user
+ */
+export function updatePersonalBestName(level, time, date, user) {
+  // Get the current personal best time for the supplied level
+  var pbTime = localStorage.getItem(getPersonalBestTimeKey(level));
+
+  // Get the current personal best date for the supplied level
+  var pbDate = localStorage.getItem(getPersonalBestDateKey(level));
+
+  // If we have no personal best time for the supplied level or the new time
+  // is better then save the new time.
+  if (time <= Number(pbTime) && date <= Number(pbDate)) {
+    savePersonalBestData(level, time, date, user);
   }
 }
 
@@ -277,27 +314,77 @@ export function updatePersonalBestTime(scoreData) {
  * @param {string} level
  */
 export function getPersonalBestDataRow(level) {
-  // Get the current personal best time
+  // Get the current personal best time for this level
   var pbTime = localStorage.getItem(getPersonalBestTimeKey(level));
 
-  // Get the current personal best date
+  // Get the current personal best date for this level
   var pbDate = localStorage.getItem(getPersonalBestDateKey(level));
 
-  console.log(pbTime, pbDate);
+  // Get the current personal best username for this level
+  var pbName = localStorage.getItem(getPersonalBestNameKey(level));
 
   // If we do not have personal best data, or it is invalid, return a placeholder row
   if (!pbTime || !pbDate || isNaN(pbTime) || isNaN(pbDate)) {
-    return createData("PB");
+    return createData(gameText.personalBestRowID);
   }
 
+  // If we did not find a username for this personal best entry use "Unknown"
+  if (!pbName) {
+    pbName = unknownUser;
+  }
+
+  // Create and return our data row
   return createDataRow(
     "PB",
-    "Personal Best",
+    pbName,
     pbTime,
     pbDate,
     getDeviceTypeTableString(getDeviceType()),
     getLocale()
   );
+}
+
+/**
+ * Get the last username used for the last high score or personal best
+ * If none found then return Unknown
+ * @returns username
+ */
+export function getBestGuessUsername() {
+  var username = getLSUsername();
+
+  if (!username) {
+    username = unknownUser;
+  }
+
+  return username;
+}
+
+/**
+ * Function to get username stored in local storage
+ * @returns username from local storage, if any
+ */
+export function getLSUsername() {
+  return localStorage.getItem(usernameLSKey);
+}
+
+/**
+ * Function to set username in local storage
+ * @param {string} username
+ */
+export function setLSUsername(username) {
+  localStorage.setItem(usernameLSKey, username);
+}
+
+/**
+ * Save the username for the personal best for this level, and for future use in highscores and personal bests
+ * @param {string} level
+ * @param {string} username
+ */
+export function savePersonalBestName(level, username) {
+  // Save the personal best time to local storage for this level
+  localStorage.setItem(getPersonalBestNameKey(level), username);
+  // Save the personal best username to local storage, we will use this for furture high scores or personal bests
+  setLSUsername(username);
 }
 
 /**
@@ -343,14 +430,18 @@ function getDeviceTypeTableString(deviceType) {
 
 /**
  * Function to save personal best data to local storage
- * @param {object} scoreData
+ * @param {string} level
+ * @param {number} time
+ * @param {number} date
+ * @param {string} user
  */
-function savePersonalBestTime(scoreData) {
-  console.log(scoreData.time, scoreData.date);
-  // Save the personal best time to local storage
-  localStorage.setItem(getPersonalBestTimeKey(scoreData.level), scoreData.time);
-  // Save the personal best time to local storage
-  localStorage.setItem(getPersonalBestDateKey(scoreData.level), scoreData.date);
+function savePersonalBestData(level, time, date, user) {
+  // Save the personal best time to local storage for this level
+  localStorage.setItem(getPersonalBestTimeKey(level), time);
+  // Save the personal best time to local storage for this level
+  localStorage.setItem(getPersonalBestDateKey(level), date);
+  // Save the personal best username to local storage, we will use this for furture high scores or personal bests
+  savePersonalBestName(level, user);
 }
 
 /**
@@ -372,17 +463,26 @@ function getPersonalBestDateKey(level) {
 }
 
 /**
+ * Function to get personal best name storage key
+ * @param {string} level
+ * @returns local storage key
+ */
+function getPersonalBestNameKey(level) {
+  return getPersonalBestKey(level, "name");
+}
+
+/**
  * Function to get personal best storage keys
  * @param {string} level
  * @param {string} dataType
  * @returns local storage key
  */
 function getPersonalBestKey(level, dataType) {
-  return "apb_" + level + "_" + dataType + "_key"
+  return "pb_" + level + "_" + dataType + "_key"
 }
 
 export const unknownUser = "Unknown";
 
 export const usernameLSKey = "mimesweepUser";
 
-export const highScorePositions = 10;
+export const highScorePositions = 3;

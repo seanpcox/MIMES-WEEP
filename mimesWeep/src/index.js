@@ -5,6 +5,9 @@ import ReactDOM from 'react-dom/client';
 import React from 'react';
 import reportWebVitals from './reportWebVitals.js';
 
+// DELETE ME!!!
+localStorage.clear();
+
 // Setup and sync the data store
 highScoreDB.init();
 

@@ -29,7 +29,7 @@ export async function init() {
  * @param {Callback method to set the highlighted row if the user got a high score position} setHighlightRowCallback
  * @param {The max number of results to check} highScoreLimit
  */
-export async function saveIfHighScore(scoreData, openDialogCallback, setHighlightRowCallback, highScoreLimit = settings.highScorePositions) {
+export async function saveIfHighScore(scoreData, openDialogCallback, setHighlightRowCallback, isPB, highScoreLimit = settings.highScorePositions) {
   // Query the datastore for the top results
   await getTopResultsQuery(scoreData.level, scoreData.datePeriod, highScoreLimit)
     // Executed once results have been retrieved 
@@ -54,13 +54,22 @@ export async function saveIfHighScore(scoreData, openDialogCallback, setHighligh
         position = results.length + 1;
       }
 
-      // If the user placed then we execute the callback function
+      // If the user placed then we save the highscore in the database and execute the callback function
       if (position > 0) {
+        // Save the highscore in the database
         save(scoreData);
+        // Set the highscore row position to highlight in the table
         setHighlightRowCallback(position);
+        // Open the highscore dialog
         openDialogCallback(true);
       }
-
+      // If the user did not place but scored a personal best we also execute the callback function
+      else if (isPB) {
+        // Set the personal best row to highlight, it is the second row we add to our highscore data
+        setHighlightRowCallback(highScoreLimit + 2);
+        // Open the highscore dialog
+        openDialogCallback(true);
+      }
     });
 }
 
@@ -101,6 +110,7 @@ export async function getTopResults(level, period, callback, highScoreLimit = se
       // Rows to supply to our callback function
       var rows = [];
 
+      // Store the previous results time to determine if we have a tie in seconds
       var lastTime;
 
       // Loop through to the result limit supplied
@@ -130,7 +140,8 @@ export async function getTopResults(level, period, callback, highScoreLimit = se
         }
       }
 
-      rows.push(settings.getPersonalBestDataRow(level));
+      // Add the personal best time at the end
+      rows.push(settings.getPersonalBestDataRow(level))
 
       // Supply the rows to our callback function
       callback(rows);
@@ -177,14 +188,6 @@ export async function updateUsername(id, username) {
       })
     );
   }
-}
-
-/**
- * Function to delete a high score entry
- * @param {ID of the entry} id
- */
-export async function deleteScore(id) {
-  await DataStore.delete(Todo, id);
 }
 
 /**
