@@ -1,7 +1,6 @@
 import * as commonLogic from '../logic/commonLogic.js';
 import * as commonSx from '../style/commonSx.js';
 import * as gameText from '../resources/text/gameText.js';
-import * as settings from '../logic/gameSettings.js';
 import * as sx from '../style/timerSx.js';
 import PropTypes from 'prop-types';
 import Tooltip from '@mui/material/Tooltip';

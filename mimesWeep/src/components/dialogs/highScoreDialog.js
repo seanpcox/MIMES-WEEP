@@ -16,7 +16,10 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 import { Period } from "../../models/index.js";
 
 /**
- * Dialog to display the high scores of the current board level displayed
+ * Dialog to display the high scores and personal best times associated with the current level
+ * Dialog is displayed when a new high score or personal best time occurs, and allows user to
+ * modify the username associated with the new score if they wish.
+ * Dialog can also be displayed to just view the exiting high score and personal best times.
  */
 
 // PROP LIST
@@ -57,17 +60,17 @@ function HighScoreDialog(props) {
     // LOCAL FUNCTIONS
 
     /**
-     * Function to close the high score dialog
+     * Function to close the high score dialog and reset its parameters
      */
     const handleClose = () => {
-        // Reset the highlighted row to none for next launch
+        // Clear any highlighted high score row
         props.setHighlightRowCallback(-1);
-        // Reset the personal best highlighted flag
+        // Clear the personal best highlighted flag
         props.setPersonalBestRowHighlighed(false);
+        // Reset the error state to none
+        setError(0);
         // Close the dialog
         setOpen(false);
-        // Reset the error state for the next launch
-        setError(0);
     };
 
     /**
@@ -78,7 +81,7 @@ function HighScoreDialog(props) {
         // This prevents the entire page from reloading on submit
         event.preventDefault();
 
-        // Retrieve the user game parameters for height, width, and number of mimes
+        // Retrieve the form parameters
         const formData = new FormData(event.currentTarget);
         const formJson = Object.fromEntries(formData.entries());
 
@@ -90,13 +93,13 @@ function HighScoreDialog(props) {
             // If the username is valid set error to false
             setError(0);
 
-            // Get the new high score row
-            var row = tableRef.current.getSelectedRow();
+            // Get the highlighted high score row, if any
+            var row = tableRef.current.getHighlightedHighScoreRow();
 
-            // If we have a valid data store id then update the new high score with the new username
-            // And delete scores that we no longer need in the database
-            // An ID of -2 means we scored a personal best and want to update the associated name
-            // An ID of -1 means an error condition and we do nothing in that case
+            // If we have a valid high score row then update the entry with the new username provided,
+            // and delete scores that we no longer need in the database.
+            // An ID of -1 means we had no highlighted high score or personal best row
+            // An ID of -2 means that only the personal best row is highlighted
             if (row !== -1 && row !== -2) {
                 // Get the data store id of the new high score row
                 var id = row.id;
@@ -104,39 +107,40 @@ function HighScoreDialog(props) {
                 // Update the username on the newly saved high score row
                 highScoreDB.updateUsername(id, username);
 
-                // Retrieve the time that the new high score puts outside of our high score list
-                var replacedHighScoreTime = tableRef.current.getReplacedHighScoreTimeMs();
+                // Retrieve the bottom high score row
+                var bottomHighScoreRow = tableRef.current.getBottomHighScoreRow();
 
-                // If we get a valid time returned then delete all times greater than it from the database
-                // Note: We delete all times greater, and not greater or equal to, as we may have a tie
-                // for last high score place (which is decided by date) and don't wish to accidently delete
-                // a tied high score place.
-                if (replacedHighScoreTime !== -1) {
-                    highScoreDB.deleteDeprecatedScores(replacedHighScoreTime, props.level, Period.ALL);
+                // If we get a valid row returned then delete all high scores with times greater than it from the database.
+                // We also delete entries with times equal to it but with a later date. 
+                // In the event of time ties we use date to determine order, where the earlier date wins.
+                // If we get -1 this usually indicates that we have yet to fill all the high score positions.
+                if (bottomHighScoreRow !== -1) {
+                    highScoreDB.deleteDeprecatedScores(bottomHighScoreRow.timeMs, bottomHighScoreRow.dateES, props.level, Period.ALL);
                 }
 
-                // Save the provided username in local storage so we can display it by default next time
+                // Save the provided username in local storage so we can use it by default next time
                 scoreLogic.setLSUsername(username);
 
+                // If this was also a personal best then update the name associated with it
                 scoreLogic.updatePersonalBestName(props.level, row.timeMs, row.dateES, username);
             }
-            // An ID of -2 means we scored a personal best and want to update the associated name
+            // An ID of -2 means we only scored a personal best, not a high score, and want to update its associated username
             else if (row === -2) {
                 scoreLogic.savePersonalBestName(props.level, username);
             }
         }
-        // If invalid warn user and return
+        // If the username is invalid then warn the user and prompt for an updated entry
         else {
-            // If the username is a excluded word then set that error code
+            // If the username is an excluded word then set the associated error code of 2
             if (!isUsernameNonExcludedWord(username)) {
                 setError(2);
             }
-            // Else the username format must be invalid so set that error code
+            // Else the username format must be invalid so set the associated error code 1
             else {
                 setError(1);
             }
 
-            // Return for further input
+            // Return to allow for an updated entry
             return;
         }
 
@@ -145,12 +149,13 @@ function HighScoreDialog(props) {
     }
 
     /**
-     * Function to determine if the HS Dialog is for saving or viewing High Scores
-     * @returns True if HS Save Dialog, False if High Score View Dialog
+     * Function to determine if the HS Dialog is displaying a new high score or personal best
+     * @returns True if for new score, else False
      */
-    function isHighScoreSaveDialog() {
-        // If we have a highlighted row it means we are asking the user to save a high score
-        return props.highlightRowNumberRef.current >= 0;
+    function isNewScoreDialog() {
+        // If we have a highlighted high score row it means we are displaying a new high score,
+        // or if the personal best flag is true we are displayed a new personal best.
+        return props.highlightRowNumberRef.current >= 0 || props.personalBestRowHightlightedRef.current;
     }
 
     /**
@@ -166,6 +171,7 @@ function HighScoreDialog(props) {
     * @param {String} username
     */
     function isUsernameNonExcludedWord(username) {
+        // We exclude the default "Unknown" to encourage users to enter a unique username
         return username && username.length > 0 &&
             username.toLowerCase() !== scoreLogic.unknownUser.toLowerCase();
     }
@@ -185,7 +191,7 @@ function HighScoreDialog(props) {
 
     var dialogActions;
 
-    // High score table is the same whether just viewing the table or saving a high score
+    // High score table is the same whether viewing a new score or just viewing existing ones
     var highScoreTable =
         <HighScoreTable
             ref={tableRef}
@@ -194,8 +200,8 @@ function HighScoreDialog(props) {
             highlightPersonalBest={props.personalBestRowHightlightedRef.current}
         />;
 
-    // If we are saving a high score
-    if (isHighScoreSaveDialog()) {
+    // If we are viewing a new score
+    if (isNewScoreDialog()) {
         var inputLabel;
 
         // Label input is updated if an invalid format username is entered
@@ -214,7 +220,8 @@ function HighScoreDialog(props) {
         // Retrieve the username last used on this device, if any, from local storage
         var defaultUsername = scoreLogic.getLSUsername();
 
-        // If the last username used the excluded word "Unknown" then clear it
+        // If the last username used is the excluded word "Unknown" then clear it
+        // We are trying to encourage users to enter a unique username
         if (defaultUsername == scoreLogic.unknownUser) {
             defaultUsername = "";
         }
@@ -251,7 +258,7 @@ function HighScoreDialog(props) {
                 </Button>
             </DialogActions>;
     }
-    // Else if we are just viewing high scores
+    // Else if we are just viewing existing scores
     else {
         dialogContent =
             <DialogContent>

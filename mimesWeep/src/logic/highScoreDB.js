@@ -46,7 +46,7 @@ async function performDummyQuery() {
  * @param {Callback method to open the dialog if the user got a high score position} openDialogCallback
  * @param {Callback method to set the highlighted row if the user got a high score position} setHighlightRowCallback
  * @param {Callback method to set the personal best row highlighted} setPersonalBestRowHighlighed
- * @param {The max number of results to check} highScoreLimit
+ * @param {The number of high score position} highScoreLimit
  */
 export async function saveIfHighScore(scoreData, openDialogCallback, setHighlightRowCallback,
   setPersonalBestRowHighlighed, isPB, highScoreLimit = scoreLogic.highScorePositions) {
@@ -104,7 +104,7 @@ export async function saveIfHighScore(scoreData, openDialogCallback, setHighligh
 }
 
 /**
- * Function to save the score data
+ * Function to save the high score data
  * @param {Score data for game} scoreData 
  */
 async function save(scoreData) {
@@ -115,20 +115,14 @@ async function save(scoreData) {
 }
 
 /**
- * Function to get the top n+1 results from the DB and format them into rows for table display
- * Note: Only n results are display and the extra one is used for delete purposes (if required)
+ * Function to get the high score results from the DB, and personal best result from local storage,
+ * and format them into rows for table display.
  * @param {Game difficulty level} level
  * @param {Period: DAY, MONTH, ALL} period
  * @param {Callback method to load the rows into} callback
  * @param {The max number of results to return} highScoreLimit
  */
 export async function getTopResults(level, period, callback, highScoreLimit = scoreLogic.highScorePositions) {
-
-  // We return one extra result to use for delete purposes (if required)
-  // We will delete this result and all those whose time is greater than it
-  // if the user chooses to save a new top result.
-  // This is to keep the DB free of un-needed data.
-  highScoreLimit = highScoreLimit + 1;
 
   // Query the datastore for the top results
   await getTopResultsQuery(level, period, highScoreLimit)
@@ -140,9 +134,9 @@ export async function getTopResults(level, period, callback, highScoreLimit = sc
       // Store the previous results time to determine if we have a tie in seconds
       var lastTime;
 
-      // Loop through to the result limit supplied
+      // Loop until we reach the high score position limit supplied
       for (var i = 0; i < highScoreLimit; i++) {
-        // If we have data for the result position then use it
+        // If we have data for this high score position then use it
         if (i + 1 <= results.length) {
           // Add the data to the row array
           rows.push(
@@ -157,10 +151,10 @@ export async function getTopResults(level, period, callback, highScoreLimit = sc
               results[i].id)
           );
 
-          // Record this time to use to test for a match with the next result
+          // Record this time to use to test for a time tie with the next result
           lastTime = results[i].time;
         }
-        // Else create an empty row placeholder
+        // Else create an empty row placeholder for this high score position
         else {
           rows.push(scoreLogic.createData(i + 1));
         }
@@ -217,18 +211,33 @@ export async function updateUsername(id, username) {
 }
 
 /**
- * Function to delete all entries greater than the supplied time for the
- * specified difficulty level and win period.
+ * Function to delete all high score entries no longer required. These are those whose time 
+ * is greater than the supplied time, or those that have an equal time but whose dates are later, 
+ * for the specified difficulty level and win period.
  * @param {Time in milliseconds} time
+ * @param {Date in epoch seconds} date
  * @param {Difficulty level string} level
  * @param {Win period enum} period
  */
-export async function deleteDeprecatedScores(time, level, period) {
+export async function deleteDeprecatedScores(time, date, level, period) {
   await DataStore.delete(Todo,
-    (hs) => hs.and(hs => [
-      // Apply the supplied time, level, and period conditions
-      hs.time.gt(time),
-      hs.level.eq(level),
-      hs.datePeriod.eq(period)
-    ]));
+    (hs) => hs.or(hs =>
+      // Entries whose time is greater for the level and period
+      [hs.and(hs =>
+        [
+          hs.time.gt(time),
+          hs.level.eq(level),
+          hs.datePeriod.eq(period)
+        ]
+      )],
+      // Entries whose time is the same but date is later for the level and period
+      [hs.and(hs =>
+        [
+          hs.time.eq(time),
+          hs.date.gt(date),
+          hs.level.eq(level),
+          hs.datePeriod.eq(period)
+        ]
+      )]
+    ));
 }

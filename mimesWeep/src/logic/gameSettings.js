@@ -90,7 +90,7 @@ export function getGameSettings(difficulty) {
       // Mobile, Tablet, or Desktop
       height = 9;
       width = 9;
-      numOfMimes = 10;
+      numOfMimes = 1;
 
       break;
   }

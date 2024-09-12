@@ -6,7 +6,7 @@ import * as settings from './gameSettings.js';
  * Logic related to high scores and personal best times and display
  */
 
-export const highScorePositions = 10;
+export const highScorePositions = 3;
 
 export const usernameLSKey = "mimesweepUser";
 
