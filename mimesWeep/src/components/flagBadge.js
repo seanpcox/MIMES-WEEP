@@ -66,7 +66,7 @@ function FlagBadge(props) {
     return (
         <Tooltip
             title={gameText.tooltipFlagToogle +
-                ((settings.deviceType != Device.DESKTOP) ? gameText.controlsTapLC : gameText.controlsLClickLC)}
+                ((settings.deviceType !== Device.DESKTOP) ? gameText.controlsTapLC : gameText.controlsLClickLC)}
             placement={commonSx.tooltipPlacement}
             arrow={commonSx.tooltipArrow}
         >
@@ -87,10 +87,11 @@ function FlagBadge(props) {
                     // Set the badge count
                     badgeContent={props.numOfMimes - guessCount}
                     // Set the maximum count we will show before adding a "+"
-                    max='999'
+                    max={999}
                     // Set the color of the component based on selected state
                     sx={{
-                        color: (selected) ? sx.selectedColor : sx.unselectedColor
+                        color: (selected) ? sx.selectedColor : sx.unselectedColor,
+                        margin: sx.iconMargin
                     }}
                 >
                     <commonSx.flagIcon />
