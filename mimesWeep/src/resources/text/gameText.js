@@ -102,7 +102,11 @@ export const hsTableDate = "Date";
 
 export const hsTableDevice = "Device";
 
-export const hsDialogInputLabel = "Update High Score Username";
+export const hsDialogInputHSLabel = "High Score Username";
+
+export const hsDialogInputPBLabel = "Personal Best Username";
+
+export const hsDialogInputScoresLabel = "Scores Username";
 
 export const hsDialogFormatErrorLabel = "Enter 1-10 Characters";
 

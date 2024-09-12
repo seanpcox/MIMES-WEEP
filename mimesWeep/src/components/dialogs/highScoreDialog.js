@@ -175,6 +175,24 @@ function HighScoreDialog(props) {
         return gameText.highScoreDialogTitle + " - " + props.level;
     }
 
+    /**
+     * Function to get the correct input label for the score/s we can update username on
+     */
+    function getInputLabel() {
+        // New Highscore and Personal Best achieved
+        if (props.highScoreHighlightIDRef.current && props.personalBestRowHightlightedRef.current) {
+            return gameText.hsDialogInputScoresLabel;
+        }
+        // New Highscore achieved
+        else if (props.highScoreHighlightIDRef.current) {
+            return gameText.hsDialogInputHSLabel;
+        }
+        // Else must be Personal Best achieved
+        else {
+            return gameText.hsDialogInputPBLabel;
+        }
+    }
+
 
     // RENDER
 
@@ -203,9 +221,9 @@ function HighScoreDialog(props) {
         else if (isError === 2) {
             inputLabel = gameText.hsDialogExcludedWordErrorLabel;
         }
-        // Else input label is set to the default instructions
+        // Else input label is set to instruct
         else {
-            inputLabel = gameText.hsDialogInputLabel;
+            inputLabel = getInputLabel();
         }
 
         // Retrieve the username last used on this device, if any, from local storage
