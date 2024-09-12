@@ -25,10 +25,10 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 
 HighScoreDialog.propTypes = {
     openHighScoreDialogCallback: PropTypes.func,
-    setHighlightRowCallback: PropTypes.func,
+    setHighlightIDCallback: PropTypes.func,
     setPersonalBestRowHighlighed: PropTypes.func,
     level: PropTypes.string,
-    highlightRowNumberRef: PropTypes.object,
+    highScoreHighlightIDRef: PropTypes.object,
     personalBestRowHightlightedRef: PropTypes.object
 }
 
@@ -63,7 +63,7 @@ function HighScoreDialog(props) {
      */
     const handleClose = () => {
         // Clear any highlighted high score row
-        props.setHighlightRowCallback(-1);
+        props.setHighlightIDCallback(null);
         // Clear the personal best highlighted flag
         props.setPersonalBestRowHighlighed(false);
         // Reset the error state to none
@@ -143,7 +143,7 @@ function HighScoreDialog(props) {
     function isNewScoreDialog() {
         // If we have a highlighted high score row it means we are displaying a new high score,
         // or if the personal best flag is true we are displayed a new personal best.
-        return props.highlightRowNumberRef.current >= 0 || props.personalBestRowHightlightedRef.current;
+        return props.highScoreHighlightIDRef.current || props.personalBestRowHightlightedRef.current;
     }
 
     /**
@@ -184,7 +184,7 @@ function HighScoreDialog(props) {
         <HighScoreTable
             ref={tableRef}
             level={props.level}
-            highlightRowNumber={props.highlightRowNumberRef.current}
+            highlightRowID={props.highScoreHighlightIDRef.current}
             highlightPersonalBest={props.personalBestRowHightlightedRef.current}
         />;
 

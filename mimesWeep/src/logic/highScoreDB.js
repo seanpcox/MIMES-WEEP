@@ -45,11 +45,11 @@ async function performDummyQuery() {
  * and to persist the result and execute the callback if it is.
  * @param {The user's score data} scoreData
  * @param {Callback method to open the dialog if the user got a high score position} openDialogCallback
- * @param {Callback method to set the highlighted row if the user got a high score position} setHighlightRowCallback
+ * @param {Callback method to set the highlighted row if the user got a high score position} setHighlightIDCallback
  * @param {Callback method to set the personal best row highlighted} setPersonalBestRowHighlighed
  * @param {The number of high score position} highScoreLimit
  */
-export async function saveIfHighScore(scoreData, openDialogCallback, setHighlightRowCallback,
+export async function saveIfHighScore(scoreData, openDialogCallback, setHighlightIDCallback,
   setPersonalBestRowHighlighed, isPB, highScoreLimit = gameSettings.highScorePositions) {
   // Query the datastore for the top results
   await getTopResultsQuery(scoreData.level, scoreData.datePeriod, highScoreLimit)
@@ -85,9 +85,6 @@ export async function saveIfHighScore(scoreData, openDialogCallback, setHighligh
           setPersonalBestRowHighlighed(false);
         }
 
-        // Set the highscore row position to highlight in the table
-        setHighlightRowCallback(position);
-
         // Get the replaced highscore, if there is one
         var deprecatedHighScore;
 
@@ -96,12 +93,13 @@ export async function saveIfHighScore(scoreData, openDialogCallback, setHighligh
         }
 
         // Save the highscore in the database, delete any deprecated high score, and open highscore dialog
-        save(scoreData, deprecatedHighScore, openDialogCallback);
+        // with the new highscore highlighted
+        save(scoreData, deprecatedHighScore, openDialogCallback, setHighlightIDCallback);
       }
       // If the user did not place but scored a personal best we also execute the callback function
       else if (isPB) {
         // Set no highscore row position highlighted
-        setHighlightRowCallback(-1);
+        setHighlightIDCallback(null);
         // Set the personal best row to highlight, it is the second row we add to our highscore data
         setPersonalBestRowHighlighed(true);
         // Open the highscore dialog
@@ -114,15 +112,19 @@ export async function saveIfHighScore(scoreData, openDialogCallback, setHighligh
  * Function to save the high score data, delete any high score entry no longer required,
  * and open the highscore dialog.
  * @param {Score data for game} scoreData
- * @param {object} deprecatedHighScore 
+ * @param {object} deprecatedHighScore
+ * @param {function} setHighlightIDCallback
  */
-async function save(scoreData, deprecatedHighScore, openDialogCallback) {
+async function save(scoreData, deprecatedHighScore, openDialogCallback, setHighlightIDCallback) {
   // Persist the high score data
   await DataStore.save(
     new Todo(scoreData)
   )
     // Then open highscore dialog and delete any undeeded high score entries
     .then((savedScore) => {
+      // Set the highscore row id to highlight
+      setHighlightIDCallback(savedScore.id);
+
       // Open the highscore dialog
       openDialogCallback(true);
 

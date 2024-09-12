@@ -48,7 +48,7 @@ function MimesWeep() {
 
   const timerRef = useRef(null);
 
-  const highScoreHighlightRowRef = useRef(-1);
+  const highScoreHighlightIDRef = useRef(null);
 
   const personalBestRowHightlightedRef = useRef(false);
 
@@ -69,11 +69,11 @@ function MimesWeep() {
   }
 
   /**
-   * Set the highscore row to highlight in the highscore dialog
-   * @param {Number} row
+   * Set the highscore row database id to highlight in the highscore dialog
+   * @param {string} row
    */
-  function setHighScoreHighlightRow(row) {
-    highScoreHighlightRowRef.current = row;
+  function setHighlightIDCallback(id) {
+    highScoreHighlightIDRef.current = id;
   }
 
   /**
@@ -355,7 +355,7 @@ function MimesWeep() {
 
       // Save to the database if a high score
       highScoreDB.saveIfHighScore(scoreData, openHighScoreDialog,
-        setHighScoreHighlightRow, setPersonalBestRowHighlighed, isPB);
+        setHighlightIDCallback, setPersonalBestRowHighlighed, isPB);
     }
   }
 
@@ -503,10 +503,10 @@ function MimesWeep() {
       <HelpDialog openHelpDialogCallback={openHelpDialogCallback} />
       <HighScoreDialog
         openHighScoreDialogCallback={openHighScoreDialogCallback}
-        setHighlightRowCallback={setHighScoreHighlightRow}
+        setHighlightIDCallback={setHighlightIDCallback}
         setPersonalBestRowHighlighed={setPersonalBestRowHighlighed}
         level={getLevelString()}
-        highlightRowNumberRef={highScoreHighlightRowRef}
+        highScoreHighlightIDRef={highScoreHighlightIDRef}
         personalBestRowHightlightedRef={personalBestRowHightlightedRef}
       />
     </div>

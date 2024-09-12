@@ -9,7 +9,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import PropTypes from 'prop-types';
 import { Period } from "../models/index.js";
-import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 /**
  * Component table showing high score and personal best times for different difficulty levels
@@ -25,17 +25,19 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
     const [rows, setRows] = useState([]);
 
 
-    // LOCAL VARIABLES
+    // REFS
 
-    // Store the rows locally as well, as state rows will not return on callback
-    var rowsLocal = [];
+    // Variable to store the highlighted highscore row, if any
+    const highlightedHighScoreRowRef = useRef(null);
 
 
     // EFFECTS
 
     useEffect(() => {
+        // Clear any previous ref
+        highlightedHighScoreRowRef.current = null;
         // We retrieve the high score and personal best results
-        highScoreDB.getTopResults(props.level, Period.ALL, setRowsCallback);
+        highScoreDB.getTopResults(props.level, Period.ALL, setRows);
     }, []);
 
 
@@ -50,7 +52,7 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
             getHighlightedHighScoreRow() {
                 // If the highlighted row is a valid high score row return it
                 if (isHighScoreRowHighligted()) {
-                    return rowsLocal[props.highlightRowNumber - 1];
+                    return highlightedHighScoreRowRef.current;
                 }
                 // Else check if the selected row is our personal best row, we indicate this using code -2
                 else if (isPersonalBestRowHighlighted()) {
@@ -68,23 +70,12 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
     // LOCAL FUNCTIONS
 
     /**
-     * Function to load in the high score rows from the data store and personal best row from local storage
-     * @param {High score and personal best rows} rows 
-     */
-    function setRowsCallback(rows) {
-        // We save a local copy as these are needed for callback functions, state rows do not return data
-        rowsLocal = rows;
-        // Set the state rows for render
-        setRows(rows);
-    }
-
-    /**
      * Function to determine if a high score row is highlighted. 
      * Highscore rows are from 0 to row count -1. The last row is our personal best row.
      * @returns True if highscore row is highlighted, else False
      */
     function isHighScoreRowHighligted() {
-        return props.highlightRowNumber >= 0 && props.highlightRowNumber <= rowsLocal.length - 1;
+        return props.highlightRowID && highlightedHighScoreRowRef.current;
     }
 
     /**
@@ -103,7 +94,14 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
      */
     function isHighlightedHighScoreRow(currentRow) {
         // Are we highlighting this high score row
-        return currentRow.position === props.highlightRowNumber;
+        if (currentRow.id === props.highlightRowID) {
+            // Set the local ref, for return later if user wants to update the username on score
+            highlightedHighScoreRowRef.current = currentRow;
+
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -170,7 +168,7 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
 
 HighScoreTable.propTypes = {
     level: PropTypes.string,
-    highlightRowNumber: PropTypes.number,
+    highlightRowID: PropTypes.string,
     highlightPersonalBest: PropTypes.bool
 }
 
