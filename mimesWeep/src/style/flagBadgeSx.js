@@ -29,7 +29,7 @@ export const StyledBadge = styled(Badge)(({ theme }) => ({
         right: -10,
         top: 9,
         border: `2px solid ${theme.palette.background.paper}`,
-        padding: '0 4px',
+        padding: '0 4px'
     },
 }));
 

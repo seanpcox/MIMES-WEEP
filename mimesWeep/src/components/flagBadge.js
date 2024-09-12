@@ -86,6 +86,8 @@ function FlagBadge(props) {
                     color={sx.badgeColor}
                     // Set the badge count
                     badgeContent={props.numOfMimes - guessCount}
+                    // Set the maximum count we will show before adding a "+"
+                    max='999'
                     // Set the color of the component based on selected state
                     sx={{
                         color: (selected) ? sx.selectedColor : sx.unselectedColor
