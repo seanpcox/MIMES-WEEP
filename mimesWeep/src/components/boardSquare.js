@@ -248,7 +248,8 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
      * @returns True if a hint, else False
      */
     function isHint() {
-        return Number(numOfMimeNeighbors - Math.floor(numOfMimeNeighbors)).toFixed(1) === 0.2;
+        // We need to do casting and to fixed decimal place as performing operations with decimals is not exact
+        return Number(Number(numOfMimeNeighbors - Math.floor(numOfMimeNeighbors)).toFixed(1)) === 0.2;
     }
 
     // RENDER

@@ -87,10 +87,14 @@ export function createNewBoard(height, width, numOfMimes) {
     const array = createEmptyBoard(height, width);
 
     // Randomly add the specified number of mimes to the board. Those values will be -0.9.
-    addMimes(array, numOfMimes);
+    // We are returned the shuffled 1D array of coordinates to use for the hint add.
+    var arrayIDIndexes = addMimes(array, numOfMimes);
 
     // Update the non-mime square values to indicate how many neighoring mimes (diagonal included, so 8 neighbors max) it has.
     addMimeNeighborCount(array);
+
+    // Add a hint to one square in the array i.e. indicate it is not a mime
+    addHint(array, arrayIDIndexes, numOfMimes, width);
 
     // Return the board array to play.
     return array;
@@ -226,6 +230,7 @@ function createEmptyBoard(height, width) {
  * Function to add a specified number of mimes to random locations in our 2D array game board
  * @param {Game board 2D array} array 
  * @param {Number of board mimes} numOfMimes 
+ * @returns array of shuffled coordinates in 1D format
  */
 function addMimes(array, numOfMimes) {
     var height = array.length;
@@ -247,19 +252,15 @@ function addMimes(array, numOfMimes) {
     shuffleArray(arrayIDIndexes);
 
     // Loop through the shuffled array until we reach our mime count
-    for (let count = 0; count < numOfMimes; count++) {
+    for (let index = 0; index < numOfMimes; index++) {
         // Convert the 1D array index back into an index for our 2D array
-        let i = Math.floor(arrayIDIndexes[count] / width);
-        let j = arrayIDIndexes[count] % width;
+        let coords = getCoordsFromArrayIDIndex(arrayIDIndexes, index, width);
 
         // Set the square to represent an unrevealed mime
-        array[i][j] = -0.9;
+        array[coords[0]][coords[1]] = -0.9;
     }
 
-    // We know the next entry in our shuffled list is not a mime so mark as hint
-    var i = Math.floor(arrayIDIndexes[numOfMimes] / width);
-    var j = arrayIDIndexes[numOfMimes] % width;
-    array[i][j] = 0.2;
+    return arrayIDIndexes;
 }
 
 /**
@@ -273,7 +274,7 @@ function addMimeNeighborCount(array) {
     // Loop through every square on the board
     for (var i = 0; i < height; i++) {
         for (var j = 0; j < width; j++) {
-            // If the square is a mime (negative value) the visit its neighbors (8 max)
+            // If the square is a mime (negative value) then visit its neighbors (8 max)
             if (array[i][j] < 0) {
                 visitMimeNeighbors(array, i, j);
             }
@@ -306,6 +307,51 @@ function visitMimeNeighbors(array, i, j) {
 }
 
 /**
+ * Function to add a hint to the array according to the hint code number:
+ * 0: No hint
+ * 1: Hint on any non-mime square
+ * 2: Hint on any non-mime square with no mime neighbors, if not possible fall back to 1
+ * @param {array} array
+ * @param {array} arrayIDIndexes
+ * @param {array} numOfMimes
+ * @param {number} width 
+ * @param {number} hintCode
+ */
+function addHint(array, arrayIDIndexes, numOfMimes, width, hintCode = 2) {
+    // We have chosen not to add any hints so return
+    if (hintCode === 0) {
+        return;
+    } else if (hintCode === 2) {
+        // We previously added mimes to the index range (0 to numOfMimes - 1) using this shuffled array
+        // Therefore we know we can not hint an indexes before numOfMimes index
+        // We loop through until we find an entry with no mime neighbors and mark it as a hint
+        // If we find none, then we fallback to hint code 1 logic
+        for (var index = numOfMimes; index < arrayIDIndexes.length; index++) {
+            // Convert the 1D array index back into an index for our 2D array
+            let coords = getCoordsFromArrayIDIndex(arrayIDIndexes, index, width);
+
+            if (array[coords[0]][coords[1]] === 0.1) {
+                // Set the square to represent a hint, that is it has no mime or mime neighbors
+                // We need to do casting and to fixed decimal place as performing operations with decimals is not exact
+                array[coords[0]][coords[1]] = Number(Number(array[coords[0]][coords[1]] + 0.1).toFixed(1));
+                return;
+            }
+        }
+    }
+
+    // If we are here either our hint code was 1 or it was 2 but we found no squares without a mime neighbor
+
+    // Convert the 1D array index back into an index for our 2D array
+    // We previously added mimes to the index range (0 to numOfMimes - 1) using this shuffled array
+    // Therefore we know that index at numOfMimes does not have a mime, so we will use it
+    let coords = getCoordsFromArrayIDIndex(arrayIDIndexes, numOfMimes, width);
+
+    // Set the square to represent a hint, that is it has no mime
+    // We need to do casting and to fixed decimal place as performing operations with decimals is not exact
+    array[coords[0]][coords[1]] = Number(Number(array[coords[0]][coords[1]] + 0.1).toFixed(1));
+}
+
+/**
  * Function to shuffle the values of an array using Fisher–Yates (aka Knuth) Shuffle
  * @param {1D array to shuffle} array 
  */
@@ -321,6 +367,21 @@ function shuffleArray(array) {
         [array[i], array[randomI]] = [
             array[randomI], array[i]];
     }
+}
+
+/**
+ * Function to get the i and j coordinates back from a 1D index array
+ * @param {array} arrayIDIndexes 
+ * @param {number} index 
+ * @param {number} width 
+ * @returns array with i and j coordinates
+ */
+function getCoordsFromArrayIDIndex(arrayIDIndexes, index, width) {
+    // Convert the 1D array index back into an index for our 2D array
+    let i = Math.floor(arrayIDIndexes[index] / width);
+    let j = arrayIDIndexes[index] % width;
+
+    return [i, j];
 }
 
 /**
