@@ -100,11 +100,14 @@ function HighScoreDialog(props) {
             // An ID of -1 means we had no highlighted high score or personal best row
             // An ID of -2 means that only the personal best row is highlighted
             if (row !== -1 && row !== -2) {
-                // Get the data store id of the new high score row
-                var id = row.id;
+                // If the username has been updated from the currently saved one then update the database
+                if (username !== row.user) {
+                    // Get the data store id of the new high score row
+                    var id = row.id;
 
-                // Update the username on the newly saved high score row
-                highScoreDB.updateUsername(id, username);
+                    // Update the username on the newly saved high score row
+                    highScoreDB.updateUsername(id, username);
+                }
 
                 // Save the provided username in local storage so we can use it by default next time
                 scoreLogic.setLSUsername(username);
