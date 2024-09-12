@@ -1,5 +1,7 @@
 import * as commonSx from './commonSx.js';
+import { Button } from '@mui/material';
 import EmojiEventsTwoToneIcon from '@mui/icons-material/TimerTwoTone';
+import { styled } from '@mui/material/styles';
 
 export const highScoresIcon = EmojiEventsTwoToneIcon;
 
@@ -9,3 +11,11 @@ export const timerBtn = {
     minWidth: 56,
     ...commonSx.btn
 };
+
+export const StyledButton = styled(Button)(() => ({
+    // Set the disable color of text to black
+    "&:disabled": {
+        color: 'black',
+        borderColor: '#c4c4c4'
+    }
+}));

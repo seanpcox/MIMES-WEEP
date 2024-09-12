@@ -88,7 +88,9 @@ export const altBlackMime = "Black Mime";
 
 export const altWhiteMime = "White Mime";
 
-export const tooltipTimeElapsed = "Time elapsed / High scores";
+export const tooltipTimeElapsed = "Time elapsed";
+
+export const tooltipTimeElapsedHS = "Time elapsed / High scores";
 
 export const highScoreDialogTitle = "High Scores";
 

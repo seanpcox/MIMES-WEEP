@@ -3,7 +3,6 @@ import * as gameText from '../resources/text/gameText.js';
 import * as sx from '../style/timerSx.js';
 import PropTypes from 'prop-types';
 import Tooltip from '@mui/material/Tooltip';
-import { Button } from '@mui/material';
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
 
 /**
@@ -154,19 +153,21 @@ const Timer = forwardRef(function Timer(props, inputRef) {
     // RENDER
 
     return <Tooltip
-        title={gameText.tooltipTimeElapsed}
+        title={props.difficulty === 4 ? gameText.tooltipTimeElapsed : gameText.tooltipTimeElapsedHS}
         placement={commonSx.tooltipPlacement}
         arrow={commonSx.tooltipArrow}
     >
-        <Button
-            variant={commonSx.btnVariant}
-            sx={sx.timerBtn}
-            onClick={props.openHighScoreDialogCallback}
-            disabled={props.difficulty === 4}
-            ref={ref}
-        >
-            {timerContent}
-        </Button>
+        <span>
+            <sx.StyledButton
+                variant={commonSx.btnVariant}
+                sx={sx.timerBtn}
+                onClick={props.openHighScoreDialogCallback}
+                disabled={props.difficulty === 4}
+                ref={ref}
+            >
+                {timerContent}
+            </sx.StyledButton>
+        </span>
     </Tooltip>;
 });
 
