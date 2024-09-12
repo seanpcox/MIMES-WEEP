@@ -20,13 +20,13 @@ import { Device } from "../models/index.js";
  */
 
 // The number of mimes in the easy level: default 10
-const numOfMimesOnEasyLevel = 10;
+const numOfMimesOnEasyLevel = 1;
 
 // The number of high score positions we support: default 10
-export const highScorePositions = 10;
+export const highScorePositions = 3;
 
 // Do we want to clear local storage on startup, this would delete all personal bests: default false
-export const clearLocalStorageOnStartup = false;
+export const clearLocalStorageOnStartup = true;
 
 // Constant for the type of device game is being currently being played on, will not change during play
 export const deviceType = getDeviceType();

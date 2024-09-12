@@ -22,12 +22,6 @@ export const btn = {
     ...btnHeight
 };
 
-export const btnMedium = {
-    width: 60,
-    maxWidth: 60,
-    ...btn
-};
-
 export const btnVariant = "outlined";
 
 export const flagIcon = TourTwoTone;

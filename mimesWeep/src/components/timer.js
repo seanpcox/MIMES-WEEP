@@ -1,4 +1,3 @@
-import * as commonLogic from '../logic/commonLogic.js';
 import * as commonSx from '../style/commonSx.js';
 import * as gameText from '../resources/text/gameText.js';
 import * as sx from '../style/timerSx.js';
@@ -146,9 +145,9 @@ const Timer = forwardRef(function Timer(props, inputRef) {
     if (timeElapsed === 0) {
         timerContent = <sx.highScoresIcon />;
     }
-    // Else if we have started counting then display the current elapsed time
+    // Else if we have started counting then display the current elapsed time in seconds
     else {
-        timerContent = commonLogic.getTimeElapsedString(timeElapsed);
+        timerContent = Math.floor(timeElapsed / 1000);
     }
 
 
@@ -161,7 +160,7 @@ const Timer = forwardRef(function Timer(props, inputRef) {
     >
         <Button
             variant={commonSx.btnVariant}
-            sx={commonSx.btnMedium}
+            sx={sx.timerBtn}
             onClick={props.openHighScoreDialogCallback}
             disabled={props.difficulty === 4}
             ref={ref}

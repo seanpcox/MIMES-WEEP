@@ -1,4 +1,3 @@
-import * as commonLogic from './commonLogic.js';
 import * as gameText from '../resources/text/gameText.js';
 import * as settings from './gameSettings.js';
 
@@ -21,24 +20,7 @@ export const usernameLSKey = "mimesweepUser";
  */
 export function createDataRow(position, user, time, date, deviceType, lastTime, id) {
     // Convert the time milliseconds into a string
-    var timeString = time.toString();
-    // Get the time string in human readable format in minutes (if applicable) and seconds
-    var timeHRString = commonLogic.getTimeElapsedString(time, false);
-
-    // If we have a time whose seconds match the last time add the first decimal of millseconds
-    if (lastTime && Math.floor(lastTime / 1000) === Math.floor(time / 1000)) {
-        timeHRString = timeHRString + "." + timeString[timeString.length - 3];
-    }
-
-    // If the times still match add the second decimal of millseconds
-    if (lastTime && Math.floor(lastTime / 100) === Math.floor(time / 100)) {
-        timeHRString = timeHRString + timeString[timeString.length - 2];
-    }
-
-    // If the times still match add the third decimal of millseconds
-    if (lastTime && Math.floor(lastTime / 10) === Math.floor(time / 10)) {
-        timeHRString = timeHRString + timeString[timeString.length - 1];
-    }
+    var timeHRString = (Math.floor(time / 1000)).toString();
 
     // Create the data row
     return createData(

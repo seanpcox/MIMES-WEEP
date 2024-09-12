@@ -1,9 +1,11 @@
-//import EmojiEventsTwoToneIcon from '@mui/icons-material/EmojiEventsTwoTone'
-
-//export const highScoresIcon = EmojiEventsTwoToneIcon;
-
-// Use the stopwatch icon vs high score until we finish implementing high score
-
+import * as commonSx from './commonSx.js';
 import EmojiEventsTwoToneIcon from '@mui/icons-material/TimerTwoTone';
 
 export const highScoresIcon = EmojiEventsTwoToneIcon;
+
+export const timerBtn = {
+    width: 56,
+    maxWidth: 56,
+    minWidth: 56,
+    ...commonSx.btn
+};

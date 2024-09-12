@@ -28,9 +28,9 @@ export const customBtn = {
 
 export const btnHelp = {
     ...commonSx.btn,
-    minWidth: 38,
-    width: 38,
-    maxWidth: 38
+    minWidth: 42,
+    width: 42,
+    maxWidth: 42
 };
 
 export const btnNew = {
