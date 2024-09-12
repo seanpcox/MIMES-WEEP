@@ -11,6 +11,7 @@ import Filter8TwoToneIcon from '@mui/icons-material/Filter8TwoTone';
 import mimeBlackIcon from '../resources/images/mimeBlackIcon.png';
 import mimeRedIcon from '../resources/images/mimeRedIcon.png';
 import mimeWhiteIcon from '../resources/images/mimeWhiteIcon.png';
+import MyLocationTwoToneIcon from '@mui/icons-material/MyLocationTwoTone';
 
 const squareSize = 36;
 
@@ -74,6 +75,8 @@ export const sixIcon = <Filter6TwoToneIcon sx={sixColor} />;
 export const sevenIcon = <Filter7TwoToneIcon sx={sevenColor} />;
 
 export const eightIcon = <Filter8TwoToneIcon sx={eightColor} />;
+
+export const hintIcon = <MyLocationTwoToneIcon />;
 
 export const flaggedUnknownColor = "warning";
 

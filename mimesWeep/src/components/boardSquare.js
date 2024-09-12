@@ -13,6 +13,7 @@ import { useState, forwardRef, useImperativeHandle, useRef } from 'react';
 
 // COMPONENT
 
+
 const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 
     // STATES
@@ -242,11 +243,19 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
         }
     }
 
+    /**
+     * Return if the square is a hint i.e. is not a mime
+     * @returns True if a hint, else False
+     */
+    function isHint() {
+        return Number(numOfMimeNeighbors - Math.floor(numOfMimeNeighbors)).toFixed(1) === 0.2;
+    }
+
     // RENDER
 
     // Mobile or Tablet Square
     // Touch events are IOS and Mouse events are Android
-    if (settings.deviceType != Device.DESKTOP) {
+    if (settings.deviceType !== Device.DESKTOP) {
 
         // Flagged Square
         if (numOfMimeNeighbors >= 9) {
@@ -285,7 +294,10 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 onMouseMove={contextMenuHandler.onTouchMove}
                 onContextMenu={(e) => e.preventDefault()}
                 onClick={(e) => e.preventDefault()}
-                sx={sx.squareSx} />
+                sx={sx.squareSx}
+            >
+                {isHint() ? sx.hintIcon : null}
+            </Button>
         }
 
         // Revealed Square
@@ -336,7 +348,9 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 onClick={setLeftClickState}
                 onContextMenu={setRightClickState}
                 sx={sx.squareSx}
-            />
+            >
+                {isHint() ? sx.hintIcon : null}
+            </Button>
         }
 
         // Revealed Square

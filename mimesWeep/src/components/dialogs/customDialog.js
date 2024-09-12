@@ -91,8 +91,8 @@ function CustomDialog(props) {
         var isWidthInvalid = false;
         var isNumOfMimesInvalid = false;
 
-        // Validate height is a positive whole number less or equal to the max allowed height
-        if (isNaN(height) || !Number.isInteger(Number(height)) || height <= 0 || height > maxHeight) {
+        // Validate height is a positive whole number greater than 1 and less or equal to the max allowed height
+        if (isNaN(height) || !Number.isInteger(Number(height)) || height <= 1 || height > maxHeight) {
             // Set error status on the height text field
             setHeightError(true);
             setHeight(null);
@@ -104,8 +104,8 @@ function CustomDialog(props) {
             isHeightInvalid = false;
         }
 
-        // Validate width is a positive whole number less or equal to the max allowed width
-        if (isNaN(width) || !Number.isInteger(Number(width)) || width <= 0 || width > maxWidth) {
+        // Validate width is a positive whole number greater than 1 and less or equal to the max allowed width
+        if (isNaN(width) || !Number.isInteger(Number(width)) || width <= 1 || width > maxWidth) {
             // Set the error status on the width text field
             setWidthError(true);
             setWidth(null);
@@ -117,10 +117,10 @@ function CustomDialog(props) {
             isWidthInvalid = false;
         }
 
-        // Validate number of mimes is a positive whole number and, if height and width valid, 
-        // not greater than the number of squares on the proposed board
-        if (isNaN(numOfMimes) || !Number.isInteger(Number(numOfMimes)) || numOfMimes < 0
-            || (!isHeightInvalid && !isWidthInvalid && numOfMimes > (width * height))) {
+        // Validate number of mimes is a positive none zero whole number and, if height and
+        // width valid, not greater or equal to the number of squares on the proposed board
+        if (isNaN(numOfMimes) || !Number.isInteger(Number(numOfMimes)) || numOfMimes <= 0
+            || (!isHeightInvalid && !isWidthInvalid && numOfMimes >= (width * height))) {
             // Set the error status on the number of mimes text field
             setNumOfMimesError(true);
             isNumOfMimesInvalid = true;
@@ -169,7 +169,7 @@ function CustomDialog(props) {
                         margin={sx.tfMarginType}
                         id="height"
                         name="height"
-                        label={gameText.customDialogHeight + " (1-" + maxHeight + ")"}
+                        label={gameText.customDialogHeight + " (2-" + maxHeight + ")"}
                         variant={sx.tfVariantType}
                     />
                     <Box sx={sx.spacingHeight} />
@@ -179,7 +179,7 @@ function CustomDialog(props) {
                         margin={sx.tfMarginType}
                         id="width"
                         name="width"
-                        label={gameText.customDialogWidth + " (1-" + maxWidth + ")"}
+                        label={gameText.customDialogWidth + " (2-" + maxWidth + ")"}
                         variant={sx.tfVariantType}
                     />
                     <Box sx={sx.spacingHeight} />
@@ -189,10 +189,10 @@ function CustomDialog(props) {
                         margin={sx.tfMarginType}
                         id="numOfMimes"
                         name="numOfMimes"
-                        label={gameText.customDialogMimes + " (0-" +
+                        label={gameText.customDialogMimes + " (1-" +
                             // We don't know the max number of mimes until user has submitted with a valid height and width so show "?"
                             // We will show max number of mimes though if after width and height validation the number is incorrect
-                            ((width == null || height == null) ? "?" : (width * height))
+                            ((width == null || height == null) ? "?" : ((width * height) - 1))
                             + ")"}
                         variant={sx.tfVariantType}
                     />

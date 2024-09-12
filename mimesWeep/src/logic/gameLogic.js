@@ -249,12 +249,17 @@ function addMimes(array, numOfMimes) {
     // Loop through the shuffled array until we reach our mime count
     for (let count = 0; count < numOfMimes; count++) {
         // Convert the 1D array index back into an index for our 2D array
-        var i = Math.floor(arrayIDIndexes[count] / width);
-        var j = arrayIDIndexes[count] % width
+        let i = Math.floor(arrayIDIndexes[count] / width);
+        let j = arrayIDIndexes[count] % width;
 
         // Set the square to represent an unrevealed mime
         array[i][j] = -0.9;
     }
+
+    // We know the next entry in our shuffled list is not a mime so mark as hint
+    var i = Math.floor(arrayIDIndexes[numOfMimes] / width);
+    var j = arrayIDIndexes[numOfMimes] % width;
+    array[i][j] = 0.2;
 }
 
 /**

@@ -116,7 +116,7 @@ const Board = forwardRef(function Board(props, inputRef) {
         }
 
         // Reveal the square by making it a whole number (represents a revealed square)
-        array[indexI][indexJ] = Number((array[indexI][indexJ] - 0.1).toFixed(1));
+        array[indexI][indexJ] = Math.floor(array[indexI][indexJ]);
 
         // If the revealed square is a mime (-1) we have lost the game
         if (array[indexI][indexJ] === -1) {
