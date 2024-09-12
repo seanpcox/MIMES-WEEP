@@ -154,6 +154,19 @@ export function getDifficultyString(difficulty) {
   }
 }
 
+
+/**
+ * Function to get a human readable difficulty level string including board size
+ * Includes board size as different devices have differing board sizes for the same difficulty level
+ * @returns Human readable difficulty level string
+ */
+export function getLevelString(difficulty) {
+  // Get the game settings for this device and difficulty level
+  var settings = getGameSettings(difficulty);
+  // Generate and return the level string, used in our database
+  return getDifficultyString(difficulty) + " (" + settings[0] + "x" + settings[1] + ")"
+}
+
 /**
  * Function to get user's device type
  * @returns Device type enum: Device.MOBILE, Device.TABLET, Device.DESKTOP

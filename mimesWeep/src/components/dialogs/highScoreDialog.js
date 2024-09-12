@@ -1,6 +1,8 @@
+import * as commonSx from '../../style/commonSx.js';
 import * as gameText from '../../resources/text/gameText';
 import * as highScoreDB from '../../logic/highScoreDB';
 import * as scoreLogic from '../../logic/scoreLogic.js';
+import * as settings from '../../logic/gameSettings.js';
 import * as sx from '../../style/highScoreDialogSx.js'
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
@@ -9,8 +11,10 @@ import DialogTitle from '@mui/material/DialogTitle';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import HighScoreTable from '../highScoreTable';
+import MenuItem from '@mui/material/MenuItem';
 import OutlinedInput from '@mui/material/OutlinedInput';
 import PropTypes from 'prop-types';
+import Select from '@mui/material/Select';
 import { Box, Button } from '@mui/material';
 import { Fragment, useEffect, useRef, useState } from 'react';
 
@@ -27,9 +31,9 @@ HighScoreDialog.propTypes = {
     openHighScoreDialogCallback: PropTypes.func,
     setHighlightIDCallback: PropTypes.func,
     setPersonalBestRowHighlighed: PropTypes.func,
-    level: PropTypes.string,
     highScoreHighlightIDRef: PropTypes.object,
-    personalBestRowHightlightedRef: PropTypes.object
+    personalBestRowHightlightedRef: PropTypes.object,
+    difficulty: PropTypes.number
 }
 
 // COMPONENT
@@ -42,6 +46,7 @@ function HighScoreDialog(props) {
 
     const [isError, setError] = useState(0);
 
+    const [difficulty, setDifficulty] = useState(props.difficulty);
 
     // REFS
 
@@ -52,7 +57,11 @@ function HighScoreDialog(props) {
 
     // Effect to open the high score dialog
     useEffect(() => {
+        // Open the dialog
         props.openHighScoreDialogCallback([open, setOpen]);
+
+        // Set the difficulty to match that of the main application
+        setDifficulty(props.difficulty);
     }, [props.openHighScoreDialogCallback, open]);
 
 
@@ -113,11 +122,11 @@ function HighScoreDialog(props) {
                 scoreLogic.setLSUsername(username);
 
                 // If this was also a personal best then update the name associated with it
-                scoreLogic.updatePersonalBestName(props.level, row.timeMs, row.dateES, username);
+                scoreLogic.updatePersonalBestName(getLevel(), row.timeMs, row.dateES, username);
             }
             // An ID of -2 means we only scored a personal best, not a high score, and want to update its associated username
             else if (row === -2) {
-                scoreLogic.savePersonalBestName(props.level, username);
+                scoreLogic.savePersonalBestName(getLevel(), username);
             }
         }
         // If the username is invalid then warn the user and prompt for an updated entry
@@ -172,7 +181,7 @@ function HighScoreDialog(props) {
      * @returns Title for high score dialog
      */
     function getTitle() {
-        return gameText.highScoreDialogTitle + " - " + props.level;
+        return gameText.highScoreDialogTitle + " - " + getLevel();
     }
 
     /**
@@ -193,6 +202,22 @@ function HighScoreDialog(props) {
         }
     }
 
+    /**
+     * Function to return the level string we use in our database
+     * @returns string
+     */
+    function getLevel() {
+        return settings.getLevelString(difficulty);
+    }
+
+    /**
+     * Function called when the a new value is selected in the difficulty dropdown
+     * @param {Drop down selection event object} event
+     */
+    function handleDifficultyChange(event) {
+        setDifficulty(event.target.value);
+    };
+
 
     // RENDER
 
@@ -204,7 +229,7 @@ function HighScoreDialog(props) {
     var highScoreTable =
         <HighScoreTable
             ref={tableRef}
-            level={props.level}
+            level={getLevel()}
             highlightRowID={props.highScoreHighlightIDRef.current}
             highlightPersonalBest={props.personalBestRowHightlightedRef.current}
         />;
@@ -238,7 +263,7 @@ function HighScoreDialog(props) {
         dialogContent =
             <DialogContent>
                 <Box sx={sx.spacingTopHeight} />
-                <FormControl error={isError !== 0} sx={sx.inputAreaWidth}>
+                <FormControl error={isError !== 0} sx={sx.formWidth}>
                     <InputLabel htmlFor="username">{inputLabel}</InputLabel>
                     <OutlinedInput
                         autoFocus
@@ -246,7 +271,7 @@ function HighScoreDialog(props) {
                         name="username"
                         defaultValue={defaultUsername}
                         label={inputLabel}
-                        sx={sx.inputAreaHeight}
+                        sx={sx.input}
                     />
                 </FormControl>
                 <Box sx={sx.spacingBottomHeight} />
@@ -272,6 +297,37 @@ function HighScoreDialog(props) {
         dialogContent =
             <DialogContent>
                 <Box sx={sx.spacingTopHeight} />
+                <FormControl sx={sx.formWidth}>
+                    <InputLabel htmlFor="difficulty">{gameText.hsDropDownLabel}</InputLabel>
+                    <Select
+                        value={difficulty}
+                        onChange={handleDifficultyChange}
+                        sx={sx.input}
+                        label={gameText.hsDropDownLabel}
+                        id="difficulty"
+                        name="difficulty"
+                    >
+                        <MenuItem
+                            value={1}
+                            sx={commonSx.font}
+                        >
+                            {settings.getDifficultyString(1)}
+                        </MenuItem>
+                        <MenuItem
+                            value={2}
+                            sx={commonSx.font}
+                        >
+                            {settings.getDifficultyString(2)}
+                        </MenuItem>
+                        <MenuItem
+                            value={3}
+                            sx={commonSx.font}
+                        >
+                            {settings.getDifficultyString(3)}
+                        </MenuItem>
+                    </Select>
+                </FormControl>
+                <Box sx={sx.spacingBottomHeight} />
                 {highScoreTable}
             </DialogContent>
 

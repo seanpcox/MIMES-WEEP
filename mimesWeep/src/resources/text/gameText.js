@@ -115,3 +115,5 @@ export const hsDialogExcludedWordErrorLabel = "Enter Non Excluded Word";
 export const personalBestRowID = "PB";
 
 export const unknownUsername = "Unknown";
+
+export const hsDropDownLabel = "Select Difficulty Level";

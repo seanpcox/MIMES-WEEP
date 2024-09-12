@@ -340,7 +340,7 @@ function MimesWeep() {
   function persistScore() {
     // Create the score data, use the last high score or personal best username if available
     const scoreData = {
-      level: getLevelString(),
+      level: settings.getLevelString(difficulty),
       deviceType: settings.deviceType,
       time: timerRef.current.getTimeElapsedTimer(),
       user: scoreLogic.getBestGuessUsername(),
@@ -359,14 +359,6 @@ function MimesWeep() {
     }
   }
 
-  /**
-   * Function to get a human readable difficulty level string including board size
-   * Includes board size as different devices have differing board sizes for the same difficulty level
-   * @returns Human readable difficulty level string
-   */
-  function getLevelString() {
-    return settings.getDifficultyString(difficulty) + " (" + height + "x" + width + ")"
-  }
 
   // LOGIC
 
@@ -505,9 +497,9 @@ function MimesWeep() {
         openHighScoreDialogCallback={openHighScoreDialogCallback}
         setHighlightIDCallback={setHighlightIDCallback}
         setPersonalBestRowHighlighed={setPersonalBestRowHighlighed}
-        level={getLevelString()}
         highScoreHighlightIDRef={highScoreHighlightIDRef}
         personalBestRowHightlightedRef={personalBestRowHightlightedRef}
+        difficulty={difficulty}
       />
     </div>
   );

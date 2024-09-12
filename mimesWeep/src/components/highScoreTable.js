@@ -38,7 +38,7 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
         highlightedHighScoreRowRef.current = null;
         // We retrieve the high score and personal best results
         highScoreDB.getTopResults(props.level, Period.ALL, setRows);
-    }, []);
+    }, [props.level]);
 
 
     // HANDLER
