@@ -1,4 +1,5 @@
 import * as dsConfig from '../resources/config/datastore.js';
+import * as gameSettings from '../logic/gameSettings.js';
 import * as scoreLogic from './scoreLogic.js';
 import { Amplify } from 'aws-amplify';
 import { DataStore, Predicates, SortDirection } from "@aws-amplify/datastore";
@@ -41,7 +42,7 @@ async function performDummyQuery() {
 
 /**
  * Function to determine if the user's time lists in a high score position 
- * and to persist the result and execute the callback if they do.
+ * and to persist the result and execute the callback if it is.
  * @param {The user's score data} scoreData
  * @param {Callback method to open the dialog if the user got a high score position} openDialogCallback
  * @param {Callback method to set the highlighted row if the user got a high score position} setHighlightRowCallback
@@ -49,12 +50,12 @@ async function performDummyQuery() {
  * @param {The number of high score position} highScoreLimit
  */
 export async function saveIfHighScore(scoreData, openDialogCallback, setHighlightRowCallback,
-  setPersonalBestRowHighlighed, isPB, highScoreLimit = scoreLogic.highScorePositions) {
+  setPersonalBestRowHighlighed, isPB, highScoreLimit = gameSettings.highScorePositions) {
   // Query the datastore for the top results
   await getTopResultsQuery(scoreData.level, scoreData.datePeriod, highScoreLimit)
     // Executed once results have been retrieved 
     .then((results) => {
-      // If no results user is position 1, else assume the user did not place to start
+      // If no results then score is highscore position 1, else assume the user did not place to start
       var position = (results.length === 0) ? 1 : -1
 
       // Loop through the results to see if the user time placed
@@ -76,20 +77,26 @@ export async function saveIfHighScore(scoreData, openDialogCallback, setHighligh
 
       // If the user placed then we save the highscore in the database and execute the callback function
       if (position > 0) {
-        // Save the highscore in the database
-        save(scoreData);
-        // Set the highscore row position to highlight in the table
-        setHighlightRowCallback(position);
-
-        // Set whether we also want to highlight the personal best row
+        // Set whether we want to highlight the personal best row,
+        // this would mean we got a high score and a personal best.
         if (isPB) {
           setPersonalBestRowHighlighed(true);
         } else {
           setPersonalBestRowHighlighed(false);
         }
 
-        // Open the highscore dialog
-        openDialogCallback(true);
+        // Set the highscore row position to highlight in the table
+        setHighlightRowCallback(position);
+
+        // Get the replaced highscore, if there is one
+        var deprecatedHighScore;
+
+        if (results.length === highScoreLimit) {
+          deprecatedHighScore = results[results.length - 1];
+        }
+
+        // Save the highscore in the database, delete any deprecated high score, and open highscore dialog
+        save(scoreData, deprecatedHighScore, openDialogCallback);
       }
       // If the user did not place but scored a personal best we also execute the callback function
       else if (isPB) {
@@ -104,14 +111,26 @@ export async function saveIfHighScore(scoreData, openDialogCallback, setHighligh
 }
 
 /**
- * Function to save the high score data
- * @param {Score data for game} scoreData 
+ * Function to save the high score data, delete any high score entry no longer required,
+ * and open the highscore dialog.
+ * @param {Score data for game} scoreData
+ * @param {object} deprecatedHighScore 
  */
-async function save(scoreData) {
+async function save(scoreData, deprecatedHighScore, openDialogCallback) {
   // Persist the high score data
   await DataStore.save(
     new Todo(scoreData)
-  );
+  )
+    // Then open highscore dialog and delete any undeeded high score entries
+    .then((savedScore) => {
+      // Open the highscore dialog
+      openDialogCallback(true);
+
+      if (deprecatedHighScore) {
+        // Delete any now deprecated high scores
+        deleteDeprecatedScore(deprecatedHighScore.time, deprecatedHighScore.date, scoreData.level, scoreData.datePeriod);
+      }
+    });
 }
 
 /**
@@ -122,7 +141,7 @@ async function save(scoreData) {
  * @param {Callback method to load the rows into} callback
  * @param {The max number of results to return} highScoreLimit
  */
-export async function getTopResults(level, period, callback, highScoreLimit = scoreLogic.highScorePositions) {
+export async function getTopResults(level, period, callback, highScoreLimit = gameSettings.highScorePositions) {
 
   // Query the datastore for the top results
   await getTopResultsQuery(level, period, highScoreLimit)
@@ -211,33 +230,23 @@ export async function updateUsername(id, username) {
 }
 
 /**
- * Function to delete all high score entries no longer required. These are those whose time 
- * is greater than the supplied time, or those that have an equal time but whose dates are later, 
+ * Function to delete the high score entry no longer required, 
+ * and any deprecated entries perhaps missed before .
+ * These are those whose time is >= the supplied time and whose date >= the supplied date,
  * for the specified difficulty level and win period.
  * @param {Time in milliseconds} time
  * @param {Date in epoch seconds} date
  * @param {Difficulty level string} level
  * @param {Win period enum} period
  */
-export async function deleteDeprecatedScores(time, date, level, period) {
+async function deleteDeprecatedScore(time, date, level, datePeriod) {
   await DataStore.delete(Todo,
-    (hs) => hs.or(hs =>
-      // Entries whose time is greater for the level and period
-      [hs.and(hs =>
-        [
-          hs.time.gt(time),
-          hs.level.eq(level),
-          hs.datePeriod.eq(period)
-        ]
-      )],
-      // Entries whose time is the same but date is later for the level and period
-      [hs.and(hs =>
-        [
-          hs.time.eq(time),
-          hs.date.gt(date),
-          hs.level.eq(level),
-          hs.datePeriod.eq(period)
-        ]
-      )]
+    (hs) => hs.and(hs =>
+      [
+        hs.time.ge(time),
+        hs.date.ge(date),
+        hs.level.eq(level),
+        hs.datePeriod.eq(datePeriod)
+      ]
     ));
 }

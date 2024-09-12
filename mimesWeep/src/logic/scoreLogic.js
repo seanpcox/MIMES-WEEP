@@ -6,11 +6,7 @@ import * as settings from './gameSettings.js';
  * Logic related to high scores and personal best times and display
  */
 
-export const highScorePositions = 3;
-
 export const usernameLSKey = "mimesweepUser";
-
-export const unknownUser = "Unknown";
 
 /**
  * Function to create a row of data
@@ -154,12 +150,12 @@ export function getPersonalBestDataRow(level) {
 
     // If we did not find a username for this personal best entry use "Unknown"
     if (!pbName) {
-        pbName = unknownUser;
+        pbName = gameText.unknownUsername;
     }
 
     // Create and return our data row
     return createDataRow(
-        "PB",
+        gameText.personalBestRowID,
         pbName,
         pbTime,
         pbDate,
@@ -176,7 +172,7 @@ export function getBestGuessUsername() {
     var username = getLSUsername();
 
     if (!username) {
-        username = unknownUser;
+        username = gameText.unknownUsername;
     }
 
     return username;

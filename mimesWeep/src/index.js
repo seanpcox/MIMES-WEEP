@@ -1,9 +1,15 @@
 import './style/index.css';
+import * as gameSettings from './logic/gameSettings.js';
 import * as highScoreDB from './logic/highScoreDB.js';
 import MimesWeep from './components/mimesWeep.js';
 import ReactDOM from 'react-dom/client';
 import React from 'react';
 import reportWebVitals from './reportWebVitals.js';
+
+// Clear local storage if set
+if (gameSettings.clearLocalStorageOnStartup) {
+  localStorage.clear();
+}
 
 // Setup and sync the data store
 highScoreDB.init();

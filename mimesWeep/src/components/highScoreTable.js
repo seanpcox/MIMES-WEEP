@@ -60,26 +60,6 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
                 else {
                     return -1;
                 }
-            },
-            /**
-             * Function to return the bottom position high score row
-             * @returns Bottom position high score row, or -1 if an empty placeholder row
-             */
-            getBottomHighScoreRow() {
-                // Get the second last row of our high score table, this is the bottom result. 
-                // The last row is the personal best.
-                let bottomHighScoreRow = rowsLocal[rowsLocal.length - 2];
-
-                // If the row does not have a valid time or date then we have an empty placeholder row.
-                // This occurs when we have not yet filled all the available high score positions.
-                if (bottomHighScoreRow.timeMs === null || bottomHighScoreRow.timeMs === ""
-                    || bottomHighScoreRow.dateES === null || bottomHighScoreRow.dateES === "") {
-                    return -1;
-                }
-                // Else return the bottom high score row
-                else {
-                    return bottomHighScoreRow;
-                }
             }
         };
     }, []);

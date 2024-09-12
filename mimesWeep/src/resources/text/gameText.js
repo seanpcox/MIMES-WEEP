@@ -109,3 +109,5 @@ export const hsDialogFormatErrorLabel = "Enter 1-10 Characters";
 export const hsDialogExcludedWordErrorLabel = "Enter Non Excluded Word";
 
 export const personalBestRowID = "PB";
+
+export const unknownUsername = "Unknown";

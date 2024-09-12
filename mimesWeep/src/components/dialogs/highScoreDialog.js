@@ -13,7 +13,6 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import PropTypes from 'prop-types';
 import { Box, Button } from '@mui/material';
 import { Fragment, useEffect, useRef, useState } from 'react';
-import { Period } from "../../models/index.js";
 
 /**
  * Dialog to display the high scores and personal best times associated with the current level
@@ -107,17 +106,6 @@ function HighScoreDialog(props) {
                 // Update the username on the newly saved high score row
                 highScoreDB.updateUsername(id, username);
 
-                // Retrieve the bottom high score row
-                var bottomHighScoreRow = tableRef.current.getBottomHighScoreRow();
-
-                // If we get a valid row returned then delete all high scores with times greater than it from the database.
-                // We also delete entries with times equal to it but with a later date. 
-                // In the event of time ties we use date to determine order, where the earlier date wins.
-                // If we get -1 this usually indicates that we have yet to fill all the high score positions.
-                if (bottomHighScoreRow !== -1) {
-                    highScoreDB.deleteDeprecatedScores(bottomHighScoreRow.timeMs, bottomHighScoreRow.dateES, props.level, Period.ALL);
-                }
-
                 // Save the provided username in local storage so we can use it by default next time
                 scoreLogic.setLSUsername(username);
 
@@ -173,7 +161,7 @@ function HighScoreDialog(props) {
     function isUsernameNonExcludedWord(username) {
         // We exclude the default "Unknown" to encourage users to enter a unique username
         return username && username.length > 0 &&
-            username.toLowerCase() !== scoreLogic.unknownUser.toLowerCase();
+            username.toLowerCase() !== gameText.unknownUsername.toLowerCase();
     }
 
     /**
@@ -222,7 +210,7 @@ function HighScoreDialog(props) {
 
         // If the last username used is the excluded word "Unknown" then clear it
         // We are trying to encourage users to enter a unique username
-        if (defaultUsername == scoreLogic.unknownUser) {
+        if (defaultUsername === gameText.unknownUsername) {
             defaultUsername = "";
         }
 
