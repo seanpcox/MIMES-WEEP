@@ -17,5 +17,9 @@ export const StyledButton = styled(Button)(() => ({
     "&:disabled": {
         color: 'black',
         borderColor: '#c4c4c4'
+    },
+    // Set the hover color to the same as other buttons in toolbar
+    ':hover': {
+        borderColor: 'black'
     }
 }));

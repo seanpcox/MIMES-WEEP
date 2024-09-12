@@ -5,7 +5,6 @@ import * as sx from '../style/flagBadgeSx.js';
 import PropTypes from 'prop-types';
 import Tooltip from '@mui/material/Tooltip';
 import { Device } from "../models/index.js";
-import { ToggleButton } from '@mui/material';
 import { useState, useEffect } from 'react';
 
 /**
@@ -70,7 +69,7 @@ function FlagBadge(props) {
             placement={commonSx.tooltipPlacement}
             arrow={commonSx.tooltipArrow}
         >
-            <ToggleButton
+            <sx.StyledToggleButton
                 value="check"
                 selected={selected}
                 onChange={onToggleAction}
@@ -96,7 +95,7 @@ function FlagBadge(props) {
                 >
                     <commonSx.flagIcon />
                 </sx.StyledBadge>
-            </ToggleButton>
+            </sx.StyledToggleButton>
         </Tooltip>
     );
 }
