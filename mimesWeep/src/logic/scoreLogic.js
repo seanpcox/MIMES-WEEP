@@ -20,7 +20,7 @@ export const usernameLSKey = "mimesweepUser";
  */
 export function createDataRow(position, user, time, date, deviceType, lastTime, id) {
     // Convert the time milliseconds into a string
-    var timeHRString = (Math.floor(time / 1000)).toString();
+    var timeHRString = (time / 1000).toString();
 
     // Create the data row
     return createData(
@@ -28,7 +28,7 @@ export function createDataRow(position, user, time, date, deviceType, lastTime, 
         position,
         // User name
         user,
-        // Time taken in minutes (if applicable) and seconds string format
+        // Time taken in seconds string format
         timeHRString,
         // Date in localized format
         convertEpochToString(date),
