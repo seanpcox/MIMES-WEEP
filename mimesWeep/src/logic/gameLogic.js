@@ -177,9 +177,6 @@ export function visitZeroNeighbors(array, i, j, squaresClearedCoords = []) {
  */
 export function getChordActionNeighbors(array, i, j) {
 
-    // 2D array for return, containing coordinates of any revealed squares
-    var revealedSquareCoords = [];
-
     // The value of the supplied array position tells us how many flags we are expecting
     var flags = array[i][j];
 
@@ -201,10 +198,28 @@ export function getChordActionNeighbors(array, i, j) {
 
     // If we have too few or too many neighboring flags then exit now
     if (flags !== 0) {
-        return revealedSquareCoords;
+        return [];
     }
 
-    // Visit each neighboring coordinate again to reveal its contents, if not already revealed
+    // Return our 2d array of square coordinates to reveal
+    return getUnrevleadUnflaggedNeighbors(array, i, j, nCoords);
+}
+
+/**
+ * Function to get any neighboring squares that are unrevealed and unflagged for
+ * a revealed square number.
+ * @param {array} array
+ * @param {number} i
+ * @param {number} j
+ * @param {any[][]} [nCoords=getNeighbourCoordinates(i, j)]
+ * @return array of coordinates of unrevealed and unflagged neighboring squares
+ */
+export function getUnrevleadUnflaggedNeighbors(array, i, j, nCoords = getNeighbourCoordinates(i, j)) {
+
+    // 2D array for return, containing coordinates of unrevealed and unflagged neighboring squares
+    var potentialMimeCoords = [];
+
+    // Visit each neighboring coordinate to see if it should be included
     for (let index = 0; index < nCoords.length; index++) {
 
         // Check neighbor coordinate is within the array boundary, else skip
@@ -215,14 +230,14 @@ export function getChordActionNeighbors(array, i, j) {
                 // We check it is not 9 or more (represents a flagged square)
                 && !(array[nCoords[index][0]][nCoords[index][1]] >= 9)) {
 
-                // Add the revealed square's coordinates to our list of visted squares
-                revealedSquareCoords.push([nCoords[index][0], nCoords[index][1]]);
+                // Add the revealed square's coordinates to our list
+                potentialMimeCoords.push([nCoords[index][0], nCoords[index][1]]);
             }
         }
     }
 
-    // Return our 2d array of revealed square coordinates
-    return revealedSquareCoords;
+    // Return our 2d array of potential mime neighbor coordinates
+    return potentialMimeCoords;
 }
 
 /**

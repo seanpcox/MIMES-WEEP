@@ -22,6 +22,8 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 
     const [mimeDetonatedIconSize, setMimeDetonatedIconSize] = useState(sx, sx.mimeDetonatedIconInitialSize);
 
+    const [highlight, setHighlight] = useState(false);
+
     // REFS
 
     const ref = useRef(null);
@@ -57,6 +59,9 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 
                 // Trigger the mime detonated animation
                 triggeredMimeDetonatedAnimation();
+            },
+            hightlight(isHighlight) {
+                setHighlight(isHighlight);
             }
         };
     }, []);
@@ -101,7 +106,21 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
      * Callback function executed when left-click/tap occurs on a revealed number square
      */
     const setChordClickState = () => {
-        props.btnChordActionCallback(props.indexI, props.indexJ);
+        props.btnChordActionCallback(props.indexI, props.indexJ, true);
+    }
+
+    /**
+     * Callback function executed when we press down on a revealed number square
+     */
+    const setMouseDownState = () => {
+        props.btnChordActionCallback(props.indexI, props.indexJ, false, true);
+    }
+
+    /**
+     * Callback function executed when we end the press down on a revealed number square
+     */
+    const setMouseDownEndedState = () => {
+        props.btnChordActionCallback(props.indexI, props.indexJ, false, false);
     }
 
     /**
@@ -302,7 +321,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 onMouseMove={contextMenuHandler.onTouchMove}
                 onContextMenu={(e) => e.preventDefault()}
                 onClick={(e) => e.preventDefault()}
-                sx={sx.squareSx}
+                sx={(highlight) ? sx.highlightSquareSx : sx.squareSx}
             >
                 {isHint() ? sx.hintIcon : null}
             </Button>
@@ -310,24 +329,21 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 
         // Revealed Square
         else {
-            return <Button
-                ref={ref}
+            return <sx.RevealedButton
+                disabled={numOfMimeNeighbors === 0}
                 variant={sx.revealedVariant}
-                disabled={true}
-                onTouchStart={contextMenuHandler.onTouchStart}
-                onTouchCancel={contextMenuHandler.onTouchCancel}
-                onTouchEnd={contextMenuHandler.onTouchEnd}
-                onTouchMove={contextMenuHandler.onTouchMove}
-                onMouseDown={contextMenuHandler.onTouchStart}
-                onMouseLeave={contextMenuHandler.onTouchCancel}
-                onMouseUp={contextMenuHandler.onTouchEnd}
-                onMouseMove={contextMenuHandler.onTouchMove}
+                ref={ref}
+                onTouchStart={setMouseDownState}
+                onTouchCancel={setMouseDownEndedState}
+                onTouchEnd={setMouseDownEndedState}
+                onMouseDown={setMouseDownState}
+                onMouseUp={setMouseDownEndedState}
+                onMouseLeave={setMouseDownEndedState}
+                onClick={setChordClickState}
                 onContextMenu={(e) => e.preventDefault()}
-                onClick={(e) => e.preventDefault()}
-                sx={sx.squareSx}
             >
                 {getIcon(numOfMimeNeighbors)}
-            </Button>;
+            </sx.RevealedButton>;
         }
     }
 
@@ -355,7 +371,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 ref={ref}
                 onClick={setLeftClickState}
                 onContextMenu={setRightClickState}
-                sx={sx.squareSx}
+                sx={(highlight) ? sx.highlightSquareSx : sx.squareSx}
             >
                 {isHint() ? sx.hintIcon : null}
             </Button>
@@ -367,7 +383,11 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 disabled={numOfMimeNeighbors === 0}
                 variant={sx.revealedVariant}
                 ref={ref}
+                onMouseDown={setMouseDownState}
+                onMouseUp={setMouseDownEndedState}
+                onMouseLeave={setMouseDownEndedState}
                 onClick={setChordClickState}
+                onContextMenu={(e) => e.preventDefault()}
             >
                 {getIcon(numOfMimeNeighbors)}
             </sx.RevealedButton>;

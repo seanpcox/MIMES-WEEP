@@ -200,7 +200,9 @@ const Board = forwardRef(function Board(props, inputRef) {
 
     /**
      * Function to process a chord action, which is when we left-click (Desktop)
-     * or tap (Mobile or Tablet) a revealed number square.
+     * or tap (Mobile or Tablet) a revealed number square, if isReveal set to true.
+     * Or function to highlight potential mimesquares only when we press down
+     * and to unhighlight them when we press up or move away, if isReveal set to false.
      * A chord action will reveal all neighboring squares of this square, providing that
      * the correct amount of flags have been placed around the square.
      * Ex: If we click on a Number 2 square. If there are already 2 flags beside it then we will reveal
@@ -208,15 +210,32 @@ const Board = forwardRef(function Board(props, inputRef) {
      * This is to improve gameplay by making clearing the board faster and less monotonous.
      * @param {The square's row} indexI
      * @param {The square's column} indexJ
+     * @param {bool} isReveal
+     * @param {boolean} [isHighlight=false] 
      */
-    function btnChordActionCallback(indexI, indexJ) {
+    function btnChordActionCallback(indexI, indexJ, isReveal, isHighlight = false) {
 
         // Get the coordinates of squares to be revealed as part of the chord action
-        var revealedNeighbors = logic.getChordActionNeighbors(array, indexI, indexJ);
+        var revealNeighborsCoords = logic.getChordActionNeighbors(array, indexI, indexJ);
 
-        // Perform left click action on all of the neighbors we wish to reveal
-        for (var index = 0; index < revealedNeighbors.length; index++) {
-            btnLeftClickCallback(revealedNeighbors[index][0], revealedNeighbors[index][1]);
+        // If we have neighbors to reveal
+        if (revealNeighborsCoords && revealNeighborsCoords.length > 0 && isReveal) {
+            // Perform left click action on all of the neighbors we wish to reveal
+            for (let index = 0; index < revealNeighborsCoords.length; index++) {
+                btnLeftClickCallback(revealNeighborsCoords[index][0], revealNeighborsCoords[index][1]);
+            }
+
+            // Exit
+            return;
+        }
+
+        // Else highlight any neighboring squares that could be potential mimes
+
+        var hNgCoords = logic.getUnrevleadUnflaggedNeighbors(array, indexI, indexJ);
+
+        // Perform highlight on all of the unrevealed and unflagged neighbors
+        for (let index = 0; index < hNgCoords.length; index++) {
+            ref.current[getRefIndex(width, hNgCoords[index][0], hNgCoords[index][1])].hightlight(isHighlight);
         }
     }
 

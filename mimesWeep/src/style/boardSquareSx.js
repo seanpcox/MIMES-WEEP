@@ -28,6 +28,12 @@ export const squareSx = {
     minHeight: squareSizePx
 };
 
+export const highlightSquareSx = {
+    backgroundColor: '#6e95d4',
+    transition: "background 0.5s",
+    ...squareSx
+};
+
 export const RevealedButton = styled(Button)(() => ({
     borderColor: disabledBorderColor,
     ...squareSx,
