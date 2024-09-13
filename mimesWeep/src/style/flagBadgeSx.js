@@ -7,7 +7,7 @@ import { ToggleButton } from '@mui/material';
 
 export const selectedColor = grey[900];
 
-export const unselectedColor = grey[500];
+export const unselectedColor = grey[400];
 
 export const iconMargin = -1;
 

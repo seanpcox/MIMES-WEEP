@@ -1,14 +1,12 @@
 import * as commonSx from '../style/commonSx.js';
 import * as gameText from '../resources/text/gameText';
-import * as settings from '../logic/gameSettings.js';
 import * as sx from '../style/flagBadgeSx.js';
 import PropTypes from 'prop-types';
 import Tooltip from '@mui/material/Tooltip';
-import { Device } from "../models/index.js";
 import { useState, useEffect } from 'react';
 
 /**
- * Component that is both a toggle button, allowing users to place flags using primary action (left-click or tap),
+ * Component that is both a toggle button, allowing users to turn on/off the use of flags,
  * and a badge count, initially showing the total number of board mimes and then tracks the number of flags placed
  */
 
@@ -17,8 +15,7 @@ import { useState, useEffect } from 'react';
 FlagBadge.propTypes = {
     numOfMimes: PropTypes.number,
     incrementGuessCountCallback: PropTypes.func,
-    guessButtonToggledCallback: PropTypes.func,
-    setButtonToggleCallback: PropTypes.func
+    guessButtonToggledCallback: PropTypes.func
 }
 
 // COMPONENT
@@ -29,7 +26,7 @@ function FlagBadge(props) {
 
     const [guessCount, setGuessCount] = useState(0);
 
-    const [selected, setSelected] = useState(false);
+    const [selected, setSelected] = useState(true);
 
 
     // EFFECTS
@@ -38,11 +35,6 @@ function FlagBadge(props) {
     useEffect(() => {
         props.incrementGuessCountCallback([guessCount, setGuessCount]);
     }, [props.incrementGuessCountCallback, guessCount]);
-
-    // Effect to mark the toggle button selected or unselected
-    useEffect(() => {
-        props.setButtonToggleCallback([selected, setSelected]);
-    }, [props.setButtonToggleCallback, selected]);
 
 
     // INTERNAL FUNCTIONS
@@ -64,8 +56,7 @@ function FlagBadge(props) {
 
     return (
         <Tooltip
-            title={gameText.tooltipFlagToogle +
-                ((settings.deviceType !== Device.DESKTOP) ? gameText.controlsTapLC : gameText.controlsLClickLC)}
+            title={(selected) ? gameText.tooltipFlagToogleDs : gameText.tooltipFlagToogleEn}
             placement={commonSx.tooltipPlacement}
             arrow={commonSx.tooltipArrow}
         >

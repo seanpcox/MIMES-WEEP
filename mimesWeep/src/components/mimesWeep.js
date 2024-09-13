@@ -146,25 +146,6 @@ function MimesWeep() {
     }
   };
 
-  var setButtonToggleChildFunction;
-
-  /**
-   * Callback function to set the flag guess button selected or unselected
-   * @param {Either the child function or the state to set the flag guess button} callbackParams 
-   */
-  const setButtonToggleCallback = (callbackParams) => {
-
-    // If an array we are getting the child callback function we need, store it
-    if (Array.isArray(callbackParams)) {
-      setButtonToggleChildFunction = callbackParams[1];
-    }
-
-    // Else we already have the child callback function and we call to set the Flag Guess button state
-    else {
-      setButtonToggleChildFunction(callbackParams);
-    }
-  };
-
   var showLoseMessage;
 
   /**
@@ -328,10 +309,6 @@ function MimesWeep() {
 
     // No flags are now placed
     setGuessCountChildFunction(0);
-
-    // Set Flag Guess button to unselected and inform child component
-    setGuessButtonToggledChildFunction(false);
-    setButtonToggleChildFunction(false);
   }
 
   /**
@@ -459,7 +436,7 @@ function MimesWeep() {
           numOfMimes={numOfMimes}
           incrementGuessCountCallback={incrementGuessCountCallback}
           guessButtonToggledCallback={guessButtonToggledCallback}
-          setButtonToggleCallback={setButtonToggleCallback} />
+          />
         <Box sx={sx.btnSpacingWidth} />
         <Tooltip
           title={gameText.tooltipHelp}

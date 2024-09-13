@@ -32,12 +32,10 @@ function HelpDialog(props) {
 
     var revealControl = gameText.helpDialogControlsLClick;
     var flagControl = gameText.helpDialogControlsRClick;
-    var flagControlSecondary = gameText.controlsLClickLC;
 
     if (settings.deviceType !== Device.DESKTOP) {
         revealControl = gameText.helpDialogControlsTap;
         flagControl = gameText.helpDialogControlsPress;
-        flagControlSecondary = gameText.controlsTapLC;
     }
 
 
@@ -87,10 +85,6 @@ function HelpDialog(props) {
                         <li>
                             <strong>{flagControl}</strong>
                             {gameText.helpDialogControlsFlagText}
-                        </li>
-                        <li>
-                            <strong>{gameText.helpDialogControlsFlagButton}</strong>
-                            {gameText.helpDialogControlsFlagTextToggle + flagControlSecondary}
                         </li>
                     </ul>
                     <p />

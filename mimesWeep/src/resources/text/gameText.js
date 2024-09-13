@@ -58,8 +58,6 @@ export const helpDialogControlsRevealText = "Reveal a square";
 
 export const helpDialogControlsFlagText = "Place or remove a flag";
 
-export const helpDialogControlsFlagTextToggle = "Place or remove a flag with ";
-
 export const helpDialogTips = "Tips";
 
 export const helpDialogTipsBullet1 = "A number on a revealed square indicates how many neighboring squares have hidden mimes.";
@@ -78,7 +76,9 @@ export const tooltipNew = "Start a new game";
 
 export const tooltipDifficulty = "Change the difficulty level";
 
-export const tooltipFlagToogle = "Place flags using ";
+export const tooltipFlagToogleEn = "Enable Flags";
+
+export const tooltipFlagToogleDs = "Disable Flags";
 
 export const tooltipHelp = "Open help";
 

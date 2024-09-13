@@ -15,7 +15,7 @@ const Board = forwardRef(function Board(props, inputRef) {
 
     // STATES
 
-    const [guessButtonToggled, setGuessButtonToggled] = useState(false);
+    const [guessButtonToggled, setGuessButtonToggled] = useState(true);
 
 
     // LOCAL VARIABLES
@@ -104,12 +104,6 @@ const Board = forwardRef(function Board(props, inputRef) {
      */
     function btnLeftClickCallback(indexI, indexJ) {
 
-        // If the Flag Guess toggle button is selected perform the right-click/long-press action
-        if (guessButtonToggled) {
-            btnRightClickCallback(indexI, indexJ);
-            return;
-        }
-
         // If the square is flagged then return, flag must be removed before it can be reveraled
         if (array[indexI][indexJ] >= 9) {
             return;
@@ -174,6 +168,11 @@ const Board = forwardRef(function Board(props, inputRef) {
      * @param {The square's column} indexJ
      */
     function btnRightClickCallback(indexI, indexJ) {
+
+        // If the Flag Guess toggle button is disabled we do not allow flags, so return
+        if (!guessButtonToggled) {
+            return;
+        }
 
         // If the square is already flagged we remove the flag
         if (array[indexI][indexJ] >= 9) {

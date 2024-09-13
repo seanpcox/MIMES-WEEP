@@ -14,11 +14,10 @@ export const usernameLSKey = "mimesweepUser";
  * @param {Time taken in milliseconds} time
  * @param {EpochTimeStamp in seconds} date
  * @param {Type of device game was played on} deviceType
- * @param {Previous rows time for comparison} lastTime
  * @param {Database ID} id
  * @returns Row for table display
  */
-export function createDataRow(position, user, time, date, deviceType, lastTime, id) {
+export function createDataRow(position, user, time, date, deviceType, id) {
     // Convert the time milliseconds into a string, always show 3 post decimal to be consistent
     var timeHRString = (time / 1000).toFixed(3);
 

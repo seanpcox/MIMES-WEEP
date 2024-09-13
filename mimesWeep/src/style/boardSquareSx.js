@@ -1,5 +1,4 @@
 import * as gameText from '../resources/text/gameText.js';
-import { blue, green, pink, red, deepPurple, purple, blueGrey, teal } from '@mui/material/colors';
 import Filter1TwoToneIcon from '@mui/icons-material/Filter1TwoTone';
 import Filter2TwoToneIcon from '@mui/icons-material/Filter2TwoTone';
 import Filter3TwoToneIcon from '@mui/icons-material/Filter3TwoTone';
@@ -12,10 +11,15 @@ import mimeBlackIcon from '../resources/images/mimeBlackIcon.png';
 import mimeRedIcon from '../resources/images/mimeRedIcon.png';
 import mimeWhiteIcon from '../resources/images/mimeWhiteIcon.png';
 import MyLocationTwoToneIcon from '@mui/icons-material/MyLocationTwoTone';
+import { blue, green, pink, red, deepPurple, purple, blueGrey, teal } from '@mui/material/colors';
+import { Button } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 const squareSize = 36;
 
 const squareSizePx = squareSize + 'px';
+
+const disabledBorderColor = '#e4e4e4';
 
 export const squareSx = {
     maxWidth: squareSizePx,
@@ -23,6 +27,15 @@ export const squareSx = {
     minWidth: squareSizePx,
     minHeight: squareSizePx
 };
+
+export const RevealedButton = styled(Button)(() => ({
+    borderColor: disabledBorderColor,
+    ...squareSx,
+    // Set the hover color to the same as other buttons in toolbar
+    ':hover': {
+        borderColor: disabledBorderColor
+    }
+}));
 
 export const mimeIconSize = 24;
 

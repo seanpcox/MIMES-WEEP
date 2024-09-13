@@ -152,9 +152,6 @@ export async function getTopResults(level, period, callback, highScoreLimit = ga
       // Rows to supply to our callback function
       var rows = [];
 
-      // Store the previous results time to determine if we have a tie in seconds
-      var lastTime;
-
       // Loop until we reach the high score position limit supplied
       for (var i = 0; i < highScoreLimit; i++) {
         // If we have data for this high score position then use it
@@ -168,12 +165,8 @@ export async function getTopResults(level, period, callback, highScoreLimit = ga
               results[i].time,
               results[i].date,
               results[i].deviceType,
-              lastTime,
               results[i].id)
           );
-
-          // Record this time to use to test for a time tie with the next result
-          lastTime = results[i].time;
         }
         // Else create an empty row placeholder for this high score position
         else {

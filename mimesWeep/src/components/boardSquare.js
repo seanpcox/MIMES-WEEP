@@ -97,6 +97,10 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
         props.btnRightClickCallback(props.indexI, props.indexJ);
     };
 
+    const setChordClickState = () => {
+        console.log("chord click");
+    }
+
     /**
      * Function to return the icon that represents a revealed or flagged square's current state
      * @param {Square's number of neighboring mimes} numOfMimeNeighbors 
@@ -356,16 +360,14 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 
         // Revealed Square
         else {
-            return <Button
+            return <sx.RevealedButton
+                disabled={numOfMimeNeighbors === 0}
                 variant={sx.revealedVariant}
-                disabled={true}
                 ref={ref}
-                onClick={setLeftClickState}
-                onContextMenu={setRightClickState}
-                sx={sx.squareSx}
+                onClick={setChordClickState}
             >
                 {getIcon(numOfMimeNeighbors)}
-            </Button>;
+            </sx.RevealedButton>;
         }
     }
 });
