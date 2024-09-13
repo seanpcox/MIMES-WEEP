@@ -199,6 +199,28 @@ const Board = forwardRef(function Board(props, inputRef) {
     }
 
     /**
+     * Function to process a chord action, which is when we left-click (Desktop)
+     * or tap (Mobile or Tablet) a revealed number square.
+     * A chord action will reveal all neighboring squares of this square, providing that
+     * the correct amount of flags have been placed around the square.
+     * Ex: If we click on a Number 2 square. If there are already 2 flags beside it then we will reveal
+     * all the other unrevealed and unflagged squares that are its neighbors.
+     * This is to improve gameplay by making clearing the board faster and less monotonous.
+     * @param {The square's row} indexI
+     * @param {The square's column} indexJ
+     */
+    function btnChordActionCallback(indexI, indexJ) {
+
+        // Get the coordinates of squares to be revealed as part of the chord action
+        var revealedNeighbors = logic.getChordActionNeighbors(array, indexI, indexJ);
+
+        // Perform left click action on all of the neighbors we wish to reveal
+        for (var index = 0; index < revealedNeighbors.length; index++) {
+            btnLeftClickCallback(revealedNeighbors[index][0], revealedNeighbors[index][1]);
+        }
+    }
+
+    /**
      * Function to refresh all squares on the board, required when we start a new game or clear the board on win/lose
      */
     function refreshAllSquares() {
@@ -233,6 +255,7 @@ const Board = forwardRef(function Board(props, inputRef) {
                         indexJ={indexJ}
                         btnLeftClickCallback={btnLeftClickCallback}
                         btnRightClickCallback={btnRightClickCallback}
+                        btnChordActionCallback={btnChordActionCallback}
                     />
                 ))}
             </Box>

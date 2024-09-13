@@ -112,27 +112,27 @@ export function createNewBoard(height, width, numOfMimes) {
 export function visitZeroNeighbors(array, i, j, squaresClearedCoords = []) {
 
     // Get the coordinates of the square's potential 8 neighbors.
-    const neighbors = getNeighbourCoordinates(i, j);
+    const nCoords = getNeighbourCoordinates(i, j);
 
     // Visit each neighbor.
-    for (var count = 0; count < neighbors.length; count++) {
+    for (var index = 0; index < nCoords.length; index++) {
 
         // Check neighbor location is within the array boundary, else skip
-        if (checkWithinBounds(array, neighbors[count])) {
+        if (checkWithinBounds(array, nCoords[index])) {
 
             // If a neighbor itself has no neighboring mimes, has not been revealved, and has not been flagged
 
             // 0.1 represents an unrevealed, unflagged square with no mime neighbors
-            if (array[neighbors[count][0]][neighbors[count][1]] === 0.1) {
+            if (array[nCoords[index][0]][nCoords[index][1]] === 0.1) {
 
                 // Reveal the square by making it a whole number (subtract 0.1).
-                array[neighbors[count][0]][neighbors[count][1]] = 0;
+                array[nCoords[index][0]][nCoords[index][1]] = 0;
 
                 // Add the revealed square's coordinates to our list of visted squares
-                squaresClearedCoords.push([neighbors[count][0], neighbors[count][1]]);
+                squaresClearedCoords.push([nCoords[index][0], nCoords[index][1]]);
 
                 // Now visit all the neighbors of this just revealed square
-                var results = visitZeroNeighbors(array, neighbors[count][0], neighbors[count][1]);
+                var results = visitZeroNeighbors(array, nCoords[index][0], nCoords[index][1]);
 
                 // Add all of the visited coordinates resulting from this neighbor
                 for (var n = 0; n < results.length; n++) {
@@ -144,22 +144,85 @@ export function visitZeroNeighbors(array, i, j, squaresClearedCoords = []) {
             // Else if a neighbor has neighboring mimes, is not a mime itself, has not been revealved, and has not been flagged
 
             // We check it is not a whole number (represents unrevealed)
-            else if (array[neighbors[count][0]][neighbors[count][1]] % 1 !== 0
+            else if (array[nCoords[index][0]][nCoords[index][1]] % 1 !== 0
                 // We check it is not 9 or more (represents a flagged square)
-                && !(array[neighbors[count][0]][neighbors[count][1]] >= 9)) {
+                && !(array[nCoords[index][0]][nCoords[index][1]] >= 9)) {
 
                 // Reveal the square by making it a whole number (subtract 0.1). 
                 // Fixed and Cast required as floating point numbers do not always resolve precisely.         
-                array[neighbors[count][0]][neighbors[count][1]] = Number((array[neighbors[count][0]][neighbors[count][1]] - 0.1).toFixed(1));
+                array[nCoords[index][0]][nCoords[index][1]]
+                    = Number((array[nCoords[index][0]][nCoords[index][1]] - 0.1).toFixed(1));
 
                 // Add the revealed square's coordinates to our list of visted squares
-                squaresClearedCoords.push([neighbors[count][0], neighbors[count][1]]);
+                squaresClearedCoords.push([nCoords[index][0], nCoords[index][1]]);
             }
         }
     }
 
     // Return the list of coordinates of squares we visited
     return squaresClearedCoords;
+}
+
+/**
+ * Function to get any squares to reveal as part of a "chord" action.
+ * A chord action reveals all unrevealed and unflagged neighboring squares of a supplied
+ * revealed number square, but only if it has the correct amount of neighboring squares flagged.
+ * Ex: If we click on a Number 2 square. If there are already 2 flags beside it then we will reveal
+ * all the other unrevealed and unflagged squares that are its neighbors.
+ * This is to improve gameplay by making clearing the board faster and less monotonous.
+ * @param {array} array
+ * @param {number} i
+ * @param {number} j
+ * @return array of coordinates of any squares to reveal
+ */
+export function getChordActionNeighbors(array, i, j) {
+
+    // 2D array for return, containing coordinates of any revealed squares
+    var revealedSquareCoords = [];
+
+    // The value of the supplied array position tells us how many flags we are expecting
+    var flags = array[i][j];
+
+    // The coordinates of the squares 8 potential neighbors
+    var nCoords = getNeighbourCoordinates(i, j);
+
+    // Visit each neighboring coordinate to count which are flags
+    for (let index = 0; index < nCoords.length; index++) {
+
+        // Check neighbor coordinate is within the array boundary, else skip
+        if (checkWithinBounds(array, nCoords[index])) {
+
+            // Check if neighbor is an unrevealed flag, and if so decrement our flag count
+            if (array[nCoords[index][0]][nCoords[index][1]] > 9) {
+                flags = flags - 1;
+            }
+        }
+    }
+
+    // If we have too few or too many neighboring flags then exit now
+    if (flags !== 0) {
+        return revealedSquareCoords;
+    }
+
+    // Visit each neighboring coordinate again to reveal its contents, if not already revealed
+    for (let index = 0; index < nCoords.length; index++) {
+
+        // Check neighbor coordinate is within the array boundary, else skip
+        if (checkWithinBounds(array, nCoords[index])) {
+
+            // We check it is not a whole number (represents already unrevealed)
+            if (array[nCoords[index][0]][nCoords[index][1]] % 1 !== 0
+                // We check it is not 9 or more (represents a flagged square)
+                && !(array[nCoords[index][0]][nCoords[index][1]] >= 9)) {
+
+                // Add the revealed square's coordinates to our list of visted squares
+                revealedSquareCoords.push([nCoords[index][0], nCoords[index][1]]);
+            }
+        }
+    }
+
+    // Return our 2d array of revealed square coordinates
+    return revealedSquareCoords;
 }
 
 /**

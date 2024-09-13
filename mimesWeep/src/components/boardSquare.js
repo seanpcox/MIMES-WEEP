@@ -97,8 +97,11 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
         props.btnRightClickCallback(props.indexI, props.indexJ);
     };
 
+    /**
+     * Callback function executed when left-click/tap occurs on a revealed number square
+     */
     const setChordClickState = () => {
-        console.log("chord click");
+        props.btnChordActionCallback(props.indexI, props.indexJ);
     }
 
     /**
@@ -379,7 +382,8 @@ BoardSquare.propTypes = {
     indexI: PropTypes.number,
     indexJ: PropTypes.number,
     btnLeftClickCallback: PropTypes.func,
-    btnRightClickCallback: PropTypes.func
+    btnRightClickCallback: PropTypes.func,
+    btnChordActionCallback: PropTypes.func
 }
 
 // EXPORT
