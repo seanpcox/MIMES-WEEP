@@ -19,8 +19,8 @@ export const usernameLSKey = "mimesweepUser";
  * @returns Row for table display
  */
 export function createDataRow(position, user, time, date, deviceType, lastTime, id) {
-    // Convert the time milliseconds into a string
-    var timeHRString = (time / 1000).toString();
+    // Convert the time milliseconds into a string, always show 3 post decimal to be consistent
+    var timeHRString = (time / 1000).toFixed(3);
 
     // Create the data row
     return createData(
