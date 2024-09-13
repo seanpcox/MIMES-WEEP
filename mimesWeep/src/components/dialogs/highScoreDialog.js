@@ -298,7 +298,9 @@ function HighScoreDialog(props) {
             <DialogContent>
                 <Box sx={sx.spacingTopHeight} />
                 <FormControl sx={sx.formWidth}>
-                    <InputLabel htmlFor="difficulty">{gameText.hsDropDownLabel}</InputLabel>
+                    <InputLabel htmlFor="difficulty">
+                        {gameText.hsDropDownLabel}
+                    </InputLabel>
                     <Select
                         value={difficulty}
                         onChange={handleDifficultyChange}
