@@ -21,11 +21,9 @@ export const toolbar = {
 };
 
 export const difficultySelect = {
-    width: 60,
-    maxWidth: 60,
     height: '14px',
     maxHeight: '14px',
-    ...commonSx.btn
+    ...commonSx.btnMedium
 };
 
 export const customBtn = {
@@ -45,29 +43,22 @@ export const btnSquare = {
 };
 
 export const StyledButton = styled(Button)(() => ({
-    // Set the hover color to the same as other buttons in toolbar
-    ':hover': {
-        borderColor: 'black'
-    }
+    // Set the hover and focus behaviour to the same as other buttons in toolbar
+    ':hover': commonSx.btnHoverStyle,
+    '&:focus': commonSx.btnFocusStyle
 }));
 
 export const BootstrapInput = styled(InputBase)(() => ({
     '& .MuiInputBase-input': {
-        position: 'relative',
-        border: '1px solid #ced4da',
-        ...commonSx.font,
-        ...commonSx.btnColor,
+        border: '1px solid',
         height: '14px',
         maxHeight: '14px',
         padding: '5px 5px 10px 5px',
-        ':hover': {
-            borderColor: 'black'
-        },
-        '&:focus': {
-            borderRadius: 2,
-            borderColor: 'black',
-            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
-        }
+        ...commonSx.font,
+        ...commonSx.btnColor,
+        // Set the hover and focus behaviour to the same as other buttons in toolbar
+        ':hover': commonSx.btnHoverStyle,
+        '&:focus': commonSx.btnFocusStyle
     }
 }));
 

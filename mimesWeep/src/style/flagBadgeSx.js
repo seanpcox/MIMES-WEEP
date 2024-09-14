@@ -11,27 +11,24 @@ export const unselectedColor = grey[400];
 
 export const iconMargin = -1;
 
-const flagBtn = {
-    width: 60,
-    maxWidth: 60,
-    ...commonSx.btn
-};
-
 export const flagBtnNoBadge = {
     justifyContent: "center",
-    ...flagBtn
+    ...commonSx.btnMedium
 };
 
 export const flagBtnBadge = {
     justifyContent: "left",
-    ...flagBtn
+    ...commonSx.btnMedium
 };
 
 export const StyledToggleButton = styled(ToggleButton)(() => ({
-    // Set the hover color to the same as other buttons in toolbar
-    ':hover': {
-        borderColor: 'black'
-    }
+    "&.Mui-selected, &.Mui-selected:hover": {
+        color: commonSx.btnTextColor,
+        backgroundColor: commonSx.btnBackgroundColor
+    },
+    // Set the hover and focus behaviour to the same as other buttons in toolbar
+    ':hover': commonSx.btnHoverStyle,
+    '&:focus': commonSx.btnFocusStyle
 }));
 
 export const StyledBadge = styled(Badge)(({ theme }) => ({

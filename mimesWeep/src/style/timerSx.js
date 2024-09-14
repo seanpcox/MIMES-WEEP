@@ -5,21 +5,10 @@ import { styled } from '@mui/material/styles';
 
 export const highScoresIcon = EmojiEventsTwoToneIcon;
 
-export const timerBtn = {
-    width: 60,
-    maxWidth: 60,
-    minWidth: 60,
-    ...commonSx.btn
-};
-
 export const StyledButton = styled(Button)(() => ({
-    // Set the disable color of text to black
-    "&:disabled": {
-        color: 'black',
-        borderColor: '#c4c4c4'
-    },
-    // Set the hover color to the same as other buttons in toolbar
-    ':hover': {
-        borderColor: 'black'
-    }
+    // Set the disabled text and border color to be the same as an enabled button
+    "&:disabled": commonSx.btnColor,
+    // Set the hover and focus behaviour to the same as other buttons in toolbar
+    ':hover': commonSx.btnHoverStyle,
+    '&:focus': commonSx.btnFocusStyle
 }));

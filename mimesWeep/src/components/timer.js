@@ -160,7 +160,7 @@ const Timer = forwardRef(function Timer(props, inputRef) {
         <span>
             <sx.StyledButton
                 variant={commonSx.btnVariant}
-                sx={sx.timerBtn}
+                sx={commonSx.btnMedium}
                 onClick={props.openHighScoreDialogCallback}
                 disabled={props.difficulty === 4}
                 ref={ref}
