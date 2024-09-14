@@ -404,7 +404,7 @@ function MimesWeep() {
                 sx={commonSx.font}
               >
                 <Button sx={sx.customBtn}>
-                  {sx.easyLevelIcon}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(1)}
+                  {sx.easyLevelIcon}&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(1)}
                 </Button>
               </MenuItem>
               <MenuItem
@@ -412,7 +412,7 @@ function MimesWeep() {
                 sx={commonSx.font}
               >
                 <Button sx={sx.customBtn}>
-                  {sx.mediumLevelIcon}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(2)}
+                  {sx.mediumLevelIcon}&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(2)}
                 </Button>
               </MenuItem>
               <MenuItem
@@ -420,7 +420,7 @@ function MimesWeep() {
                 sx={commonSx.font}
               >
                 <Button sx={sx.customBtn}>
-                  {sx.hardLevelIcon}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(3)}
+                  {sx.hardLevelIcon}&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(3)}
                 </Button>
               </MenuItem>
               <Divider />
@@ -430,7 +430,7 @@ function MimesWeep() {
                   sx={sx.customBtn}
                   onClick={openCustomDialogCallback}
                 >
-                  {sx.customLevelIcon}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(4)}
+                  {sx.customLevelIcon}&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(4)}
                 </Button>
               </MenuItem>
             </Select>
