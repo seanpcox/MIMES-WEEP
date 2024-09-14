@@ -15,7 +15,7 @@ export const spacingHeight = { height: 10 };
 export const btnSpacingWidth = { width: 7 };
 
 export const toolbar = {
-    justifyContent: "center",
+    justifyContent: 'center',
     padding: 0,
     margin: 0
 };
@@ -27,12 +27,12 @@ export const difficultySelect = {
 };
 
 export const customBtn = {
-    justifyContent: "left",
+    color: 'inherit',
+    justifyContent: 'left',
     width: '100%',
     minHeight: 0,
     padding: 0,
-    ...commonSx.font,
-    ...commonSx.btnColor
+    ...commonSx.font
 };
 
 export const btnSquare = {
