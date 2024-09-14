@@ -12,7 +12,7 @@ import { styled } from '@mui/material/styles';
 
 export const spacingHeight = { height: 10 };
 
-export const btnSpacingWidth = { width: 5 };
+export const btnSpacingWidth = { width: 7 };
 
 export const toolbar = {
     justifyContent: "center",
@@ -53,7 +53,11 @@ export const BootstrapInput = styled(InputBase)(() => ({
         border: '1px solid',
         height: '14px',
         maxHeight: '14px',
-        padding: '5px 5px 10px 5px',
+        marginRight: 0,
+        width: 11,
+        minWidth: 11,
+        maxWidth: 11,
+        padding: '5px 5px 10px 8px',
         ...commonSx.font,
         ...commonSx.btnColor,
         // Set the hover and focus behaviour to the same as other buttons in toolbar

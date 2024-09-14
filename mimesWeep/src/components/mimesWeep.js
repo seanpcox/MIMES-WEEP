@@ -436,7 +436,6 @@ function MimesWeep() {
             </Select>
           </FormControl>
         </Tooltip>
-        <Box sx={sx.btnSpacingWidth} />
         <Timer
           openHighScoreDialogCallback={openHighScoreDialogCallback}
           difficulty={difficulty}
