@@ -68,19 +68,21 @@ export const helpDialogTipsBullet3 = "Place flags on squares you suspect of hidi
 
 export const helpDialogTipsBullet4 = "Use the edge of your screen when scrolling to avoid accidentally revealing a square.";
 
-export const helpDialogCredits = "Credits";
+export const helpDialogCredits = "Author";
 
 export const helpDialogCreditsBullet1 = "Sean Cox";
 
-export const tooltipNew = "Start a new game";
+export const tooltipNew = "New Game";
 
-export const tooltipDifficulty = "Change the difficulty level";
+export const tooltipDifficulty = "Difficulty Level";
 
 export const tooltipFlagToogleEn = "Enable Flags";
 
 export const tooltipFlagToogleDs = "Disable Flags";
 
-export const tooltipHelp = "Open help";
+export const tooltipHelp = "Open Help";
+
+export const tooltipSettings = "Open Settings";
 
 export const altRedMime = "Red Mime";
 
@@ -88,9 +90,9 @@ export const altBlackMime = "Black Mime";
 
 export const altWhiteMime = "White Mime";
 
-export const tooltipTimeElapsed = "Time elapsed";
+export const tooltipTimeElapsed = "Time Elapsed";
 
-export const tooltipTimeElapsedHS = "Time elapsed / High scores";
+export const tooltipTimeElapsedHS = "Time Elapsed / High scores";
 
 export const highScoreDialogTitle = "High Scores";
 

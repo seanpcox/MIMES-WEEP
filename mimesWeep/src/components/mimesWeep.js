@@ -252,6 +252,9 @@ function MimesWeep() {
     }
   };
 
+  const openSettingsDialogCallback = (callbackParams) => {
+    console.log("TO DO", callbackParams);
+  };
 
   // LOCAL METHODS
 
@@ -444,6 +447,19 @@ function MimesWeep() {
           incrementGuessCountCallback={incrementGuessCountCallback}
           guessButtonToggledCallback={guessButtonToggledCallback}
         />
+        <Box sx={sx.btnSpacingWidth} />
+        <Tooltip
+          title={gameText.tooltipSettings}
+          placement={commonSx.tooltipPlacement}
+          arrow={commonSx.tooltipArrow}
+        >
+          <sx.StyledButton
+            variant={commonSx.btnVariant}
+            onClick={openSettingsDialogCallback}
+            sx={sx.btnSquare}>
+            {sx.settingsIcon}
+          </sx.StyledButton>
+        </Tooltip>
         <Box sx={sx.btnSpacingWidth} />
         <Tooltip
           title={gameText.tooltipHelp}

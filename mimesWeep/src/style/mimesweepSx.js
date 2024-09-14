@@ -5,12 +5,13 @@ import InsertEmoticonTwoToneIcon from '@mui/icons-material/InsertEmoticonTwoTone
 import NotStartedTwoToneIcon from '@mui/icons-material/NotStartedTwoTone';
 import SentimentSatisfiedAltTwoToneIcon from '@mui/icons-material/SentimentSatisfiedAltTwoTone';
 import SentimentVerySatisfiedTwoToneIcon from '@mui/icons-material/SentimentVerySatisfiedTwoTone';
+import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
 import { Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 export const spacingHeight = { height: 10 };
 
-export const btnSpacingWidth = { width: 4 };
+export const btnSpacingWidth = { width: 5 };
 
 export const toolbar = {
     justifyContent: "center",
@@ -49,8 +50,6 @@ export const StyledButton = styled(Button)(() => ({
 
 export const newGameIcon = <NotStartedTwoToneIcon />;
 
-export const helpIcon = <HelpTwoTone />;
-
 export const easyLevelIcon = <SentimentVerySatisfiedTwoToneIcon />;
 
 export const mediumLevelIcon = <InsertEmoticonTwoToneIcon />;
@@ -58,3 +57,7 @@ export const mediumLevelIcon = <InsertEmoticonTwoToneIcon />;
 export const hardLevelIcon = <SentimentSatisfiedAltTwoToneIcon />;
 
 export const customLevelIcon = <BuildCircleTwoToneIcon />;
+
+export const helpIcon = <HelpTwoTone />;
+
+export const settingsIcon = <SettingsTwoToneIcon />;
