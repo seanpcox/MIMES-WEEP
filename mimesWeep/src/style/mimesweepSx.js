@@ -1,6 +1,7 @@
 import * as commonSx from './commonSx.js';
 import BuildCircleTwoToneIcon from '@mui/icons-material/BuildCircleTwoTone';
 import HelpTwoTone from '@mui/icons-material/HelpTwoTone';
+import InputBase from '@mui/material/InputBase';
 import InsertEmoticonTwoToneIcon from '@mui/icons-material/InsertEmoticonTwoTone';
 import NotStartedTwoToneIcon from '@mui/icons-material/NotStartedTwoTone';
 import SentimentSatisfiedAltTwoToneIcon from '@mui/icons-material/SentimentSatisfiedAltTwoTone';
@@ -20,8 +21,8 @@ export const toolbar = {
 };
 
 export const difficultySelect = {
-    width: 66,
-    maxWidth: 66,
+    width: 60,
+    maxWidth: 60,
     ...commonSx.btn
 };
 
@@ -45,6 +46,23 @@ export const StyledButton = styled(Button)(() => ({
     // Set the hover color to the same as other buttons in toolbar
     ':hover': {
         borderColor: 'black'
+    }
+}));
+
+export const BootstrapInput = styled(InputBase)(() => ({
+    '& .MuiInputBase-input': {
+        borderRadius: 4,
+        position: 'relative',
+        border: '1px solid #ced4da',
+        ...commonSx.font,
+        ...commonSx.btnColor,
+        minHeight: '18px',
+        height: '18px',
+        maxHeight: '18px',
+        padding: '5px 5px 15px 5px',
+        ':hover': {
+            borderColor: 'black'
+        }
     }
 }));
 

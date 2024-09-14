@@ -1,5 +1,7 @@
 import TourTwoTone from '@mui/icons-material/TourTwoTone';
 
+export const buttonHeight = 40;
+
 export const font = {
     fontSize: 16,
     fontFamily: 'Arial',
@@ -12,8 +14,8 @@ export const btnColor = {
 };
 
 export const btnHeight = {
-    maxHeight: 40,
-    minHeight: 40
+    maxHeight: buttonHeight,
+    minHeight: buttonHeight
 };
 
 export const btn = {

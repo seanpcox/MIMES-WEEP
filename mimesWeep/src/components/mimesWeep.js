@@ -397,6 +397,7 @@ function MimesWeep() {
               value={difficulty}
               onChange={handleDifficultyChange}
               sx={sx.difficultySelect}
+              input={<sx.BootstrapInput />}
             >
               <MenuItem
                 value={1}
