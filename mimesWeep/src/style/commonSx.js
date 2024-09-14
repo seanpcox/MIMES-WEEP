@@ -32,6 +32,7 @@ export const btn = {
 };
 
 export const btnMedium = {
+    minWidth: 60,
     width: 60,
     maxWidth: 60,
     ...btn

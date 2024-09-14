@@ -3,14 +3,14 @@
 }
 
 .mimesWeep-header {
-  background-color: #3b517d;
+  background-color: #282c34;
   max-height: 10vh;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   font-size: 6vmin;
-  color: #dbdde0;
+  color: #61dafb;
   letter-spacing: 12px;
   padding-left: 12px;
 }
