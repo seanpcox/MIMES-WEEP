@@ -353,6 +353,7 @@ function MimesWeep() {
   var width = gameSettings[1];
   var numOfMimes = gameSettings[2];
 
+
   // COMPONENT
 
   return (
@@ -398,19 +399,25 @@ function MimesWeep() {
                 value={1}
                 sx={commonSx.font}
               >
-                {settings.getDifficultyString(1)}
+                <Button sx={sx.customBtn}>
+                  {sx.easyLevelIcon}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(1)}
+                </Button>
               </MenuItem>
               <MenuItem
                 value={2}
                 sx={commonSx.font}
               >
-                {settings.getDifficultyString(2)}
+                <Button sx={sx.customBtn}>
+                  {sx.mediumLevelIcon}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(2)}
+                </Button>
               </MenuItem>
               <MenuItem
                 value={3}
                 sx={commonSx.font}
               >
-                {settings.getDifficultyString(3)}
+                <Button sx={sx.customBtn}>
+                  {sx.hardLevelIcon}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(3)}
+                </Button>
               </MenuItem>
               <Divider />
               <MenuItem
@@ -419,7 +426,7 @@ function MimesWeep() {
                   sx={sx.customBtn}
                   onClick={openCustomDialogCallback}
                 >
-                  {settings.getDifficultyString(4)}
+                  {sx.customLevelIcon}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(4)}
                 </Button>
               </MenuItem>
             </Select>
@@ -436,7 +443,7 @@ function MimesWeep() {
           numOfMimes={numOfMimes}
           incrementGuessCountCallback={incrementGuessCountCallback}
           guessButtonToggledCallback={guessButtonToggledCallback}
-          />
+        />
         <Box sx={sx.btnSpacingWidth} />
         <Tooltip
           title={gameText.tooltipHelp}

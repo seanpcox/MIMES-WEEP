@@ -1,5 +1,9 @@
 import * as commonSx from './commonSx.js';
+import BuildCircleTwoToneIcon from '@mui/icons-material/BuildCircleTwoTone';
 import HelpTwoTone from '@mui/icons-material/HelpTwoTone';
+import InsertEmoticonTwoToneIcon from '@mui/icons-material/InsertEmoticonTwoTone';
+import SentimentSatisfiedAltTwoToneIcon from '@mui/icons-material/SentimentSatisfiedAltTwoTone';
+import SentimentVerySatisfiedTwoToneIcon from '@mui/icons-material/SentimentVerySatisfiedTwoTone';
 import { Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
@@ -14,8 +18,8 @@ export const toolbar = {
 };
 
 export const difficultySelect = {
-    width: 110,
-    maxWidth: 110,
+    width: 68,
+    maxWidth: 68,
     ...commonSx.btn
 };
 
@@ -50,3 +54,11 @@ export const StyledButton = styled(Button)(() => ({
 }));
 
 export const helpIcon = HelpTwoTone;
+
+export const easyLevelIcon = <SentimentVerySatisfiedTwoToneIcon />;
+
+export const mediumLevelIcon = <InsertEmoticonTwoToneIcon />;
+
+export const hardLevelIcon = <SentimentSatisfiedAltTwoToneIcon />;
+
+export const customLevelIcon = <BuildCircleTwoToneIcon />;
