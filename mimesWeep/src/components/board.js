@@ -46,18 +46,12 @@ const Board = forwardRef(function Board(props, inputRef) {
     useImperativeHandle(inputRef, () => {
         return {
             /**
-             * Imperative function that sets new game parameters and refreshes all board squares
-             * @param {The new game board 2D array} newArray 
+             * Imperative function that reveals all unrevealed squares
              */
-            refresh(newArray) {
+            revealAll() {
 
-                // Update the game parameters
-                array = newArray;
-                height = array.length;
-                width = array[0].length;
-
-                // Refresh all square components
-                refreshAllSquares();
+                // Reveal all unrevealed squares
+                revealAllSquares();
             }
         };
     }, []);
@@ -240,16 +234,24 @@ const Board = forwardRef(function Board(props, inputRef) {
     }
 
     /**
-     * Function to refresh all squares on the board, required when we start a new game or clear the board on win/lose
+     * Function to reveal all unrevealed squares on the board
      */
-    function refreshAllSquares() {
+    function revealAllSquares() {
 
         // Loop through every square on the board
         for (var i = 0; i < height; i++) {
             for (var j = 0; j < width; j++) {
 
-                // Call refresh on the board square component
-                ref.current[getRefIndex(width, i, j)].refresh(array[i][j]);
+                // If the square is not a whole number it has not been revealed
+                if (array[i][j] % 1 !== 0) {
+                    // Reveal the square by making it a whole number.
+                    // We round here vs using Math.floor() as we can have squares with mimes with -0.9 value that we need to change to -1
+                    // and squares with +0.1 where we need to change to 0.0
+                    array[i][j] = Math.round(array[i][j]);
+
+                    // Call refresh on the board square component
+                    ref.current[getRefIndex(width, i, j)].refresh(array[i][j]);
+                }
             }
         }
     }

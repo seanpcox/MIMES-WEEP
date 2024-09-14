@@ -62,11 +62,8 @@ function GameBoard(props) {
      */
     function lostGameCallback() {
 
-        // Reveals all values in the gameboard 2D array not yet revealed
-        logic.clearGameBoard(array);
-
-        // Refresh all square components on the board
-        ref.current.refresh(array);
+        // Reveal all unrevealed square components on the board
+        ref.current.revealAll();
 
         // Display lose message to the user
         props.displayLoseMessageCallback();
@@ -99,11 +96,8 @@ function GameBoard(props) {
      */
     function gameWon() {
 
-        // Reveals all values in the gameboard 2D array not yet revealed, which would be unflagged mimes
-        logic.clearGameBoard(array);
-
-        // Refresh all square components on the board
-        ref.current.refresh(array);
+        // Reveal all unrevealed square components on the board
+        ref.current.revealAll();
 
         // Display win message to the user
         props.displayWinMessageCallback();

@@ -241,29 +241,6 @@ export function getUnrevleadUnflaggedNeighbors(array, i, j, nCoords = getNeighbo
 }
 
 /**
- * Function to reveal all squares on a board not yet revealed
- * @param {Game board 2D array} array 
- */
-export function clearGameBoard(array) {
-    var height = array.length;
-    var width = array[0].length;
-
-    // Loop through every square on the board
-    for (var i = 0; i < height; i++) {
-        for (var j = 0; j < width; j++) {
-
-            // If the square is not a whole number it has not been visited
-            if (array[i][j] % 1 !== 0) {
-                // Reveal the square by making it a whole number.
-                // We round here vs using Math.floor() as we can have squares with mimes with -0.9 value that we need to change to -1
-                // and squares with +0.1 where we need to change to 0.0
-                array[i][j] = Math.round(array[i][j]);
-            }
-        }
-    }
-}
-
-/**
  * Function to ensure mime count does not exceed the number of board squares available
  * @param {Number of board rows} height 
  * @param {Number of board columns} width 
