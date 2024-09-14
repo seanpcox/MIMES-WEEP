@@ -99,7 +99,7 @@ function HelpDialog(props) {
                         <li>
                             {gameText.helpDialogTipsBullet3}
                         </li>
-                        {settings.deviceType !== Device.DESKTOP?
+                        {settings.deviceType !== Device.DESKTOP ?
                             <li>
                                 {gameText.helpDialogTipsBullet4}
                             </li>

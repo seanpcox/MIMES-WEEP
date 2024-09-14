@@ -52,6 +52,18 @@ const Board = forwardRef(function Board(props, inputRef) {
 
                 // Reveal all unrevealed squares
                 revealAllSquares();
+            },
+            /* Imperative function that sets new game parameters and refreshes all revealed board squares
+             * @param {The new game board 2D array} newArray
+             */
+            update(newGameArray) {
+                // Update the game parameters
+                array = newGameArray;
+                height = array.length;
+                width = array[0].length;
+
+                // Refresh all squares
+                refreshAllSquares();
             }
         };
     }, []);
@@ -252,6 +264,21 @@ const Board = forwardRef(function Board(props, inputRef) {
                     // Call refresh on the board square component
                     ref.current[getRefIndex(width, i, j)].refresh(array[i][j]);
                 }
+            }
+        }
+    }
+
+    /**
+    * Function to refresh all squares on the board
+    */
+    function refreshAllSquares() {
+
+        // Loop through every square on the board
+        for (var i = 0; i < height; i++) {
+            for (var j = 0; j < width; j++) {
+
+                // Call refresh on the board square component
+                ref.current[getRefIndex(width, i, j)].refresh(array[i][j]);
             }
         }
     }

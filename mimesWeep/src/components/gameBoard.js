@@ -49,9 +49,9 @@ function GameBoard(props) {
 
     // EFFECTS
 
-    // Effect to refresh the child board component with the new game array
+    // Effect to update the child board component with the new game array
     useEffect(() => {
-        ref.current.refresh(array);
+        ref.current.update(array);
     });
 
 

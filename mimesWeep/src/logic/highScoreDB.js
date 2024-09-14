@@ -152,30 +152,23 @@ export async function getTopResults(level, period, callback, highScoreLimit = ga
       // Rows to supply to our callback function
       var rows = [];
 
-      // Loop until we reach the high score position limit supplied
-      for (var i = 0; i < highScoreLimit; i++) {
-        // If we have data for this high score position then use it
-        if (i + 1 <= results.length) {
-          // Add the data to the row array
-          rows.push(
-            scoreLogic.createDataRow(
-              // Result position starts at 1
-              i + 1,
-              results[i].user,
-              results[i].time,
-              results[i].date,
-              results[i].deviceType,
-              results[i].id)
-          );
-        }
-        // Else create an empty row placeholder for this high score position
-        else {
-          rows.push(scoreLogic.createData(i + 1));
-        }
-      }
-
-      // Add the personal best time at the end
+      // Add the personal best time at the start (so user doesn't have to scroll to very bottom)
       rows.push(scoreLogic.getPersonalBestDataRow(level))
+
+      // Loop through all results
+      for (var i = 0; i < results.length; i++) {
+        // Add the data to the row array
+        rows.push(
+          scoreLogic.createDataRow(
+            // Result position starts at 1
+            i + 1,
+            results[i].user,
+            results[i].time,
+            results[i].date,
+            results[i].deviceType,
+            results[i].id)
+        );
+      }
 
       // Supply the rows to our callback function
       callback(rows);
