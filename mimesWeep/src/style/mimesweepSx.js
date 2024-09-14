@@ -2,6 +2,7 @@ import * as commonSx from './commonSx.js';
 import BuildCircleTwoToneIcon from '@mui/icons-material/BuildCircleTwoTone';
 import HelpTwoTone from '@mui/icons-material/HelpTwoTone';
 import InsertEmoticonTwoToneIcon from '@mui/icons-material/InsertEmoticonTwoTone';
+import NotStartedTwoToneIcon from '@mui/icons-material/NotStartedTwoTone';
 import SentimentSatisfiedAltTwoToneIcon from '@mui/icons-material/SentimentSatisfiedAltTwoTone';
 import SentimentVerySatisfiedTwoToneIcon from '@mui/icons-material/SentimentVerySatisfiedTwoTone';
 import { Button } from '@mui/material';
@@ -32,18 +33,11 @@ export const customBtn = {
     ...commonSx.btnColor
 };
 
-export const btnHelp = {
+export const btnSquare = {
     ...commonSx.btn,
     minWidth: 42,
     width: 42,
     maxWidth: 42
-};
-
-export const btnNew = {
-    ...commonSx.btn,
-    minWidth: 52,
-    width: 52,
-    maxWidth: 52
 };
 
 export const StyledButton = styled(Button)(() => ({
@@ -53,7 +47,9 @@ export const StyledButton = styled(Button)(() => ({
     }
 }));
 
-export const helpIcon = HelpTwoTone;
+export const newGameIcon = <NotStartedTwoToneIcon />;
+
+export const helpIcon = <HelpTwoTone />;
 
 export const easyLevelIcon = <SentimentVerySatisfiedTwoToneIcon />;
 

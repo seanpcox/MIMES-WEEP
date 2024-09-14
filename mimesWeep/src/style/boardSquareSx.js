@@ -30,7 +30,7 @@ export const squareSx = {
 
 export const highlightSquareSx = {
     backgroundColor: '#6e95d4',
-    transition: "background 0.5s",
+    transition: "background 0.25s",
     ...squareSx
 };
 

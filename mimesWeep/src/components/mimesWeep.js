@@ -378,9 +378,9 @@ function MimesWeep() {
           <sx.StyledButton
             variant={commonSx.btnVariant}
             onClick={handleRestart}
-            sx={sx.btnNew}
+            sx={sx.btnSquare}
           >
-            {gameText.newButtonText}
+            {sx.newGameIcon}
           </sx.StyledButton>
         </Tooltip>
         <Box width={sx.btnSpacingWidth} />
@@ -453,8 +453,8 @@ function MimesWeep() {
           <sx.StyledButton
             variant={commonSx.btnVariant}
             onClick={openHelpDialogCallback}
-            sx={sx.btnHelp}>
-            <sx.helpIcon />
+            sx={sx.btnSquare}>
+            {sx.helpIcon}
           </sx.StyledButton>
         </Tooltip>
       </Toolbar>
