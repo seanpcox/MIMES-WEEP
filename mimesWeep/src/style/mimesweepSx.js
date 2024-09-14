@@ -23,6 +23,8 @@ export const toolbar = {
 export const difficultySelect = {
     width: 60,
     maxWidth: 60,
+    height: '14px',
+    maxHeight: '14px',
     ...commonSx.btn
 };
 
@@ -51,15 +53,20 @@ export const StyledButton = styled(Button)(() => ({
 
 export const BootstrapInput = styled(InputBase)(() => ({
     '& .MuiInputBase-input': {
+        position: 'relative',
         border: '1px solid #ced4da',
         ...commonSx.font,
         ...commonSx.btnColor,
-        minHeight: '18px',
-        height: '18px',
-        maxHeight: '18px',
-        padding: '5px 5px 15px 5px',
+        height: '14px',
+        maxHeight: '14px',
+        padding: '5px 5px 10px 5px',
         ':hover': {
             borderColor: 'black'
+        },
+        '&:focus': {
+            borderRadius: 2,
+            borderColor: 'black',
+            boxShadow: '0 0 0 0.2rem rgba(0,123,255,.25)',
         }
     }
 }));
