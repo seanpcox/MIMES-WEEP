@@ -1,6 +1,6 @@
 import TourTwoTone from '@mui/icons-material/TourTwoTone';
 
-export const buttonHeight = 40;
+const buttonHeight = 40;
 
 export const font = {
     fontSize: 16,

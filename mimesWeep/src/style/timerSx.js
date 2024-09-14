@@ -6,9 +6,9 @@ import { styled } from '@mui/material/styles';
 export const highScoresIcon = EmojiEventsTwoToneIcon;
 
 export const timerBtn = {
-    width: 56,
-    maxWidth: 56,
-    minWidth: 56,
+    width: 60,
+    maxWidth: 60,
+    minWidth: 60,
     ...commonSx.btn
 };
 

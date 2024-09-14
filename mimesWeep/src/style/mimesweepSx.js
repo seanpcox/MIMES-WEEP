@@ -51,8 +51,6 @@ export const StyledButton = styled(Button)(() => ({
 
 export const BootstrapInput = styled(InputBase)(() => ({
     '& .MuiInputBase-input': {
-        borderRadius: 4,
-        position: 'relative',
         border: '1px solid #ced4da',
         ...commonSx.font,
         ...commonSx.btnColor,
