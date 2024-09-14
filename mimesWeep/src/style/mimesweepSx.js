@@ -20,8 +20,8 @@ export const toolbar = {
 };
 
 export const difficultySelect = {
-    width: 68,
-    maxWidth: 68,
+    width: 66,
+    maxWidth: 66,
     ...commonSx.btn
 };
 
