@@ -5,6 +5,7 @@ import MimesWeep from './components/mimesWeep.js';
 import ReactDOM from 'react-dom/client';
 import React from 'react';
 import reportWebVitals from './reportWebVitals.js';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 
 // Clear local storage if set
 if (gameSettings.clearLocalStorageOnStartup) {
@@ -14,11 +15,23 @@ if (gameSettings.clearLocalStorageOnStartup) {
 // Setup and sync the data store
 highScoreDB.init();
 
+// Set a different secondary color on our theme
+const theme = createTheme({
+  palette: {
+    secondary: {
+      main: '#ffcf33',
+      contrastText: '#fff'
+    }
+  }
+});
+
 // Render parent component
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <MimesWeep />
+    <ThemeProvider theme={theme}>
+      <MimesWeep />
+    </ThemeProvider>
   </React.StrictMode>
 );
 

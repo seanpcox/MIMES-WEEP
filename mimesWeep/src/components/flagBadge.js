@@ -15,7 +15,7 @@ import { useState, useEffect } from 'react';
 FlagBadge.propTypes = {
     numOfMimes: PropTypes.number,
     incrementGuessCountCallback: PropTypes.func,
-    guessButtonToggledCallback: PropTypes.func
+    setHintButtonSelectedCallback: PropTypes.func
 }
 
 // COMPONENT
@@ -26,8 +26,6 @@ function FlagBadge(props) {
 
     const [guessCount, setGuessCount] = useState(0);
 
-    const [selected, setSelected] = useState(true);
-
 
     // EFFECTS
 
@@ -37,33 +35,17 @@ function FlagBadge(props) {
     }, [props.incrementGuessCountCallback, guessCount]);
 
 
-    // INTERNAL FUNCTIONS
-
-    /**
-     * Function to toggle the Flag button on and off 
-     */
-    function onToggleAction() {
-
-        // Set the selected state, which will refresh the component
-        setSelected(!selected);
-
-        // Callback to inform other componets flag button's toggled state
-        props.guessButtonToggledCallback(selected);
-    }
-
-
     // RENDER
 
     return (
         <Tooltip
-            title={(selected) ? gameText.tooltipFlagToogleDs : gameText.tooltipFlagToogleEn}
+            title={gameText.tooltipHint}
             placement={commonSx.tooltipPlacement}
             arrow={commonSx.tooltipArrow}
         >
-            <sx.StyledToggleButton
-                value="check"
-                selected={selected}
-                onChange={onToggleAction}
+            <commonSx.StyledButton
+                variant={commonSx.btnVariant}
+                onClick={props.setHintButtonSelectedCallback}
                 sx={
                     // Set the look based on whether their will be a badge count or not
                     // Badge disappears if the count is zero
@@ -80,13 +62,12 @@ function FlagBadge(props) {
                     max={999}
                     // Set the color of the component based on selected state
                     sx={{
-                        color: (selected) ? sx.selectedColor : sx.unselectedColor,
                         margin: sx.iconMargin
                     }}
                 >
                     <commonSx.flagIcon />
                 </sx.StyledBadge>
-            </sx.StyledToggleButton>
+            </commonSx.StyledButton>
         </Tooltip>
     );
 }

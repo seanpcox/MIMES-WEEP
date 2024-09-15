@@ -3,7 +3,7 @@ import * as sx from '../style/boardSx.js';
 import BoardSquare from './boardSquare.js'
 import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
-import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
+import { useEffect, useRef, forwardRef, useImperativeHandle } from 'react';
 
 /**
  * Component containing all the board squares
@@ -12,11 +12,6 @@ import { useState, useEffect, useRef, forwardRef, useImperativeHandle } from 're
 // COMPONENT
 
 const Board = forwardRef(function Board(props, inputRef) {
-
-    // STATES
-
-    const [guessButtonToggled, setGuessButtonToggled] = useState(true);
-
 
     // LOCAL VARIABLES
 
@@ -64,6 +59,12 @@ const Board = forwardRef(function Board(props, inputRef) {
 
                 // Refresh all squares
                 refreshAllSquares();
+            },
+            /**
+            * Imperative function to give the user a hint
+            */
+            giveHint() {
+                return giveMimeHint();
             }
         };
     }, []);
@@ -77,16 +78,10 @@ const Board = forwardRef(function Board(props, inputRef) {
         ref.current = tempRef;
 
         return () => {
-            // On unmount we clear the ref so it is empty for next render
+            // On unmount we reset the refs so they are empty for next render
             ref.current = null;
         }
     });
-
-    // Effect to toggle whether the Flag Button has been selected 
-    // Flags are used to mark where we guess mimes are
-    useEffect(() => {
-        props.guessButtonToggledCallback([guessButtonToggled, setGuessButtonToggled]);
-    }, [props.guessButtonToggledCallback, guessButtonToggled]);
 
 
     // LOCAL FUNCTIONS
@@ -175,8 +170,8 @@ const Board = forwardRef(function Board(props, inputRef) {
      */
     function btnRightClickCallback(indexI, indexJ) {
 
-        // If the Flag Guess toggle button is disabled we do not allow flags, so return
-        if (!guessButtonToggled) {
+        // If a hinted flag we do not remove it or allow it to be altered at game end
+        if (array[indexI][indexJ] >= 19) {
             return;
         }
 
@@ -236,7 +231,6 @@ const Board = forwardRef(function Board(props, inputRef) {
         }
 
         // Else highlight any neighboring squares that could be potential mimes
-
         var hNgCoords = logic.getUnrevleadUnflaggedNeighbors(array, indexI, indexJ);
 
         // Perform highlight on all of the unrevealed and unflagged neighbors
@@ -257,8 +251,8 @@ const Board = forwardRef(function Board(props, inputRef) {
                 // If the square is not a whole number it has not been revealed
                 if (array[i][j] % 1 !== 0) {
                     // Reveal the square by making it a whole number.
-                    // We round here vs using Math.floor() as we can have squares with mimes with -0.9 value that we need to change to -1
-                    // and squares with +0.1 where we need to change to 0.0
+                    // We round here vs using Math.floor() as we can have squares with mimes with -0.9 that 
+                    // we need to change to -1 and squares with +0.1, +0.2 where we need to change to 0.0
                     array[i][j] = Math.round(array[i][j]);
 
                     // Call refresh on the board square component
@@ -281,6 +275,35 @@ const Board = forwardRef(function Board(props, inputRef) {
                 ref.current[getRefIndex(width, i, j)].refresh(array[i][j]);
             }
         }
+    }
+
+    /**
+     * Function to give a hint to the user by displaying the position of a mime on the board
+     * First we will attempt to show a mime next to a random revealed number square
+     * If that is not possible we will just show a random mime position
+     */
+    function giveMimeHint() {
+
+        // Get the location of an unrevealed mime on the board, preferably one beside a revealed number square
+        // Provide the previous 1D hint indexes to ensure we don't get the same hint repeated
+        var mimeCoords = logic.getHint(array);
+
+        // If we found no hint then return false to indicate we did not find a mime
+        if (!mimeCoords) {
+            return false;
+        }
+
+        // Update the number of flags we have placed on the board
+        // Only do this if we are not replacing a user flag
+        if (!mimeCoords[3]) {
+            props.incrementGuessCountCallback(1);
+        }
+
+        // Refresh the board square component hinted to display the hint icon
+        ref.current[getRefIndex(width, mimeCoords[0], mimeCoords[1])].refresh(array[mimeCoords[0]][mimeCoords[1]]);
+
+        // Return true to indicate we did not find a mime
+        return true;
     }
 
 
@@ -317,8 +340,7 @@ Board.propTypes = {
     array: PropTypes.array,
     incrementSquaresWonCallback: PropTypes.func,
     lostGameCallback: PropTypes.func,
-    incrementGuessCountCallback: PropTypes.func,
-    guessButtonToggledCallback: PropTypes.func
+    incrementGuessCountCallback: PropTypes.func
 }
 
 // EXPORT

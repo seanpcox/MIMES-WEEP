@@ -1,21 +1,7 @@
 import * as logic from '../logic/gameLogic.js';
 import Board from './board.js'
 import PropTypes from 'prop-types';
-import { useEffect, useRef } from 'react';
-
-
-// PROP LIST
-
-GameBoard.propTypes = {
-    height: PropTypes.number,
-    width: PropTypes.number,
-    numOfMimes: PropTypes.number,
-    displayLoseMessageCallback: PropTypes.func,
-    displayWinMessageCallback: PropTypes.func,
-    incrementGuessCountCallback: PropTypes.func,
-    guessButtonToggledCallback: PropTypes.func,
-    firstSquareRevealvedCallback: PropTypes.func
-}
+import { forwardRef, useEffect, useImperativeHandle, useRef } from 'react';
 
 /**
  * Component that wraps the board and tracks the game progress
@@ -23,11 +9,26 @@ GameBoard.propTypes = {
 
 // COMPONENT
 
-function GameBoard(props) {
+const GameBoard = forwardRef(function GameBoard(props, inputRef) {
 
     // REFS
 
     var ref = useRef(null);
+
+
+    // HANDLER
+
+    useImperativeHandle(inputRef, () => {
+        return {
+            /**
+             * Function to give the user a hint
+             * @returns True if hint give, else False
+             */
+            giveHint() {
+                return ref.current.giveHint();
+            }
+        };
+    }, []);
 
 
     // LOCAL VARIABLES
@@ -66,7 +67,7 @@ function GameBoard(props) {
         ref.current.revealAll();
 
         // Display lose message to the user
-        props.displayLoseMessageCallback();
+        props.displayFinishMessageCallback(0);
     }
 
     /**
@@ -85,7 +86,6 @@ function GameBoard(props) {
 
         // If the number of squares revealed equal the number of squares need to win, we have won
         if (squaresWon === squaresToWin) {
-
             // Call the game won function
             gameWon();
         }
@@ -100,7 +100,7 @@ function GameBoard(props) {
         ref.current.revealAll();
 
         // Display win message to the user
-        props.displayWinMessageCallback();
+        props.displayFinishMessageCallback(1);
     }
 
 
@@ -113,9 +113,20 @@ function GameBoard(props) {
             incrementSquaresWonCallback={incrementSquaresWonCallback}
             lostGameCallback={lostGameCallback}
             incrementGuessCountCallback={props.incrementGuessCountCallback}
-            guessButtonToggledCallback={props.guessButtonToggledCallback}
         />
     );
+}
+);
+
+// PROP LIST
+
+GameBoard.propTypes = {
+    height: PropTypes.number,
+    width: PropTypes.number,
+    numOfMimes: PropTypes.number,
+    displayFinishMessageCallback: PropTypes.func,
+    incrementGuessCountCallback: PropTypes.func,
+    firstSquareRevealvedCallback: PropTypes.func
 }
 
 // EXPORT

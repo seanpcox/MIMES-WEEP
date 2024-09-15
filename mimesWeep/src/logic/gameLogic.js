@@ -7,35 +7,44 @@
  * A 2D array of floating point numbers is used to represent the entire board state.
  * 
  *  States:
- * 
+ *
  *   v = -2
  *       Revealed and Triggered Mine
- * 
+ *
  *   v = -1
  *       Revealed Mine
- * 
+ *
  *   v = -0.9
  *       Unrevealed Mine
- * 
+ *
  *   v = 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0
  *       Revelead Square with Math.floor(v) Mime Neighbors
- * 
+ *
  *   v = 0.1, 1.1, 2.1, 3.1, 4.1, 5.1, 6.1, 7.1, 8.1
  *       Unrevealed Square with Math.floor(v) Mime Neighbors
- * 
+ *
+ *   v = 0.2, 1.2, 2.2, 3.2, 4.2, 5.2, 6.2, 7.2, 8.2
+ *       Unrevealed First Hint Square with Math.floor(v) Mime Neighbors
+ *
  *   v = 9.0
  *       Correctly Flagged and Revealed Mime
- * 
+ *
  *   v = 9.1
  *       Correctly Flagged and unrevealed Mime
- * 
+ *
  *   v = 10.0, 11.0, 12.0, 13.0, 14.0, 15.0, 16.0, 17.0, 18.0
  *       Incorrectly Flagged and Revealed Square
- * 
+ *
  *   v = 10.1, 11.1, 12.1, 13.1, 14.1, 15.1, 16.1, 17.1, 18.1
  *       Incorrectly Flagged and Unrevealed Square
- * 
- * 
+ *
+ *   v = 19.0
+ *       Hinted Correctly Flagged and Revealed Square
+ *
+ *   v = 19.1
+ *       Hinted Correctly Flagged and Unrevealed Square
+ *
+ *
  *  Heuristics:
  *  
  *   v < 0:             Indicates a square with a mime
@@ -241,6 +250,94 @@ export function getUnrevleadUnflaggedNeighbors(array, i, j, nCoords = getNeighbo
 }
 
 /**
+ * Function to give us the location of a mime on the board as a hint for the user.
+ * First we will attempt to find a mime next to a random revealed number square (more useful)
+ * If that is not possible we will just show a random mime position.
+ * Finally if that is not possible we will confirm any user placed flags
+ * We also ensure we do not return a previous hint for the game by flagging in the calling function
+ * @param {array} array
+ * @param {Set} previousHints
+ * @returns array of length 4: [0] i coord, [1] j coord, [2] 1D index, [3] bool user flagged
+ */
+export function getHint(array) {
+
+    // Get the width
+    var width = array[0].length;
+
+    // Randomize the array's indexes, so we don't always show the most top-left hint
+    var random1DIndexes = generate1DRandomizedArrayIndexes(array);
+
+    // Backup mime location if we cannot find a mime beside a revealed number square
+    var backupMimeCoords;
+
+    // Backup flagged location if we cannot find an unflagged mime. This is to stop cheating
+    // the hint count by placing flags and then using the guess to see if they don't get processed
+    var backupFlaggedCoords;
+
+    // Loop through the shuffled array until we reach our mime count
+    for (let index1D = 0; index1D < random1DIndexes.length; index1D++) {
+
+        // Convert the 1D array index back into an index for our 2D array
+        let coords = getCoordsFromArrayIDIndex(random1DIndexes, index1D, width);
+
+        // Find a revealed number square, we want to find mimes near these first if possible
+        if (array[coords[0]][coords[1]] % 1 === 0) {
+
+            // The coordinates of the squares 8 potential neighbors
+            var nCoords = getNeighbourCoordinates(coords[0], coords[1]);
+
+            // Visit each neighboring coordinate to see if there is an unrevealed mime
+            for (let nIndex = 0; nIndex < nCoords.length; nIndex++) {
+
+                // Check neighbor coordinate is within the array boundary, else skip
+                if (checkWithinBounds(array, nCoords[nIndex])) {
+
+                    // Check if unrevealed and unflagged mime, and if so return its coordinates
+                    if (array[nCoords[nIndex][0]][nCoords[nIndex][1]] === -0.9) {
+
+                        // Set the value of the hinted board square to be a hinted flag square
+                        array[nCoords[nIndex][0]][nCoords[nIndex][1]] = 19.1;
+
+                        // Return the coodrinates so we can refresh the square
+                        return [nCoords[nIndex][0], nCoords[nIndex][1], random1DIndexes[index1D], false];
+                    }
+                }
+            }
+        }
+        // Else if we do not have a backup mime hint and the index we are investigating
+        // is a mime, and we have not previsouly unflagged this mime, then store its coordinates
+        // in case we need them later for return
+        else if (!backupMimeCoords && array[coords[0]][coords[1]] === -0.9) {
+            backupMimeCoords = [coords[0], coords[1], random1DIndexes[index1D], false];
+        }
+        // Else if there are no unflagged mimes, but we have user flagged mimes we will
+        // replace it with a hint flagged mime to confirm their flag. Do this to stop
+        // cheating hint count by using hint to see if flag is correct.
+        else if (!backupFlaggedCoords && array[coords[0]][coords[1]] === 9.1) {
+            backupFlaggedCoords = [coords[0], coords[1], random1DIndexes[index1D], true];
+        }
+    }
+
+    // If we found and need to use a backup mime coordinates then return it
+    if (backupMimeCoords) {
+        // Set the value of the hinted board square to be a hinted flag square
+        array[backupMimeCoords[0]][backupMimeCoords[1]] = 19.1;
+
+        // Return the coodrinates so we can refresh the square
+        return backupMimeCoords;
+    }
+
+    // If we found and need to use user flagged mime coordinates then return it
+    if (backupFlaggedCoords) {
+        // Set the value of the hinted board square to be a hinted flag square
+        array[backupFlaggedCoords[0]][backupFlaggedCoords[1]] = 19.1;
+
+        // Return the coodrinates so we can refresh the square
+        return backupFlaggedCoords;
+    }
+}
+
+/**
  * Function to ensure mime count does not exceed the number of board squares available
  * @param {Number of board rows} height 
  * @param {Number of board columns} width 
@@ -294,6 +391,34 @@ function addMimes(array, numOfMimes) {
     // Ensure number of mimes does not exceed number of board squares
     numOfMimes = sanitizeMimeCount(height, width, numOfMimes);
 
+    // Get a randmoized order of our arrays' indexes
+    var arrayIDIndexes = generate1DRandomizedArrayIndexes(array);
+
+    // Loop through the shuffled array until we reach our mime count
+    for (let index = 0; index < numOfMimes; index++) {
+        // Convert the 1D array index back into an index for our 2D array
+        let coords = getCoordsFromArrayIDIndex(arrayIDIndexes, index, width);
+
+        // Set the square to represent an unrevealed mime
+        array[coords[0]][coords[1]] = -0.9;
+    }
+
+    return arrayIDIndexes;
+}
+
+/**
+ * Create a 1D array representing the coordinates of all squares on our board put in random order
+ *  Ex: In a 2X2 2D array the index of the first square on the second row would be 2,
+ *  where 0 and 1 represent the values in the first row
+ * @param {array} array
+ * @returns Randmoized 1D array representing every index in the board
+ */
+function generate1DRandomizedArrayIndexes(array) {
+
+    // Get the dimensions
+    var height = array.length;
+    var width = array[0].length;
+
     // Create a 1D array representing the coordinates of all squares on our board
     // Ex: In a 2X2 2D array the index of the first square on the second row would be 2, 
     // where 0 and 1 represent the values in the first row
@@ -305,15 +430,6 @@ function addMimes(array, numOfMimes) {
 
     // Shuffle the array coordinates
     shuffleArray(arrayIDIndexes);
-
-    // Loop through the shuffled array until we reach our mime count
-    for (let index = 0; index < numOfMimes; index++) {
-        // Convert the 1D array index back into an index for our 2D array
-        let coords = getCoordsFromArrayIDIndex(arrayIDIndexes, index, width);
-
-        // Set the square to represent an unrevealed mime
-        array[coords[0]][coords[1]] = -0.9;
-    }
 
     return arrayIDIndexes;
 }

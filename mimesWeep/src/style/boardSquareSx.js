@@ -103,6 +103,8 @@ export const flaggedIncorrectColor = "error";
 
 export const flaggedCorrectColor = "success";
 
+export const flaggedHintedColor = "secondary";
+
 export const unrevealedVariant = "contained";
 
 export const revealedVariant = "outlined";

@@ -7,12 +7,13 @@ import NotStartedTwoToneIcon from '@mui/icons-material/NotStartedTwoTone';
 import SentimentSatisfiedAltTwoToneIcon from '@mui/icons-material/SentimentSatisfiedAltTwoTone';
 import SentimentVerySatisfiedTwoToneIcon from '@mui/icons-material/SentimentVerySatisfiedTwoTone';
 import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
-import { Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 
 export const spacingHeight = { height: 10 };
 
 export const btnSpacingWidth = { width: 7 };
+
+export const btnSmallSpacingWidth = { width: 4 };
 
 export const toolbar = {
     justifyContent: 'center',
@@ -23,7 +24,9 @@ export const toolbar = {
 export const difficultySelect = {
     height: '14px',
     maxHeight: '14px',
-    ...commonSx.btnMedium
+    width: 60,
+    minWidth: 60,
+    maxWidth: 60
 };
 
 export const customBtn = {
@@ -42,22 +45,16 @@ export const btnSquare = {
     maxWidth: 42
 };
 
-export const StyledButton = styled(Button)(() => ({
-    // Set the hover and focus behaviour to the same as other buttons in toolbar
-    ':hover': commonSx.btnHoverStyle,
-    '&:focus': commonSx.btnFocusStyle
-}));
-
 export const BootstrapInput = styled(InputBase)(() => ({
     '& .MuiInputBase-input': {
         border: '1px solid',
         height: '14px',
         maxHeight: '14px',
-        marginRight: 0,
-        width: 11,
-        minWidth: 11,
-        maxWidth: 11,
-        padding: '5px 5px 10px 8px',
+        marginRight: 1,
+        width: 15,
+        minWidth: 15,
+        maxWidth: 15,
+        padding: '5px 10px 10px 8px',
         ...commonSx.font,
         ...commonSx.btnColor,
         // Set the hover and focus behaviour to the same as other buttons in toolbar

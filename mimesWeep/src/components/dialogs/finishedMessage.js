@@ -12,8 +12,7 @@ import { useState, useEffect, Fragment } from 'react';
 // PROP LIST
 
 FinishedMessage.propTypes = {
-    displayLoseMessageCallback: PropTypes.func,
-    displayWinMessageCallback: PropTypes.func
+    displayFinishMessageCallback: PropTypes.func
 }
 
 // COMPONENT
@@ -22,37 +21,24 @@ function FinishedMessage(props) {
 
     // STATES
 
-    const [openLoseSnackbar, setOpenLoseSnackbar] = useState(false);
-    const [openWinSnackbar, setOpenWinSnackbar] = useState(false);
+    const [openFinishedSnackbar, setOpenFinishedSnackbar] = useState(-1);
 
 
     // EFFECTS
 
-    // Effect to open the lose message snackbar
+    // Effect to open the finished message snackbar
     useEffect(() => {
-        props.displayLoseMessageCallback([openLoseSnackbar, setOpenLoseSnackbar]);
-    }, [props.displayLoseMessageCallback, openLoseSnackbar]);
-
-    // Effect to open the win message snackbar
-    useEffect(() => {
-        props.displayWinMessageCallback([openWinSnackbar, setOpenWinSnackbar]);
-    }, [props.displayWinMessageCallback, openWinSnackbar]);
+        props.displayFinishMessageCallback([openFinishedSnackbar, setOpenFinishedSnackbar]);
+    }, [props.displayFinishMessageCallback, openFinishedSnackbar]);
 
 
     // INTERNAL FUNCTIONS
 
     /**
-     * Function to close the lose message snackbar
+     * Function to close the finish message snackbar
      */
-    const handleLoseSnackbarClose = () => {
-        setOpenLoseSnackbar(false)
-    };
-
-    /**
-    * Function to close the win message snackbar
-    */
-    const handleWinSnackbarClose = () => {
-        setOpenWinSnackbar(false)
+    const handleSnackbarClose = () => {
+        setOpenFinishedSnackbar(-1)
     };
 
 
@@ -61,33 +47,51 @@ function FinishedMessage(props) {
     return (
         <Fragment>
             <Snackbar
-                open={openLoseSnackbar}
+                open={openFinishedSnackbar === 0}
                 autoHideDuration={sx.autoHideDuration}
-                onClose={handleLoseSnackbarClose}
+                onClose={handleSnackbarClose}
                 anchorOrigin={sx.anchorOrigin}
             >
                 <Alert
                     severity="error"
                     variant={sx.alertVariant}
-                    onClose={handleLoseSnackbarClose}
+                    onClose={handleSnackbarClose}
                     sx={sx.width}
+                    icon={sx.loseIcon}
                 >
                     {gameText.loseMessage}
                 </Alert>
             </Snackbar>
             <Snackbar
-                open={openWinSnackbar}
+                open={openFinishedSnackbar === 1}
                 autoHideDuration={sx.autoHideDuration}
-                onClose={handleWinSnackbarClose}
+                onClose={handleSnackbarClose}
                 anchorOrigin={sx.anchorOrigin}
             >
                 <Alert
                     severity="success"
                     variant={sx.alertVariant}
-                    onClose={handleWinSnackbarClose}
+                    onClose={handleSnackbarClose}
                     sx={sx.width}
+                    icon={sx.winIcon}
                 >
                     {gameText.winMessage}
+                </Alert>
+            </Snackbar>
+            <Snackbar
+                open={openFinishedSnackbar === 2}
+                autoHideDuration={sx.autoHideDuration}
+                onClose={handleSnackbarClose}
+                anchorOrigin={sx.anchorOrigin}
+            >
+                <Alert
+                    severity="secondary"
+                    variant={sx.alertVariant}
+                    onClose={handleSnackbarClose}
+                    sx={sx.width}
+                    icon={sx.winWithHintsIcon}
+                >
+                    {gameText.winWithHintsMessage}
                 </Alert>
             </Snackbar>
         </Fragment>

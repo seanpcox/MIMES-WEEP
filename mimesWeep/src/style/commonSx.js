@@ -1,4 +1,6 @@
 import TourTwoTone from '@mui/icons-material/TourTwoTone';
+import { Button } from '@mui/material';
+import { styled } from '@mui/material/styles';
 
 const buttonHeight = 40;
 
@@ -32,9 +34,9 @@ export const btn = {
 };
 
 export const btnMedium = {
-    minWidth: 60,
-    width: 60,
-    maxWidth: 60,
+    minWidth: 66,
+    width: 66,
+    maxWidth: 66,
     ...btn
 }
 
@@ -48,6 +50,12 @@ export const btnHoverStyle = {
     borderColor: btnHLBorderColor,
     boxShadow: '0 0 0 0.1rem rgba(0,123,255,.25)',
 };
+
+export const StyledButton = styled(Button)(() => ({
+    // Set the hover and focus behaviour to the same as other buttons in toolbar
+    ':hover': btnHoverStyle,
+    '&:focus': btnFocusStyle
+}));
 
 export const btnVariant = "outlined";
 

@@ -177,6 +177,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 
             // Corrently Flagged Mime
             case 9:
+            case 19:
                 return sx.mimeFlaggedIcon;
 
             // Flagged Square, Unrevealed or Incorrect
@@ -191,6 +192,11 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
     * @returns Color of flagged square
     */
     function getFlaggedColor(numOfMimeNeighbors) {
+
+        // If a hinted flagged square
+        if (numOfMimeNeighbors >= 19) {
+            return sx.flaggedHintedColor;
+        }
 
         // If the flagged square has been revealed (represented by a whole number)
         if (numOfMimeNeighbors % 1 === 0) {
@@ -270,13 +276,19 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
     }
 
     /**
-     * Return if the square is a hint i.e. is not a mime
+     * Return if the square is a game start first hint i.e. is not a mime
      * @returns True if a hint, else False
      */
-    function isHint() {
-        // We need to do casting and to fixed decimal place as performing operations with decimals is not exact
-        return Number(Number(numOfMimeNeighbors - Math.floor(numOfMimeNeighbors)).toFixed(1)) === 0.2;
+    function isFirstHint() {
+        // Ensure we are dealing with a non-mime
+        if (numOfMimeNeighbors >= 0) {
+            // We need to do casting and to fixed decimal place as performing operations with decimals is not exact
+            return Number(Number(numOfMimeNeighbors - Math.floor(numOfMimeNeighbors)).toFixed(1)) === 0.2;
+        }
+
+        return false;
     }
+
 
     // RENDER
 
@@ -323,7 +335,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 onClick={(e) => e.preventDefault()}
                 sx={(highlight) ? sx.highlightSquareSx : sx.squareSx}
             >
-                {isHint() ? sx.hintIcon : null}
+                {isFirstHint() ? sx.hintIcon : null}
             </Button>
         }
 
@@ -373,7 +385,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 onContextMenu={setRightClickState}
                 sx={(highlight) ? sx.highlightSquareSx : sx.squareSx}
             >
-                {isHint() ? sx.hintIcon : null}
+                {isFirstHint() ? sx.hintIcon : null}
             </Button>
         }
 

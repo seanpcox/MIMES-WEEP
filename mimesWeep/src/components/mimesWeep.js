@@ -9,13 +9,14 @@ import * as sx from '../style/mimesweepSx.js';
 import CustomDialog from './dialogs/customDialog.js';
 import Divider from '@mui/material/Divider';
 import FinishedMessage from './dialogs/finishedMessage.js';
-import FlagBadge from './flagBadge.js'
+import FlagBadge from './flagBadge.js';
 import FormControl from '@mui/material/FormControl';
 import GameBoard from './gameBoard.js'
 import HelpDialog from './dialogs/helpDialog.js';
 import HighScoreDialog from './dialogs/highScoreDialog.js';
 import MenuItem from '@mui/material/MenuItem';
 import Select from '@mui/material/Select';
+import SettingsDialog from './dialogs/settingsDialog.js';
 import Timer from './timer.js';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
@@ -52,11 +53,11 @@ function MimesWeep() {
 
   const personalBestRowHightlightedRef = useRef(false);
 
+  const boardRef = useRef(null);
 
-  // LOCAL VARIABLES
+  const guessCountRef = useRef(0);
 
-  // Tracks the number of flags placed on the board
-  var guessCount = 0;
+  const hintCountRef = useRef(0);
 
 
   // CALLBACK METHODS
@@ -85,6 +86,19 @@ function MimesWeep() {
   }
 
   /**
+  * Set whether the hint button was selected so we can tell the game board to give a hint
+  * @param {boolean} isHighlighted
+  */
+  function setHintButtonSelectedCallback() {
+
+    // Call the board to execute a hint, this places a hint flag for the user on a mime
+    if (boardRef.current.giveHint()) {
+      // If a hint was given increase our hint count
+      hintCountRef.current += 1;
+    }
+  }
+
+  /**
    * Callback function when a custom game is started 
    * @param {Rows in the custom game} height 
    * @param {Columns in the custom game} width 
@@ -104,82 +118,17 @@ function MimesWeep() {
     resetGameSettings(4);
   }
 
-  var setGuessCountChildFunction;
-
-  /**
-   * Callback function executed when a flag guess is placed or removed from the board
-   * @param {Either the child function or the amount to change the current flag guess count} callbackParams 
-   */
-  const incrementGuessCountCallback = (callbackParams) => {
-
-    // If an array we are getting the child callback function we need, store it
-    if (Array.isArray(callbackParams)) {
-      setGuessCountChildFunction = callbackParams[1];
-    }
-
-    // Else we already have the child callback function and a flag guess was placed or removed
-    else {
-      // Increment or decrement (if a negative number) our number of flag guesses on the board
-      guessCount += callbackParams;
-
-      // Call the recived child function with the updated count
-      setGuessCountChildFunction(guessCount);
-    }
-  };
-
-  var setGuessButtonToggledChildFunction;
-
-  /**
-   * Callback function executed when a flag guess button is selected or unselected
-   * @param {Either the child function or the state of the flag guess button} callbackParams 
-   */
-  const guessButtonToggledCallback = (callbackParams) => {
-
-    // If an array we are getting the child callback function we need, store it
-    if (Array.isArray(callbackParams)) {
-      setGuessButtonToggledChildFunction = callbackParams[1];
-    }
-
-    // Else we already have the child callback function and we call it with the updated state
-    else {
-      setGuessButtonToggledChildFunction(!callbackParams);
-    }
-  };
-
-  var showLoseMessage;
-
-  /**
-   * Function to display the lost game message to the user
-   * @param {Either the child function or a command to display the lost game message} setStateCallback 
-   */
-  const displayLoseMessageCallback = (setStateCallback) => {
-
-    // If an array we are getting the child callback function we need, store it
-    if (setStateCallback) {
-      showLoseMessage = setStateCallback[1];
-    }
-
-    // Else display the lost game message to the user
-    else {
-      // Stop the game timer
-      timerRef.current.stopTimer();
-
-      // Show the lose message
-      showLoseMessage(true);
-    }
-  };
-
-  var showWinMessage;
+  var showFinishMessage;
 
   /**
    * Function to display the won game message to the user
    * @param {Either the child function or a command to display the won game message} setStateCallback 
    */
-  const displayWinMessageCallback = (setStateCallback) => {
+  const displayFinishMessageCallback = (setStateCallback) => {
 
-    // If an array we are getting the child callback function we need, store it
-    if (setStateCallback) {
-      showWinMessage = setStateCallback[1];
+    // If not a number we are getting the child callback function we need, store it
+    if (isNaN(setStateCallback)) {
+      showFinishMessage = setStateCallback[1];
     }
 
     // Else display the won game message to the user
@@ -187,11 +136,19 @@ function MimesWeep() {
       // Stop the game timer
       timerRef.current.stopTimer();
 
-      // Show the win message
-      showWinMessage(true);
+      // If we performed any hints we are not eligble for a high score or personal
+      // best record. And we display a different win message to the user.
+      if (setStateCallback === 1 && hintCountRef.current > 0) {
+        setStateCallback = 2;
+      }
 
-      // Persist the user's score
-      persistScore();
+      // Show the finish message
+      showFinishMessage(setStateCallback);
+
+      // If we won the game without hints then persist the user's score if high score or personal best
+      if (setStateCallback === 1) {
+        persistScore();
+      }
     }
   };
 
@@ -252,9 +209,25 @@ function MimesWeep() {
     }
   };
 
+  var openSettingsDialog;
+
+  /**
+   * Function to display the settings dialog to the user
+   * @param {Either the child function or a command to display the settings dialog} callbackParams 
+   */
   const openSettingsDialogCallback = (callbackParams) => {
-    console.log("TO DO", callbackParams);
+
+    // If an array we are getting the child callback function we need, store it
+    if (Array.isArray(callbackParams)) {
+      openSettingsDialog = callbackParams[1];
+    }
+
+    // Else display the settings dialog to the user
+    else {
+      openSettingsDialog(true);
+    }
   };
+
 
   // LOCAL METHODS
 
@@ -307,11 +280,17 @@ function MimesWeep() {
    */
   function resetGameChildComponentStates() {
 
-    // Reset the timer
+    // Reset the timer component
     timerRef.current.resetTimer();
 
-    // No flags are now placed
+    // Reset the guess count component
     setGuessCountChildFunction(0);
+
+    // Update our guess count ref
+    guessCountRef.current = 0;
+
+    // Update our hint count ref
+    hintCountRef.current = 0;
   }
 
   /**
@@ -339,6 +318,28 @@ function MimesWeep() {
     }
   }
 
+  var setGuessCountChildFunction;
+
+  /**
+   * Callback function executed when a flag guess is placed or removed from the board
+   * @param {Either the child function or the amount to change the current flag guess count} callbackParams 
+   */
+  const incrementGuessCountCallback = (callbackParams) => {
+
+    // If an array we are getting the child callback function we need, store it
+    if (Array.isArray(callbackParams)) {
+      setGuessCountChildFunction = callbackParams[1];
+    }
+
+    // Else we already have the child callback function and a flag guess was placed or removed
+    else {
+      // Increment or decrement (if a negative number) our number of flag guesses on the board
+      guessCountRef.current += callbackParams;
+
+      // Call the recived child function with the updated count
+      setGuessCountChildFunction(guessCountRef.current);
+    }
+  };
 
   // LOGIC
 
@@ -378,13 +379,13 @@ function MimesWeep() {
           placement={commonSx.tooltipPlacement}
           arrow={commonSx.tooltipArrow}
         >
-          <sx.StyledButton
+          <commonSx.StyledButton
             variant={commonSx.btnVariant}
             onClick={handleRestart}
             sx={sx.btnSquare}
           >
             {sx.newGameIcon}
-          </sx.StyledButton>
+          </commonSx.StyledButton>
         </Tooltip>
         <Box width={sx.btnSpacingWidth} />
         <Tooltip
@@ -436,6 +437,7 @@ function MimesWeep() {
             </Select>
           </FormControl>
         </Tooltip>
+        <Box sx={sx.btnSmallSpacingWidth} />
         <Timer
           openHighScoreDialogCallback={openHighScoreDialogCallback}
           difficulty={difficulty}
@@ -445,7 +447,7 @@ function MimesWeep() {
         <FlagBadge
           numOfMimes={numOfMimes}
           incrementGuessCountCallback={incrementGuessCountCallback}
-          guessButtonToggledCallback={guessButtonToggledCallback}
+          setHintButtonSelectedCallback={setHintButtonSelectedCallback}
         />
         <Box sx={sx.btnSpacingWidth} />
         <Tooltip
@@ -453,12 +455,12 @@ function MimesWeep() {
           placement={commonSx.tooltipPlacement}
           arrow={commonSx.tooltipArrow}
         >
-          <sx.StyledButton
+          <commonSx.StyledButton
             variant={commonSx.btnVariant}
             onClick={openSettingsDialogCallback}
-            sx={commonSx.btnMedium}>
+            sx={sx.btnSquare}>
             {sx.settingsIcon}
-          </sx.StyledButton>
+          </commonSx.StyledButton>
         </Tooltip>
         <Box sx={sx.btnSpacingWidth} />
         <Tooltip
@@ -466,12 +468,12 @@ function MimesWeep() {
           placement={commonSx.tooltipPlacement}
           arrow={commonSx.tooltipArrow}
         >
-          <sx.StyledButton
+          <commonSx.StyledButton
             variant={commonSx.btnVariant}
             onClick={openHelpDialogCallback}
             sx={sx.btnSquare}>
             {sx.helpIcon}
-          </sx.StyledButton>
+          </commonSx.StyledButton>
         </Tooltip>
       </Toolbar>
       <Box sx={sx.spacingHeight} />
@@ -479,19 +481,18 @@ function MimesWeep() {
         height={height}
         width={width}
         numOfMimes={numOfMimes}
-        displayLoseMessageCallback={displayLoseMessageCallback}
-        displayWinMessageCallback={displayWinMessageCallback}
+        displayFinishMessageCallback={displayFinishMessageCallback}
         incrementGuessCountCallback={incrementGuessCountCallback}
-        guessButtonToggledCallback={guessButtonToggledCallback}
         firstSquareRevealvedCallback={firstSquareRevealvedCallback}
+        ref={boardRef}
       />
       <FinishedMessage
-        displayLoseMessageCallback={displayLoseMessageCallback}
-        displayWinMessageCallback={displayWinMessageCallback} />
+        displayFinishMessageCallback={displayFinishMessageCallback} />
       <CustomDialog
         openCustomDialogCallback={openCustomDialogCallback}
         startCustomGameCallback={startCustomGameCallback}
       />
+      <SettingsDialog openSettingsDialogCallback={openSettingsDialogCallback} />
       <HelpDialog openHelpDialogCallback={openHelpDialogCallback} />
       <HighScoreDialog
         openHighScoreDialogCallback={openHighScoreDialogCallback}

@@ -32,6 +32,10 @@ export const loseMessage = "Sorry, you have lost.";
 
 export const winMessage = "Congratulations, you have won!";
 
+export const winWithHintsMessage = "Well done, some hints, but you got there! "
+
+export const settingsDialogTitle = "Settings";
+
 export const helpDialogTitle = "Help";
 
 export const helpDialogObjective = "Objective";
@@ -76,11 +80,9 @@ export const tooltipNew = "New Game";
 
 export const tooltipDifficulty = "Difficulty Level";
 
-export const tooltipFlagToogleEn = "Enable Flags";
-
-export const tooltipFlagToogleDs = "Disable Flags";
-
 export const tooltipHelp = "Open Help";
+
+export const tooltipHint = "Flag Hint";
 
 export const tooltipSettings = "Open Settings";
 
