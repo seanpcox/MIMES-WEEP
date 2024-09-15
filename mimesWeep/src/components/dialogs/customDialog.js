@@ -1,5 +1,5 @@
 import * as settings from '../../logic/gameSettings.js';
-import * as sx from '../../style/customDialogSx.js';
+import * as sx from '../../style/dialogSx.js';
 import * as gameText from '../../resources/text/gameText';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';

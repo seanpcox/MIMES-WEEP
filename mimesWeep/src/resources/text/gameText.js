@@ -28,6 +28,10 @@ export const okButtonText = "OK";
 
 export const updateButtonText = "Update";
 
+export const saveButtonText = "Save";
+
+export const resetButtonText = "Reset";
+
 export const loseMessage = "Sorry, you have lost.";
 
 export const winMessage = "Congratulations, you have won!";
@@ -123,3 +127,55 @@ export const personalBestRowID = "PB";
 export const unknownUsername = "Unknown";
 
 export const hsDropDownLabel = "Select Difficulty Level";
+
+export const enabled = "Enabled";
+
+export const disabled = "Disabled";
+
+export const leftClick = "Left Click";
+
+export const rightClick = "Right Click";
+
+export const tap = "Tap";
+
+export const longPress = "Long Press"
+
+export const none = "None";
+
+export const safeSquare = "Safe Square";
+
+export const safeSquareAndNeighbors = "Safe Square & Neighbors";
+
+export const timeSeconds = "Seconds";
+
+export const timeMinutesAndSeconds = "Minutes & Seconds";
+
+export const timeSeconds3Decimals = "Seconds (3 Decimals)";
+
+export const timeSeconds2Decimals = "Seconds (2 Decimals)";
+
+export const timeSeconds1Decimals = "Seconds (1 Decimals)";
+
+export const sdFlagsOptionTitle = "Flags";
+
+export const sdFlagsOptionInfo = "Place flags on ";
+
+export const sdLongPressTimeOptionTitle = "Long Press";
+
+export const sdLongPressTimeOptionInfo = "Millisecond time to execute long press";
+
+export const sdChordingControlOptionTitle = "Chording";
+
+export const sdChordingControlOptionInfo = "Reveal adjacent squares if correct number of flags set";
+
+export const sdStartHintOptionTitle = "Starting Hint";
+
+export const sdStartHintOptionInfo = "Hint shown on game start";
+
+export const sdGameTimeFormatOptionTitle = "Game Time";
+
+export const sdGameTimeFormatOptionInfo = "Display format for game time";
+
+export const sdScoreTimeFormatOptionTitle = "Score Time";
+
+export const sdScoreTimeFormatOptionInfo = "Display format for scoreboards";
