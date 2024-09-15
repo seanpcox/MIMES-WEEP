@@ -36,10 +36,6 @@ const Board = forwardRef(function Board(props, inputRef) {
         }
     };
 
-    // Do we wish to perform auto chording action when a number square is revealed by a click
-    // Verse the user manually having to click the just revealed number square to perform chording (normal mode)
-    var autoChordOnReveal = useRef(false);
-
 
     // HANDLER
 
@@ -146,7 +142,7 @@ const Board = forwardRef(function Board(props, inputRef) {
             // If any of its neighbors also have no neighboring mimes we reveal its neighbors, and so on, recursively
             // This is a time saver for the user and is a better experience than them clicking through all of these
             if (array[indexI][indexJ] === 0) {
-
+                console.log("get Ngs");
                 // Store the coordinates of all visited squares
                 zeroNeighbors = logic.visitZeroNeighbors(array, indexI, indexJ);
             }
