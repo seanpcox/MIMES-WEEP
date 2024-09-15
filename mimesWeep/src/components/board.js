@@ -36,6 +36,10 @@ const Board = forwardRef(function Board(props, inputRef) {
         }
     };
 
+    // Do we wish to perform auto chording action when a number square is revealed by a click
+    // Verse the user manually having to click the just revealed number square to perform chording (normal mode)
+    var autoChordOnReveal = useRef(true);
+
 
     // HANDLER
 
@@ -136,7 +140,7 @@ const Board = forwardRef(function Board(props, inputRef) {
         else {
 
             // Array to hold any squares that are revealed if the clicked on square had no neighboring mimes
-            var zeroNeighbors = [];
+            var zNgs = [];
 
             // The clicked on square has no neighboring mimes, in this case we reveal all its neighbors by updating the board array
             // If any of its neighbors also have no neighboring mimes we reveal its neighbors, and so on, recursively
@@ -144,20 +148,20 @@ const Board = forwardRef(function Board(props, inputRef) {
             if (array[indexI][indexJ] === 0) {
                 console.log("get Ngs");
                 // Store the coordinates of all visited squares
-                zeroNeighbors = logic.visitZeroNeighbors(array, indexI, indexJ);
+                zNgs = logic.visitZeroNeighbors(array, indexI, indexJ);
             }
 
             // Callback to increment the number of squares we revealed, this is how we track if the user has won
-            props.incrementSquaresWonCallback(zeroNeighbors.length + 1);
+            props.incrementSquaresWonCallback(zNgs.length + 1);
 
             // For all the neighbors visited we need to refresh their component on screen
-            for (var n = 0; n < zeroNeighbors.length; n++) {
+            for (var n = 0; n < zNgs.length; n++) {
 
                 // Get the index in the 1D ref array of the visited neighbors
-                var refIndex = getRefIndex(width, zeroNeighbors[n][0], zeroNeighbors[n][1]);
+                var refIndex = getRefIndex(width, zNgs[n][0], zNgs[n][1]);
 
                 // Call the refresh function on the board square component
-                squaresRef.current[refIndex].refresh(array[zeroNeighbors[n][0]][zeroNeighbors[n][1]]);
+                squaresRef.current[refIndex].refresh(array[zNgs[n][0]][zNgs[n][1]]);
             }
         }
 
