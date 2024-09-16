@@ -1,5 +1,7 @@
 import * as gameText from '../resources/text/gameText.js';
 import * as settings from './gameSettings.js';
+import * as timeFormatLogic from '../logic/timeFormatLogic.js'
+import * as userSettings from '../logic/userSettings.js';
 
 /**
  * Logic related to high scores and personal best times and display
@@ -18,8 +20,32 @@ export const usernameLSKey = "mimesweepUser";
  * @returns Row for table display
  */
 export function createDataRow(position, user, time, date, deviceType, id) {
-    // Convert the time milliseconds into a string, always show 3 post decimal to be consistent
-    var timeHRString = (time / 1000).toFixed(3);
+
+    // Get the user option for time format display
+    var timeFormatOption = userSettings.getScoreTimeFormatOption();
+
+    var timeHRString;
+
+    // Seconds with 3 decimal places
+    if (timeFormatOption === 0) {
+        timeHRString = (time / 1000).toFixed(3);
+    }
+    // Seconds with 2 decimal places
+    else if (timeFormatOption === 1) {
+        timeHRString = (time / 1000).toFixed(2);
+    }
+    // Seconds, no decimal places
+    else if (timeFormatOption === 3) {
+        timeHRString = (time / 1000).toFixed(0);
+    }
+    // Minutes and Seconds, no decimal places
+    else if (timeFormatOption === 4) {
+        timeHRString = timeFormatLogic.getTimeElapsedString(time);
+    }
+    // Seconds with 1 decimal places (default)
+    else {
+        timeHRString = (time / 1000).toFixed(1);
+    }
 
     // Create the data row
     return createData(

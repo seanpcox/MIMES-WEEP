@@ -1,7 +1,7 @@
 import * as gameText from '../../resources/text/gameText';
-import * as options from '../../logic/settingsOptions.js';
 import * as gameSettings from '../../logic/gameSettings.js';
 import * as sx from '../../style/dialogSx.js';
+import * as userSettings from '../../logic/userSettings.js';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import TextField from '@mui/material/TextField';
@@ -32,17 +32,17 @@ function SettingsDialog(props) {
 
     const [open, setOpen] = useState(false);
 
-    const [placeFlagsOption, setPlaceFlagsOption] = useState(options.defaultPlaceFlagsOption);
+    const [placeFlagsOption, setPlaceFlagsOption] = useState(userSettings.defaultPlaceFlagsOption);
 
-    const [longPressTimeOption, setLongPressTimeOption] = useState(options.defaultLongPressTimeOption);
+    const [longPressTimeOption, setLongPressTimeOption] = useState(userSettings.defaultLongPressTimeOption);
 
-    const [chordingControlOption, setChordingControlOption] = useState(options.defaultChordingControlOption);
+    const [chordingControlOption, setChordingControlOption] = useState(userSettings.defaultChordingControlOption);
 
-    const [startHintOption, setStartHintOption] = useState(options.defaultStartHintOption);
+    const [startHintOption, setStartHintOption] = useState(userSettings.defaultStartHintOption);
 
-    const [gameTimeFormatOption, setGameTimeFormatOption] = useState(options.defaultGameTimeFormatOption);
+    const [gameTimeFormatOption, setGameTimeFormatOption] = useState(userSettings.defaultGameTimeFormatOption);
 
-    const [scoreTimeFormatOption, setScoreTimeFormatOption] = useState(options.defaultScoreTimeFormatOption);
+    const [scoreTimeFormatOption, setScoreTimeFormatOption] = useState(userSettings.defaultScoreTimeFormatOption);
 
 
     // EFFECTS
@@ -65,28 +65,28 @@ function SettingsDialog(props) {
      */
     function loadUserSettings() {
 
-        if (localStorage.getItem(options.placeFlagsOptionLS)) {
-            setPlaceFlagsOption(localStorage.getItem(options.placeFlagsOptionLS));
+        if (localStorage.getItem(userSettings.placeFlagsOptionLS)) {
+            setPlaceFlagsOption(localStorage.getItem(userSettings.placeFlagsOptionLS));
         }
 
-        if (localStorage.getItem(options.longPressTimeOptionLS)) {
-            setLongPressTimeOption(localStorage.getItem(options.longPressTimeOptionLS));
+        if (localStorage.getItem(userSettings.longPressTimeOptionLS)) {
+            setLongPressTimeOption(localStorage.getItem(userSettings.longPressTimeOptionLS));
         }
 
-        if (localStorage.getItem(options.chordingControlOptionLS)) {
-            setChordingControlOption(localStorage.getItem(options.chordingControlOptionLS));
+        if (localStorage.getItem(userSettings.chordingControlOptionLS)) {
+            setChordingControlOption(localStorage.getItem(userSettings.chordingControlOptionLS));
         }
 
-        if (localStorage.getItem(options.startHintOptionLS)) {
-            setStartHintOption(localStorage.getItem(options.startHintOptionLS));
+        if (localStorage.getItem(userSettings.startHintOptionLS)) {
+            setStartHintOption(localStorage.getItem(userSettings.startHintOptionLS));
         }
 
-        if (localStorage.getItem(options.gameTimeFormatOptionLS)) {
-            setGameTimeFormatOption(localStorage.getItem(options.gameTimeFormatOptionLS));
+        if (localStorage.getItem(userSettings.gameTimeFormatOptionLS)) {
+            setGameTimeFormatOption(localStorage.getItem(userSettings.gameTimeFormatOptionLS));
         }
 
-        if (localStorage.getItem(options.scoreTimeFormatOptionLS)) {
-            setScoreTimeFormatOption(localStorage.getItem(options.scoreTimeFormatOptionLS));
+        if (localStorage.getItem(userSettings.scoreTimeFormatOptionLS)) {
+            setScoreTimeFormatOption(localStorage.getItem(userSettings.scoreTimeFormatOptionLS));
         }
     }
 
@@ -103,17 +103,17 @@ function SettingsDialog(props) {
 
         // Save all user options to local storage
 
-        localStorage.setItem(options.placeFlagsOptionLS, formJson.flags);
+        localStorage.setItem(userSettings.placeFlagsOptionLS, formJson.flags);
 
-        localStorage.setItem(options.longPressTimeOptionLS, formJson.longPressDuration);
+        localStorage.setItem(userSettings.longPressTimeOptionLS, formJson.longPressDuration);
 
-        localStorage.setItem(options.chordingControlOptionLS, formJson.chording);
+        localStorage.setItem(userSettings.chordingControlOptionLS, formJson.chording);
 
-        localStorage.setItem(options.startHintOptionLS, formJson.startHint);
+        localStorage.setItem(userSettings.startHintOptionLS, formJson.startHint);
 
-        localStorage.setItem(options.gameTimeFormatOptionLS, formJson.gameTimeFormat);
+        localStorage.setItem(userSettings.gameTimeFormatOptionLS, formJson.gameTimeFormat);
 
-        localStorage.setItem(options.scoreTimeFormatOptionLS, formJson.scoreTimeFormat);
+        localStorage.setItem(userSettings.scoreTimeFormatOptionLS, formJson.scoreTimeFormat);
 
         // Close the dialog
         handleClose();
@@ -123,12 +123,12 @@ function SettingsDialog(props) {
      * Function to reset all settings to their defaults
      */
     function resetSettings() {
-        setPlaceFlagsOption(options.defaultPlaceFlagsOption);
-        setLongPressTimeOption(options.defaultLongPressTimeOption);
-        setChordingControlOption(options.defaultChordingControlOption);
-        setStartHintOption(options.defaultStartHintOption);
-        setGameTimeFormatOption(options.defaultGameTimeFormatOption);
-        setScoreTimeFormatOption(options.defaultScoreTimeFormatOption);
+        setPlaceFlagsOption(userSettings.defaultPlaceFlagsOption);
+        setLongPressTimeOption(userSettings.defaultLongPressTimeOption);
+        setChordingControlOption(userSettings.defaultChordingControlOption);
+        setStartHintOption(userSettings.defaultStartHintOption);
+        setGameTimeFormatOption(userSettings.defaultGameTimeFormatOption);
+        setScoreTimeFormatOption(userSettings.defaultScoreTimeFormatOption);
     }
 
     /**
@@ -219,9 +219,9 @@ function SettingsDialog(props) {
                     variant={sx.tfVariantType}
                     sx={sx.width}
                 >
-                    {options.longPressTimeOptions.map((option) => (
-                        <MenuItem key={option.value} value={option.value}>
-                            {option.label}
+                    {userSettings.longPressTimeOptions.map((option) => (
+                        <MenuItem key={option[0]} value={option[0]}>
+                            {option[1]}
                         </MenuItem>
                     ))}
                 </TextField>
@@ -251,14 +251,14 @@ function SettingsDialog(props) {
                         value={placeFlagsOption}
                         onChange={handlePlaceFlagOptionChange}
                         helperText={gameText.sdFlagsOptionInfo +
-                            (gameSettings.deviceType === Device.DESKTOP ? gameText.controlsLClickLC : gameText.controlsTapLC)}
+                            (gameSettings.deviceType === Device.DESKTOP ? gameText.controlsRClickLC : gameText.controlsLongPressLC)}
                         margin={sx.tfMarginType}
                         variant={sx.tfVariantType}
                         sx={sx.width}
                     >
-                        {options.placeFlagsOptions.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
+                        {userSettings.placeFlagsOptions.map((option) => (
+                            <MenuItem key={option[0]} value={option[0]}>
+                                {option[1]}
                             </MenuItem>
                         ))}
                     </TextField>
@@ -271,14 +271,15 @@ function SettingsDialog(props) {
                         label={gameText.sdChordingControlOptionTitle}
                         value={chordingControlOption}
                         onChange={handleChordingControlOptionChange}
-                        helperText={gameText.sdChordingControlOptionInfo}
+                        helperText={gameText.sdChordingControlOptionInfo +
+                            (gameSettings.deviceType === Device.DESKTOP ? gameText.controlsLClickLC : gameText.controlsTapLC)}
                         margin={sx.tfMarginType}
                         variant={sx.tfVariantType}
                         sx={sx.width}
                     >
-                        {options.chordingControlOptions.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
+                        {userSettings.chordingControlOptions.map((option) => (
+                            <MenuItem key={option[0]} value={option[0]}>
+                                {option[1]}
                             </MenuItem>
                         ))}
                     </TextField>
@@ -295,9 +296,9 @@ function SettingsDialog(props) {
                         variant={sx.tfVariantType}
                         sx={sx.width}
                     >
-                        {options.startHintOptions.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
+                        {userSettings.startHintOptions.map((option) => (
+                            <MenuItem key={option[0]} value={option[0]}>
+                                {option[1]}
                             </MenuItem>
                         ))}
                     </TextField>
@@ -314,9 +315,9 @@ function SettingsDialog(props) {
                         variant={sx.tfVariantType}
                         sx={sx.width}
                     >
-                        {options.gameTimeFormatOptions.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
+                        {userSettings.gameTimeFormatOptions.map((option) => (
+                            <MenuItem key={option[0]} value={option[0]}>
+                                {option[1]}
                             </MenuItem>
                         ))}
                     </TextField>
@@ -333,11 +334,12 @@ function SettingsDialog(props) {
                         variant={sx.tfVariantType}
                         sx={sx.width}
                     >
-                        {options.scoreTimeFormatOptions.map((option) => (
-                            <MenuItem key={option.value} value={option.value}>
-                                {option.label}
+                        {userSettings.scoreTimeFormatOptions.map((option) => (
+                            <MenuItem key={option[0]} value={option[0]}>
+                                {option[1]}
                             </MenuItem>
                         ))}
+                        gameTimeFormatOptions
                     </TextField>
                 </DialogContent>
                 <DialogActions>

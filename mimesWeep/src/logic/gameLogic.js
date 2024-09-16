@@ -1,3 +1,5 @@
+import * as userSettings from '../logic/userSettings.js';
+
 /**
  * Logic for Mimes Weep game functions: board creation, board validation, and board clear.
  * 
@@ -102,8 +104,8 @@ export function createNewBoard(height, width, numOfMimes) {
     // Update the non-mime square values to indicate how many neighoring mimes (diagonal included, so 8 neighbors max) it has.
     addMimeNeighborCount(array);
 
-    // Add a hint to one square in the array i.e. indicate it is not a mime
-    addHint(array, arrayIDIndexes, numOfMimes, width);
+    // Add a start hint to one square in the array i.e. indicate it is not a mime
+    addStartHint(array, arrayIDIndexes, numOfMimes, width);
 
     // Return the board array to play.
     return array;
@@ -478,7 +480,7 @@ function visitMimeNeighbors(array, i, j) {
 }
 
 /**
- * Function to add a hint to the array according to the hint code number:
+ * Function to add a start hint to the array according to the hint code number:
  * 0: No hint
  * 1: Hint on any non-mime square
  * 2: Hint on any non-mime square with no mime neighbors, if not possible fall back to 1
@@ -488,7 +490,11 @@ function visitMimeNeighbors(array, i, j) {
  * @param {number} width 
  * @param {number} hintCode
  */
-function addHint(array, arrayIDIndexes, numOfMimes, width, hintCode = 2) {
+function addStartHint(array, arrayIDIndexes, numOfMimes, width) {
+
+    // Get the user setting start hint option
+    var hintCode = userSettings.getStartHintOption();
+
     // We have chosen not to add any hints so return
     if (hintCode === 0) {
         return;

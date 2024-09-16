@@ -1,6 +1,8 @@
 import * as commonSx from '../style/commonSx.js';
 import * as gameText from '../resources/text/gameText.js';
 import * as sx from '../style/timerSx.js';
+import * as timeFormatLogic from '../logic/timeFormatLogic.js'
+import * as userSettings from '../logic/userSettings.js';
 import PropTypes from 'prop-types';
 import Tooltip from '@mui/material/Tooltip';
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
@@ -16,6 +18,8 @@ const Timer = forwardRef(function Timer(props, inputRef) {
     // STATES
 
     const [timeElapsed, setTimeElapsed] = useState(0);
+
+    const [timeFormatCode, setTimeFormatCode] = useState(userSettings.defaultGameTimeFormatOption);
 
 
     // REFS
@@ -67,6 +71,13 @@ const Timer = forwardRef(function Timer(props, inputRef) {
     // Effect to update the timer display every 100ms
     useEffect(() => {
         const interval = setInterval(() => udpateTimeElapsed(), 100);
+
+        return () => clearInterval(interval);
+    }, []);
+
+    // Effect to read the timne format from local storage display every 1000ms
+    useEffect(() => {
+        const interval = setInterval(() => udpateTimeFormat(), 1000);
 
         return () => clearInterval(interval);
     }, []);
@@ -134,6 +145,12 @@ const Timer = forwardRef(function Timer(props, inputRef) {
         setNewTimeElapsed(newTimeElapsed);
     }
 
+    /**
+     * Function to check local storage to see of the user has changed the time format they wish to see
+     */
+    function udpateTimeFormat() {
+        setTimeFormatCode(userSettings.getGameTimeFormatOption());
+    }
 
     // LOGIC
 
@@ -146,7 +163,18 @@ const Timer = forwardRef(function Timer(props, inputRef) {
     }
     // Else if we have started counting then display the current elapsed time in seconds
     else {
-        timerContent = Math.floor(timeElapsed / 1000);
+        // Show the time in seconds to one decimal point
+        if (timeFormatCode === 0) {
+            timerContent = (timeElapsed / 1000).toFixed(1);
+        }
+        // Show the time in minute and second format
+        else if (timeFormatCode === 2) {
+            timerContent = timeFormatLogic.getTimeElapsedString(timeElapsed);
+        }
+        // Show the time in seconds only format (default)
+        else {
+            timerContent = Math.floor(timeElapsed / 1000);
+        }
     }
 
 

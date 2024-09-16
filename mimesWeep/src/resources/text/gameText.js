@@ -54,9 +54,13 @@ export const helpDialogControlsRClick = "Right Click: ";
 
 export const controlsLClickLC = "left click";
 
+export const controlsRClickLC = "right click";
+
 export const helpDialogControlsTap = "Tap: ";
 
 export const controlsTapLC = "tap";
+
+export const controlsLongPressLC = "long press";
 
 export const helpDialogControlsPress = "Press: ";
 
@@ -166,7 +170,7 @@ export const sdLongPressTimeOptionInfo = "Millisecond time to execute long press
 
 export const sdChordingControlOptionTitle = "Chording";
 
-export const sdChordingControlOptionInfo = "Reveal adjacent squares if correct number of flags set";
+export const sdChordingControlOptionInfo = "Perform adjacent square reveal on ";
 
 export const sdStartHintOptionTitle = "Starting Hint";
 

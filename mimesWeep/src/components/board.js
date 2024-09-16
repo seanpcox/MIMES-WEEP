@@ -1,5 +1,6 @@
 import * as logic from '../logic/gameLogic.js';
 import * as sx from '../style/boardSx.js';
+import * as userSettings from '../logic/userSettings.js';
 import BoardSquare from './boardSquare.js'
 import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
@@ -35,10 +36,6 @@ const Board = forwardRef(function Board(props, inputRef) {
             tempRef.push(square);
         }
     };
-
-    // Do we wish to perform auto chording action when a number square is revealed by a click
-    // Verse the user manually having to click the just revealed number square to perform chording (normal mode)
-    var autoChordOnReveal = useRef(true);
 
 
     // HANDLER
@@ -110,8 +107,6 @@ const Board = forwardRef(function Board(props, inputRef) {
      */
     function btnLeftClickCallback(indexI, indexJ) {
 
-        console.log("We're clicking");
-
         // If the square is flagged then return, flag must be removed before it can be reveraled
         if (array[indexI][indexJ] >= 9) {
             return;
@@ -146,7 +141,7 @@ const Board = forwardRef(function Board(props, inputRef) {
             // If any of its neighbors also have no neighboring mimes we reveal its neighbors, and so on, recursively
             // This is a time saver for the user and is a better experience than them clicking through all of these
             if (array[indexI][indexJ] === 0) {
-                console.log("get Ngs");
+
                 // Store the coordinates of all visited squares
                 zNgs = logic.visitZeroNeighbors(array, indexI, indexJ);
             }
@@ -176,6 +171,11 @@ const Board = forwardRef(function Board(props, inputRef) {
      * @param {The square's column} indexJ
      */
     function btnRightClickCallback(indexI, indexJ) {
+
+        // If the user has disabled flags in settings then return
+        if (!userSettings.isFlaggingEnabled()) {
+            return;
+        }
 
         // If a hinted flag we do not remove it or allow it to be altered at game end
         if (array[indexI][indexJ] >= 19) {
@@ -223,8 +223,9 @@ const Board = forwardRef(function Board(props, inputRef) {
      */
     function btnChordActionCallback(indexI, indexJ, isReveal, isHighlight = false) {
 
-        if (isReveal) {
-            console.log("We're chording");
+        // If the user has disabled chording in settings then return
+        if (!userSettings.isChordingEnabled()) {
+            return;
         }
 
         // Get the coordinates of squares to be revealed as part of the chord action
