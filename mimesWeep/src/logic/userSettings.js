@@ -185,7 +185,7 @@ export function getGameTimeFormatOption() {
 
 export const scoreTimeFormatOptionLS = "scoreTimeFormatOption";
 
-export const defaultScoreTimeFormatOption = 2;
+export const defaultScoreTimeFormatOption = 3;
 
 export const scoreTimeFormatOptions = [
     [
