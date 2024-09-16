@@ -1,3 +1,4 @@
+import * as commonSx from '../../style/commonSx.js';
 import * as settings from '../../logic/gameSettings.js';
 import * as sx from '../../style/dialogSx.js';
 import * as gameText from '../../resources/text/gameText';
@@ -156,7 +157,10 @@ function CustomDialog(props) {
                 }}
             >
                 <DialogTitle>
-                    {gameText.customDialogTitle}
+                    <div style={sx.titleDivStyle}>
+                        {commonSx.customLevelIcon}
+                        <span>&nbsp;{gameText.customDialogTitle}</span>
+                    </div>
                 </DialogTitle>
                 <DialogContent>
                     <DialogContentText>

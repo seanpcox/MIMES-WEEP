@@ -9,3 +9,9 @@ export const tfVariantTypeOutlined = "outlined";
 export const width = {
     width: '100%'
 }
+
+export const titleDivStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    flexWrap: 'wrap'
+};

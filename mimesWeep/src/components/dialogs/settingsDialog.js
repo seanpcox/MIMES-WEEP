@@ -1,3 +1,4 @@
+import * as commonSx from '../../style/commonSx.js';
 import * as gameText from '../../resources/text/gameText';
 import * as gameSettings from '../../logic/gameSettings.js';
 import * as sx from '../../style/dialogSx.js';
@@ -241,7 +242,10 @@ function SettingsDialog(props) {
                 }}
             >
                 <DialogTitle>
-                    {gameText.settingsDialogTitle}
+                    <div style={sx.titleDivStyle}>
+                        {commonSx.settingsIcon}
+                        <span>&nbsp;{gameText.settingsDialogTitle}</span>
+                    </div>
                 </DialogTitle>
                 <DialogContent>
                     <TextField

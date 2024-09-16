@@ -159,7 +159,7 @@ const Timer = forwardRef(function Timer(props, inputRef) {
 
     // If we have not begun conuting then display the high score icon
     if (timeElapsed === 0) {
-        timerContent = <sx.highScoresIcon />;
+        timerContent = commonSx.highScoreIcon;
     }
     // Else if we have started counting then display the current elapsed time in seconds
     else {

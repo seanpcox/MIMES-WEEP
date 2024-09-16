@@ -1,5 +1,7 @@
+import * as commonSx from '../../style/commonSx.js';
 import * as gameText from '../../resources/text/gameText';
 import * as settings from '../../logic/gameSettings.js';
+import * as sx from '../../style/dialogSx.js';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
@@ -66,7 +68,10 @@ function HelpDialog(props) {
                 onClose={handleClose}
             >
                 <DialogTitle>
-                    {gameText.helpDialogTitle}
+                    <div style={sx.titleDivStyle}>
+                        {commonSx.helpIcon}
+                        <span>&nbsp;{gameText.helpDialogTitle}</span>
+                    </div>
                 </DialogTitle>
                 <DialogContent>
                     <strong><ins>{gameText.helpDialogObjective}</ins></strong>

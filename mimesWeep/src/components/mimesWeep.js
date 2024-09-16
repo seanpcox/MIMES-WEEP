@@ -432,7 +432,7 @@ function MimesWeep() {
                   sx={sx.customBtn}
                   onClick={openCustomDialogCallback}
                 >
-                  {sx.customLevelIcon}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(4)}
+                  {commonSx.customLevelIcon}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(4)}
                 </Button>
               </MenuItem>
             </Select>
@@ -460,7 +460,7 @@ function MimesWeep() {
             variant={commonSx.btnVariant}
             onClick={openSettingsDialogCallback}
             sx={sx.btnSquare}>
-            {sx.settingsIcon}
+            {commonSx.settingsIcon}
           </commonSx.StyledButton>
         </Tooltip>
         <Box sx={sx.btnSpacingWidth} />
@@ -473,7 +473,7 @@ function MimesWeep() {
             variant={commonSx.btnVariant}
             onClick={openHelpDialogCallback}
             sx={sx.btnSquare}>
-            {sx.helpIcon}
+            {commonSx.helpIcon}
           </commonSx.StyledButton>
         </Tooltip>
       </Toolbar>

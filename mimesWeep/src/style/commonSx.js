@@ -1,3 +1,8 @@
+
+import BuildCircleTwoToneIcon from '@mui/icons-material/BuildCircleTwoTone';
+import EmojiEventsTwoToneIcon from '@mui/icons-material/TimerTwoTone';
+import HelpTwoTone from '@mui/icons-material/HelpTwoTone';
+import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
 import TourTwoTone from '@mui/icons-material/TourTwoTone';
 import { Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -64,3 +69,11 @@ export const flagIcon = TourTwoTone;
 export const tooltipPlacement = "top";
 
 export const tooltipArrow = true;
+
+export const settingsIcon = <SettingsTwoToneIcon />;
+
+export const helpIcon = <HelpTwoTone />;
+
+export const highScoreIcon = <EmojiEventsTwoToneIcon />;
+
+export const customLevelIcon = <BuildCircleTwoToneIcon />;

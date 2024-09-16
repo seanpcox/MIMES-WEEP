@@ -1,4 +1,5 @@
 import * as commonSx from '../../style/commonSx.js';
+import * as dialogSx from '../../style/dialogSx.js';
 import * as gameText from '../../resources/text/gameText';
 import * as highScoreDB from '../../logic/highScoreDB';
 import * as scoreLogic from '../../logic/scoreLogic.js';
@@ -354,7 +355,10 @@ function HighScoreDialog(props) {
                 }}
             >
                 <DialogTitle>
-                    {getTitle()}
+                    <div style={dialogSx.titleDivStyle}>
+                        {commonSx.highScoreIcon}
+                        <span>&nbsp;{getTitle()}</span>
+                    </div>
                 </DialogTitle>
                 {dialogContent}
                 {dialogActions}
