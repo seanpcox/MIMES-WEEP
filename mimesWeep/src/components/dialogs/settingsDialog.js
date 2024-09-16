@@ -199,6 +199,15 @@ function SettingsDialog(props) {
         setScoreTimeFormatOption(event.target.value);
     };
 
+    /**
+     * Function to get a styled label for our settings
+     * @param {string} labelText
+     */
+    function getStyledLabel(labelText) {
+        return <Box sx={sx.styledLabel}>
+            {labelText}
+        </Box>;
+    }
 
     // RENDER
 
@@ -252,7 +261,7 @@ function SettingsDialog(props) {
                         id="flags"
                         name="flags"
                         select
-                        label={gameText.sdFlagsOptionTitle}
+                        label={getStyledLabel(gameText.sdFlagsOptionTitle)}
                         value={placeFlagsOption}
                         onChange={handlePlaceFlagOptionChange}
                         helperText={gameText.sdFlagsOptionInfo +
@@ -273,7 +282,7 @@ function SettingsDialog(props) {
                         id="chording"
                         name="chording"
                         select
-                        label={gameText.sdChordingControlOptionTitle}
+                        label={getStyledLabel(gameText.sdChordingControlOptionTitle)}
                         value={chordingControlOption}
                         onChange={handleChordingControlOptionChange}
                         helperText={gameText.sdChordingControlOptionInfo +
@@ -293,7 +302,7 @@ function SettingsDialog(props) {
                         id="startHint"
                         name="startHint"
                         select
-                        label={gameText.sdStartHintOptionTitle}
+                        label={getStyledLabel(gameText.sdStartHintOptionTitle)}
                         value={startHintOption}
                         onChange={handleStartHintOptionChange}
                         helperText={gameText.sdStartHintOptionInfo}
@@ -312,7 +321,7 @@ function SettingsDialog(props) {
                         id="gameTimeFormat"
                         name="gameTimeFormat"
                         select
-                        label={gameText.sdGameTimeFormatOptionTitle}
+                        label={getStyledLabel(gameText.sdGameTimeFormatOptionTitle)}
                         value={gameTimeFormatOption}
                         onChange={handleGameTimeFormatOptionChange}
                         helperText={gameText.sdGameTimeFormatOptionInfo}
@@ -331,7 +340,7 @@ function SettingsDialog(props) {
                         id="scoreTimeFormat"
                         name="scoreTimeFormat"
                         select
-                        label={gameText.sdScoreTimeFormatOptionTitle}
+                        label={getStyledLabel(gameText.sdScoreTimeFormatOptionTitle)}
                         value={scoreTimeFormatOption}
                         onChange={handleScoreTimeFormatOptionChange}
                         helperText={gameText.sdScoreTimeFormatOptionInfo}

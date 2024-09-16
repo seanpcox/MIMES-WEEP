@@ -15,3 +15,9 @@ export const titleDivStyle = {
     alignItems: 'center',
     flexWrap: 'wrap'
 };
+
+export const styledLabel = {
+    color: "#518eb9",
+    fontSize: 18,
+    fontWeight: 1000
+};
