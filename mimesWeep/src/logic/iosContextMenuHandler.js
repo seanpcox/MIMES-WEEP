@@ -1,5 +1,3 @@
-import * as userSettings from '../logic/userSettings.js';
-
 /**
  * IOS devices (iPhones, iPads) do not support onContextMenu trigger components.
  * onContextMenu is trigged by a right-click on desktops or long-press on Android devices.
@@ -8,6 +6,9 @@ import * as userSettings from '../logic/userSettings.js';
  * Note: Using this for Android as well, to ensure the long-press time is consistent across devices.
  * This is to ensure high-scores are not easier to achieve on one device type vs another.
  */
+
+// Number of milliseconds that represents a long-press
+const longPressDurationMs = 500;
 
 export default class IOSContextMenuHandler {
     constructor(leftClickCallback, rightClickback) {
@@ -29,8 +30,7 @@ export default class IOSContextMenuHandler {
         this.longPressCountdown = setTimeout(() => {
             this.longPressOccurred = true;
             this.rightClickCallback();
-            // Number of milliseconds that represents a long-press
-        }, userSettings.getLongPressDurationMs());
+        }, longPressDurationMs);
     };
 
     // On move clear the timer
