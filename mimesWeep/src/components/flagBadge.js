@@ -65,7 +65,7 @@ function FlagBadge(props) {
                         margin: sx.iconMargin
                     }}
                 >
-                    <commonSx.flagIcon />
+                    {commonSx.flagIconHtml}
                 </sx.StyledBadge>
             </commonSx.StyledButton>
         </Tooltip>

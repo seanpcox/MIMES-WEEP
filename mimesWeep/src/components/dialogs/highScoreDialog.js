@@ -62,7 +62,15 @@ function HighScoreDialog(props) {
         props.openHighScoreDialogCallback([open, setOpen]);
 
         // Set the difficulty to match that of the main application
-        setDifficulty(props.difficulty);
+        var displayDifficultyLevel = props.difficulty;
+
+        // If we get an invalid difficulty level (Custom not supported) then default to first level
+        if (displayDifficultyLevel <= 0 || displayDifficultyLevel >= 4) {
+            displayDifficultyLevel = 1;
+        }
+
+        // Open the dialog with this difficulty level selected
+        setDifficulty(displayDifficultyLevel);
     }, [props.openHighScoreDialogCallback, open]);
 
 

@@ -1,9 +1,7 @@
 import * as commonSx from './commonSx.js';
 import InputBase from '@mui/material/InputBase';
 import InsertEmoticonTwoToneIcon from '@mui/icons-material/InsertEmoticonTwoTone';
-import NotStartedTwoToneIcon from '@mui/icons-material/NotStartedTwoTone';
 import SentimentSatisfiedAltTwoToneIcon from '@mui/icons-material/SentimentSatisfiedAltTwoTone';
-import SentimentVerySatisfiedTwoToneIcon from '@mui/icons-material/SentimentVerySatisfiedTwoTone';
 import { styled } from '@mui/material/styles';
 
 export const spacingHeight = { height: 10 };
@@ -72,10 +70,6 @@ export const diificultyTooltipOffset = {
         ]
     }
 };
-
-export const newGameIcon = <NotStartedTwoToneIcon />;
-
-export const easyLevelIcon = <SentimentVerySatisfiedTwoToneIcon />;
 
 export const mediumLevelIcon = <InsertEmoticonTwoToneIcon />;
 

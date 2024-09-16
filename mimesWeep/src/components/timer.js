@@ -181,7 +181,7 @@ const Timer = forwardRef(function Timer(props, inputRef) {
     // RENDER
 
     return <Tooltip
-        title={props.difficulty === 4 ? gameText.tooltipTimeElapsed : gameText.tooltipTimeElapsedHS}
+        title={gameText.tooltipTimeElapsedHS}
         placement={commonSx.tooltipPlacement}
         arrow={commonSx.tooltipArrow}
     >
@@ -190,7 +190,6 @@ const Timer = forwardRef(function Timer(props, inputRef) {
                 variant={commonSx.btnVariant}
                 sx={commonSx.btnMedium}
                 onClick={props.openHighScoreDialogCallback}
-                disabled={props.difficulty === 4}
                 ref={ref}
             >
                 {timerContent}

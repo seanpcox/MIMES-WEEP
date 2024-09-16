@@ -2,6 +2,9 @@
 import BuildCircleTwoToneIcon from '@mui/icons-material/BuildCircleTwoTone';
 import EmojiEventsTwoToneIcon from '@mui/icons-material/TimerTwoTone';
 import HelpTwoTone from '@mui/icons-material/HelpTwoTone';
+import MyLocationTwoToneIcon from '@mui/icons-material/MyLocationTwoTone';
+import NotStartedTwoToneIcon from '@mui/icons-material/NotStartedTwoTone';
+import SentimentVerySatisfiedTwoToneIcon from '@mui/icons-material/SentimentVerySatisfiedTwoTone';
 import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
 import TourTwoTone from '@mui/icons-material/TourTwoTone';
 import { Button } from '@mui/material';
@@ -64,16 +67,24 @@ export const StyledButton = styled(Button)(() => ({
 
 export const btnVariant = "outlined";
 
-export const flagIcon = TourTwoTone;
-
 export const tooltipPlacement = "top";
 
 export const tooltipArrow = true;
+
+export const flagIcon = TourTwoTone;
+
+export const newGameIcon = <NotStartedTwoToneIcon />;
+
+export const easyLevelIcon = <SentimentVerySatisfiedTwoToneIcon />;
+
+export const highScoreIcon = <EmojiEventsTwoToneIcon />;
+
+export const flagIconHtml = <TourTwoTone />;
 
 export const settingsIcon = <SettingsTwoToneIcon />;
 
 export const helpIcon = <HelpTwoTone />;
 
-export const highScoreIcon = <EmojiEventsTwoToneIcon />;
-
 export const customLevelIcon = <BuildCircleTwoToneIcon />;
+
+export const hintIcon = <MyLocationTwoToneIcon />;

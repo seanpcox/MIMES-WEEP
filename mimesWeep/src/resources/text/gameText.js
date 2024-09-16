@@ -42,21 +42,15 @@ export const settingsDialogTitle = "Settings";
 
 export const helpDialogTitle = "Help";
 
-export const helpDialogObjective = "Objective";
+export const helpDialogObjective = "Gameplay";
 
-export const helpDialogObjectiveText = "Reveal all squares that do not hide a mime.";
+export const helpDialogObjectiveText = "Reveal all squares without mimes to win the game.";
 
 export const helpDialogControls = "Controls";
-
-export const helpDialogControlsLClick = "Left Click: ";
-
-export const helpDialogControlsRClick = "Right Click: ";
 
 export const controlsLClickLC = "left click";
 
 export const controlsRClickLC = "right click";
-
-export const helpDialogControlsTap = "Tap: ";
 
 export const controlsTapLC = "tap";
 
@@ -78,35 +72,27 @@ export const leftMouseClick = "Left click "
 
 export const touchDown = "Touch down "
 
-export const helpDialogTipsBullet1 = "The initial count on the flag button shows the number of mimes hidden on the board.";
+export const strategy1 = "A starting hint, marked by a target, indicates a safe square to reveal."
 
-export const helpDialogTipsBullet2 = "Place flags on squares you suspect of hiding a mime to avoid revealing them by mistake.";
+export const strategy2 = "Revealed squares with numbers show how many adjacent squares contain hidden mimes."
 
-export const helpDialogTipsBullet3 = "A number on a revealed square indicates how many neighboring squares have hidden mimes.";
+export const strategy3 = "Flag suspected mime squares to avoid accidental reveals and enable quick revealing of neighboring squares.";
 
-export const helpDialogTipsBullet4 = "Press down on a numbered square to highlight its neighbors.";
+export const strategy4 = "You can use flag hints if the puzzle requires guessing to solve, as long as you're not aiming for a high score or personal best time.";
 
-export const helpDialogTipsBullet5_1 = "Chording allows you to ";
+export const helpDialogToolbar = "Toolbar Buttons";
 
-export const helpDialogTipsBullet5_2 = " a numbered square to reveal its neighbors, if the correct number of flags have been placed.";
-
-export const helpDialogTipsBullet6 = "A starting hint is shown as a target on the board. This represents a safe square to reveal."
-
-export const helpDialogTipsBullet7 = "Flag hints can be used to flag a mime position for you when you are stuck. Note that using a hint will make you ineligble for a high score or personal best position."
-
-export const helpDialogTipsBullet8 = "Use the edge of your screen when scrolling to avoid accidentally revealing a square.";
-
-export const helpDialogCredits = "Author";
+export const helpDialogCredits = "Creator";
 
 export const helpDialogCreditsBullet1 = "Sean Cox";
 
-export const tooltipNew = "New Game";
+export const tooltipNew = "Start a New Game";
 
-export const tooltipDifficulty = "Difficulty Level";
+export const tooltipDifficulty = "Change Difficulty";
 
 export const tooltipHelp = "Open Help";
 
-export const tooltipHint = "Flag Hint";
+export const tooltipHint = "Use Hint";
 
 export const tooltipSettings = "Open Settings";
 
@@ -116,9 +102,7 @@ export const altBlackMime = "Black Mime";
 
 export const altWhiteMime = "White Mime";
 
-export const tooltipTimeElapsed = "Time Elapsed";
-
-export const tooltipTimeElapsedHS = "Time Elapsed / High scores";
+export const tooltipTimeElapsedHS = "View High Scores";
 
 export const highScoreDialogTitle = "High Scores";
 
@@ -199,3 +183,21 @@ export const sdGameTimeFormatOptionInfo = "Display format for game time";
 export const sdScoreTimeFormatOptionTitle = "Score Time";
 
 export const sdScoreTimeFormatOptionInfo = "Display format for scoreboards";
+
+export const hNewGameInfo = "Begins a new game using the current difficulty setting.";
+
+export const hDifficultyLevelInfo = "Begins a new game with the newly chosen difficulty setting.";
+
+export const hTimeHSInfo1 = "Displays the high scores screen, which includes your personal best times.";
+
+export const hTimeHSInfo2 = "The button shows the time elapsed since the current game started.";
+
+export const hFlagHintInfo1 = "Flags a mime on select. Mimes adjacent to revealed squares are flagged first. Games where hints are used are ineligible for high scores or personal bests.";
+
+export const hFlagHintInfo2 = "The button shows the number of remaining flags needed to cover all mimes.";
+
+export const hSettingsInfo = "Access the settings screen, where you can adjust game parameters. These settings are stored locally in your browser.";
+
+export const hHelpInfo = "Brings up the help screen, which includes instructions and tips for playing the game and navigating the app.";
+
+export const chordingAction = "Reveal neighboring squares if the correct number of flags are placed";

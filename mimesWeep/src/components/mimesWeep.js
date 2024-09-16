@@ -384,7 +384,7 @@ function MimesWeep() {
             onClick={handleRestart}
             sx={sx.btnSquare}
           >
-            {sx.newGameIcon}
+            {commonSx.newGameIcon}
           </commonSx.StyledButton>
         </Tooltip>
         <Box width={sx.btnSpacingWidth} />
@@ -406,7 +406,7 @@ function MimesWeep() {
                 sx={commonSx.font}
               >
                 <Button sx={sx.customBtn}>
-                  {sx.easyLevelIcon}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(1)}
+                  {commonSx.easyLevelIcon}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(1)}
                 </Button>
               </MenuItem>
               <MenuItem

@@ -335,7 +335,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 onClick={(e) => e.preventDefault()}
                 sx={(highlight) ? sx.highlightSquareSx : sx.squareSx}
             >
-                {isFirstHint() ? sx.hintIcon : null}
+                {isFirstHint() ? commonSx.hintIcon : null}
             </Button>
         }
 
@@ -385,7 +385,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 onContextMenu={setRightClickState}
                 sx={(highlight) ? sx.highlightSquareSx : sx.squareSx}
             >
-                {isFirstHint() ? sx.hintIcon : null}
+                {isFirstHint() ? commonSx.hintIcon : null}
             </Button>
         }
 
