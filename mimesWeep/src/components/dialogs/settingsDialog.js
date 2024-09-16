@@ -342,6 +342,7 @@ function SettingsDialog(props) {
                         ))}
                         gameTimeFormatOptions
                     </TextField>
+                    <Box sx={sx.spacingHeight} />
                 </DialogContent>
                 <DialogActions>
                     <Button
