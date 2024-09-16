@@ -392,6 +392,7 @@ function MimesWeep() {
           title={gameText.tooltipDifficulty}
           placement={commonSx.tooltipPlacement}
           arrow={commonSx.tooltipArrow}
+          slotProps={sx.diificultyTooltipOffset}
         >
           <FormControl>
             <Select

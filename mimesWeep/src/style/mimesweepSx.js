@@ -63,6 +63,19 @@ export const BootstrapInput = styled(InputBase)(() => ({
     }
 }));
 
+export const diificultyTooltipOffset = {
+    popper: {
+        modifiers: [
+            {
+                name: 'offset',
+                options: {
+                    offset: [0, 13],
+                }
+            }
+        ]
+    }
+};
+
 export const newGameIcon = <NotStartedTwoToneIcon />;
 
 export const easyLevelIcon = <SentimentVerySatisfiedTwoToneIcon />;
