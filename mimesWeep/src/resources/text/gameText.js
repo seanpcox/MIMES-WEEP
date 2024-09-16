@@ -108,7 +108,7 @@ export const highScoreDialogTitle = "High Scores";
 
 export const hsTablePosition = "#";
 
-export const hsTableUsername = "Username";
+export const hsTableUsername = "Name";
 
 export const hsTableTime = "Time";
 
@@ -116,11 +116,11 @@ export const hsTableDate = "Date";
 
 export const hsTableDevice = "Device";
 
-export const hsDialogInputHSLabel = "High Score Username";
+export const hsDialogInputHSLabel = "High Score Name";
 
-export const hsDialogInputPBLabel = "Personal Best Username";
+export const hsDialogInputPBLabel = "Personal Best Name";
 
-export const hsDialogInputScoresLabel = "Scores Username";
+export const hsDialogInputScoresLabel = "Scores Name";
 
 export const hsDialogFormatErrorLabel = "Enter 1-10 Characters";
 

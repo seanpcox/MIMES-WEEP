@@ -127,7 +127,6 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
                         <sx.StyledTableCell>{gameText.hsTableUsername}</sx.StyledTableCell>
                         <sx.StyledTableCell>{gameText.hsTableTime}</sx.StyledTableCell>
                         <sx.StyledTableCell>{gameText.hsTableDate}</sx.StyledTableCell>
-                        <sx.StyledTableCell>{gameText.hsTableDevice}</sx.StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -142,7 +141,6 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
                                     <sx.StyledTableCell>{row.user}</sx.StyledTableCell>
                                     <sx.StyledTableCell align={sx.timeColumnDataAlign}>{row.time}</sx.StyledTableCell>
                                     <sx.StyledTableCell>{row.date}</sx.StyledTableCell>
-                                    <sx.StyledTableCell>{row.device}</sx.StyledTableCell>
                                 </sx.HighlightedTableRow>
                             )
                             // Else apply the default style to the row
@@ -154,7 +152,6 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
                                     <sx.StyledTableCell>{row.user}</sx.StyledTableCell>
                                     <sx.StyledTableCell align="right">{row.time}</sx.StyledTableCell>
                                     <sx.StyledTableCell>{row.date}</sx.StyledTableCell>
-                                    <sx.StyledTableCell>{row.device}</sx.StyledTableCell>
                                 </sx.StyledTableRow>
                             )
                     )}

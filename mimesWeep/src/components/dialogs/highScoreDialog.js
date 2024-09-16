@@ -49,6 +49,7 @@ function HighScoreDialog(props) {
 
     const [difficulty, setDifficulty] = useState(props.difficulty);
 
+
     // REFS
 
     const tableRef = useRef(null);

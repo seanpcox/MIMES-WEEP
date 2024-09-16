@@ -23,7 +23,7 @@ import { Device } from "../models/index.js";
 const numOfMimesOnEasyLevel = 10;
 
 // The number of high score positions we support: default 10
-export const highScorePositions = 10;
+export const highScorePositions = 5;
 
 // Do we want to clear local storage on startup, this would delete all personal bests: default false
 export const clearLocalStorageOnStartup = false;
