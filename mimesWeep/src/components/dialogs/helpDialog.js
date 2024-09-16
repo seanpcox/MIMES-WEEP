@@ -104,9 +104,21 @@ function HelpDialog(props) {
                         <li>
                             {gameText.helpDialogTipsBullet3}
                         </li>
+                        <li>
+                            {gameText.helpDialogTipsBullet4}
+                        </li>
+                        <li>
+                            {gameText.helpDialogTipsBullet5_1 + (settings.deviceType !== Device.DESKTOP ? gameText.controlsTapLC : gameText.controlsLClickLC) + gameText.helpDialogTipsBullet5_2}
+                        </li>
+                        <li>
+                            {gameText.helpDialogTipsBullet6}
+                        </li>
+                        <li>
+                            {gameText.helpDialogTipsBullet7}
+                        </li>
                         {settings.deviceType !== Device.DESKTOP ?
                             <li>
-                                {gameText.helpDialogTipsBullet4}
+                                {gameText.helpDialogTipsBullet8}
                             </li>
                             : null
                         }

@@ -72,13 +72,29 @@ export const helpDialogControlsFlagText = "Place or remove a flag";
 
 export const helpDialogTips = "Tips";
 
-export const helpDialogTipsBullet1 = "A number on a revealed square indicates how many neighboring squares have hidden mimes.";
+export const leftMousePress = "Left mouse press "
 
-export const helpDialogTipsBullet2 = "The initial count on the flag toggle button shows the number of mimes hidden on the board.";
+export const leftMouseClick = "Left click "
 
-export const helpDialogTipsBullet3 = "Place flags on squares you suspect of hiding a mime to avoid revealing them by mistake.";
+export const touchDown = "Touch down "
 
-export const helpDialogTipsBullet4 = "Use the edge of your screen when scrolling to avoid accidentally revealing a square.";
+export const helpDialogTipsBullet1 = "The initial count on the flag button shows the number of mimes hidden on the board.";
+
+export const helpDialogTipsBullet2 = "Place flags on squares you suspect of hiding a mime to avoid revealing them by mistake.";
+
+export const helpDialogTipsBullet3 = "A number on a revealed square indicates how many neighboring squares have hidden mimes.";
+
+export const helpDialogTipsBullet4 = "Press down on a numbered square to highlight its neighbors.";
+
+export const helpDialogTipsBullet5_1 = "Chording allows you to ";
+
+export const helpDialogTipsBullet5_2 = " a numbered square to reveal its neighbors, if the correct number of flags have been placed.";
+
+export const helpDialogTipsBullet6 = "A starting hint is shown as a target on the board. This represents a safe square to reveal."
+
+export const helpDialogTipsBullet7 = "Flag hints can be used to flag a mime position for you when you are stuck. Note that using a hint will make you ineligble for a high score or personal best position."
+
+export const helpDialogTipsBullet8 = "Use the edge of your screen when scrolling to avoid accidentally revealing a square.";
 
 export const helpDialogCredits = "Author";
 
