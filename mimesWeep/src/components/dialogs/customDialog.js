@@ -157,7 +157,7 @@ function CustomDialog(props) {
                 }}
             >
                 <DialogTitle>
-                    <Box style={sx.titleDivStyle}>
+                    <Box sx={sx.titleDivStyle}>
                         {commonSx.customLevelIcon}
                         <span>&nbsp;{gameText.customDialogTitle}</span>
                     </Box>

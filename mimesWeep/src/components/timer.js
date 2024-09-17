@@ -75,7 +75,7 @@ const Timer = forwardRef(function Timer(props, inputRef) {
         return () => clearInterval(interval);
     }, []);
 
-    // Effect to read the timne format from local storage display every 1000ms
+    // Effect to read the timer format from local storage display every 1000ms
     useEffect(() => {
         const interval = setInterval(() => udpateTimeFormat(), 1000);
 

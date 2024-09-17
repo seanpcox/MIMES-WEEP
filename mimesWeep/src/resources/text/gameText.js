@@ -40,7 +40,7 @@ export const winWithHintsMessage = "Well done, some hints, but you got there! "
 
 export const settingsDialogTitle = "Settings";
 
-export const helpWelcomeDialogTitle = "Welcome to Mimesweep!";
+export const helpWelcomeDialogTitle = "Welcome to Mimesweep";
 
 export const helpDialogTitle = "Help";
 

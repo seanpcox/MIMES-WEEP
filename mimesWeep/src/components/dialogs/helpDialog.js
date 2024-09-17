@@ -111,7 +111,7 @@ function HelpDialog(props) {
                 onClose={handleClose}
             >
                 <DialogTitle>
-                    <Box style={dialogSx.titleDivStyle}>
+                    <Box sx={dialogSx.titleDivStyle}>
                         {dialogIcon}
                         <span>&nbsp;{dialogTitle}</span>
                     </Box>
