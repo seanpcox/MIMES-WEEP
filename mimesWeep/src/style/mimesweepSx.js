@@ -1,8 +1,14 @@
 import * as commonSx from './commonSx.js';
+import * as gameText from '../resources/text/gameText.js';
 import InputBase from '@mui/material/InputBase';
 import InsertEmoticonTwoToneIcon from '@mui/icons-material/InsertEmoticonTwoTone';
+import logo from '../resources/images/mimesweep.svg';
 import SentimentSatisfiedAltTwoToneIcon from '@mui/icons-material/SentimentSatisfiedAltTwoTone';
 import { styled } from '@mui/material/styles';
+
+export const logoImg = <img
+    src={logo}
+    alt={gameText.logo} />;
 
 export const spacingHeight = { height: 10 };
 

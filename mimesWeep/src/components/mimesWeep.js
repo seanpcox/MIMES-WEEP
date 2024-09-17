@@ -382,12 +382,8 @@ function MimesWeep() {
       // Prevent any default behaviour when any component in this App is right clicked
       e.preventDefault();
     }}>
-      <Box>
-        <header className="mimesWeep-header" >
-          <p>
-            {gameText.title}
-          </p>
-        </header>
+      <Box className="mimesWeep-header">
+        {sx.logoImg}
       </Box>
       <Box sx={sx.spacingHeight} />
       <Toolbar sx={sx.toolbar}>

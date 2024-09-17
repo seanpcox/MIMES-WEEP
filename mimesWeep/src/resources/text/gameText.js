@@ -203,3 +203,5 @@ export const hSettingsInfo = "Access the settings screen, where you can adjust g
 export const hHelpInfo = "Brings up the help screen, which includes instructions and tips for playing the game and navigating the app.";
 
 export const chordingAction = "Reveal neighboring squares if the correct number of flags are placed";
+
+export const logo = "Logo"
