@@ -194,7 +194,7 @@ export const hTimeHSInfo1 = "Displays the high scores screen, which includes you
 
 export const hTimeHSInfo2 = "The button shows the time elapsed since the current game started.";
 
-export const hFlagHintInfo1 = "Flags a mime on select. Mimes adjacent to revealed squares are flagged first. Games where hints are used are ineligible for high scores or personal bests.";
+export const hFlagHintInfo1 = "Flags a mime for you. Mimes adjacent to revealed squares are flagged first. Games where hints are used are ineligible for high scores or personal bests.";
 
 export const hFlagHintInfo2 = "The button shows the number of remaining flags needed to cover all mimes.";
 
