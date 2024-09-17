@@ -15,6 +15,8 @@ const GameBoard = forwardRef(function GameBoard(props, inputRef) {
 
     var ref = useRef(null);
 
+    var squaresWonRef = useRef(new Set([]));
+
 
     // HANDLER
 
@@ -31,6 +33,16 @@ const GameBoard = forwardRef(function GameBoard(props, inputRef) {
     }, []);
 
 
+    // EFFECTS
+
+    // Effect to clear the squares won set on load and unload
+    useEffect(() => {
+        squaresWonRef.current = new Set([]);
+
+        return () => squaresWonRef.current = new Set([]);
+    });
+
+
     // LOCAL VARIABLES
 
     // Game properties
@@ -43,9 +55,6 @@ const GameBoard = forwardRef(function GameBoard(props, inputRef) {
 
     // Track the number of squares we need to reveal to win (all squares except mimes must be revealed)
     var squaresToWin = (height * width) - numOfMimes;
-
-    // Track the number of squares currently revealed
-    var squaresWon = 0;
 
 
     // EFFECTS
@@ -71,21 +80,24 @@ const GameBoard = forwardRef(function GameBoard(props, inputRef) {
     }
 
     /**
-     * Function called when square, or squares, none a mime, is successfully revealed
-     * @param {Number of squares revealed} count 
+     * Function called when a square, or squares, none a mime, is successfully revealed
+     * @param {1D coordinates of revealed squares} revealed1DCoords
      */
-    function incrementSquaresWonCallback(count) {
+    function incrementSquaresWonCallback(revealed1DCoords) {
 
-        // If the first square clicked then start the timer
-        if (squaresWon === 0) {
+        // If this is the first square clicked on then start the timer
+        if (squaresWonRef.current.size === 0) {
             props.firstSquareRevealvedCallback();
         }
 
-        // Increment the number of squares successfully revealed
-        squaresWon += count;
+        // Add the coordinates of all squares successfully revealed to our squares won set
+        // We use a set to ensure no duplicates are accidently added
+        for (const coords1D of revealed1DCoords) {
+            squaresWonRef.current.add(coords1D);
+        }
 
-        // If the number of squares revealed equal the number of squares need to win, we have won
-        if (squaresWon === squaresToWin) {
+        // If the number of squares revealed equal the number of squares needed to win, we have won
+        if (squaresWonRef.current.size === squaresToWin) {
             // Call the game won function
             gameWon();
         }
@@ -96,7 +108,7 @@ const GameBoard = forwardRef(function GameBoard(props, inputRef) {
      */
     function gameWon() {
 
-        // Reveal all unrevealed square components on the board
+        // Reveal all unrevealed square components on the board, these should only be unflagged mimes
         ref.current.revealAll();
 
         // Display win message to the user

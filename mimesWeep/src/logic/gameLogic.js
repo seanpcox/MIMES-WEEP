@@ -114,13 +114,14 @@ export function createNewBoard(height, width, numOfMimes) {
 /**
  * Recursive function to visit and reveal all neighbors of a square that has no neighboring mimes.
  * This is safe, and implemented as a time saver for the user, as none of the square's neighbors can be a mime.
+ * We use a set to store the 1D coordinates of all visited squares to prevent duplicates from accidently being added
  * @param {Game board 2D array} array 
  * @param {Row of square with no neighboring mimes} i 
  * @param {Column of square with no neighboring mimes} j 
- * @param {Coordinates of squares revealed by this method} squaresClearedCoords 
- * @returns List of coordinates of squares revealed in this recursive operation
+ * @param {Coordinate set of squares revealed by this method} squaresClearedCoords
+ * @returns Set of coordinates of squares revealed in this recursive operation
  */
-export function visitZeroNeighbors(array, i, j, squaresClearedCoords = []) {
+export function visitZeroNeighbors(array, i, j, squaresClearedCoords = new Set([])) {
 
     // Get the coordinates of the square's potential 8 neighbors.
     const nCoords = getNeighbourCoordinates(i, j);
@@ -139,15 +140,15 @@ export function visitZeroNeighbors(array, i, j, squaresClearedCoords = []) {
                 // Reveal the square by making it a whole number (subtract 0.1).
                 array[nCoords[index][0]][nCoords[index][1]] = 0;
 
-                // Add the revealed square's coordinates to our list of visted squares
-                squaresClearedCoords.push([nCoords[index][0], nCoords[index][1]]);
+                // Add the revealed square's 1D coordinate to our set of visted squares
+                squaresClearedCoords.add(get1DCoordIndex(nCoords[index][0], nCoords[index][1], array.length));
 
-                // Now visit all the neighbors of this just revealed square
+                // Now visit all the neighbors of this just revealed square and store any revealed square's 1D coordinate
                 var results = visitZeroNeighbors(array, nCoords[index][0], nCoords[index][1]);
 
-                // Add all of the visited coordinates resulting from this neighbor
-                for (var n = 0; n < results.length; n++) {
-                    squaresClearedCoords.push(results[n]);
+                // Add all of the visited 1D coordinates resulting from this recursive operation to our set
+                for (const value of results) {
+                    squaresClearedCoords.add(value);
                 }
 
             }
@@ -159,18 +160,18 @@ export function visitZeroNeighbors(array, i, j, squaresClearedCoords = []) {
                 // We check it is not 9 or more (represents a flagged square)
                 && !(array[nCoords[index][0]][nCoords[index][1]] >= 9)) {
 
-                // Reveal the square by making it a whole number (subtract 0.1). 
-                // Fixed and Cast required as floating point numbers do not always resolve precisely.         
+                // Reveal the square by making it a whole number (subtract 0.1).
+                // Fixed and Cast required as floating point numbers do not always resolve precisely.
                 array[nCoords[index][0]][nCoords[index][1]]
                     = Number((array[nCoords[index][0]][nCoords[index][1]] - 0.1).toFixed(1));
 
-                // Add the revealed square's coordinates to our list of visted squares
-                squaresClearedCoords.push([nCoords[index][0], nCoords[index][1]]);
+                // Add the revealed square's 1D coordinate to our set of visted squares
+                squaresClearedCoords.add(get1DCoordIndex(nCoords[index][0], nCoords[index][1], array.length));
             }
         }
     }
 
-    // Return the list of coordinates of squares we visited
+    // Return the set of coordinates of squares we visited
     return squaresClearedCoords;
 }
 
@@ -548,17 +549,39 @@ function shuffleArray(array) {
 
 /**
  * Function to get the i and j coordinates back from a 1D index array
- * @param {array} arrayIDIndexes 
- * @param {number} index 
- * @param {number} width 
+ * @param {array} arrayIDIndexes
+ * @param {number} index
+ * @param {number} width
  * @returns array with i and j coordinates
  */
 function getCoordsFromArrayIDIndex(arrayIDIndexes, index, width) {
     // Convert the 1D array index back into an index for our 2D array
-    let i = Math.floor(arrayIDIndexes[index] / width);
-    let j = arrayIDIndexes[index] % width;
+    return getCoordsFromArrayIDValue(arrayIDIndexes[index], width);
+}
+
+/**
+ * Function to get the i and j coordinates back from a 1D index array value
+ * @param {number} value
+ * @param {number} width
+ * @returns array with i and j coordinates
+ */
+export function getCoordsFromArrayIDValue(value, width) {
+    // Convert the 1D array index back into an index for our 2D array
+    let i = Math.floor(value / width);
+    let j = value % width;
 
     return [i, j];
+}
+
+/**
+ * Function to generate the 1D index position of the array coordinates
+ * @param {number} i
+ * @param {number} j
+ * @param {number} width
+ * @returns 1D coordinate position, this is found by counting right from top to bottom, taking zero index into account
+ */
+function get1DCoordIndex(i, j, width) {
+    return (i * width) + j;
 }
 
 /**

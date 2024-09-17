@@ -134,34 +134,45 @@ const Board = forwardRef(function Board(props, inputRef) {
         // Else the revealed square is not a mime
         else {
 
-            // Array to hold any squares that are revealed if the clicked on square had no neighboring mimes
-            var zNgs = [];
+            // Set to hold the 1D coordinates of any squares that are revealed if the clicked on square had no neighboring mimes
+            // Using a set to ensure no duplicates are added
+            var zNgs = new Set([]);
 
             // The clicked on square has no neighboring mimes, in this case we reveal all its neighbors by updating the board array
             // If any of its neighbors also have no neighboring mimes we reveal its neighbors, and so on, recursively
             // This is a time saver for the user and is a better experience than them clicking through all of these
             if (array[indexI][indexJ] === 0) {
 
-                // Store the coordinates of all visited squares
+                // Visit all neighbors and store the 1D coordinates set of all revealed squares
                 zNgs = logic.visitZeroNeighbors(array, indexI, indexJ);
             }
 
-            // Callback to increment the number of squares we revealed, this is how we track if the user has won
-            props.incrementSquaresWonCallback(zNgs.length + 1);
+            // Callback to add the revealed squares 1D coordinates, this is how we track if the user has won
+            props.incrementSquaresWonCallback(zNgs);
 
-            // For all the neighbors visited we need to refresh their component on screen
-            for (var n = 0; n < zNgs.length; n++) {
+            // For all the neighbors revealed we need to refresh their component on screen
+            for (const coords1D of zNgs) {
 
-                // Get the index in the 1D ref array of the visited neighbors
-                var refIndex = getRefIndex(width, zNgs[n][0], zNgs[n][1]);
+                // Convert the 1D coordinate into 2D coordinates
+                var nCoords = logic.getCoordsFromArrayIDValue(coords1D, width);
 
                 // Call the refresh function on the board square component
-                squaresRef.current[refIndex].refresh(array[zNgs[n][0]][zNgs[n][1]]);
+                squaresRef.current[coords1D].refresh(array[nCoords[0]][nCoords[1]]);
             }
         }
 
+        // Get the 1D coordinate of the square that was clicked on
+        var index1D = getRefIndex(width, indexI, indexJ);
+
+        // Create a set to contain this coordinate, as callback method expects a set
+        var clickedOnSet = new Set([]);
+        clickedOnSet.add(index1D);
+
+        // Callback to add the clicked on square's coordinate, this is how we track if the user has won
+        props.incrementSquaresWonCallback(clickedOnSet);
+
         // Refresh the initially clicked on square component
-        squaresRef.current[getRefIndex(width, indexI, indexJ)].refresh(array[indexI][indexJ]);
+        squaresRef.current[index1D].refresh(array[indexI][indexJ]);
     }
 
     /**
