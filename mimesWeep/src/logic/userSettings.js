@@ -269,3 +269,33 @@ function getOptionIndex(optionLS, availableOptions, defaultOptionIndex) {
 
     return Number(userOptionIndex);
 }
+
+/**
+ * Function to determine if this is the user's first visit on this browser
+ * @returns True if user's first visit on this browser, else False
+ */
+export function isFirstVisit() {
+    // Retrieve the local property telling us if this is the user's first visit on this browser
+    var isFirstVisitLS = localStorage.getItem("isFirstVisit");
+
+    // If they have never visited we display the welcome/help screen and record they have visited
+    if (isFirstVisitLS === undefined || isFirstVisitLS === null || isFirstVisitLS === "yes") {
+        return true;
+    }
+
+    return false;
+}
+
+/**
+ * Function to record, in local storage, whether the user has visited this site before on this browser
+ * @param {bool} isFirstVisit
+ */
+export function setIsFirstVisit(isFirstVisit) {
+    if (isFirstVisit) {
+        // Record that the user has not visited the site on this browser
+        localStorage.setItem("isFirstVisit", "yes");
+    } else {
+        // Record that the user has visited the site on this browser
+        localStorage.setItem("isFirstVisit", "no");
+    }
+}

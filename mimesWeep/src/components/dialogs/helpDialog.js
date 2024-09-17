@@ -1,8 +1,9 @@
 import * as commonSx from '../../style/commonSx.js';
+import * as dialogSx from '../../style/dialogSx.js';
 import * as gameText from '../../resources/text/gameText';
 import * as settings from '../../logic/gameSettings.js';
-import * as dialogSx from '../../style/dialogSx.js';
 import * as sx from '../../style/helpDialogSx.js';
+import * as userSettings from '../../logic/userSettings.js';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
@@ -34,6 +35,10 @@ function HelpDialog(props) {
 
     const [open, setOpen] = useState(false);
 
+    const [dialogTitle, setDialogTitle] = useState(gameText.helpDialogTitle);
+
+    const [dialogIcon, setDialogIcon] = useState(commonSx.helpIcon);
+
 
     // LOCAL VARIABLES
 
@@ -54,6 +59,9 @@ function HelpDialog(props) {
 
     // Effect to open the help dialog
     useEffect(() => {
+        // Set the dialog title and icon states
+        setTitleAndIcon();
+
         props.openHelpDialogCallback([open, setOpen]);
     }, [props.openHelpDialogCallback, open]);
 
@@ -61,9 +69,35 @@ function HelpDialog(props) {
     // LOCAL FUNCTIONS
 
     /**
+     * Function to set the dialog title and icon
+     */
+    function setTitleAndIcon() {
+        // Retrieve the local property telling us if the user has ever visited this app on this browser
+        var isFirstVisit = userSettings.isFirstVisit();
+
+        // If they have never visited we display the welcome dialog title and icon
+        if (isFirstVisit) {
+            // Set the welcome dialog title and icon
+            setDialogIcon(sx.welcomeIcon);
+            setDialogTitle(gameText.helpWelcomeDialogTitle);
+        }
+        // Else set the default help dialog title and icon
+        else {
+            // Set the help dialog title and icon
+            setDialogIcon(commonSx.helpIcon);
+            setDialogTitle(gameText.helpDialogTitle);
+        }
+    }
+
+    /**
      * Function to close the help dialog
      */
     const handleClose = () => {
+
+        // Record that the user has visited the site so we don't show the welcome parameters on next open
+        userSettings.setIsFirstVisit(false);
+
+        // Close the dialog
         setOpen(false);
     };
 
@@ -77,15 +111,15 @@ function HelpDialog(props) {
                 onClose={handleClose}
             >
                 <DialogTitle>
-                    <div style={dialogSx.titleDivStyle}>
-                        {commonSx.helpIcon}
-                        <span>&nbsp;{gameText.helpDialogTitle}</span>
-                    </div>
+                    <Box style={dialogSx.titleDivStyle}>
+                        {dialogIcon}
+                        <span>&nbsp;{dialogTitle}</span>
+                    </Box>
                 </DialogTitle>
                 <DialogContent>
-                    <p />
-                    <strong>{gameText.helpDialogObjective}</strong>
                     <Box sx={sx.spacingHeight}></Box>
+                    <strong>{gameText.helpDialogObjective}</strong>
+                    <Box sx={sx.spacingTitleHeight}></Box>
                     <List>
                         <ListItem disablePadding>
                             <ListItemIcon sx={sx.listItemIcon}>
@@ -138,7 +172,7 @@ function HelpDialog(props) {
                             />
                         </ListItem>
                     </List>
-                    <p />
+                    <Box sx={sx.spacingHeight}></Box>
                     <strong>{gameText.helpDialogControls}</strong>
                     <List>
                         <ListItem disablePadding>
@@ -150,10 +184,10 @@ function HelpDialog(props) {
                             }
                                 primary={revealControl}
                                 secondary={
-                                    <div>
-                                        <div>{gameText.helpDialogControlsRevealText}</div>
-                                        <div>{gameText.chordingAction}</div>
-                                    </div>
+                                    <Box>
+                                        <Box>{gameText.helpDialogControlsRevealText}</Box>
+                                        <Box>{gameText.chordingAction}</Box>
+                                    </Box>
                                 }
                             />
                         </ListItem>
@@ -169,7 +203,7 @@ function HelpDialog(props) {
                             />
                         </ListItem>
                     </List>
-                    <p />
+                    <Box sx={sx.spacingHeight}></Box>
                     <strong>{gameText.helpDialogToolbar}</strong>
                     <List>
                         <ListItem disablePadding>
@@ -203,10 +237,10 @@ function HelpDialog(props) {
                             }
                                 primary={gameText.tooltipTimeElapsedHS}
                                 secondary={
-                                    <div>
-                                        <div>{gameText.hTimeHSInfo1}</div>
-                                        <div>{gameText.hTimeHSInfo2}</div>
-                                    </div>
+                                    <Box>
+                                        <Box>{gameText.hTimeHSInfo1}</Box>
+                                        <Box>{gameText.hTimeHSInfo2}</Box>
+                                    </Box>
                                 }
                             />
                         </ListItem>
@@ -219,10 +253,10 @@ function HelpDialog(props) {
                             }
                                 primary={gameText.tooltipHint}
                                 secondary={
-                                    <div>
-                                        <div>{gameText.hFlagHintInfo1}</div>
-                                        <div>{gameText.hFlagHintInfo2}</div>
-                                    </div>
+                                    <Box>
+                                        <Box>{gameText.hFlagHintInfo1}</Box>
+                                        <Box>{gameText.hFlagHintInfo2}</Box>
+                                    </Box>
                                 }
                             />
                         </ListItem>
@@ -249,7 +283,7 @@ function HelpDialog(props) {
                             />
                         </ListItem>
                     </List>
-                    <p />
+                    <Box sx={sx.spacingHeight}></Box>
                     <strong>{gameText.helpDialogCredits}</strong>
                     <List>
                         <ListItem disablePadding>

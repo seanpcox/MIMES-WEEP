@@ -251,10 +251,10 @@ function SettingsDialog(props) {
                 }}
             >
                 <DialogTitle>
-                    <div style={sx.titleDivStyle}>
+                    <Box style={sx.titleDivStyle}>
                         {commonSx.settingsIcon}
                         <span>&nbsp;{gameText.settingsDialogTitle}</span>
-                    </div>
+                    </Box>
                 </DialogTitle>
                 <DialogContent>
                     <TextField

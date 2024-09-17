@@ -7,9 +7,12 @@ import mouseLeftClick from '../resources/images/leftClickDisabled.png';
 import mouseRightClick from '../resources/images/rightClickDisabled.png';
 import PanToolAltTwoToneIcon from '@mui/icons-material/PanToolAltTwoTone';
 import TouchAppTwoToneIcon from '@mui/icons-material/TouchAppTwoTone';
+import WavingHandTwoToneIcon from '@mui/icons-material/WavingHandTwoTone';
 import { Icon } from '@mui/material';
 
-export const spacingHeight = { height: 7 };
+export const spacingTitleHeight = { height: 7 };
+
+export const spacingHeight = { height: 10 };
 
 export const listItem = {
     alignItems: "center"
@@ -46,3 +49,5 @@ export const numberIcon = <Filter2TwoToneIcon />;
 export const flagHintIcon = <AutoFixNormalTwoToneIcon />;
 
 export const creatorIcon = <DesignServicesTwoToneIcon />;
+
+export const welcomeIcon = <WavingHandTwoToneIcon />;

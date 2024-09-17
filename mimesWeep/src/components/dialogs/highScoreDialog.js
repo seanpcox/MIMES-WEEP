@@ -364,10 +364,10 @@ function HighScoreDialog(props) {
                 }}
             >
                 <DialogTitle>
-                    <div style={dialogSx.titleDivStyle}>
+                    <Box style={dialogSx.titleDivStyle}>
                         {commonSx.highScoreIcon}
                         <span>&nbsp;{getTitle()}</span>
-                    </div>
+                    </Box>
                 </DialogTitle>
                 {dialogContent}
                 {dialogActions}

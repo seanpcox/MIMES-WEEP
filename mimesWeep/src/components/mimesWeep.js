@@ -6,6 +6,7 @@ import * as logic from '../logic/gameLogic.js';
 import * as scoreLogic from '../logic/scoreLogic.js';
 import * as settings from '../logic/gameSettings.js';
 import * as sx from '../style/mimesweepSx.js';
+import * as userSettings from '../logic/userSettings.js';
 import CustomDialog from './dialogs/customDialog.js';
 import Divider from '@mui/material/Divider';
 import FinishedMessage from './dialogs/finishedMessage.js';
@@ -22,7 +23,7 @@ import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import { Box, Button } from '@mui/material';
 import { Period } from "../models/index.js";
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 /**
  * Component at the root of the game. Contains the header, toolbar, and game board.
@@ -58,6 +59,22 @@ function MimesWeep() {
   const guessCountRef = useRef(0);
 
   const hintCountRef = useRef(0);
+
+
+  // EFFECTS
+
+  // Effect to call on component load to display the welcome/help screen on first visit
+  useEffect(() => {
+
+    // Retrieve the local property telling us if the user has ever visited this app on this browser
+    var isFirstVisit = userSettings.isFirstVisit();
+
+    // If they have never visited we display the welcome/help screen to instruct them on the game
+    if (isFirstVisit) {
+      // Open the help dialog
+      openHelpDialog(true);
+    }
+  }, []);
 
 
   // CALLBACK METHODS
@@ -361,17 +378,17 @@ function MimesWeep() {
   // COMPONENT
 
   return (
-    <div className="mimesWeep" onContextMenu={(e) => {
+    <Box className="mimesWeep" onContextMenu={(e) => {
       // Prevent any default behaviour when any component in this App is right clicked
       e.preventDefault();
     }}>
-      <div>
+      <Box>
         <header className="mimesWeep-header" >
           <p>
             {gameText.title}
           </p>
         </header>
-      </div>
+      </Box>
       <Box sx={sx.spacingHeight} />
       <Toolbar sx={sx.toolbar}>
         <Tooltip
@@ -503,7 +520,7 @@ function MimesWeep() {
         personalBestRowHightlightedRef={personalBestRowHightlightedRef}
         difficulty={difficulty}
       />
-    </div>
+    </Box>
   );
 }
 
