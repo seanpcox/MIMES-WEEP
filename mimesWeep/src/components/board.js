@@ -223,24 +223,23 @@ const Board = forwardRef(function Board(props, inputRef) {
      */
     function btnChordActionCallback(indexI, indexJ, isReveal, isHighlight = false) {
 
-        // If the user has disabled chording in settings then return
-        if (!userSettings.isChordingEnabled()) {
-            return;
-        }
+        // If the user has chording enabled in settings
+        if (userSettings.isChordingEnabled()) {
 
-        // Get the coordinates of squares to be revealed as part of the chord action
-        var rNgCoords = logic.getChordActionNeighbors(array, indexI, indexJ);
+            // Get the coordinates of squares to be revealed as part of the chord action
+            var rNgCoords = logic.getChordActionNeighbors(array, indexI, indexJ);
 
-        // If we have neighbors to reveal
-        if (rNgCoords && rNgCoords.length > 0 && isReveal) {
+            // If we have neighbors to reveal
+            if (rNgCoords && rNgCoords.length > 0 && isReveal) {
 
-            // Perform left click action on all of the neighbors we wish to reveal
-            for (let index = 0; index < rNgCoords.length; index++) {
-                btnLeftClickCallback(rNgCoords[index][0], rNgCoords[index][1]);
+                // Perform left click action on all of the neighbors we wish to reveal
+                for (let index = 0; index < rNgCoords.length; index++) {
+                    btnLeftClickCallback(rNgCoords[index][0], rNgCoords[index][1]);
+                }
+
+                // Exit
+                return;
             }
-
-            // Exit
-            return;
         }
 
         // Else highlight any neighboring squares that could be potential mimes
