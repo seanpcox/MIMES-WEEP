@@ -2,6 +2,7 @@ import * as gameText from '../../resources/text/gameText';
 import * as sx from '../../style/finishedMessageSx.js';
 import Alert from '@mui/material/Alert';
 import PropTypes from 'prop-types';
+import Slide from '@mui/material/Slide';
 import Snackbar from '@mui/material/Snackbar';
 import { useState, useEffect, Fragment } from 'react';
 
@@ -51,6 +52,7 @@ function FinishedMessage(props) {
                 autoHideDuration={sx.autoHideDuration}
                 onClose={handleSnackbarClose}
                 anchorOrigin={sx.anchorOrigin}
+                TransitionComponent={Slide}
             >
                 <Alert
                     severity="error"
@@ -67,6 +69,7 @@ function FinishedMessage(props) {
                 autoHideDuration={sx.autoHideDuration}
                 onClose={handleSnackbarClose}
                 anchorOrigin={sx.anchorOrigin}
+                TransitionComponent={Slide}
             >
                 <Alert
                     severity="success"
@@ -83,6 +86,7 @@ function FinishedMessage(props) {
                 autoHideDuration={sx.autoHideDuration}
                 onClose={handleSnackbarClose}
                 anchorOrigin={sx.anchorOrigin}
+                TransitionComponent={Slide}
             >
                 <Alert
                     severity="secondary"
