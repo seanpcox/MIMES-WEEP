@@ -141,7 +141,7 @@ export function visitZeroNeighbors(array, i, j, squaresClearedCoords = new Set([
                 array[nCoords[index][0]][nCoords[index][1]] = 0;
 
                 // Add the revealed square's 1D coordinate to our set of visted squares
-                squaresClearedCoords.add(get1DCoordIndex(nCoords[index][0], nCoords[index][1], array.length));
+                squaresClearedCoords.add(get1DCoordIndex(nCoords[index][0], nCoords[index][1], array[0].length));
 
                 // Now visit all the neighbors of this just revealed square and store any revealed square's 1D coordinate
                 var results = visitZeroNeighbors(array, nCoords[index][0], nCoords[index][1]);
@@ -166,7 +166,7 @@ export function visitZeroNeighbors(array, i, j, squaresClearedCoords = new Set([
                     = Number((array[nCoords[index][0]][nCoords[index][1]] - 0.1).toFixed(1));
 
                 // Add the revealed square's 1D coordinate to our set of visted squares
-                squaresClearedCoords.add(get1DCoordIndex(nCoords[index][0], nCoords[index][1], array.length));
+                squaresClearedCoords.add(get1DCoordIndex(nCoords[index][0], nCoords[index][1], array[0].length));
             }
         }
     }
@@ -580,8 +580,8 @@ export function getCoordsFromArrayIDValue(value, width) {
  * @param {number} width
  * @returns 1D coordinate position, this is found by counting right from top to bottom, taking zero index into account
  */
-function get1DCoordIndex(i, j, width) {
-    return (i * width) + j;
+function get1DCoordIndex(i, j, height) {
+    return (i * height) + j;
 }
 
 /**
