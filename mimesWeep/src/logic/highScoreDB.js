@@ -189,7 +189,9 @@ function getTopResultsQuery(level, period, highScoreLimit) {
     (hs) => hs.and(hs => [
       // Apply the supplied level and period conditions
       hs.level.eq(level),
-      hs.datePeriod.eq(period)
+      hs.datePeriod.eq(period),
+      // Apply the current device type, don't think it's fair to compare scores across them
+      hs.deviceType.eq(gameSettings.deviceType)
     ]),
     {
       // Sort by shortest time first, followed by oldest date first (which will break any ties)
@@ -234,7 +236,9 @@ async function deleteDeprecatedScore(time, date, level, datePeriod) {
         hs.time.ge(time),
         hs.date.ge(date),
         hs.level.eq(level),
-        hs.datePeriod.eq(datePeriod)
+        hs.datePeriod.eq(datePeriod),
+        // High scores are device type specific, as don't think its fair to compare times between them
+        hs.deviceType.eq(gameSettings.deviceType)
       ]
     ));
 }
