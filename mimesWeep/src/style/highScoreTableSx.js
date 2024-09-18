@@ -1,3 +1,5 @@
+import EmojiEventsTwoToneIcon from '@mui/icons-material/EmojiEventsTwoTone';
+import MilitaryTechTwoToneIcon from '@mui/icons-material/MilitaryTechTwoTone';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import { orange } from '@mui/material/colors';
@@ -29,3 +31,9 @@ export const HighlightedTableRow = styled(TableRow)(() => ({
 export const tableSize = "small";
 
 export const timeColumnDataAlign = "right";
+
+export const trophyIcon = <EmojiEventsTwoToneIcon fontSize="small" sx={{ color: "#c9b037" }} />;
+
+export const silverMedal = <MilitaryTechTwoToneIcon fontSize="small" sx={{ color: "#78909c" }}/>;
+
+export const bronzeMedal = <MilitaryTechTwoToneIcon fontSize="small" sx={{ color: "#ad8a56" }} />;

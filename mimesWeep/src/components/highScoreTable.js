@@ -115,6 +115,22 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
         return props.highlightPersonalBest && currentRow.position === gameText.personalBestRowID;
     }
 
+    /**
+     * Function to return the content for the position column
+     * @param {number} position 
+     * @returns Icon or position number
+     */
+    function getPositionContent(position) {
+        if (position === 1) {
+            return sx.trophyIcon;
+        } else if (position === 2) {
+            return sx.silverMedal;
+        } else if (position === 3) {
+            return sx.bronzeMedal;
+        }
+
+        return position;
+    }
 
     // RENDER
 
@@ -123,7 +139,7 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
             <Table size={sx.tableSize}>
                 <TableHead>
                     <TableRow>
-                        <sx.StyledTableCell>{gameText.hsTablePosition}</sx.StyledTableCell>
+                        <sx.StyledTableCell align="center">{gameText.hsTablePosition}</sx.StyledTableCell>
                         <sx.StyledTableCell>{gameText.hsTableUsername}</sx.StyledTableCell>
                         <sx.StyledTableCell>{gameText.hsTableTime}</sx.StyledTableCell>
                         <sx.StyledTableCell>{gameText.hsTableDate}</sx.StyledTableCell>
@@ -135,8 +151,8 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
                         isHighlightedHighScoreRow(row) || isHighlightPersonalBestRow(row) ?
                             (
                                 <sx.HighlightedTableRow key={row.position}>
-                                    <sx.StyledTableCell component="th" scope="row">
-                                        {row.position}
+                                    <sx.StyledTableCell align="center" component="th" scope="row">
+                                        {getPositionContent(row.position)}
                                     </sx.StyledTableCell>
                                     <sx.StyledTableCell>{row.user}</sx.StyledTableCell>
                                     <sx.StyledTableCell align={sx.timeColumnDataAlign}>{row.time}</sx.StyledTableCell>
@@ -146,8 +162,8 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
                             // Else apply the default style to the row
                             : (
                                 <sx.StyledTableRow key={row.position}>
-                                    <sx.StyledTableCell component="th" scope="row">
-                                        {row.position}
+                                    <sx.StyledTableCell align="center" component="th" scope="row">
+                                        {getPositionContent(row.position)}
                                     </sx.StyledTableCell>
                                     <sx.StyledTableCell>{row.user}</sx.StyledTableCell>
                                     <sx.StyledTableCell align="right">{row.time}</sx.StyledTableCell>
