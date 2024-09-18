@@ -7,6 +7,7 @@ import { Device } from "../models/index.js";
  * Board sizes are also dependent on device type (desktop, tablet, or phone).
  * This is to accomodate the different screen sizes and to avoid horizontal scrolling (which is not a good user 
  * experience and can result in the Browser accidently moving back or foward a page).
+ * The height of the and width of the medium and hard boards were chosen to ensure they fit inside the screen's viewport without scrolling.
  * Devices tested to determine these values were Mac Desktop, Windows Desktop, Android Phone, iPhone, and iPad
  * Max custom board sizes are set to adhere to the above and also ensure the application is still responsive.
  * Free space on either side of the board is ensured to allow for horiztonal scrolling, using touch, without
