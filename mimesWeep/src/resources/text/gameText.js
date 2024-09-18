@@ -86,7 +86,7 @@ export const helpDialogToolbar = "Toolbar Buttons";
 
 export const helpDialogCredits = "Creator";
 
-export const helpDialogCreditsBullet1 = "Sean Cox";
+export const helpDialogCreditsBullet1 = "Sean Patrick Cox";
 
 export const tooltipNew = "Start a New Game";
 
