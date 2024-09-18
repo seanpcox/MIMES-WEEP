@@ -4,8 +4,8 @@
 
 .mimesWeep-header {
   background-color: #4fa3f3;
-  min-height: 80px;
-  max-height: 80px;
+  min-height: 70px;
+  max-height: 70px;
   display: flex;
   flex-direction: column;
   align-items: center;
