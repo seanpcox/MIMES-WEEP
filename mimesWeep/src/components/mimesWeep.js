@@ -382,6 +382,22 @@ function MimesWeep() {
       // Prevent any default behaviour when any component in this App is right clicked
       e.preventDefault();
     }}>
+      <FinishedMessage
+        displayFinishMessageCallback={displayFinishMessageCallback} />
+      <CustomDialog
+        openCustomDialogCallback={openCustomDialogCallback}
+        startCustomGameCallback={startCustomGameCallback}
+      />
+      <SettingsDialog openSettingsDialogCallback={openSettingsDialogCallback} />
+      <HelpDialog openHelpDialogCallback={openHelpDialogCallback} />
+      <HighScoreDialog
+        openHighScoreDialogCallback={openHighScoreDialogCallback}
+        setHighlightIDCallback={setHighlightIDCallback}
+        setPersonalBestRowHighlighed={setPersonalBestRowHighlighed}
+        highScoreHighlightIDRef={highScoreHighlightIDRef}
+        personalBestRowHightlightedRef={personalBestRowHightlightedRef}
+        difficulty={difficulty}
+      />
       <Box className="mimesWeep-header">
         {sx.logoImg}
       </Box>
@@ -499,22 +515,6 @@ function MimesWeep() {
         incrementGuessCountCallback={incrementGuessCountCallback}
         firstSquareRevealvedCallback={firstSquareRevealvedCallback}
         ref={boardRef}
-      />
-      <FinishedMessage
-        displayFinishMessageCallback={displayFinishMessageCallback} />
-      <CustomDialog
-        openCustomDialogCallback={openCustomDialogCallback}
-        startCustomGameCallback={startCustomGameCallback}
-      />
-      <SettingsDialog openSettingsDialogCallback={openSettingsDialogCallback} />
-      <HelpDialog openHelpDialogCallback={openHelpDialogCallback} />
-      <HighScoreDialog
-        openHighScoreDialogCallback={openHighScoreDialogCallback}
-        setHighlightIDCallback={setHighlightIDCallback}
-        setPersonalBestRowHighlighed={setPersonalBestRowHighlighed}
-        highScoreHighlightIDRef={highScoreHighlightIDRef}
-        personalBestRowHightlightedRef={personalBestRowHightlightedRef}
-        difficulty={difficulty}
       />
     </Box>
   );
