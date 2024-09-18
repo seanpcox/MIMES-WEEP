@@ -190,7 +190,7 @@ export const hNewGameInfo = "Begins a new game using the current difficulty sett
 
 export const hDifficultyLevelInfo = "Begins a new game with the newly chosen difficulty setting.";
 
-export const hTimeHSInfo1 = "Displays the high scores screen, which includes your personal best times.";
+export const hTimeHSInfo1 = "Displays the high scores screen, which includes your personal best times. Scores are tied to the device type used, whether mobile, tablet, or desktop.";
 
 export const hTimeHSInfo2 = "The button shows the time elapsed since the current game started.";
 

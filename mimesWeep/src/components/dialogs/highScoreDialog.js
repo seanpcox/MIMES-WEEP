@@ -17,6 +17,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import PropTypes from 'prop-types';
 import Select from '@mui/material/Select';
 import { Box, Button } from '@mui/material';
+import { Device } from "../../models/index.js";
 import { Fragment, useEffect, useRef, useState } from 'react';
 
 /**
@@ -187,11 +188,27 @@ function HighScoreDialog(props) {
     }
 
     /**
-     * Create and return the title for the high score dialog
-     * @returns Title for high score dialog
+     * Create and return the title text for the high score dialog
+     * @returns Title text for high score dialog
      */
-    function getTitle() {
-        return gameText.highScoreDialogTitle + " - " + getLevel();
+    function getTitleText() {
+        return gameText.highScoreDialogTitle + " - " + getDifficultyString();
+    }
+
+    /**
+     * Create and return the title icon for the high score dialog based on device type used
+     * High scores are specific to each device type, didn't think fair to compare them
+     * Also aside from the Easy board we move into different board sizes for different device types
+     * @returns Title icon for high score dialog
+     */
+    function getTitleIcon() {
+        if (settings.deviceType === Device.MOBILE) {
+            return sx.mobileIcon;
+        } else if (settings.deviceType === Device.TABLET) {
+            return sx.tabletIcon;
+        } else {
+            return sx.desktopIcon;
+        }
     }
 
     /**
@@ -218,6 +235,14 @@ function HighScoreDialog(props) {
      */
     function getLevel() {
         return settings.getLevelString(difficulty);
+    }
+
+    /**
+    * Function to return the difficulty string we use for display
+    * @returns string
+    */
+    function getDifficultyString() {
+        return settings.getDifficultyString(difficulty);
     }
 
     /**
@@ -365,8 +390,8 @@ function HighScoreDialog(props) {
             >
                 <DialogTitle>
                     <Box sx={dialogSx.titleDivStyle}>
-                        {commonSx.highScoreIcon}
-                        <span>&nbsp;{getTitle()}</span>
+                        {getTitleIcon()}
+                        <span>&nbsp;{getTitleText()}</span>
                     </Box>
                 </DialogTitle>
                 {dialogContent}

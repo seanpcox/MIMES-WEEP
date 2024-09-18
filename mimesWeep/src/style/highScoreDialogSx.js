@@ -1,4 +1,7 @@
 import * as commonSx from './commonSx.js';
+import ComputerTwoToneIcon from '@mui/icons-material/ComputerTwoTone';
+import PhoneIphoneTwoToneIcon from '@mui/icons-material/PhoneIphoneTwoTone';
+import TabletMacTwoToneIcon from '@mui/icons-material/TabletMacTwoTone';
 
 export const spacingTopHeight = { height: 10 };
 
@@ -20,3 +23,9 @@ export const input = {
     ...commonSx.btnColor,
     ...inputHeight
 };
+
+export const desktopIcon = <ComputerTwoToneIcon />;
+
+export const mobileIcon = <PhoneIphoneTwoToneIcon />;
+
+export const tabletIcon = <TabletMacTwoToneIcon />;
