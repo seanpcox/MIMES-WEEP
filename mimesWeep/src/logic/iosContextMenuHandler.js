@@ -8,7 +8,7 @@
  */
 
 // Number of milliseconds that represents a long-press
-const longPressDurationMs = 500;
+const longPressDurationMs = 350;
 
 export default class IOSContextMenuHandler {
     constructor(leftClickCallback, rightClickback) {
