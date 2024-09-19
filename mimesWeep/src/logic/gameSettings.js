@@ -22,10 +22,10 @@ import { Period } from "../models/index.js";
  */
 
 // The number of mimes in the easy level: default 10
-const numOfMimesOnEasyLevel = 1;
+const numOfMimesOnEasyLevel = 10;
 
 // The number of high score positions we support: default 10
-export const highScorePositions = 8;
+export const highScorePositions = 10;
 
 // Do we want to clear local storage on startup, this would delete all personal bests: default false
 export const clearLocalStorageOnStartup = true;
