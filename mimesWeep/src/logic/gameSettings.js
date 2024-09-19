@@ -205,3 +205,18 @@ export function getPeriodString(period) {
 
   return gameText.periodAllTime;
 }
+
+/**
+ * Function to get a display string for the supplied Period enum
+ * @param {Period} period
+ * @returns Period string for display
+ */
+export function getPeriodShortString(period) {
+  if (period === Period.DAY) {
+    return gameText.period24HoursShort;
+  } else if (period === Period.MONTH) {
+    return gameText.period30DaysShort;
+  }
+
+  return gameText.periodAllTimeShort;
+}

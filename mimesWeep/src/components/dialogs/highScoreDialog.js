@@ -252,7 +252,7 @@ function HighScoreDialog(props) {
      */
     function getTitleText() {
         return gameText.highScoreDialogTitle + " - " + getDifficultyString() + " - "
-            + settings.getPeriodString(period);
+            + settings.getPeriodShortString(period);
     }
 
     /**

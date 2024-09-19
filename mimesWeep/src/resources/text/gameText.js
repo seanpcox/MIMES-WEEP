@@ -138,13 +138,21 @@ export const hsDifficultyDropDownLabel = "Difficulty";
 
 export const hsPeriodDropDownLabel = "Period";
 
-export const periodAllTime = "All";
+export const periodAllTime = "All Time";
 
-export const period24Hours = "Daily"
+export const period24Hours = "1 Day"
 
-export const period7Days = "Weekly"
+export const period7Days = "7 Days"
 
-export const period30Days = "Monthly"
+export const period30Days = "30 Days"
+
+export const periodAllTimeShort = "All";
+
+export const period24HoursShort = "1D"
+
+export const period7DaysShort = "7D"
+
+export const period30DaysShort = "30D"
 
 export const enabled = "Enabled";
 
