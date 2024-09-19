@@ -152,6 +152,19 @@ const Timer = forwardRef(function Timer(props, inputRef) {
         setTimeFormatCode(userSettings.getGameTimeFormatOption());
     }
 
+    /**
+     * Function to open the high score dialog
+     * We always open on period All-Time
+     */
+    function openHighScoreDialog() {
+
+        // Reset the any score refs in the parent
+        props.resetScoreRefsCallback();
+
+        // Open the dialog
+        props.openHighScoreDialogCallback(true);
+    }
+
     // LOGIC
 
     // This will be what we display in our timer container
@@ -189,7 +202,7 @@ const Timer = forwardRef(function Timer(props, inputRef) {
             <sx.StyledButton
                 variant={commonSx.btnVariant}
                 sx={commonSx.btnMedium}
-                onClick={props.openHighScoreDialogCallback}
+                onClick={openHighScoreDialog}
                 ref={ref}
             >
                 {timerContent}
@@ -202,6 +215,7 @@ const Timer = forwardRef(function Timer(props, inputRef) {
 
 Timer.propTypes = {
     openHighScoreDialogCallback: PropTypes.func,
+    resetScoreRefsCallback: PropTypes.func,
     difficulty: PropTypes.number
 }
 

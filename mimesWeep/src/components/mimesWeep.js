@@ -50,9 +50,9 @@ function MimesWeep() {
 
   const timerRef = useRef(null);
 
-  const highScoreHighlightIDRef = useRef(null);
+  const highScoreDataRef = useRef([]);
 
-  const personalBestRowHightlightedRef = useRef(false);
+  const personalBestPeriodsRef = useRef([]);
 
   const boardRef = useRef(null);
 
@@ -87,19 +87,43 @@ function MimesWeep() {
   }
 
   /**
-   * Set the highscore row database id to highlight in the highscore dialog
-   * @param {string} row
+   * Add a new highscore data object (DB ID, period, and username), which we use in our new highscore dialog
+   * @param {object} highScoreData
    */
-  function setHighlightIDCallback(id) {
-    highScoreHighlightIDRef.current = id;
+  function setNewHighScoreDataCallback(highScoreData) {
+
+    // Add the data to our high score ids array
+    if (highScoreData !== null) {
+      highScoreDataRef.current.push(highScoreData);
+    }
+    // If id is not defined, it means we want to clear our array
+    else {
+      highScoreDataRef.current = [];
+    }
   }
 
   /**
-  * Set whether the personal best row is hightlighted in the highscore dialog
-  * @param {boolean} isHighlighted
+  * Set whether the we have personal best periods for display in our new highscore dialog
+  * @param {array of Period} period
   */
-  function setPersonalBestRowHighlighed(isHighlighted) {
-    personalBestRowHightlightedRef.current = isHighlighted;
+  function setPersonalBestPeriodsCallback(periods) {
+
+    // Set the supplied period if valid
+    if (periods !== null && periods.length > 0) {
+      personalBestPeriodsRef.current = periods;
+    }
+    // If period is not defined, it means we want to clear our array
+    else {
+      personalBestPeriodsRef.current = [];
+    }
+  }
+
+  /**
+   * Function to clear all high score and personal best ref arrays
+   */
+  function resetScoreRefsCallback() {
+    highScoreDataRef.current = [];
+    personalBestPeriodsRef.current = [];
   }
 
   /**
@@ -288,6 +312,9 @@ function MimesWeep() {
     // Set the difficult state
     setDifficulty(value);
 
+    // Reset new high score and personal best data, used with high score dialog
+    resetScoreRefsCallback();
+
     // Reset all child game components
     resetGameChildComponentStates();
   }
@@ -314,24 +341,31 @@ function MimesWeep() {
   * Function to persist the user's score in the data store
   */
   function persistScore() {
-    // Create the score data, use the last high score or personal best username if available
-    const scoreData = {
-      level: settings.getLevelString(difficulty),
-      deviceType: settings.deviceType,
-      time: timerRef.current.getTimeElapsedTimer(),
-      user: scoreLogic.getBestGuessUsername(),
-      date: Math.round(Date.now() / 1000),
-      datePeriod: Period.ALL
-    };
 
     // Persist the high score and personal best data if applicable, unless we are playing a custom board
     if (difficulty !== 4) {
-      // Save to local storage if a personal best
-      var isPB = scoreLogic.updatePersonalBestTimeWithScoreData(scoreData);
+
+      // Create the score data, use the last high score or personal best username if available
+      const scoreData = {
+        level: settings.getLevelString(difficulty),
+        deviceType: settings.deviceType,
+        time: timerRef.current.getTimeElapsedTimer(),
+        user: scoreLogic.getBestGuessUsername(),
+        date: Math.round(Date.now() / 1000),
+        datePeriod: Period.ALL
+      };
+
+      // Save any personal bests we may have gotten
+      var personalBestPeriods = scoreLogic.updatePersonalBestTimeWithScoreData(scoreData);
+
+      // Update our personal best periods achieved for the high score dialog, called after DB work
+      setPersonalBestPeriodsCallback(personalBestPeriods);
+
+      // Boolean to store whether we achieved one or more personal bests with this score
+      var isPersonalBest = personalBestPeriods !== null && personalBestPeriods.length > 0;
 
       // Save to the database if a high score
-      highScoreDB.saveIfHighScore(scoreData, openHighScoreDialog,
-        setHighlightIDCallback, setPersonalBestRowHighlighed, isPB);
+      highScoreDB.saveHighScores(scoreData, openHighScoreDialog, setNewHighScoreDataCallback, isPersonalBest);
     }
   }
 
@@ -454,6 +488,7 @@ function MimesWeep() {
         <Box sx={sx.btnSmallSpacingWidth} />
         <Timer
           openHighScoreDialogCallback={openHighScoreDialogCallback}
+          resetScoreRefsCallback={resetScoreRefsCallback}
           difficulty={difficulty}
           ref={timerRef}
         />
@@ -509,12 +544,11 @@ function MimesWeep() {
       <SettingsDialog openSettingsDialogCallback={openSettingsDialogCallback} />
       <HelpDialog openHelpDialogCallback={openHelpDialogCallback} />
       <HighScoreDialog
-        openHighScoreDialogCallback={openHighScoreDialogCallback}
-        setHighlightIDCallback={setHighlightIDCallback}
-        setPersonalBestRowHighlighed={setPersonalBestRowHighlighed}
-        highScoreHighlightIDRef={highScoreHighlightIDRef}
-        personalBestRowHightlightedRef={personalBestRowHightlightedRef}
         difficulty={difficulty}
+        highScoreDataRef={highScoreDataRef}
+        personalBestPeriodsRef={personalBestPeriodsRef}
+        resetScoreRefsCallback={resetScoreRefsCallback}
+        openHighScoreDialogCallback={openHighScoreDialogCallback}
       />
     </Box>
   );

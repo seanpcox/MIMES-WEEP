@@ -17,8 +17,8 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import PropTypes from 'prop-types';
 import Select from '@mui/material/Select';
 import { Box, Button } from '@mui/material';
-import { Device } from "../../models/index.js";
-import { Fragment, useEffect, useRef, useState } from 'react';
+import { Device, Period } from "../../models/index.js";
+import { Fragment, useEffect, useState } from 'react';
 
 /**
  * Dialog to display the high scores and personal best times associated with the current level
@@ -30,12 +30,11 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 // PROP LIST
 
 HighScoreDialog.propTypes = {
-    openHighScoreDialogCallback: PropTypes.func,
-    setHighlightIDCallback: PropTypes.func,
-    setPersonalBestRowHighlighed: PropTypes.func,
-    highScoreHighlightIDRef: PropTypes.object,
-    personalBestRowHightlightedRef: PropTypes.object,
-    difficulty: PropTypes.number
+    difficulty: PropTypes.number,
+    highScoreDataRef: PropTypes.object,
+    personalBestPeriodsRef: PropTypes.object,
+    resetScoreRefsCallback: PropTypes.func,
+    openHighScoreDialogCallback: PropTypes.func
 }
 
 // COMPONENT
@@ -48,20 +47,15 @@ function HighScoreDialog(props) {
 
     const [isError, setError] = useState(0);
 
-    const [difficulty, setDifficulty] = useState(props.difficulty);
+    const [difficulty, setDifficulty] = useState(1);
 
-
-    // REFS
-
-    const tableRef = useRef(null);
+    const [period, setPeriod] = useState(Period.ALL);
 
 
     // EFFECTS
 
-    // Effect to open the high score dialog
+    // Effect to open or close the high score dialog
     useEffect(() => {
-        // Open the dialog
-        props.openHighScoreDialogCallback([open, setOpen]);
 
         // Set the difficulty to match that of the main application
         var displayDifficultyLevel = props.difficulty;
@@ -71,9 +65,28 @@ function HighScoreDialog(props) {
             displayDifficultyLevel = 1;
         }
 
-        // Open the dialog with this difficulty level selected
+        // Set the dialog to use the selected diifculty level
         setDifficulty(displayDifficultyLevel);
-    }, [props.openHighScoreDialogCallback, open]);
+
+        // Set the default display period to all time
+        var displayPeriod = displayPeriod = Period.ALL;
+
+        // If we have been called with high score periods then default to the first one, which will be the highest period
+        if (props.highScoreDataRef.current.length >= 1) {
+            displayPeriod = props.highScoreDataRef.current[0].period;
+        }
+        // Else if we have been called only with personal best periods then default to the first one, which will be the highest period
+        else if (props.personalBestPeriodsRef.current.length >= 1) {
+            displayPeriod = props.personalBestPeriodsRef.current[0];
+        }
+
+        // Set the dialog to use the selected period
+        setPeriod(displayPeriod);
+
+        // Open or close the dialog
+        props.openHighScoreDialogCallback([open, setOpen]);
+
+    }, [props.openHighScoreDialogCallback, open, props.highScoreDataRef.current, props.personalBestPeriodsRef.current]);
 
 
     // LOCAL FUNCTIONS
@@ -82,10 +95,8 @@ function HighScoreDialog(props) {
      * Function to close the high score dialog and reset its parameters
      */
     const handleClose = () => {
-        // Clear any highlighted high score row
-        props.setHighlightIDCallback(null);
-        // Clear the personal best highlighted flag
-        props.setPersonalBestRowHighlighed(false);
+        // Clear any score data from the parent
+        props.resetScoreRefsCallback();
         // Reset the error state to none
         setError(0);
         // Close the dialog
@@ -112,32 +123,26 @@ function HighScoreDialog(props) {
             // If the username is valid set error to false
             setError(0);
 
-            // Get the highlighted high score row, if any
-            var row = tableRef.current.getHighlightedHighScoreRow();
+            // If the username has been updated from the currently saved one then update
+            // all new high score database objects we have been passed. They are all
+            // associate with the same high score, just saved across different high score periods.
+            if (username !== getHighlightHighScoreUsername()) {
 
-            // If we have a valid high score row then update the entry with the new username provided,
-            // and delete scores that we no longer need in the database.
-            // An ID of -1 means we had no highlighted high score or personal best row
-            // An ID of -2 means that only the personal best row is highlighted
-            if (row !== -1 && row !== -2) {
-                // If the username has been updated from the currently saved one then update the database
-                if (username !== row.user) {
-                    // Get the data store id of the new high score row
-                    var id = row.id;
+                // Update the username on the newly saved high score database entries
+                for (let i = 0; i < props.highScoreDataRef.current.length; i++) {
+                    highScoreDB.updateUsername(props.highScoreDataRef.current[i].id, username);
+                }
 
-                    // Update the username on the newly saved high score row
-                    highScoreDB.updateUsername(id, username);
+                // Update the username on any personal best periods also
+                if (isPersonalBest()) {
+                    for (let i = 0; i < props.personalBestPeriodsRef.current.length; i++) {
+                        // If this was also a personal best then update the name associated with it
+                        scoreLogic.updatePersonalBestName(getLevel(), props.personalBestPeriodsRef.current[i], username);
+                    }
                 }
 
                 // Save the provided username in local storage so we can use it by default next time
                 scoreLogic.setLSUsername(username);
-
-                // If this was also a personal best then update the name associated with it
-                scoreLogic.updatePersonalBestName(getLevel(), row.timeMs, row.dateES, username);
-            }
-            // An ID of -2 means we only scored a personal best, not a high score, and want to update its associated username
-            else if (row === -2) {
-                scoreLogic.savePersonalBestName(getLevel(), username);
             }
         }
         // If the username is invalid then warn the user and prompt for an updated entry
@@ -166,7 +171,61 @@ function HighScoreDialog(props) {
     function isNewScoreDialog() {
         // If we have a highlighted high score row it means we are displaying a new high score,
         // or if the personal best flag is true we are displayed a new personal best.
-        return props.highScoreHighlightIDRef.current || props.personalBestRowHightlightedRef.current;
+        return isHighScore() || isPersonalBest();
+    }
+
+    /**
+     * Function to determine if we have a high score for display
+     * @returns True if we have a high score, else False
+     */
+    function isHighScore() {
+        return props.highScoreDataRef.current.length > 0;
+    }
+
+    /**
+     * Function to determine if we have a personal best for display
+     * @returns True if we have a personal best, else False
+     */
+    function isPersonalBest() {
+        return props.personalBestPeriodsRef.current !== null && props.personalBestPeriodsRef.current.length > 0;
+    }
+
+    /**
+     * Function to return the row DB id for the high score we want to highlight
+     * @returns ID for the high score row to highlight, else null if none
+     */
+    function getHighlightHighScoreID() {
+        return isHighScore() ? props.highScoreDataRef.current[0].id : null;
+    }
+
+    /**
+     * Function to return the user name of the high score we are highlighting
+     * @returns Username of the high score we are highlighting, else null if none
+     */
+    function getHighlightHighScoreUsername() {
+        return isHighScore() ? props.highScoreDataRef.current[0].name : null;
+    }
+
+    /**
+     * Function to determine if we will be highlighting the personal best row
+     * @returns True if we will be highlighting the personal best row, else false
+     */
+    function isHighlightPersonalBest() {
+
+        // If we have a personal best determine if we are highlighting it
+        if (isPersonalBest()) {
+
+            // Loop through the personal best periods we have
+            for (let i = 0; i < props.personalBestPeriodsRef.current.length; i++) {
+
+                // If we have a personal best for the period we are displaying then we highlight it
+                if (props.personalBestPeriodsRef.current[i] === period) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 
     /**
@@ -192,7 +251,8 @@ function HighScoreDialog(props) {
      * @returns Title text for high score dialog
      */
     function getTitleText() {
-        return gameText.highScoreDialogTitle + " - " + getDifficultyString();
+        return gameText.highScoreDialogTitle + " - " + getDifficultyString() + " - "
+            + settings.getPeriodString(period);
     }
 
     /**
@@ -216,11 +276,11 @@ function HighScoreDialog(props) {
      */
     function getInputLabel() {
         // New Highscore and Personal Best achieved
-        if (props.highScoreHighlightIDRef.current && props.personalBestRowHightlightedRef.current) {
+        if (isHighScore() && isPersonalBest()) {
             return gameText.hsDialogInputScoresLabel;
         }
         // New Highscore achieved
-        else if (props.highScoreHighlightIDRef.current) {
+        else if (isHighScore()) {
             return gameText.hsDialogInputHSLabel;
         }
         // Else must be Personal Best achieved
@@ -253,6 +313,13 @@ function HighScoreDialog(props) {
         setDifficulty(event.target.value);
     };
 
+    /**
+     * Function called when the a new value is selected in the period dropdown
+     * @param {Drop down selection event object} event
+     */
+    function handlePeriodChange(event) {
+        setPeriod(event.target.value);
+    }
 
     // RENDER
 
@@ -263,10 +330,10 @@ function HighScoreDialog(props) {
     // High score table is the same whether viewing a new score or just viewing existing ones
     var highScoreTable =
         <HighScoreTable
-            ref={tableRef}
             level={getLevel()}
-            highlightRowID={props.highScoreHighlightIDRef.current}
-            highlightPersonalBest={props.personalBestRowHightlightedRef.current}
+            period={period}
+            highlightRowID={getHighlightHighScoreID()}
+            highlightPersonalBest={isHighlightPersonalBest()}
         />;
 
     // If we are viewing a new score
@@ -332,15 +399,15 @@ function HighScoreDialog(props) {
         dialogContent =
             <DialogContent>
                 <Box sx={sx.spacingTopHeight} />
-                <FormControl sx={sx.formWidth}>
-                    <InputLabel htmlFor="difficulty">
-                        {gameText.hsDropDownLabel}
+                <FormControl sx={sx.lFormWidth}>
+                    <InputLabel sx={sx.lLabelPadding} htmlFor="difficulty">
+                        {gameText.hsDifficultyDropDownLabel}
                     </InputLabel>
                     <Select
                         value={difficulty}
                         onChange={handleDifficultyChange}
                         sx={sx.input}
-                        label={gameText.hsDropDownLabel}
+                        label={gameText.hsDifficultyDropDownLabel}
                         id="difficulty"
                         name="difficulty"
                     >
@@ -362,6 +429,29 @@ function HighScoreDialog(props) {
                         >
                             {settings.getDifficultyString(3)}
                         </MenuItem>
+                    </Select>
+                </FormControl>
+                <FormControl sx={sx.rFormWidth}>
+                    <InputLabel sx={sx.rLabelPadding} htmlFor="period">
+                        {gameText.hsPeriodDropDownLabel}
+                    </InputLabel>
+                    <Select
+                        value={period}
+                        onChange={handlePeriodChange}
+                        sx={sx.input}
+                        label={gameText.hsPeriodDropDownLabel}
+                        id="period"
+                        name="period"
+                    >
+                        {settings.periodsInUse.map((period) => (
+                            <MenuItem
+                                key={period}
+                                value={period}
+                                sx={commonSx.font}
+                            >
+                                {settings.getPeriodString(period)}
+                            </MenuItem>
+                        ))}
                     </Select>
                 </FormControl>
                 <Box sx={sx.spacingBottomHeight} />

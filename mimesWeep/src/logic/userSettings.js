@@ -154,7 +154,7 @@ export function getStartHintOption() {
 
 export const gameTimeFormatOptionLS = "gameTimeFormatOption";
 
-export const defaultGameTimeFormatOption = 1;
+export const defaultGameTimeFormatOption = 2;
 
 export const gameTimeFormatOptions = [
     [
@@ -185,7 +185,7 @@ export function getGameTimeFormatOption() {
 
 export const scoreTimeFormatOptionLS = "scoreTimeFormatOption";
 
-export const defaultScoreTimeFormatOption = 3;
+export const defaultScoreTimeFormatOption = 4;
 
 export const scoreTimeFormatOptions = [
     [

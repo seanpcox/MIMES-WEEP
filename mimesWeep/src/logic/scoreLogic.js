@@ -53,10 +53,10 @@ export function createDataRow(position, user, time, date, deviceType, id) {
         position,
         // User name
         user,
-        // Time taken in seconds string format
+        // Score in human readable format
         timeHRString,
         // Date in localized format
-        convertEpochToString(date),
+        convertEpochToDateString(date),
         // Device type used with first letter capitalized
         getDeviceTypeTableString(deviceType),
         // The database id
@@ -64,7 +64,9 @@ export function createDataRow(position, user, time, date, deviceType, id) {
         // Time taken in millisecond format
         time,
         // Date in epoch seconds format
-        date
+        date,
+        // Time in human readable format
+        convertEpochToTimeString(date)
     );
 }
 
@@ -72,83 +74,96 @@ export function createDataRow(position, user, time, date, deviceType, id) {
  * Function to create a the data object of data
  * @param {Table position} position
  * @param {Username of player} user
- * @param {Human readable time taken string} time
+ * @param {Human readable time taken string} score
  * @param {Date game was completed} date
  * @param {Type of device game was played on} device
  * @param {Database ID} id
- * @param {Time taken in milliseconds} timeMs
- * @param {Time taken in milliseconds} dateES
+ * @param {Time taken in milliseconds} scoreMs
+ * @param {Date in epoch seconds} dateES
+ * @param {Human readable time of score} time
  * @returns Row for table display
  */
-export function createData(position, user, time, date, device, id, timeMs, dateES) {
-    return { position, user, time, date, device, id, timeMs, dateES };
+export function createData(position, user, score, date, device, id, scoreMs, dateES, time) {
+    return { position, user, score, date, device, id, scoreMs, dateES, time };
 }
 
 /**
- * Function to save personal data to local storage if it beats the previous personal best
+ * Function to create a new high score data object
+ * @param {Database primary ID} id
+ * @param {Period} period
+ * @param {String} name
+ * @returns New high score data object
+ */
+export function createNewHighScoreData(id, period, name) {
+    return { id, period, name };
+}
+
+/**
+ * Function to save personal data to local storage if it beats any previous personal best
  * @param {object} scoreData
- * @returns True if a personal best, else False
+ * @returns Highest enum Period type for which this is a personal best, else null if not any personal best
  */
 export function updatePersonalBestTimeWithScoreData(scoreData) {
     return updatePersonalBestTime(scoreData.level, scoreData.time, scoreData.date, scoreData.user);
 }
 
 /**
- * Function to save personal data to local storage if it beats the previous personal best
+ * Function to save personal data to local storage if it beats any previous personal best
  * @param {string} level
  * @param {number} time
  * @param {number} date
  * @param {string} user
- * @returns True if a personal best, else False
+ * @returns Array of periods we achieved a personal best in, with highest period first, else null if not any personal best
  */
-export function updatePersonalBestTime(level, time, date, user) {
-    // Get the current personal best time for the supplied level
-    var pbTime = localStorage.getItem(getPersonalBestTimeKey(level));
+function updatePersonalBestTime(level, time, date, user) {
 
-    // If we have no personal best time for the supplied level or the new time
-    // is better then save the new time.
-    if (pbTime === null || pbTime === "" || isNaN(pbTime) || time < Number(pbTime)) {
-        savePersonalBestData(level, time, date, user);
-        return true;
+    // We record the highest level of personal best period achieved first (Ex: ALL) and lowest last in our array (Ex. DAY)
+    // Informs us which period option to show in the highscore dialog
+    var pbPeriods = [];
+
+    for (const period of settings.periodsInUse) {
+        // Get the current personal best time for the supplied level and period
+        var pbTime = localStorage.getItem(getPersonalBestTimeKey(level, period));
+
+        // If we have no personal best time for the supplied level or the new time
+        // is better then save the new time.
+        if (pbTime === null || pbTime === "" || isNaN(pbTime) || time < Number(pbTime)) {
+            savePersonalBestData(level, period, time, date, user);
+
+            // Add the period we achieve a personal best in
+            pbPeriods.push(period);
+        }
     }
 
-    return false;
+    // Return the highest period of personal best achieved, if any
+    return pbPeriods;
 }
 
 /**
- * Function to update the personal best time at this level
+ * Function to update the personal best name at this level and period
  * @param {string} level
- * @param {number} time
- * @param {number} date
+ * @param {string} period
  * @param {string} user
  */
-export function updatePersonalBestName(level, time, date, user) {
-    // Get the current personal best time for the supplied level
-    var pbTime = localStorage.getItem(getPersonalBestTimeKey(level));
-
-    // Get the current personal best date for the supplied level
-    var pbDate = localStorage.getItem(getPersonalBestDateKey(level));
-
-    // If we have no personal best time for the supplied level or the new time
-    // is better then save the new time.
-    if (time <= Number(pbTime) && date <= Number(pbDate)) {
-        savePersonalBestData(level, time, date, user);
-    }
+export function updatePersonalBestName(level, period, user) {
+    // Save the personal best username to local storage, we will use this for furture high scores or personal bests
+    savePersonalBestName(level, period, user);
 }
 
 /**
  * Function to get the personal best data row for display
  * @param {string} level
+ * @param {string} period
  */
-export function getPersonalBestDataRow(level) {
+export function getPersonalBestDataRow(level, period) {
     // Get the current personal best time for this level
-    var pbTime = localStorage.getItem(getPersonalBestTimeKey(level));
+    var pbTime = localStorage.getItem(getPersonalBestTimeKey(level, period));
 
     // Get the current personal best date for this level
-    var pbDate = localStorage.getItem(getPersonalBestDateKey(level));
+    var pbDate = localStorage.getItem(getPersonalBestDateKey(level, period));
 
     // Get the current personal best username for this level
-    var pbName = localStorage.getItem(getPersonalBestNameKey(level));
+    var pbName = localStorage.getItem(getPersonalBestNameKey(level, period));
 
     // If we do not have personal best data, or it is invalid, return a placeholder row
     if (!pbTime || !pbDate || isNaN(pbTime) || isNaN(pbDate)) {
@@ -204,11 +219,12 @@ export function setLSUsername(username) {
 /**
  * Save the username for the personal best for this level, and for future use in highscores and personal bests
  * @param {string} level
+ * @param {string} period
  * @param {string} username
  */
-export function savePersonalBestName(level, username) {
+export function savePersonalBestName(level, period, username) {
     // Save the personal best time to local storage for this level
-    localStorage.setItem(getPersonalBestNameKey(level), username);
+    localStorage.setItem(getPersonalBestNameKey(level, period), username);
     // Save the personal best username to local storage, we will use this for furture high scores or personal bests
     setLSUsername(username);
 }
@@ -218,7 +234,7 @@ export function savePersonalBestName(level, username) {
  * @param {Date in epoch seconds} timeEpochSeconds
  * @returns Localized date string
  */
-function convertEpochToString(timeEpochSeconds) {
+function convertEpochToDateString(timeEpochSeconds) {
     // Date is expecting milliseconds so multiply seconds by 1000
     var date = new Date(timeEpochSeconds * 1000);
 
@@ -228,6 +244,28 @@ function convertEpochToString(timeEpochSeconds) {
         year: "2-digit",
         month: "2-digit",
         day: "2-digit",
+        hour12: false
+    }).format(date);
+
+    // Return the date string
+    return formattedDate;
+}
+
+/**
+ * Function to create our epoch, in seconds, to a localized time string
+ * @param {Date in epoch seconds} timeEpochSeconds
+ * @returns Localized time string
+ */
+function convertEpochToTimeString(timeEpochSeconds) {
+    // Date is expecting milliseconds so multiply seconds by 1000
+    var date = new Date(timeEpochSeconds * 1000);
+
+    // Format for our date string, using user's browser locale
+    // eslint-disable-next-line no-undef
+    let formattedDate = new Intl.DateTimeFormat(settings.locale, {
+        hour: "2-digit",
+        minute: "2-digit",
+        second: "2-digit",
         hour12: false
     }).format(date);
 
@@ -248,52 +286,57 @@ function getDeviceTypeTableString(deviceType) {
 /**
  * Function to save personal best data to local storage
  * @param {string} level
+ * @param {string} period
  * @param {number} time
  * @param {number} date
  * @param {string} user
  */
-function savePersonalBestData(level, time, date, user) {
+function savePersonalBestData(level, period, time, date, user) {
     // Save the personal best time to local storage for this level
-    localStorage.setItem(getPersonalBestTimeKey(level), time);
+    localStorage.setItem(getPersonalBestTimeKey(level, period), time);
     // Save the personal best time to local storage for this level
-    localStorage.setItem(getPersonalBestDateKey(level), date);
+    localStorage.setItem(getPersonalBestDateKey(level, period), date);
     // Save the personal best username to local storage, we will use this for furture high scores or personal bests
-    savePersonalBestName(level, user);
+    savePersonalBestName(level, period, user);
 }
 
 /**
  * Function to get personal best time storage key
  * @param {string} level
+ * @param {string} period
  * @returns local storage key
  */
-function getPersonalBestTimeKey(level) {
-    return getPersonalBestKey(level, "time");
+function getPersonalBestTimeKey(level, period) {
+    return getPersonalBestKey(level, period, "time");
 }
 
 /**
  * Function to get personal best date storage key
  * @param {string} level
+ * @param {string} period
  * @returns local storage key
  */
-function getPersonalBestDateKey(level) {
-    return getPersonalBestKey(level, "date");
+function getPersonalBestDateKey(level, period) {
+    return getPersonalBestKey(level, period, "date");
 }
 
 /**
  * Function to get personal best name storage key
  * @param {string} level
+ * @param {string} period
  * @returns local storage key
  */
-function getPersonalBestNameKey(level) {
-    return getPersonalBestKey(level, "name");
+function getPersonalBestNameKey(level, period) {
+    return getPersonalBestKey(level, period, "name");
 }
 
 /**
  * Function to get personal best storage keys
  * @param {string} level
+ * @param {string} period
  * @param {string} dataType
  * @returns local storage key
  */
-function getPersonalBestKey(level, dataType) {
-    return "pb_" + level + "_" + dataType + "_key"
+function getPersonalBestKey(level, period, dataType) {
+    return "pb_" + level + "_" + period + "_" + dataType + "_key"
 }

@@ -1,6 +1,7 @@
 import * as gameText from '../resources/text/gameText.js';
 import { isIOS, isIPad13, isMobile, isTablet } from 'react-device-detect';
 import { Device } from "../models/index.js";
+import { Period } from "../models/index.js";
 
 /**
  * Logic to determine board sizes for Easy, Medium, and Hard levels. Also sets max Custom board settings.
@@ -21,19 +22,25 @@ import { Device } from "../models/index.js";
  */
 
 // The number of mimes in the easy level: default 10
-const numOfMimesOnEasyLevel = 10;
+const numOfMimesOnEasyLevel = 1;
 
 // The number of high score positions we support: default 10
-export const highScorePositions = 10;
+export const highScorePositions = 8;
 
 // Do we want to clear local storage on startup, this would delete all personal bests: default false
-export const clearLocalStorageOnStartup = false;
+export const clearLocalStorageOnStartup = true;
 
 // Constant for the type of device game is being currently being played on, will not change during play
 export const deviceType = getDeviceType();
 
 // Constant for the user's browser's preferred locale, will not change during play
 export const locale = (navigator && navigator.language) || "en-US";
+
+// Currently the two periods we use, in order of greatest, all-time and 24hrs, this may expand in future
+export const periodsInUse = [Period.ALL, Period.DAY];
+
+// The number of high scores we show if user achieves a high score or personal best
+export const numHSRowsToDisplayOnNewScore = 5;
 
 /**
  * Function to return our game parameters (board size and mime density) for a set difficuly level and device.
@@ -182,4 +189,19 @@ function getDeviceType() {
   else {
     return Device.DESKTOP;
   }
+}
+
+/**
+ * Function to get a display string for the supplied Period enum
+ * @param {Period} period
+ * @returns Period string for display
+ */
+export function getPeriodString(period) {
+  if (period === Period.DAY) {
+    return gameText.period24Hours;
+  } else if (period === Period.MONTH) {
+    return gameText.period30Days;
+  }
+
+  return gameText.periodAllTime;
 }

@@ -118,6 +118,8 @@ export const hsTableDate = "Date";
 
 export const hsTableDevice = "Device";
 
+export const hsTableScore = "Score";
+
 export const hsDialogInputHSLabel = "High Score Name";
 
 export const hsDialogInputPBLabel = "Personal Best Name";
@@ -132,7 +134,17 @@ export const personalBestRowID = "PB";
 
 export const unknownUsername = "Unknown";
 
-export const hsDropDownLabel = "Select Difficulty Level";
+export const hsDifficultyDropDownLabel = "Difficulty";
+
+export const hsPeriodDropDownLabel = "Period";
+
+export const periodAllTime = "All";
+
+export const period24Hours = "Daily"
+
+export const period7Days = "Weekly"
+
+export const period30Days = "Monthly"
 
 export const enabled = "Enabled";
 

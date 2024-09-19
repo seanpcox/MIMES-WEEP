@@ -1,5 +1,6 @@
 import * as gameText from '../resources/text/gameText.js';
 import * as highScoreDB from '../logic/highScoreDB.js';
+import * as settings from '../logic/gameSettings.js';
 import * as sx from '../style/highScoreTableSx.js'
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -8,17 +9,30 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import PropTypes from 'prop-types';
-import { Period } from "../models/index.js";
-import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 /**
  * Component table showing high score and personal best times for different difficulty levels
- * Note: The last row displayed is the personal best data row
+ * It is opened with a limited number of high score entries if we are saving a new high score
+ * It is opened with all entries if we are just viewing the high scores
+ * Personal best row is always displayed, as is any new high score row, regardless of high score position
+ * Note: The first row displayed is the personal best data row
  */
+
+
+// PROP LIST
+
+HighScoreTable.propTypes = {
+    level: PropTypes.string,
+    period: PropTypes.string,
+    highlightRowID: PropTypes.string,
+    highlightPersonalBest: PropTypes.bool
+}
+
 
 // COMPONENT
 
-const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
+function HighScoreTable(props) {
 
     // STATES
 
@@ -36,35 +50,10 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
     useEffect(() => {
         // Clear any previous ref
         highlightedHighScoreRowRef.current = null;
+
         // We retrieve the high score and personal best results
-        highScoreDB.getTopResults(props.level, Period.ALL, setRows);
-    }, [props.level]);
-
-
-    // HANDLER
-
-    useImperativeHandle(inputRef, () => {
-        return {
-            /**
-             * Function to get the highlighted high score row
-             * @returns Highlighted high score row, else highlighted personal best code -2, else no highlighted row code -1
-             */
-            getHighlightedHighScoreRow() {
-                // If the highlighted row is a valid high score row return it
-                if (isHighScoreRowHighligted()) {
-                    return highlightedHighScoreRowRef.current;
-                }
-                // Else check if the selected row is our personal best row, we indicate this using code -2
-                else if (isPersonalBestRowHighlighted()) {
-                    return -2;
-                }
-                // Else return no highlighted row condition, we indicate this using code -1
-                else {
-                    return -1;
-                }
-            }
-        };
-    }, []);
+        highScoreDB.getTopResults(props.level, props.period, setRows);
+    }, [props.level, props.period]);
 
 
     // LOCAL FUNCTIONS
@@ -84,6 +73,14 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
      */
     function isPersonalBestRowHighlighted() {
         return props.highlightPersonalBest;
+    }
+
+    /**
+     * Function to determine if we should open the dialog in new score mode
+     * @returns True if highscore or a personal best else False
+    */
+    function isNewScoreDialog() {
+        return isPersonalBestRowHighlighted() || isHighScoreRowHighligted()
     }
 
     /**
@@ -116,6 +113,46 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
     }
 
     /**
+     * Function to return whether we should highlight the current row
+     * @param {table row} currentRow
+     * @param {all table rows} rows
+     * @returns True if we wish to highlight, else False
+     */
+    function isRowHighlighted(currentRow) {
+        return isHighlightPersonalBestRow(currentRow) || isHighlightedHighScoreRow(currentRow);
+    }
+
+    /**
+     * Function to decide if the row should be displayed or not
+     * For a high score or personal best we only show the top n rows,
+     * as well as the new high score row (which may be in the top n) and the personal best.
+     * @param {Table Row} row
+     * @returns True if for display, else False
+     */
+    function isDisplayRow(currentRow) {
+
+        // If we are not recording a new score, just viewing scores, we show all rows
+        if (!isNewScoreDialog()) {
+            return true;
+        }
+
+        // We always display the personal best row (first row always)
+        // and the specified number of always display rows in our settings
+        if (currentRow.position === gameText.personalBestRowID ||
+            Number(currentRow.position) <= (settings.numHSRowsToDisplayOnNewScore)) {
+            return true;
+        }
+
+        // We always display a new high score row
+        if (isHighlightedHighScoreRow(currentRow)) {
+            return true;
+        }
+
+        // If we get here we do not display the row
+        return false;
+    }
+
+    /**
      * Function to return the content for the position column
      * @param {number} position 
      * @returns Icon or position number
@@ -141,49 +178,46 @@ const HighScoreTable = forwardRef(function HighScoreTable(props, inputRef) {
                     <TableRow>
                         <sx.StyledTableCell align="center">{gameText.hsTablePosition}</sx.StyledTableCell>
                         <sx.StyledTableCell>{gameText.hsTableUsername}</sx.StyledTableCell>
-                        <sx.StyledTableCell>{gameText.hsTableTime}</sx.StyledTableCell>
+                        <sx.StyledTableCell>{gameText.hsTableScore}</sx.StyledTableCell>
                         <sx.StyledTableCell>{gameText.hsTableDate}</sx.StyledTableCell>
+                        <sx.StyledTableCell>{gameText.hsTableTime}</sx.StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
                     {rows.map((row) =>
-                        // Check if row should be highlighted and style accordingly
-                        isHighlightedHighScoreRow(row) || isHighlightPersonalBestRow(row) ?
-                            (
-                                <sx.HighlightedTableRow key={row.position}>
-                                    <sx.StyledTableCell align="center" component="th" scope="row">
-                                        {getPositionContent(row.position)}
-                                    </sx.StyledTableCell>
-                                    <sx.StyledTableCell>{row.user}</sx.StyledTableCell>
-                                    <sx.StyledTableCell align={sx.timeColumnDataAlign}>{row.time}</sx.StyledTableCell>
-                                    <sx.StyledTableCell>{row.date}</sx.StyledTableCell>
-                                </sx.HighlightedTableRow>
-                            )
-                            // Else apply the default style to the row
-                            : (
-                                <sx.StyledTableRow key={row.position}>
-                                    <sx.StyledTableCell align="center" component="th" scope="row">
-                                        {getPositionContent(row.position)}
-                                    </sx.StyledTableCell>
-                                    <sx.StyledTableCell>{row.user}</sx.StyledTableCell>
-                                    <sx.StyledTableCell align="right">{row.time}</sx.StyledTableCell>
-                                    <sx.StyledTableCell>{row.date}</sx.StyledTableCell>
-                                </sx.StyledTableRow>
-                            )
+                        !isDisplayRow(row) ? null :
+                            // Check if row should be highlighted and style accordingly
+                            isRowHighlighted(row) ?
+                                (
+                                    <sx.HighlightedTableRow key={row.position}>
+                                        <sx.StyledTableCell align="center" component="th" scope="row">
+                                            {getPositionContent(row.position)}
+                                        </sx.StyledTableCell>
+                                        <sx.StyledTableCell>{row.user}</sx.StyledTableCell>
+                                        <sx.StyledTableCell align={sx.timeColumnDataAlign}>{row.score}</sx.StyledTableCell>
+                                        <sx.StyledTableCell>{row.date}</sx.StyledTableCell>
+                                        <sx.StyledTableCell>{row.time}</sx.StyledTableCell>
+                                    </sx.HighlightedTableRow>
+                                )
+                                // Else apply the default style to the row
+                                : (
+                                    <sx.StyledTableRow key={row.position}>
+                                        <sx.StyledTableCell align="center" component="th" scope="row">
+                                            {getPositionContent(row.position)}
+                                        </sx.StyledTableCell>
+                                        <sx.StyledTableCell>{row.user}</sx.StyledTableCell>
+                                        <sx.StyledTableCell align="right">{row.score}</sx.StyledTableCell>
+                                        <sx.StyledTableCell>{row.date}</sx.StyledTableCell>
+                                        <sx.StyledTableCell>{row.time}</sx.StyledTableCell>
+                                    </sx.StyledTableRow>
+                                )
                     )}
                 </TableBody>
             </Table>
         </TableContainer>
     );
-});
-
-// PROP LIST
-
-HighScoreTable.propTypes = {
-    level: PropTypes.string,
-    highlightRowID: PropTypes.string,
-    highlightPersonalBest: PropTypes.bool
 }
+
 
 // EXPORT
 
