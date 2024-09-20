@@ -140,19 +140,19 @@ export const hsPeriodDropDownLabel = "Period";
 
 export const periodAllTime = "All Time";
 
-export const period24Hours = "1 Day"
+export const period24Hours = "Daily"
 
-export const period7Days = "7 Days"
+export const period7Days = "Weekly"
 
-export const period30Days = "30 Days"
+export const period30Days = "Monthly"
 
 export const periodAllTimeShort = "All";
 
-export const period24HoursShort = "1D"
+export const period24HoursShort = "Day"
 
-export const period7DaysShort = "7D"
+export const period7DaysShort = "Week"
 
-export const period30DaysShort = "30D"
+export const period30DaysShort = "M’th"
 
 export const enabled = "Enabled";
 
