@@ -261,9 +261,9 @@ function getOptionIndex(optionLS, availableOptions, defaultOptionIndex) {
     var userOptionIndex = localStorage.getItem(optionLS);
 
     // If no user option index found then return the default option index
-    if (userOptionIndex === undefined || userOptionIndex === null || isNaN(userOptionIndex
-        || availableOptions === null || availableOptions === undefined
-        || userOptionIndex < 0 || userOptionIndex >= availableOptions.length)) {
+    if (userOptionIndex === undefined || userOptionIndex === null || isNaN(userOptionIndex)
+        || availableOptions === undefined || availableOptions === null
+        || userOptionIndex < 0 || userOptionIndex >= availableOptions.length) {
         return defaultOptionIndex;
     }
 

@@ -279,7 +279,7 @@ function getTopResultsQuery(level, period) {
 function deleteUsurperdHighScores(usurpedHighScore) {
 
   // If we have no usurped high score then return
-  if (usurpedHighScore === null) {
+  if (usurpedHighScore === undefined || usurpedHighScore === null) {
     return;
   }
 

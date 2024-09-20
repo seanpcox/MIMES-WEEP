@@ -128,7 +128,7 @@ function updatePersonalBestTime(level, time, date, user, setPersonalBestPeriodsC
 
         // If we have no personal best time for the supplied level or the new time
         // is better then save the new time.
-        if (pbTime === null || pbTime === "" || isNaN(pbTime) || time < Number(pbTime)) {
+        if (pbTime === undefined || pbTime === null || pbTime === "" || isNaN(pbTime) || time < Number(pbTime)) {
 
             // Record that we scored a personal best
             isPersonalBest = true;
