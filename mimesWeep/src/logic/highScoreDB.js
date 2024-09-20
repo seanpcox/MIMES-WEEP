@@ -12,23 +12,45 @@ import { Todo } from "../models/index.js";
 export async function init() {
   // Configure the data store with our settings
   Amplify.configure(dsConfig.settings);
-  // Start the data store
 
-  await DataStore.start().then(() => {
-    // Clear the local data store once data store started
-    clearLocalData();
-  });
+  // Try to access the data store
+  try {
+
+    // Start the data store
+    await DataStore.start().then(() => {
+
+      // Clear the local data store once data store started
+      clearLocalData();
+    });
+  }
+  // If we get an exception on data store access then catch it and print to console, then continue
+  catch (exception) {
+    console.log("Exception trying to access data store to startup.")
+    console.log(exception.message);
+  }
+
 }
 
 /**
  * Function to clear the local data store
  */
 async function clearLocalData() {
-  // Clear the local data store
-  await DataStore.clear().then(() => {
-    // Perform a query, first query always returns nothing (seems to be stanard for Amplify data store)
-    performDummyQuery();
-  })
+
+  // Try to access the data store
+  try {
+
+    // Clear the local data store
+    await DataStore.clear().then(() => {
+
+      // Perform a query, first query always returns nothing (seems to be expected based on docs for Amplify data store)
+      performDummyQuery();
+    });
+  }
+  // If we get an exception on data store access then catch it and print to console, then continue
+  catch (exception) {
+    console.log("Exception trying to access data store for clearing.")
+    console.log(exception.message);
+  }
 }
 
 /**
@@ -38,8 +60,18 @@ async function clearLocalData() {
  * first genunie application query will work.
  */
 async function performDummyQuery() {
-  // Perform a query for one result from the data store
-  await DataStore.query(Todo, Predicates.ALL, { limit: 1 });
+
+  // Try to access the data store
+  try {
+
+    // Perform a query for one result from the data store
+    await DataStore.query(Todo, Predicates.ALL, { limit: 1 });
+  }
+  // If we get an exception on data store access then catch it and print to console, then continue
+  catch (exception) {
+    console.log("Exception trying to access data store for initial startup dummy query.")
+    console.log(exception.message);
+  }
 }
 
 /**
@@ -251,6 +283,7 @@ function getTopResultsQuery(level, period) {
   }
 
   // Execute the query
+  // Let the calling function catch any exceptions so can deal with them in the correct way
   return DataStore.query(
     Todo,
     (hs) => hs.and(hs => [
@@ -283,19 +316,29 @@ function deleteUsurperdHighScores(usurpedHighScore) {
     return;
   }
 
-  // Note we need date as well as time here, as date is the tie breaker in if we have tied high score times
-  // High scores scored earlier win out in these cases
-  DataStore.delete(Todo,
-    (hs) => hs.and(hs =>
-      [
-        hs.time.ge(usurpedHighScore.time),
-        hs.date.ge(usurpedHighScore.date),
-        hs.level.eq(usurpedHighScore.level),
-        hs.datePeriod.eq(usurpedHighScore.datePeriod),
-        // High scores are device type specific, as don't think its fair to compare times between them
-        hs.deviceType.eq(gameSettings.deviceType)
-      ]
-    ));
+  // Try to access the data store
+  try {
+
+    // Delete usurpsed high score/s
+    // Note we need date as well as time here, as date is the tie breaker in if we have tied high score times
+    // High scores scored earlier win out in these cases
+    DataStore.delete(Todo,
+      (hs) => hs.and(hs =>
+        [
+          hs.time.ge(usurpedHighScore.time),
+          hs.date.ge(usurpedHighScore.date),
+          hs.level.eq(usurpedHighScore.level),
+          hs.datePeriod.eq(usurpedHighScore.datePeriod),
+          // High scores are device type specific, as don't think its fair to compare times between them
+          hs.deviceType.eq(gameSettings.deviceType)
+        ]
+      ));
+  }
+  // If we get an exception on data store access then catch it and print to console, then continue
+  catch (exception) {
+    console.log("Exception trying to access data store for deleting usurped high scores.")
+    console.log(exception.message);
+  }
 }
 
 /**
@@ -304,14 +347,26 @@ function deleteUsurperdHighScores(usurpedHighScore) {
  * @param {Username to update} username
  */
 export async function updateUsername(id, username) {
-  const original = await DataStore.query(Todo, id);
 
-  if (original) {
-    await DataStore.save(
-      Todo.copyOf(original, updated => {
-        updated.user = username
-      })
-    );
+  // Try to access the data store
+  try {
+
+    // Get the original saved entry
+    const original = await DataStore.query(Todo, id);
+
+    // Update the saved entry with the new name
+    if (original) {
+      await DataStore.save(
+        Todo.copyOf(original, updated => {
+          updated.user = username
+        })
+      );
+    }
+  }
+  // If we get an exception on data store access then catch it and print to console, then continue
+  catch (exception) {
+    console.log("Exception trying to access data store for high score name update.")
+    console.log(exception.message);
   }
 }
 
@@ -327,16 +382,26 @@ function deleteExpiredHighScores(period, level) {
     return;
   }
 
-  DataStore.delete(Todo,
-    (hs) => hs.and(hs =>
-      [
-        hs.date.lt(getEpochSecondTimeInPast(getNumberOfDaysInPeriod(period))),
-        hs.level.eq(level),
-        hs.datePeriod.eq(period),
-        // High scores are device type specific, as don't think its fair to compare times between them
-        hs.deviceType.eq(gameSettings.deviceType)
-      ]
-    ));
+  // Try to access the data store
+  try {
+
+    // Perform delete operation
+    DataStore.delete(Todo,
+      (hs) => hs.and(hs =>
+        [
+          hs.date.lt(getEpochSecondTimeInPast(getNumberOfDaysInPeriod(period))),
+          hs.level.eq(level),
+          hs.datePeriod.eq(period),
+          // High scores are device type specific, as don't think its fair to compare times between them
+          hs.deviceType.eq(gameSettings.deviceType)
+        ]
+      ));
+  }
+  // If we get an exception on data store access then catch it and print to console, then continue
+  catch (exception) {
+    console.log("Exception trying to access data store for deleting expired high scores.")
+    console.log(exception.message);
+  }
 }
 
 /**
