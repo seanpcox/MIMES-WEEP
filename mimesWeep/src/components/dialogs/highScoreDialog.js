@@ -251,8 +251,10 @@ function HighScoreDialog(props) {
      * @returns Title text for high score dialog
      */
     function getTitleText() {
-        return gameText.highScoreDialogTitle + " - " + getDifficultyString() + " - "
-            + settings.getPeriodShortString(period);
+        // We display the period on new score, since we don't have the drop downs to see
+        // The level can be assumed by the game level they were playing
+        // We can't display both level and period as it causes a new line on mobile devices, too much text to fit
+        return gameText.highScoreDialogTitle + ((isNewScoreDialog()) ? (" - " + settings.getPeriodString(period)) : "");
     }
 
     /**
@@ -295,14 +297,6 @@ function HighScoreDialog(props) {
      */
     function getLevel() {
         return settings.getLevelString(difficulty);
-    }
-
-    /**
-    * Function to return the difficulty string we use for display
-    * @returns string
-    */
-    function getDifficultyString() {
-        return settings.getDifficultyString(difficulty);
     }
 
     /**
