@@ -378,7 +378,7 @@ export async function updateUsername(id, username) {
 function deleteExpiredHighScores(period, level) {
 
   // We never delete all time high scores so return here
-  if (level === Period.ALL) {
+  if (period === Period.ALL) {
     return;
   }
 
