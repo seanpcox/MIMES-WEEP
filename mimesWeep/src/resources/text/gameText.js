@@ -148,12 +148,6 @@ export const period30Days = "Monthly"
 
 export const periodAllTimeShort = "All";
 
-export const period24HoursShort = "Day"
-
-export const period7DaysShort = "Week"
-
-export const period30DaysShort = "M’th"
-
 export const enabled = "Enabled";
 
 export const disabled = "Disabled";

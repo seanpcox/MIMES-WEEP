@@ -37,10 +37,10 @@ export const deviceType = getDeviceType();
 export const locale = (navigator && navigator.language) || "en-US";
 
 // Currently the two periods we use, in order of greatest, all-time and 24hrs, this may expand in future
-export const periodsInUse = [Period.ALL, Period.DAY];
+export const periodsInUse = [Period.ALL, Period.MONTH, Period.DAY];
 
 // The number of high scores we show if user achieves a high score or personal best
-export const numHSRowsToDisplayOnNewScore = 5;
+export const numHSRowsToDisplayOnNewScore = 3;
 
 /**
  * Function to return our game parameters (board size and mime density) for a set difficuly level and device.
@@ -204,19 +204,4 @@ export function getPeriodString(period) {
   }
 
   return gameText.periodAllTime;
-}
-
-/**
- * Function to get a display string for the supplied Period enum
- * @param {Period} period
- * @returns Period string for display
- */
-export function getPeriodShortString(period) {
-  if (period === Period.DAY) {
-    return gameText.period24HoursShort;
-  } else if (period === Period.MONTH) {
-    return gameText.period30DaysShort;
-  }
-
-  return gameText.periodAllTimeShort;
 }

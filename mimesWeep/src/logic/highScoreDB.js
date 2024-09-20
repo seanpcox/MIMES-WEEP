@@ -13,6 +13,7 @@ export async function init() {
   // Configure the data store with our settings
   Amplify.configure(dsConfig.settings);
   // Start the data store
+
   await DataStore.start().then(() => {
     // Clear the local data store once data store started
     clearLocalData();
@@ -42,162 +43,76 @@ async function performDummyQuery() {
 }
 
 /**
- * Function to determine if the user's time lists in a high score position in any of our score time periods
- * Go through each time one by one, starting at All Time and ending at Daily.
- * The highest ranked period (with All Time being the highest and Daily being the lowest) is the one that we
- * display when opening the new high score dialog. However all periods will be saved and all periods will have
- * their username updated if the user changes it for the highest period in the dialog.
- *
- * Note: I don't like the way this is whole operation is nested, there is too much code duplicate.
- * Perhaps there is another way to wait for datastore operations to complete versus having to put
- * a dependant next step in the "then" execution block. Or perhaps we could use recursion to do this.
- * For now we will leave it though.
- *
- * @param {The user's score data} scoreData
- * @param {Callback method to open the dialog if the user got a high score position and/or personal best} openDialogCallback
- * @param {Callback method to set the new score DB data if the user got a high score position/s} setNewHighScoreDataCallback
- * @param {Boolean indicating if we scored and personal bests with this score} isPersonalBest
- */
-export async function saveHighScores(scoreData, openDialogCallback, setNewHighScoreDataCallback, isPersonalBest) {
+* Function to determine if the user's time lists in a high score position in any of our score time periods or personal bests
+* Go through each time period one by one, starting at All Time and ending at Daily.
+* The highest ranked period (with All Time being the highest and Daily being the lowest) is the one that we
+* display when opening the new high score dialog. However all periods will be saved and all periods will have
+* their username updated if the user changes it for the highest period in the dialog.
+* We also update any personal bests achieved through this function. If no high score but a personal best we will also open
+* the high score dialog, at the highest period a personal best was achieved at.
+*
+* @param {The user's score data} scoreData
+* @param {Callback method to open the dialog if the user got a high score position and/or personal best} openDialogCallback
+* @param {Callback method to set the new score DB data if the user got a high score position/s} setNewHighScoreDataCallback
+* @param {Callback method to set the new personal best periods achieved, if any} setPersonalBestPeriodsCallback
+*/
+export async function saveScores(scoreData, openDialogCallback, setNewHighScoreDataCallback, setPersonalBestPeriodsCallback) {
 
-  // Query the datastore for the all time high scores
-  await getTopResultsQuery(scoreData.level, scoreData.datePeriod)
+  // Record if we scored a high score in any period, so we know whether to open the high score dialog
+  let isHighScoreAchieved = false;
 
-    // Executed once results have been retrieved 
-    .then((results) => {
+  // Try to access the data store
+  try {
 
-      // Calculate the all time high score position for the game time, if it didn't place we are returned -1
-      var position = getHighScorePosition(results, scoreData.time);
+    // Loop through each period we support
+    for (const period of gameSettings.periodsInUse) {
+
+      // Set the period on the score data, which will be saved to the database
+      scoreData.datePeriod = period;
+
+      // Query the datastore for the high scores in this period
+      const existingHighScores = await getTopResultsQuery(scoreData.level, period);
+
+      // Calculate the high score position for the current game time, if it didn't place we are returned -1
+      let position = getHighScorePosition(existingHighScores, scoreData.time);
 
       // If the user got an all time high score then we save the high score in the database and continue processing
       if (position > 0) {
 
-        // Get the replaced all time high score, if there is one
-        var deprecatedHighScore = getDeprecatedHighScoreRow(results);
+        // We have achieved a high score, so set our boolean
+        isHighScoreAchieved = true;
 
-        // Save the all time high score in the database, delete any deprecated all time high scores, and continue processing
-        saveAllTimeScore(scoreData, deprecatedHighScore, openDialogCallback, setNewHighScoreDataCallback, isPersonalBest);
+        // Persist the high score data
+        let newHighScore = await DataStore.save(new Todo(scoreData));
+
+        // Execute our callbacks to set the high score data in our calling component, for use with high score dialog
+        setCallbackScoreRefs(setNewHighScoreDataCallback, newHighScore.id, newHighScore.datePeriod, newHighScore.user);
+
+        // Get the high score that will be replaced by this new high score, if there is one
+        let usurpedHighScore = getUsurpedHighScoreRow(existingHighScores);
+
+        // Delete any now usurped high scores, if we have one. This can run in the background.
+        deleteUsurperdHighScores(usurpedHighScore);
+
+        // Delete any expired high scores for this period. This can run in the background.
+        deleteExpiredHighScores(period, scoreData.level);
       }
-      // If the user did not get an all time high score then we move on to see if they got a daily high score
-      else {
+    }
+  }
+  // If we get an exception on data store access then catch it and print to console, then continue to personal bests
+  // If we can't show high scores we still want to show personal bests.
+  catch (exception) {
+    console.log("Exception trying to access data store for high score retrieval and save operations.")
+    console.log(exception.message);
+  }
 
-        // If the user did not get an all time high score then check to see if they got a daily high score
-        saveHighScoreDailyLevel(scoreData, openDialogCallback, setNewHighScoreDataCallback, false, isPersonalBest);
-      }
-    });
-}
+  // Record any personal bests we achieved
+  let isPersonalBest = scoreLogic.updatePersonalBestTimeWithScoreData(scoreData, setPersonalBestPeriodsCallback);
 
-/**
- * Function to save the all time high score data, and delete any all time high score entries no longer required
- * @param {Score data for game} scoreData
- * @param {DB data for the now deprecated high score} deprecatedHighScore
- * @param {Callback method to open the dialog if the user got a high score position} openDialogCallback
- * @param {Callback method to set the new score DB data if the user got a high score position/s} setNewHighScoreDataCallback
- * @param {Boolean indicating if we scored and personal bests with this score} isPersonalBest
- */
-async function saveAllTimeScore(scoreData, deprecatedHighScore, openDialogCallback, setNewHighScoreDataCallback, isPersonalBest) {
-
-  // Persist the all time high score data
-  await DataStore.save(
-    new Todo(scoreData)
-  )
-    // Executed once save has been completed
-    .then((savedScore) => {
-
-      // Execute our callbacks to set the all time high score data in our calling component, for use with high score dialog
-      setCallbackScoreRefs(setNewHighScoreDataCallback, savedScore.id, savedScore.datePeriod, savedScore.user);
-
-      // If we have an all time high score to deprecate
-      if (deprecatedHighScore) {
-
-        // Delete any now deprecated all time high scores. Note we don't need for this operation to finish before we can
-        // continue. It can run in the background.
-        getDeleteDeprecatedQuery(deprecatedHighScore.time, deprecatedHighScore.date, scoreData.level, scoreData.datePeriod);
-      }
-
-      // Now we move on to see if the user also got a daily high score
-      saveHighScoreDailyLevel(scoreData, openDialogCallback, setNewHighScoreDataCallback, true, isPersonalBest);
-    });
-}
-
-/**
- * Function to check if the user got a daily high score
- * @param {Score data for game} scoreData
- * @param {Callback method to open the dialog if the user got a high score position} openDialogCallback
- * @param {Callback method to set the new score DB data if the user got a high score position/s} setNewHighScoreDataCallback
- * @param {Boolean representing if we have already saved a high score at a previous period} savedPreviousHS
- * @param {Boolean indicating if we scored and personal bests with this score} isPersonalBest
- */
-async function saveHighScoreDailyLevel(scoreData, openDialogCallback, setNewHighScoreDataCallback, savedPreviousHS, isPersonalBest) {
-
-  // Set the score time period to daily
-  scoreData.datePeriod = Period.DAY;
-
-  // Query the datastore for the daily high scores
-  await getTopResultsQuery(scoreData.level, scoreData.datePeriod)
-
-    // Executed once results have been retrieved
-    .then((results) => {
-
-      // Calculate the daily high score position for the game time, if it didn't place we are returned -1
-      var position = getHighScorePosition(results, scoreData.time);
-
-      // If the user placed then we save the daily high score in the database and continue processing
-      if (position > 0) {
-
-        // Get the replaced daily high score, if there is one
-        var deprecatedHighScore = getDeprecatedHighScoreRow(results);
-
-        // Save the daily high score in the database, delete any deprecated daily high scores, and continue processing
-        saveDailyHighScore(scoreData, deprecatedHighScore, openDialogCallback, setNewHighScoreDataCallback);
-      }
-      // Else the user did not get a daily high score
-      else {
-
-        // If we already saved a high score at a higher level then open the dialog
-        // Note this condition is likely rare, but it may happen if there are less all time high score positions
-        // than daily high score positions. Or if some DB cleanup causes this issue.
-        // OR if we achieved a personal best we want to open the dialog also
-        if (savedPreviousHS || isPersonalBest) {
-          openDialogCallback(true);
-        }
-      }
-    });
-}
-
-/**
- * Function to save the daily high score data, and delete any daily high score entries no longer required
- * @param {Score data for game} scoreData
- * @param {Score DB entry that has now been usurped by the new high score} deprecatedHighScore
- * @param {Callback method to open the dialog if the user got a high score position} openDialogCallback
- * @param {Callback method to set the new score DB data if the user got a high score position/s} setNewHighScoreDataCallback
- * @param {Boolean indicating if we scored and personal bests with this score} isPersonalBest
- */
-async function saveDailyHighScore(scoreData, deprecatedHighScore, openDialogCallback, setNewHighScoreDataCallback) {
-  // Persist the high score data
-  await DataStore.save(
-    new Todo(scoreData)
-  )
-    // Executed once save has been completed
-    .then((savedScore) => {
-
-      // Execute our callbacks to set the daily high score data in our calling component, for use with high score dialog
-      setCallbackScoreRefs(setNewHighScoreDataCallback, savedScore.id, savedScore.datePeriod, savedScore.user);
-
-      // If we have a daily high score to deprecate
-      if (deprecatedHighScore) {
-
-        // Delete any now deprecated daily high scores. Note we don't need for this operation to finish before we can
-        // continue. It can run in the background.
-        getDeleteDeprecatedQuery(deprecatedHighScore.time, deprecatedHighScore.date, scoreData.level, scoreData.datePeriod);
-      }
-
-      // Delete any daily scores over 24 hours at this level. This can also run in the background.
-      deleteOldScores(scoreData.datePeriod, scoreData.level);
-
-      // Open the high score dialog
-      openDialogCallback(true);
-    });
+  // If we saved a high score or if we achieved a personal best we want to open the high score dialog
+  if (isHighScoreAchieved || isPersonalBest) {
+    openDialogCallback(true);
+  }
 }
 
 /**
@@ -251,20 +166,20 @@ function getHighScorePosition(results, gameTime) {
 /**
  * Function to get the database high score that has been usurped by our new high score, if any
  * @param {Database high scores} results
- * @returns Database high score for deprecation, if any
+ * @returns Database high score to be usurped, if any
  */
-function getDeprecatedHighScoreRow(results) {
+function getUsurpedHighScoreRow(results) {
 
   // Get the replaced high score, if there is one
-  var deprecatedHighScore;
+  var usurpedHighScore;
 
   // Get the last high score in the list if a new high score has been achieved
   if (results.length === gameSettings.highScorePositions) {
-    deprecatedHighScore = results[results.length - 1];
+    usurpedHighScore = results[results.length - 1];
   }
 
-  // Return the deprecated high score if one
-  return deprecatedHighScore;
+  // Return the usurped high score if one
+  return usurpedHighScore;
 }
 
 /**
@@ -276,37 +191,48 @@ function getDeprecatedHighScoreRow(results) {
  */
 export async function getTopResults(level, period, callback) {
 
-  // Query the datastore for the top results
-  await getTopResultsQuery(level, period)
-    // Executed once results have been retrieved 
-    .then((results) => {
+  // Rows to supply to our callback function
+  var rows = [];
 
-      // Rows to supply to our callback function
-      var rows = [];
+  // Add the personal best time at the start (so user doesn't have to scroll to very bottom)
+  rows.push(scoreLogic.getPersonalBestDataRow(level, period));
 
-      // Add the personal best time at the start (so user doesn't have to scroll to very bottom)
-      rows.push(scoreLogic.getPersonalBestDataRow(level, period));
+  // Try to access the data store
+  try {
 
-      // Loop through all results, if any
-      if (results) {
-        for (var i = 0; i < results.length; i++) {
-          // Add the data to the row array
-          rows.push(
-            scoreLogic.createDataRow(
-              // Result position starts at 1
-              i + 1,
-              results[i].user,
-              results[i].time,
-              results[i].date,
-              results[i].deviceType,
-              results[i].id)
-          );
+    // Query the datastore for the top results
+    await getTopResultsQuery(level, period)
+      // Executed once results have been retrieved
+      .then((results) => {
+
+        // Loop through all results, if any
+        if (results) {
+          for (var i = 0; i < results.length; i++) {
+            // Add the data to the row array
+            rows.push(
+              scoreLogic.createDataRow(
+                // Result position starts at 1
+                i + 1,
+                results[i].user,
+                results[i].time,
+                results[i].date,
+                results[i].deviceType,
+                results[i].id)
+            );
+          }
         }
-      }
 
-      // Supply the rows to our callback function
-      callback(rows);
-    });
+      });
+  }
+  // If we get an exception on data store access then catch it and print to console, then continue to personal bests
+  // If we can't show high scores we still want to show personal bests.
+  catch (exception) {
+    console.log("Exception trying to access data store for high score retrieval.")
+    console.log(exception.message);
+  }
+
+  // Supply the rows to our callback function
+  callback(rows);
 }
 
 /**
@@ -344,14 +270,28 @@ function getTopResultsQuery(level, period) {
   );
 }
 
-function getDeleteDeprecatedQuery(time, date, level, datePeriod) {
-  return DataStore.delete(Todo,
+/**
+ * Delete any high score entries that have been usurped / replaced by a new high score
+ * @param {DB entry for high score to be usurped} usurpedHighScore
+ * @param {Game difficulty level} level
+ * @param {Period: DAY, MONTH, ALL} period
+ */
+function deleteUsurperdHighScores(usurpedHighScore) {
+
+  // If we have no usurped high score then return
+  if (usurpedHighScore === null) {
+    return;
+  }
+
+  // Note we need date as well as time here, as date is the tie breaker in if we have tied high score times
+  // High scores scored earlier win out in these cases
+  DataStore.delete(Todo,
     (hs) => hs.and(hs =>
       [
-        hs.time.ge(time),
-        hs.date.ge(date),
-        hs.level.eq(level),
-        hs.datePeriod.eq(datePeriod),
+        hs.time.ge(usurpedHighScore.time),
+        hs.date.ge(usurpedHighScore.date),
+        hs.level.eq(usurpedHighScore.level),
+        hs.datePeriod.eq(usurpedHighScore.datePeriod),
         // High scores are device type specific, as don't think its fair to compare times between them
         hs.deviceType.eq(gameSettings.deviceType)
       ]
@@ -376,12 +316,18 @@ export async function updateUsername(id, username) {
 }
 
 /**
- * Function to delete daily scores more than the supplied period old at the supplied difficulty level
- * @param {Period} period
- * @param {Difficulty level string} level
+ * Function to delete high scores that have now expired for the supplied period and level
+ * @param {Game difficulty level} level
+ * @param {Period: DAY, MONTH, ALL} period
  */
-async function deleteOldScores(period, level) {
-  await DataStore.delete(Todo,
+function deleteExpiredHighScores(period, level) {
+
+  // We never delete all time high scores so return here
+  if (level === Period.ALL) {
+    return;
+  }
+
+  DataStore.delete(Todo,
     (hs) => hs.and(hs =>
       [
         hs.date.lt(getEpochSecondTimeInPast(getNumberOfDaysInPeriod(period))),

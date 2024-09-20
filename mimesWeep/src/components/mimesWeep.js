@@ -22,7 +22,6 @@ import Timer from './timer.js';
 import Toolbar from '@mui/material/Toolbar';
 import Tooltip from '@mui/material/Tooltip';
 import { Box, Button } from '@mui/material';
-import { Period } from "../models/index.js";
 import { useEffect, useRef, useState } from 'react';
 
 /**
@@ -104,13 +103,13 @@ function MimesWeep() {
 
   /**
   * Set whether the we have personal best periods for display in our new highscore dialog
-  * @param {array of Period} period
+  * @param {Period} period
   */
-  function setPersonalBestPeriodsCallback(periods) {
+  function setPersonalBestPeriodsCallback(period) {
 
     // Set the supplied period if valid
-    if (periods !== null && periods.length > 0) {
-      personalBestPeriodsRef.current = periods;
+    if (period !== null) {
+      personalBestPeriodsRef.current.push(period);
     }
     // If period is not defined, it means we want to clear our array
     else {
@@ -351,21 +350,11 @@ function MimesWeep() {
         deviceType: settings.deviceType,
         time: timerRef.current.getTimeElapsedTimer(),
         user: scoreLogic.getBestGuessUsername(),
-        date: Math.round(Date.now() / 1000),
-        datePeriod: Period.ALL
+        date: Math.round(Date.now() / 1000)
       };
 
-      // Save any personal bests we may have gotten
-      var personalBestPeriods = scoreLogic.updatePersonalBestTimeWithScoreData(scoreData);
-
-      // Update our personal best periods achieved for the high score dialog, called after DB work
-      setPersonalBestPeriodsCallback(personalBestPeriods);
-
-      // Boolean to store whether we achieved one or more personal bests with this score
-      var isPersonalBest = personalBestPeriods !== null && personalBestPeriods.length > 0;
-
       // Save to the database if a high score
-      highScoreDB.saveHighScores(scoreData, openHighScoreDialog, setNewHighScoreDataCallback, isPersonalBest);
+      highScoreDB.saveScores(scoreData, openHighScoreDialog, setNewHighScoreDataCallback, setPersonalBestPeriodsCallback);
     }
   }
 
