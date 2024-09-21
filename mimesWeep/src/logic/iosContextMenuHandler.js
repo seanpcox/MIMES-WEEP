@@ -21,7 +21,7 @@ export default class IOSContextMenuHandler {
 
     // On touch start we kick off a timer that will let us differentiate between a tap or a long-press
     onTouchStart = e => {
-        console.warn("onTouchStart");
+        console.log("onTouchStart");
 
         this.longPressOccurred = false;
 
@@ -37,29 +37,23 @@ export default class IOSContextMenuHandler {
 
     // On move clear the timer
     onTouchMove = e => {
-        console.warn("onTouchMove");
-
-        clearTimeout(this.longPressCountdown);
-        this.longPressOccurred = false;
+        console.log("onTouchMove");
     };
 
     // On cancel clear the timer
     onTouchCancel = e => {
-        console.warn("onTouchCancel");
-
-        clearTimeout(this.longPressCountdown);
-        this.longPressOccurred = false;
+        console.log("onTouchCancel");
     };
 
     // On touch end if long-press was not already triggered then perform tap action.
     // Regardless we clear the timeout and long-press flag.
     onTouchEnd = e => {
-        console.warn("onTouchEnd");
+        console.log("onTouchEnd");
 
         // User did not touch screen for long enough to be considered a long-press so perform tap action
         if (!this.longPressOccurred) {
 
-            console.warn("leftClickCallback");
+            console.log("leftClickCallback");
 
             this.leftClickCallback();
         }
