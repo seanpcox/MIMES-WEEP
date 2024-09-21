@@ -1,6 +1,7 @@
 import * as commonSx from '../style/commonSx.js';
 import * as gameSettings from '../logic/gameSettings.js';
 import * as sx from '../style/boardSquareSx.js';
+import * as userSettings from '../logic/userSettings.js';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 import { Device } from "../models/index.js";
@@ -34,10 +35,6 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 
 
     // LOCAL VARIABLES
-
-    const longPressDurationMs = 350;
-
-    const clearLongPressFlagMs = 100;
 
     // Mime detonated is declared locally as we need to adjust its size for mime detonated animation
     const mimeDetonatedIcon = <img
@@ -87,30 +84,33 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 
     // On touch start we kick off a timer that will let us differentiate between a tap or a long-press
     const onTouchStart = e => {
-        console.log();
         // Prevent any default IOS action, just as open share menu etc.
         e.preventDefault();
 
-        // If timer runs out perform long-press action and flag we have done so
+        // Start the long press timer, if it runs out then perform long-press action and flag we have done so
+        // to avoid a tap action occuring on onTouchEnd function
         longPressCountdown.current = setTimeout(() => {
             longPressOccurred.current = true;
             setRightClickState();
-        }, longPressDurationMs);
+            // Here we get the ms length that represents a long press, this can be changed in settings dialog
+        }, userSettings.getLongPressDurationMs());
     };
 
-    // On move clear the timer
+    // On move clear the long press flag set and/or end the long press timer
     const onTouchMove = e => {
         // Prevent any default IOS action, just as open share menu etc.
         e.preventDefault();
 
+        // Clear any long press flag set and/or end the long press timer
         clearLongPressFlag();
     };
 
-    // On cancel clear the timer
+    // On cancel clear the long press flag set and/or end the long press timer
     const onTouchCancel = e => {
         // Prevent any default IOS action, just as open share menu etc.
         e.preventDefault();
 
+        // Clear any long press flag set and/or end the long press timer so we can perform tap actions again
         clearLongPressFlag();
     };
 
@@ -125,14 +125,25 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
             setLeftClickState();
         }
 
+        // Clear any long press flag set and/or end the long press timer so we can perform tap actions again
         clearLongPressFlag();
     };
 
+    /**
+     * Function to clear any long press flag set and/or end the long press timer
+     * Reason not to clear immediately is that in testing IOS devices will sometimes
+     * fire another set of touchStart/touchEnd events when you lift your finger after
+     * a long press. This causes the left click action to also then fire.
+     * The result is that when removing a flag on IOS it can subsenquenly also reveal
+     * the square, which is bad news if it is indeed a mime, cause that's game over
+     */
     function clearLongPressFlag() {
         setTimeout(() => {
+            // End the long press timer if still running
             clearTimeout(longPressCountdown.current);
+            // Set the long press occurred flag to false so we can perform tap actions again
             longPressOccurred.current = false;
-        }, clearLongPressFlagMs);
+        }, gameSettings.clearLongPressFlagMs);
     }
 
     /**

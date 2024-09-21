@@ -43,6 +43,11 @@ export const periodsInUse = [Period.ALL, Period.MONTH, Period.DAY];
 // The number of high scores we show if user achieves a high score or personal best
 export const numHSRowsToDisplayOnNewScore = 3;
 
+// The number of milliseconds to wait until after a long press event to allow tap events again on mobile
+// This is to deal with an issue on IOS devices where after removing your finger following a long press
+// another set of events are fired, which can kick off an unwanted tap event.
+export const clearLongPressFlagMs = 50;
+
 /**
  * Function to return our game parameters (board size and mime density) for a set difficuly level and device.
  * Reasons for device choices are explained above.
