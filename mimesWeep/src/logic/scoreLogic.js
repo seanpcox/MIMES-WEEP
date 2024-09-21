@@ -208,7 +208,7 @@ export function savePersonalBestName(level, period, username) {
 function isExpired(pbDate, period) {
 
     // All time personal bests never expire
-    if(period === Period.ALL) {
+    if (period === Period.ALL) {
         return false;
     }
 

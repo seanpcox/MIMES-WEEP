@@ -149,7 +149,7 @@ export function getTimeToLiveString(eventTime, expiryPeriod) {
 
     // If we have more than one day left we display days left
     if (days > 1) {
-        return days + " " + gameText.days
+        return days + gameText.days
     }
 
     // If we have one day left and 24 hours or more left show 1 day
@@ -159,7 +159,7 @@ export function getTimeToLiveString(eventTime, expiryPeriod) {
 
     // If we have more than one house left we display hours left
     if (hours > 1) {
-        return hours + " " + gameText.hours;
+        return hours + gameText.hours;
     }
 
     // If we have one day left and 60 or more minutes left show 1 hour
@@ -173,7 +173,7 @@ export function getTimeToLiveString(eventTime, expiryPeriod) {
     }
 
     // Show minutes
-    return minutes + " " + gameText.minutes;
+    return minutes + gameText.minutes;
 }
 
 /**
