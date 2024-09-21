@@ -218,14 +218,14 @@ export const logo = "Logo";
 
 export const neverExpires = "Never";
 
-export const days = "-days";
+export const days = " days";
 
-export const day1 = "1-day";
+export const day1 = "1 day";
 
-export const hours = "-hours";
+export const hours = " hours";
 
-export const hours1 = "1-hour";
+export const hours1 = "1 hour";
 
-export const minutes = "-mins";
+export const minutes = " mins";
 
-export const minutes1 = "1-min";
+export const minutes1 = "1 min";

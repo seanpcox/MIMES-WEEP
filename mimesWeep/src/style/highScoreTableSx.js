@@ -28,6 +28,10 @@ export const HighlightedTableRow = styled(TableRow)(() => ({
     backgroundColor: orange[100]
 }));
 
+export const noNewLines = {
+    whiteSpace: 'pre'
+};
+
 export const tableSize = "small";
 
 export const timeColumnDataAlign = "right";

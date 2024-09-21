@@ -191,27 +191,27 @@ function HighScoreTable(props) {
                             isRowHighlighted(row) ?
                                 (
                                     <sx.HighlightedTableRow key={row.position}>
-                                        <sx.StyledTableCell align={sx.positionColumnDataAlign} component="th" scope="row">
+                                        <sx.StyledTableCell sx={sx.noNewLines} align={sx.positionColumnDataAlign} component="th" scope="row">
                                             {getPositionContent(row.position)}
                                         </sx.StyledTableCell>
-                                        <sx.StyledTableCell align={sx.timeColumnDataAlign}>{row.score}</sx.StyledTableCell>
-                                        <sx.StyledTableCell>{row.user}</sx.StyledTableCell>
-                                        <sx.StyledTableCell align={sx.timeColumnDataAlign}>{row.date}</sx.StyledTableCell>
-                                        <sx.StyledTableCell align={sx.timeColumnDataAlign}>{row.time}</sx.StyledTableCell>
-                                        <sx.StyledTableCell align={sx.timeColumnDataAlign}>{row.ttl}</sx.StyledTableCell>
+                                        <sx.StyledTableCell sx={sx.noNewLines} align={sx.timeColumnDataAlign}>{row.score}</sx.StyledTableCell>
+                                        <sx.StyledTableCell sx={sx.noNewLines}>{row.user}</sx.StyledTableCell>
+                                        <sx.StyledTableCell sx={sx.noNewLines} align={sx.timeColumnDataAlign}>{row.date}</sx.StyledTableCell>
+                                        <sx.StyledTableCell sx={sx.noNewLines} align={sx.timeColumnDataAlign}>{row.time}</sx.StyledTableCell>
+                                        <sx.StyledTableCell sx={sx.noNewLines} align={sx.timeColumnDataAlign}>{row.ttl}</sx.StyledTableCell>
                                     </sx.HighlightedTableRow>
                                 )
                                 // Else apply the default style to the row
                                 : (
                                     <sx.StyledTableRow key={row.position}>
-                                        <sx.StyledTableCell align={sx.positionColumnDataAlign} component="th" scope="row">
+                                        <sx.StyledTableCell sx={sx.noNewLines} align={sx.positionColumnDataAlign} component="th" scope="row">
                                             {getPositionContent(row.position)}
                                         </sx.StyledTableCell>
-                                        <sx.StyledTableCell align={sx.timeColumnDataAlign}>{row.score}</sx.StyledTableCell>
-                                        <sx.StyledTableCell>{row.user}</sx.StyledTableCell>
-                                        <sx.StyledTableCell align={sx.timeColumnDataAlign}>{row.date}</sx.StyledTableCell>
-                                        <sx.StyledTableCell align={sx.timeColumnDataAlign}>{row.time}</sx.StyledTableCell>
-                                        <sx.StyledTableCell align={sx.timeColumnDataAlign}>{row.ttl}</sx.StyledTableCell>
+                                        <sx.StyledTableCell sx={sx.noNewLines} align={sx.timeColumnDataAlign}>{row.score}</sx.StyledTableCell>
+                                        <sx.StyledTableCell sx={sx.noNewLines}>{row.user}</sx.StyledTableCell>
+                                        <sx.StyledTableCell sx={sx.noNewLines} align={sx.timeColumnDataAlign}>{row.date}</sx.StyledTableCell>
+                                        <sx.StyledTableCell sx={sx.noNewLines} align={sx.timeColumnDataAlign}>{row.time}</sx.StyledTableCell>
+                                        <sx.StyledTableCell sx={sx.noNewLines} align={sx.timeColumnDataAlign}>{row.ttl}</sx.StyledTableCell>
                                     </sx.StyledTableRow>
                                 )
                     )}
