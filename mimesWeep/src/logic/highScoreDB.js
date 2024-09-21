@@ -1,6 +1,7 @@
 import * as dsConfig from '../resources/config/datastore.js';
 import * as gameSettings from '../logic/gameSettings.js';
 import * as scoreLogic from './scoreLogic.js';
+import * as timeLogic from './timeLogic.js';
 import { Amplify } from 'aws-amplify';
 import { DataStore, Predicates, SortDirection } from "@aws-amplify/datastore";
 import { Period } from "../models/index.js";
@@ -249,7 +250,9 @@ export async function getTopResults(level, period, callback) {
                 results[i].time,
                 results[i].date,
                 results[i].deviceType,
-                results[i].id)
+                results[i].id,
+                period
+              )
             );
           }
         }
@@ -279,7 +282,7 @@ function getTopResultsQuery(level, period) {
 
   // If we are working with a period other than ALL then limit the query by date
   if (period !== Period.ALL) {
-    dateAfterEpochSeconds = getEpochSecondTimeInPast(getNumberOfDaysInPeriod(period));
+    dateAfterEpochSeconds = timeLogic.getEpochSecondTimeInPastForPeriod(period);
   }
 
   // Execute the query
@@ -389,7 +392,7 @@ function deleteExpiredHighScores(period, level) {
     DataStore.delete(Todo,
       (hs) => hs.and(hs =>
         [
-          hs.date.lt(getEpochSecondTimeInPast(getNumberOfDaysInPeriod(period))),
+          hs.date.lt(timeLogic.getEpochSecondTimeInPastForPeriod(period)),
           hs.level.eq(level),
           hs.datePeriod.eq(period),
           // High scores are device type specific, as don't think its fair to compare times between them
@@ -402,28 +405,4 @@ function deleteExpiredHighScores(period, level) {
     console.log("Exception trying to access data store for deleting expired high scores.")
     console.log(exception.message);
   }
-}
-
-/**
- * Function to get the number of days in a given period
- * @param {Period} period
- * @returns Number of days in the given period, else -1 if all time
- */
-function getNumberOfDaysInPeriod(period) {
-  if (period === Period.DAY) {
-    return 1;
-  } else if (period === Period.MONTH) {
-    return 30;
-  }
-
-  return -1;
-}
-
-/**
- * Function to get the epoch time in seconds n days ago
- * @param {number} numOfDaysBack
- * @returns Epoch time in seconds 24 hours ago
- */
-function getEpochSecondTimeInPast(numOfDaysBack) {
-  return Math.floor((Date.now() - (86400000 * numOfDaysBack)) / 1000);
 }

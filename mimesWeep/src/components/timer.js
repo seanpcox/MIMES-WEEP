@@ -1,7 +1,7 @@
 import * as commonSx from '../style/commonSx.js';
 import * as gameText from '../resources/text/gameText.js';
 import * as sx from '../style/timerSx.js';
-import * as timeFormatLogic from '../logic/timeFormatLogic.js'
+import * as timeFormatLogic from '../logic/timeLogic.js'
 import * as userSettings from '../logic/userSettings.js';
 import PropTypes from 'prop-types';
 import Tooltip from '@mui/material/Tooltip';
@@ -172,7 +172,7 @@ const Timer = forwardRef(function Timer(props, inputRef) {
 
     // If we have not begun conuting then display the high score icon
     if (timeElapsed === 0) {
-        timerContent = commonSx.highScoreIcon;
+        timerContent = commonSx.timerIcon;
     }
     // Else if we have started counting then display the current elapsed time in seconds
     else {

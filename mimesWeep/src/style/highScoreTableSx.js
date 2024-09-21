@@ -32,8 +32,10 @@ export const tableSize = "small";
 
 export const timeColumnDataAlign = "right";
 
+export const positionColumnDataAlign = "center";
+
 export const trophyIcon = <EmojiEventsTwoToneIcon fontSize="small" sx={{ color: "#c9b037" }} />;
 
-export const silverMedal = <MilitaryTechTwoToneIcon fontSize="small" sx={{ color: "#78909c" }}/>;
+export const silverMedal = <MilitaryTechTwoToneIcon fontSize="small" sx={{ color: "#78909c" }} />;
 
 export const bronzeMedal = <MilitaryTechTwoToneIcon fontSize="small" sx={{ color: "#ad8a56" }} />;

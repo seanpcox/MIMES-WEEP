@@ -176,11 +176,12 @@ function HighScoreTable(props) {
             <Table size={sx.tableSize}>
                 <TableHead>
                     <TableRow>
-                        <sx.StyledTableCell align="center">{gameText.hsTablePosition}</sx.StyledTableCell>
-                        <sx.StyledTableCell>{gameText.hsTableUsername}</sx.StyledTableCell>
+                        <sx.StyledTableCell align={sx.positionColumnDataAlign}>{gameText.hsTablePosition}</sx.StyledTableCell>
                         <sx.StyledTableCell>{gameText.hsTableScore}</sx.StyledTableCell>
+                        <sx.StyledTableCell>{gameText.hsTableUsername}</sx.StyledTableCell>
                         <sx.StyledTableCell>{gameText.hsTableDate}</sx.StyledTableCell>
                         <sx.StyledTableCell>{gameText.hsTableTime}</sx.StyledTableCell>
+                        <sx.StyledTableCell>{gameText.hsTableExpires}</sx.StyledTableCell>
                     </TableRow>
                 </TableHead>
                 <TableBody>
@@ -190,25 +191,27 @@ function HighScoreTable(props) {
                             isRowHighlighted(row) ?
                                 (
                                     <sx.HighlightedTableRow key={row.position}>
-                                        <sx.StyledTableCell align="center" component="th" scope="row">
+                                        <sx.StyledTableCell align={sx.positionColumnDataAlign} component="th" scope="row">
                                             {getPositionContent(row.position)}
                                         </sx.StyledTableCell>
-                                        <sx.StyledTableCell>{row.user}</sx.StyledTableCell>
                                         <sx.StyledTableCell align={sx.timeColumnDataAlign}>{row.score}</sx.StyledTableCell>
-                                        <sx.StyledTableCell>{row.date}</sx.StyledTableCell>
-                                        <sx.StyledTableCell>{row.time}</sx.StyledTableCell>
+                                        <sx.StyledTableCell>{row.user}</sx.StyledTableCell>
+                                        <sx.StyledTableCell align={sx.timeColumnDataAlign}>{row.date}</sx.StyledTableCell>
+                                        <sx.StyledTableCell align={sx.timeColumnDataAlign}>{row.time}</sx.StyledTableCell>
+                                        <sx.StyledTableCell align={sx.timeColumnDataAlign}>{row.ttl}</sx.StyledTableCell>
                                     </sx.HighlightedTableRow>
                                 )
                                 // Else apply the default style to the row
                                 : (
                                     <sx.StyledTableRow key={row.position}>
-                                        <sx.StyledTableCell align="center" component="th" scope="row">
+                                        <sx.StyledTableCell align={sx.positionColumnDataAlign} component="th" scope="row">
                                             {getPositionContent(row.position)}
                                         </sx.StyledTableCell>
+                                        <sx.StyledTableCell align={sx.timeColumnDataAlign}>{row.score}</sx.StyledTableCell>
                                         <sx.StyledTableCell>{row.user}</sx.StyledTableCell>
-                                        <sx.StyledTableCell align="right">{row.score}</sx.StyledTableCell>
-                                        <sx.StyledTableCell>{row.date}</sx.StyledTableCell>
-                                        <sx.StyledTableCell>{row.time}</sx.StyledTableCell>
+                                        <sx.StyledTableCell align={sx.timeColumnDataAlign}>{row.date}</sx.StyledTableCell>
+                                        <sx.StyledTableCell align={sx.timeColumnDataAlign}>{row.time}</sx.StyledTableCell>
+                                        <sx.StyledTableCell align={sx.timeColumnDataAlign}>{row.ttl}</sx.StyledTableCell>
                                     </sx.StyledTableRow>
                                 )
                     )}

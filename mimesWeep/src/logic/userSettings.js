@@ -217,6 +217,115 @@ export function getScoreTimeFormatOption() {
 
 
 /**
+ * SAVED USERNAME
+ */
+
+export const usernameLSKey = "mimesweepUser";
+
+/**
+ * Get the last username used for the last high score or personal best
+ * If none found then return Unknown
+ * @returns username
+ */
+export function getBestGuessUsername() {
+    var username = getLSUsername();
+
+    if (!username) {
+        username = gameText.unknownUsername;
+    }
+
+    return username;
+}
+
+/**
+ * Function to get the last used username stored in local storage
+ * @returns username from local storage, if any
+ */
+export function getLSUsername() {
+    return localStorage.getItem(usernameLSKey);
+}
+
+/**
+ * Function to set the last used username in local storage
+ * @param {string} username
+ */
+export function setLSUsername(username) {
+    localStorage.setItem(usernameLSKey, username);
+}
+
+
+/**
+ * CUSTOM GAME SETTINGS
+ */
+
+const customHeightLSKey = "customHeight";
+
+const customWidthLSKey = "customWidth";
+
+const customNumOfMimesLSKey = "customNumOfMimes";
+
+/**
+ * Function to get last used custom height stored in local storage
+ * @returns custom height from local storage, if any
+ */
+export function getLSCustomHeight() {
+    return localStorage.getItem(customHeightLSKey);
+}
+
+/**
+ * Function to set the last used custom height in local storage
+ * @param {number} height
+ */
+export function setLSCustomHeight(height) {
+    localStorage.setItem(customHeightLSKey, height);
+}
+
+/**
+ * Function to get last used custom width stored in local storage
+ * @returns custom width from local storage, if any
+ */
+export function getLSCustomWidth() {
+    return localStorage.getItem(customWidthLSKey);
+}
+
+/**
+ * Function to set the last used custom width in local storage
+ * @param {number} width
+ */
+export function setLSCustomWidth(width) {
+    localStorage.setItem(customWidthLSKey, width);
+}
+
+/**
+ * Function to get last used custom number of mimes stored in local storage
+ * @returns custom number of mimes from local storage, if any
+ */
+export function getLSCustomNumOfMimes() {
+    return localStorage.getItem(customNumOfMimesLSKey);
+}
+
+/**
+ * Function to set the last used custom number of mimes in local storage
+ * @param {number} numberOfMimes
+ */
+export function setLSCustomNumOfMimes(numberOfMimes) {
+    localStorage.setItem(customNumOfMimesLSKey, numberOfMimes);
+}
+
+/**
+ * Function to set the last used custom game parameters
+ * @param {number} height
+ * @param {number} width
+ * @param {number} numOfMimes
+ */
+export function setLSCustomGameOptions(height, width, numOfMimes) {
+    setLSCustomHeight(height);
+    setLSCustomWidth(width);
+    setLSCustomNumOfMimes(numOfMimes);
+}
+
+
+/**
  * GENERIC FUNCTIONS
  */
 

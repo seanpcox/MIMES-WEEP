@@ -2,6 +2,7 @@ import * as commonSx from '../../style/commonSx.js';
 import * as settings from '../../logic/gameSettings.js';
 import * as sx from '../../style/dialogSx.js';
 import * as gameText from '../../resources/text/gameText';
+import * as userSettings from '../../logic/userSettings.js';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
@@ -93,7 +94,7 @@ function CustomDialog(props) {
         var isNumOfMimesInvalid = false;
 
         // Validate height is a positive whole number greater than 1 and less or equal to the max allowed height
-        if (isNaN(height) || !Number.isInteger(Number(height)) || height <= 1 || height > maxHeight) {
+        if (isHeightInvalidCheck(height)) {
             // Set error status on the height text field
             setHeightError(true);
             setHeight(null);
@@ -106,7 +107,7 @@ function CustomDialog(props) {
         }
 
         // Validate width is a positive whole number greater than 1 and less or equal to the max allowed width
-        if (isNaN(width) || !Number.isInteger(Number(width)) || width <= 1 || width > maxWidth) {
+        if (isWidthInvalidCheck(width)) {
             // Set the error status on the width text field
             setWidthError(true);
             setWidth(null);
@@ -120,7 +121,7 @@ function CustomDialog(props) {
 
         // Validate number of mimes is a positive none zero whole number and, if height and
         // width valid, not greater or equal to the number of squares on the proposed board
-        if (isNaN(numOfMimes) || !Number.isInteger(Number(numOfMimes)) || numOfMimes <= 0
+        if (isNumOfMimesInvalidCheck(numOfMimes)
             || (!isHeightInvalid && !isWidthInvalid && numOfMimes >= (width * height))) {
             // Set the error status on the number of mimes text field
             setNumOfMimesError(true);
@@ -136,6 +137,9 @@ function CustomDialog(props) {
             return;
         }
 
+        // If the parameters are all valid then save them to auto appear on next use
+        userSettings.setLSCustomGameOptions(height, width, numOfMimes);
+
         // If entries are valid close the dialog
         handleClose();
 
@@ -143,14 +147,72 @@ function CustomDialog(props) {
         props.startCustomGameCallback(Number(height), Number(width), Number(numOfMimes));
     }
 
+    /**
+     * Function to determine if the custom height is invalid
+     * @param {number} height
+     * @returns True if custom height invalid, else False
+     */
+    function isHeightInvalidCheck(height) {
+        return isNaN(height) || !Number.isInteger(Number(height)) || height <= 1 || height > maxHeight;
+    }
+
+    /**
+     * Function to determine if the custom width is invalid
+     * @param {number} width
+     * @returns True if custom width invalid, else False
+     */
+    function isWidthInvalidCheck(width) {
+        return isNaN(width) || !Number.isInteger(Number(width)) || width <= 1 || width > maxWidth;
+    }
+
+    /**
+     * Function to determine if the custom number of mimes is invalid
+     * @param {number} numOfMimes
+     * @returns True if custom number of mimes invalid, else False
+     */
+    function isNumOfMimesInvalidCheck(numOfMimes) {
+        return isNaN(numOfMimes) || !Number.isInteger(Number(numOfMimes)) || numOfMimes <= 0;
+    }
+
+    /**
+    * Function to determine whether to autofocus the first input field on open
+    * @returns True if we wish to autofocus the first input field, else False
+    */
+    function isFirstLabelAutoFocus() {
+
+        // If we have a no preloaded valid height then focus on it
+        if (isHeightInvalidCheck()) {
+            return true;
+        }
+
+        // Else we focus on the Create button
+        return false;
+    }
 
     // RENDER
+
+    // Retrieve the last used custom settings, if any
+    var defaultHeight = userSettings.getLSCustomHeight();
+    var defaultWidth = userSettings.getLSCustomWidth();
+    var defaultNumOfMimes = userSettings.getLSCustomNumOfMimes();
+
+    // If settings are invalid then default to empty string
+    if (defaultHeight === undefined || defaultHeight == null) {
+        defaultHeight = "";
+    }
+    if (defaultWidth === undefined || defaultWidth == null) {
+        defaultWidth = "";
+    }
+    if (defaultNumOfMimes === undefined || defaultNumOfMimes == null) {
+        defaultNumOfMimes = "";
+    }
 
     return (
         <Fragment>
             <Dialog
                 open={open}
                 onClose={handleClose}
+                disableRestoreFocus
                 PaperProps={{
                     component: 'form',
                     onSubmit: onSubmit
@@ -167,7 +229,8 @@ function CustomDialog(props) {
                         {gameText.customDialogMessage}
                     </DialogContentText>
                     <TextField
-                        autoFocus
+                        autoFocus={isFirstLabelAutoFocus()}
+                        defaultValue={defaultHeight}
                         error={heightError}
                         required
                         margin={sx.tfMarginType}
@@ -178,6 +241,7 @@ function CustomDialog(props) {
                     />
                     <Box sx={sx.spacingHeight} />
                     <TextField
+                        defaultValue={defaultWidth}
                         error={widthError}
                         required
                         margin={sx.tfMarginType}
@@ -188,6 +252,7 @@ function CustomDialog(props) {
                     />
                     <Box sx={sx.spacingHeight} />
                     <TextField
+                        defaultValue={defaultNumOfMimes}
                         error={numOfMimesError}
                         required
                         margin={sx.tfMarginType}
@@ -209,6 +274,7 @@ function CustomDialog(props) {
                     </Button>
                     <Button
                         type="submit"
+                        autoFocus={!isFirstLabelAutoFocus()}
                     >
                         {gameText.createButtonText}
                     </Button>

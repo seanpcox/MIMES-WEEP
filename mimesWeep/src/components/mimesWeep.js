@@ -3,7 +3,6 @@ import * as commonSx from '../style/commonSx.js';
 import * as highScoreDB from '../logic/highScoreDB.js';
 import * as gameText from '../resources/text/gameText.js';
 import * as logic from '../logic/gameLogic.js';
-import * as scoreLogic from '../logic/scoreLogic.js';
 import * as settings from '../logic/gameSettings.js';
 import * as sx from '../style/mimesweepSx.js';
 import * as userSettings from '../logic/userSettings.js';
@@ -349,7 +348,7 @@ function MimesWeep() {
         level: settings.getLevelString(difficulty),
         deviceType: settings.deviceType,
         time: timerRef.current.getTimeElapsedTimer(),
-        user: scoreLogic.getBestGuessUsername(),
+        user: userSettings.getBestGuessUsername(),
         date: Math.round(Date.now() / 1000)
       };
 
@@ -442,7 +441,7 @@ function MimesWeep() {
                 sx={commonSx.font}
               >
                 <Button sx={sx.customBtn}>
-                  {commonSx.easyLevelIcon}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(1)}
+                  {settings.getDifficultyIcon(1)}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(1)}
                 </Button>
               </MenuItem>
               <MenuItem
@@ -450,7 +449,7 @@ function MimesWeep() {
                 sx={commonSx.font}
               >
                 <Button sx={sx.customBtn}>
-                  {sx.mediumLevelIcon}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(2)}
+                  {settings.getDifficultyIcon(2)}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(2)}
                 </Button>
               </MenuItem>
               <MenuItem
@@ -458,7 +457,7 @@ function MimesWeep() {
                 sx={commonSx.font}
               >
                 <Button sx={sx.customBtn}>
-                  {sx.hardLevelIcon}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(3)}
+                  {settings.getDifficultyIcon(3)}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(3)}
                 </Button>
               </MenuItem>
               <Divider />
@@ -468,7 +467,7 @@ function MimesWeep() {
                   sx={sx.customBtn}
                   onClick={openCustomDialogCallback}
                 >
-                  {commonSx.customLevelIcon}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(4)}
+                  {settings.getDifficultyIcon(4)}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(4)}
                 </Button>
               </MenuItem>
             </Select>
@@ -525,7 +524,9 @@ function MimesWeep() {
         ref={boardRef}
       />
       <FinishedMessage
-        displayFinishMessageCallback={displayFinishMessageCallback} />
+        displayFinishMessageCallback={displayFinishMessageCallback}
+        difficulty={difficulty}
+      />
       <CustomDialog
         openCustomDialogCallback={openCustomDialogCallback}
         startCustomGameCallback={startCustomGameCallback}

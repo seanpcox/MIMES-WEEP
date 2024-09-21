@@ -1,13 +1,11 @@
 import * as gameText from '../resources/text/gameText.js';
 import * as settings from './gameSettings.js';
-import * as timeFormatLogic from '../logic/timeFormatLogic.js'
+import * as timeLogic from './timeLogic.js'
 import * as userSettings from '../logic/userSettings.js';
 
 /**
  * Logic related to high scores and personal best times and display
  */
-
-export const usernameLSKey = "mimesweepUser";
 
 /**
  * Function to create a row of data
@@ -17,9 +15,10 @@ export const usernameLSKey = "mimesweepUser";
  * @param {EpochTimeStamp in seconds} date
  * @param {Type of device game was played on} deviceType
  * @param {Database ID} id
+ * @param {Period the score was in} period
  * @returns Row for table display
  */
-export function createDataRow(position, user, time, date, deviceType, id) {
+export function createDataRow(position, user, time, date, deviceType, id, period) {
 
     // Get the user option for time format display
     var timeFormatOption = userSettings.getScoreTimeFormatOption();
@@ -40,7 +39,7 @@ export function createDataRow(position, user, time, date, deviceType, id) {
     }
     // Minutes and Seconds, no decimal places
     else if (timeFormatOption === 4) {
-        timeHRString = timeFormatLogic.getTimeElapsedString(time);
+        timeHRString = timeLogic.getTimeElapsedString(time);
     }
     // Seconds with 1 decimal places (default)
     else {
@@ -56,7 +55,7 @@ export function createDataRow(position, user, time, date, deviceType, id) {
         // Score in human readable format
         timeHRString,
         // Date in localized format
-        convertEpochToDateString(date),
+        timeLogic.convertEpochToDateString(date),
         // Device type used with first letter capitalized
         getDeviceTypeTableString(deviceType),
         // The database id
@@ -66,7 +65,9 @@ export function createDataRow(position, user, time, date, deviceType, id) {
         // Date in epoch seconds format
         date,
         // Time in human readable format
-        convertEpochToTimeString(date)
+        timeLogic.convertEpochToTimeString(date),
+        // Time left to live in human readable format
+        timeLogic.getTimeToLiveString(date, period)
     );
 }
 
@@ -81,10 +82,11 @@ export function createDataRow(position, user, time, date, deviceType, id) {
  * @param {Time taken in milliseconds} scoreMs
  * @param {Date in epoch seconds} dateES
  * @param {Human readable time of score} time
+ * @param {Human readable time to live for score} ttl
  * @returns Row for table display
  */
-export function createData(position, user, score, date, device, id, scoreMs, dateES, time) {
-    return { position, user, score, date, device, id, scoreMs, dateES, time };
+export function createData(position, user, score, date, device, id, scoreMs, dateES, time, ttl) {
+    return { position, user, score, date, device, id, scoreMs, dateES, time, ttl };
 }
 
 /**
@@ -188,39 +190,10 @@ export function getPersonalBestDataRow(level, period) {
         pbName,
         pbTime,
         pbDate,
-        getDeviceTypeTableString(settings.deviceType)
+        getDeviceTypeTableString(settings.deviceType),
+        "",
+        period
     );
-}
-
-/**
- * Get the last username used for the last high score or personal best
- * If none found then return Unknown
- * @returns username
- */
-export function getBestGuessUsername() {
-    var username = getLSUsername();
-
-    if (!username) {
-        username = gameText.unknownUsername;
-    }
-
-    return username;
-}
-
-/**
- * Function to get username stored in local storage
- * @returns username from local storage, if any
- */
-export function getLSUsername() {
-    return localStorage.getItem(usernameLSKey);
-}
-
-/**
- * Function to set username in local storage
- * @param {string} username
- */
-export function setLSUsername(username) {
-    localStorage.setItem(usernameLSKey, username);
 }
 
 /**
@@ -233,51 +206,7 @@ export function savePersonalBestName(level, period, username) {
     // Save the personal best time to local storage for this level
     localStorage.setItem(getPersonalBestNameKey(level, period), username);
     // Save the personal best username to local storage, we will use this for furture high scores or personal bests
-    setLSUsername(username);
-}
-
-/**
- * Function to create our epoch, in seconds, to a localized data string
- * @param {Date in epoch seconds} timeEpochSeconds
- * @returns Localized date string
- */
-function convertEpochToDateString(timeEpochSeconds) {
-    // Date is expecting milliseconds so multiply seconds by 1000
-    var date = new Date(timeEpochSeconds * 1000);
-
-    // Format for our date string, using user's browser locale
-    // eslint-disable-next-line no-undef
-    let formattedDate = new Intl.DateTimeFormat(settings.locale, {
-        year: "2-digit",
-        month: "2-digit",
-        day: "2-digit",
-        hour12: false
-    }).format(date);
-
-    // Return the date string
-    return formattedDate;
-}
-
-/**
- * Function to create our epoch, in seconds, to a localized time string
- * @param {Date in epoch seconds} timeEpochSeconds
- * @returns Localized time string
- */
-function convertEpochToTimeString(timeEpochSeconds) {
-    // Date is expecting milliseconds so multiply seconds by 1000
-    var date = new Date(timeEpochSeconds * 1000);
-
-    // Format for our date string, using user's browser locale
-    // eslint-disable-next-line no-undef
-    let formattedDate = new Intl.DateTimeFormat(settings.locale, {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-        hour12: false
-    }).format(date);
-
-    // Return the date string
-    return formattedDate;
+    userSettings.setLSUsername(username);
 }
 
 /**

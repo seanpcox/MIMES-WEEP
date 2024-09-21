@@ -109,6 +109,7 @@ function HelpDialog(props) {
             <Dialog
                 open={open}
                 onClose={handleClose}
+                disableRestoreFocus
             >
                 <DialogTitle>
                     <Box sx={dialogSx.titleDivStyle}>
@@ -230,7 +231,7 @@ function HelpDialog(props) {
                         </ListItem>
                         <ListItem disablePadding>
                             <ListItemIcon sx={sx.listItemIcon}>
-                                {commonSx.highScoreIcon}
+                                {commonSx.timerIcon}
                             </ListItemIcon>
                             <ListItemText primaryTypographyProps={
                                 commonSx.font
@@ -301,6 +302,7 @@ function HelpDialog(props) {
                 <DialogActions>
                     <Button
                         onClick={handleClose}
+                        autoFocus
                     >
                         {gameText.okButtonText}
                     </Button>

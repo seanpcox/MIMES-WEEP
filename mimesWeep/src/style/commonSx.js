@@ -2,8 +2,10 @@
 import BuildCircleTwoToneIcon from '@mui/icons-material/BuildCircleTwoTone';
 import EmojiEventsTwoToneIcon from '@mui/icons-material/TimerTwoTone';
 import HelpTwoTone from '@mui/icons-material/HelpTwoTone';
+import InsertEmoticonTwoToneIcon from '@mui/icons-material/InsertEmoticonTwoTone';
 import MyLocationTwoToneIcon from '@mui/icons-material/MyLocationTwoTone';
 import NotStartedTwoToneIcon from '@mui/icons-material/NotStartedTwoTone';
+import SentimentSatisfiedAltTwoToneIcon from '@mui/icons-material/SentimentSatisfiedAltTwoTone';
 import SentimentVerySatisfiedTwoToneIcon from '@mui/icons-material/SentimentVerySatisfiedTwoTone';
 import SettingsTwoToneIcon from '@mui/icons-material/SettingsTwoTone';
 import TourTwoTone from '@mui/icons-material/TourTwoTone';
@@ -75,9 +77,13 @@ export const flagIcon = TourTwoTone;
 
 export const newGameIcon = <NotStartedTwoToneIcon />;
 
-export const easyLevelIcon = <SentimentVerySatisfiedTwoToneIcon />;
+export const easyLevelIcon = <SentimentSatisfiedAltTwoToneIcon />;
 
-export const highScoreIcon = <EmojiEventsTwoToneIcon />;
+export const mediumLevelIcon = <InsertEmoticonTwoToneIcon />;
+
+export const hardLevelIcon = <SentimentVerySatisfiedTwoToneIcon />;
+
+export const timerIcon = <EmojiEventsTwoToneIcon />;
 
 export const flagIconHtml = <TourTwoTone />;
 

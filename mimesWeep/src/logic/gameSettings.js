@@ -1,3 +1,4 @@
+import * as commonSx from '../style/commonSx.js';
 import * as gameText from '../resources/text/gameText.js';
 import { isIOS, isIPad13, isMobile, isTablet } from 'react-device-detect';
 import { Device } from "../models/index.js";
@@ -204,4 +205,16 @@ export function getPeriodString(period) {
   }
 
   return gameText.periodAllTime;
+}
+
+export function getDifficultyIcon(difficulty) {
+  if (difficulty === 3) {
+    return commonSx.hardLevelIcon;
+  } else if (difficulty === 2) {
+    return commonSx.mediumLevelIcon;
+  } else if (difficulty === 1) {
+    return commonSx.easyLevelIcon;
+  }
+
+  return commonSx.customLevelIcon;
 }

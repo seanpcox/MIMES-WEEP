@@ -5,6 +5,7 @@ import * as highScoreDB from '../../logic/highScoreDB';
 import * as scoreLogic from '../../logic/scoreLogic.js';
 import * as settings from '../../logic/gameSettings.js';
 import * as sx from '../../style/highScoreDialogSx.js'
+import * as userSettings from '../../logic/userSettings.js';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
@@ -17,7 +18,7 @@ import OutlinedInput from '@mui/material/OutlinedInput';
 import PropTypes from 'prop-types';
 import Select from '@mui/material/Select';
 import { Box, Button } from '@mui/material';
-import { Device, Period } from "../../models/index.js";
+import { Period } from "../../models/index.js";
 import { Fragment, useEffect, useState } from 'react';
 
 /**
@@ -142,7 +143,7 @@ function HighScoreDialog(props) {
                 }
 
                 // Save the provided username in local storage so we can use it by default next time
-                scoreLogic.setLSUsername(username);
+                userSettings.setLSUsername(username);
             }
         }
         // If the username is invalid then warn the user and prompt for an updated entry
@@ -254,40 +255,30 @@ function HighScoreDialog(props) {
         // We display the period on new score, since we don't have the drop downs to see
         // The level can be assumed by the game level they were playing
         // We can't display both level and period as it causes a new line on mobile devices, too much text to fit
-        return gameText.highScoreDialogTitle + ((isNewScoreDialog()) ? (" - " + settings.getPeriodString(period)) : "");
+
+        // Just viewing existing high scores
+        if (!isNewScoreDialog()) {
+            return gameText.highScoreDialogTitle;
+        }
+
+        // Scored a new high score, and potentially a personal best also (no room to fit both in title)
+        if (isHighScore()) {
+            return gameText.highScoreNewHSDialogTitle + " - " + settings.getPeriodString(period);
+        }
+
+        // Else we must have scored a personal best
+        return gameText.highScoreNewPBDialogTitle + " - " + settings.getPeriodString(period);
     }
 
     /**
-     * Create and return the title icon for the high score dialog based on device type used
-     * High scores are specific to each device type, didn't think fair to compare them
-     * Also aside from the Easy board we move into different board sizes for different device types
+     * Create and return the title icon for the high score dialog based on whether new score achieved or viewing existing
      * @returns Title icon for high score dialog
      */
     function getTitleIcon() {
-        if (settings.deviceType === Device.MOBILE) {
-            return sx.mobileIcon;
-        } else if (settings.deviceType === Device.TABLET) {
-            return sx.tabletIcon;
+        if (isNewScoreDialog()) {
+            return settings.getDifficultyIcon(difficulty);
         } else {
-            return sx.desktopIcon;
-        }
-    }
-
-    /**
-     * Function to get the correct input label for the score/s we can update username on
-     */
-    function getInputLabel() {
-        // New Highscore and Personal Best achieved
-        if (isHighScore() && isPersonalBest()) {
-            return gameText.hsDialogInputScoresLabel;
-        }
-        // New Highscore achieved
-        else if (isHighScore()) {
-            return gameText.hsDialogInputHSLabel;
-        }
-        // Else must be Personal Best achieved
-        else {
-            return gameText.hsDialogInputPBLabel;
+            return commonSx.timerIcon;
         }
     }
 
@@ -313,6 +304,21 @@ function HighScoreDialog(props) {
      */
     function handlePeriodChange(event) {
         setPeriod(event.target.value);
+    }
+
+    /**
+    * Function to determine whether to autofocus the input field on open
+    * @returns True if we wish to autofocus the input field, else False
+     */
+    function isLabelAutoFocus() {
+
+        // If we have a new score and do not have a valid username saved from before then focus on the input text field
+        if (isNewScoreDialog() && (!isUsernameFormatValid() || !isUsernameNonExcludedWord())) {
+            return true;
+        }
+
+        // Else we focus on the OK/Update button
+        return false;
     }
 
     // RENDER
@@ -344,11 +350,11 @@ function HighScoreDialog(props) {
         }
         // Else input label is set to instruct
         else {
-            inputLabel = getInputLabel();
+            inputLabel = gameText.hsDialogInputScoresLabel;
         }
 
         // Retrieve the username last used on this device, if any, from local storage
-        var defaultUsername = scoreLogic.getLSUsername();
+        var defaultUsername = userSettings.getLSUsername();
 
         // If the last username used is the excluded word "Unknown" then clear it
         // We are trying to encourage users to enter a unique username
@@ -362,7 +368,7 @@ function HighScoreDialog(props) {
                 <FormControl error={isError !== 0} sx={sx.formWidth}>
                     <InputLabel htmlFor="username">{inputLabel}</InputLabel>
                     <OutlinedInput
-                        autoFocus
+                        autoFocus={isLabelAutoFocus()}
                         id="username"
                         name="username"
                         defaultValue={defaultUsername}
@@ -383,6 +389,7 @@ function HighScoreDialog(props) {
                 </Button>
                 <Button
                     type="submit"
+                    autoFocus={!isLabelAutoFocus()}
                 >
                     {gameText.updateButtonText}
                 </Button>
@@ -456,6 +463,7 @@ function HighScoreDialog(props) {
             <DialogActions>
                 <Button
                     onClick={handleClose}
+                    autoFocus={!isLabelAutoFocus()}
                 >
                     {gameText.okButtonText}
                 </Button>
@@ -467,6 +475,7 @@ function HighScoreDialog(props) {
             <Dialog
                 open={open}
                 onClose={handleClose}
+                disableRestoreFocus
                 PaperProps={{
                     component: 'form',
                     onSubmit: onSubmit

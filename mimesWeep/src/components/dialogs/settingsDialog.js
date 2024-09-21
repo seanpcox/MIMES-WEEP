@@ -245,6 +245,7 @@ function SettingsDialog(props) {
             <Dialog
                 open={open}
                 onClose={handleClose}
+                disableRestoreFocus
                 PaperProps={{
                     component: 'form',
                     onSubmit: onSubmit
@@ -370,6 +371,7 @@ function SettingsDialog(props) {
                     </Button>
                     <Button
                         type="submit"
+                        autoFocus
                     >
                         {gameText.saveButtonText}
                     </Button>

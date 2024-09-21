@@ -108,6 +108,10 @@ export const tooltipTimeElapsedHS = "View High Scores";
 
 export const highScoreDialogTitle = "High Scores";
 
+export const highScoreNewHSDialogTitle = "High Score";
+
+export const highScoreNewPBDialogTitle = "Personal Best";
+
 export const hsTablePosition = "#";
 
 export const hsTableUsername = "Name";
@@ -120,11 +124,9 @@ export const hsTableDevice = "Device";
 
 export const hsTableScore = "Score";
 
-export const hsDialogInputHSLabel = "High Score Name";
+export const hsTableExpires = "Expires";
 
-export const hsDialogInputPBLabel = "Personal Best Name";
-
-export const hsDialogInputScoresLabel = "Scores Name";
+export const hsDialogInputScoresLabel = "Name";
 
 export const hsDialogFormatErrorLabel = "Enter 1-10 Characters";
 
@@ -218,4 +220,18 @@ export const hHelpInfo = "Brings up the help screen, which includes instructions
 
 export const chordingAction = "Reveal neighboring squares if the correct number of flags are placed";
 
-export const logo = "Logo"
+export const logo = "Logo";
+
+export const neverExpires = "Never";
+
+export const days = "days";
+
+export const day1 = "1 day";
+
+export const hours = "hours";
+
+export const hours1 = "1 hour";
+
+export const minutes = "mins";
+
+export const minutes1 = "1 min";
