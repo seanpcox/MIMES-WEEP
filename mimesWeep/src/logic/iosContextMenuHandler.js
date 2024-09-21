@@ -39,26 +39,30 @@ export default class IOSContextMenuHandler {
 
     // On move clear the timer
     onTouchMove = e => {
+        console.log("onTouchMove 1: " + this.longPressOccurred);
         // Prevent any default IOS action, just as open share menu etc.
         e.preventDefault();
 
         clearTimeout(this.longPressCountdown);
         this.longPressOccurred = false;
+        console.log("onTouchMove 2: " + this.longPressOccurred);
     };
 
     // On cancel clear the timer
     onTouchCancel = e => {
+        console.log("onTouchCancel 1: " + this.longPressOccurred);
         // Prevent any default IOS action, just as open share menu etc.
         e.preventDefault();
 
         clearTimeout(this.longPressCountdown);
         this.longPressOccurred = false;
+        console.log("onTouchCancel 2: " + this.longPressOccurred);
     };
 
     // On touch end if long-press was not already triggered then perform tap action.
     // Regardless we clear the timeout and long-press flag.
     onTouchEnd = e => {
-        console.log("onTouchEnd: " + this.longPressOccurred);
+        console.log("onTouchEnd 1: " + this.longPressOccurred);
 
         // Prevent any default IOS action, just as open share menu etc.
         e.preventDefault();
@@ -70,5 +74,6 @@ export default class IOSContextMenuHandler {
 
         clearTimeout(this.longPressCountdown);
         this.longPressOccurred = false;
+        console.log("onTouchEnd 2: " + this.longPressOccurred);
     };
 }
