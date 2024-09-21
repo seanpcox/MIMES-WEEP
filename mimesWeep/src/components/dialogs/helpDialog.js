@@ -43,12 +43,14 @@ function HelpDialog(props) {
     // LOCAL VARIABLES
 
     var revealControl = gameText.leftClick;
+    var revealControlLC = gameText.controlsLClickLC;
     var flagControl = gameText.rightClick;
     var revealIcon = sx.leftClickIcon;
     var flagIcon = sx.rightClickIcon;
 
     if (settings.deviceType !== Device.DESKTOP) {
         revealControl = gameText.tap;
+        revealControlLC = gameText.controlsTapLC;
         flagControl = gameText.longPress;
         revealIcon = sx.tapIcon;
         flagIcon = sx.longPressIcon;
@@ -132,6 +134,43 @@ function HelpDialog(props) {
                                 primary={gameText.helpDialogObjectiveText}
                             />
                         </ListItem>
+                    </List>
+                    <Box sx={sx.spacingHeight}></Box>
+                    <strong>{gameText.helpDialogControls}</strong>
+                    <Box sx={sx.spacingTitleHeight}></Box>
+                    <List>
+                        <ListItem disablePadding>
+                            <ListItemIcon sx={sx.listItemIcon}>
+                                {revealIcon}
+                            </ListItemIcon>
+                            <ListItemText primaryTypographyProps={
+                                commonSx.font
+                            }
+                                primary={revealControl}
+                                secondary={
+                                    <Box>
+                                        <Box>{gameText.helpDialogControlsRevealText}</Box>
+                                        <Box>{gameText.helpDialogControlsChordingAction}</Box>
+                                    </Box>
+                                }
+                            />
+                        </ListItem>
+                        <ListItem disablePadding>
+                            <ListItemIcon sx={sx.listItemIcon}>
+                                {flagIcon}
+                            </ListItemIcon>
+                            <ListItemText primaryTypographyProps={
+                                commonSx.font
+                            }
+                                primary={flagControl}
+                                secondary={gameText.helpDialogControlsFlagText}
+                            />
+                        </ListItem>
+                    </List>
+                    <Box sx={sx.spacingHeight}></Box>
+                    <strong>{gameText.helpDialogGameplay}</strong>
+                    <Box sx={sx.spacingTitleHeight}></Box>
+                    <List>
                         <ListItem disablePadding>
                             <ListItemIcon sx={sx.listItemIcon}>
                                 {commonSx.hintIcon}
@@ -164,48 +203,28 @@ function HelpDialog(props) {
                         </ListItem>
                         <ListItem disablePadding>
                             <ListItemIcon sx={sx.listItemIcon}>
+                                {sx.chordIcon}
+                            </ListItemIcon>
+                            <ListItemText primaryTypographyProps={
+                                commonSx.font
+                            }
+                                primary={gameText.strategy4_1 + revealControlLC + gameText.strategy4_2}
+                            />
+                        </ListItem>
+                        <ListItem disablePadding>
+                            <ListItemIcon sx={sx.listItemIcon}>
                                 {sx.flagHintIcon}
                             </ListItemIcon>
                             <ListItemText primaryTypographyProps={
                                 commonSx.font
                             }
-                                primary={gameText.strategy4}
-                            />
-                        </ListItem>
-                    </List>
-                    <Box sx={sx.spacingHeight}></Box>
-                    <strong>{gameText.helpDialogControls}</strong>
-                    <List>
-                        <ListItem disablePadding>
-                            <ListItemIcon sx={sx.listItemIcon}>
-                                {revealIcon}
-                            </ListItemIcon>
-                            <ListItemText primaryTypographyProps={
-                                commonSx.font
-                            }
-                                primary={revealControl}
-                                secondary={
-                                    <Box>
-                                        <Box>{gameText.helpDialogControlsRevealText}</Box>
-                                        <Box>{gameText.chordingAction}</Box>
-                                    </Box>
-                                }
-                            />
-                        </ListItem>
-                        <ListItem disablePadding>
-                            <ListItemIcon sx={sx.listItemIcon}>
-                                {flagIcon}
-                            </ListItemIcon>
-                            <ListItemText primaryTypographyProps={
-                                commonSx.font
-                            }
-                                primary={flagControl}
-                                secondary={gameText.helpDialogControlsFlagText}
+                                primary={gameText.strategy5}
                             />
                         </ListItem>
                     </List>
                     <Box sx={sx.spacingHeight}></Box>
                     <strong>{gameText.helpDialogToolbar}</strong>
+                    <Box sx={sx.spacingTitleHeight}></Box>
                     <List>
                         <ListItem disablePadding>
                             <ListItemIcon sx={sx.listItemIcon}>
@@ -286,6 +305,7 @@ function HelpDialog(props) {
                     </List>
                     <Box sx={sx.spacingHeight}></Box>
                     <strong>{gameText.helpDialogCredits}</strong>
+                    <Box sx={sx.spacingTitleHeight}></Box>
                     <List>
                         <ListItem disablePadding>
                             <ListItemIcon sx={sx.listItemIcon}>

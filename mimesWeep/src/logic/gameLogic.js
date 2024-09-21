@@ -11,13 +11,13 @@ import * as userSettings from '../logic/userSettings.js';
  *  States:
  *
  *   v = -2
- *       Revealed and Triggered Mine
+ *       Revealed and Triggered Mime
  *
  *   v = -1
- *       Revealed Mine
+ *       Revealed Mime
  *
  *   v = -0.9
- *       Unrevealed Mine
+ *       Unrevealed Mime
  *
  *   v = 0.0, 1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0
  *       Revelead Square with Math.floor(v) Mime Neighbors

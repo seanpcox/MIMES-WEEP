@@ -44,7 +44,7 @@ export const helpWelcomeDialogTitle = "Welcome to Mimesweep";
 
 export const helpDialogTitle = "Help";
 
-export const helpDialogObjective = "Gameplay";
+export const helpDialogObjective = "Objective";
 
 export const helpDialogObjectiveText = "Reveal all squares without mimes to win the game.";
 
@@ -58,29 +58,25 @@ export const controlsTapLC = "tap";
 
 export const controlsLongPressLC = "long press";
 
-export const helpDialogControlsPress = "Press: ";
-
-export const helpDialogControlsFlagButton = "Flag Toggle Button: ";
-
 export const helpDialogControlsRevealText = "Reveal a square";
 
 export const helpDialogControlsFlagText = "Place or remove a flag";
 
-export const helpDialogTips = "Tips";
+export const helpDialogControlsChordingAction = "Chord a numbered square";
 
-export const leftMousePress = "Left mouse press "
-
-export const leftMouseClick = "Left click "
-
-export const touchDown = "Touch down "
+export const helpDialogGameplay = "Gameplay";
 
 export const strategy1 = "A starting hint, marked by a target, indicates a safe square to reveal."
 
 export const strategy2 = "Revealed squares with numbers show how many adjacent squares contain hidden mimes."
 
-export const strategy3 = "Flag suspected mime squares to avoid accidental reveals and enable quick revealing of neighboring squares.";
+export const strategy3 = "Flag suspected mime squares to avoid accidental reveals.";
 
-export const strategy4 = "You can use flag hints if the puzzle requires guessing to solve, as long as you're not aiming for a high score or personal best time.";
+export const strategy4_1 = "Additionally, flagging the specified number of adjacent mimes allows you to ";
+
+export const strategy4_2 = " a numbered square to reveal its remaining adjacent squares. This technique is known as chording.";
+
+export const strategy5 = "You can use flag hints if the puzzle requires guessing to solve, as long as you're not aiming for a high score or personal best time.";
 
 export const helpDialogToolbar = "Toolbar Buttons";
 
@@ -188,7 +184,7 @@ export const sdLongPressTimeOptionInfo = "Millisecond time to execute long press
 
 export const sdChordingControlOptionTitle = "Chording";
 
-export const sdChordingControlOptionInfo = "Perform adjacent square reveal on ";
+export const sdChordingControlOptionInfo = "Perform chording on ";
 
 export const sdStartHintOptionTitle = "Starting Hint";
 
@@ -217,8 +213,6 @@ export const hFlagHintInfo2 = "The button shows the number of remaining flags ne
 export const hSettingsInfo = "Access the settings screen, where you can adjust game parameters. These settings are stored locally in your browser.";
 
 export const hHelpInfo = "Brings up the help screen, which includes instructions and tips for playing the game and navigating the app.";
-
-export const chordingAction = "Reveal neighboring squares if the correct number of flags are placed";
 
 export const logo = "Logo";
 

@@ -4,6 +4,7 @@ import DesignServicesTwoToneIcon from '@mui/icons-material/DesignServicesTwoTone
 import EmojiEventsTwoToneIcon from '@mui/icons-material/EmojiEventsTwoTone';
 import EmojiPeopleTwoToneIcon from '@mui/icons-material/EmojiPeopleTwoTone';
 import Filter2TwoToneIcon from '@mui/icons-material/Filter2TwoTone';
+import LibraryMusicTwoToneIcon from '@mui/icons-material/LibraryMusicTwoTone';
 import mouseLeftClick from '../resources/images/leftClickDisabled.png';
 import mouseRightClick from '../resources/images/rightClickDisabled.png';
 import PanToolAltTwoToneIcon from '@mui/icons-material/PanToolAltTwoTone';
@@ -51,3 +52,5 @@ export const flagHintIcon = <AutoFixNormalTwoToneIcon />;
 export const creatorIcon = <DesignServicesTwoToneIcon />;
 
 export const welcomeIcon = <EmojiPeopleTwoToneIcon />;
+
+export const chordIcon = <LibraryMusicTwoToneIcon />;
