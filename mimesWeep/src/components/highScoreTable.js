@@ -178,7 +178,7 @@ function HighScoreTable(props) {
                     <TableRow>
                         <sx.StyledTableCell align={sx.positionColumnDataAlign}>{gameText.hsTablePosition}</sx.StyledTableCell>
                         <sx.StyledTableCell>{gameText.hsTableScore}</sx.StyledTableCell>
-                        <sx.StyledTableCell>{gameText.hsTableUsername}</sx.StyledTableCell>
+                        <sx.StyledTableCell sx={sx.getNameColumn(rows)}>{gameText.hsTableUsername}</sx.StyledTableCell>
                         <sx.StyledTableCell>{gameText.hsTableDate}</sx.StyledTableCell>
                         <sx.StyledTableCell>{gameText.hsTableTime}</sx.StyledTableCell>
                         <sx.StyledTableCell>{gameText.hsTableExpires}</sx.StyledTableCell>
