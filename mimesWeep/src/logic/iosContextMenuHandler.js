@@ -25,12 +25,16 @@ export default class IOSContextMenuHandler {
         e.preventDefault();
 
         this.longPressOccurred = false;
+        console.log("onTouchStart 1: " + this.longPressOccurred);
 
         // If timer runs out perform long-press action and flag we have done so
         this.longPressCountdown = setTimeout(() => {
             this.longPressOccurred = true;
             this.rightClickCallback();
+            console.log("onTouchStart 2: " + this.longPressOccurred);
         }, longPressDurationMs);
+
+        console.log("onTouchStart 3: " + this.longPressOccurred);
     };
 
     // On move clear the timer
