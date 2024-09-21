@@ -58,6 +58,8 @@ export default class IOSContextMenuHandler {
     // On touch end if long-press was not already triggered then perform tap action.
     // Regardless we clear the timeout and long-press flag.
     onTouchEnd = e => {
+        console.log("onTouchEnd: " + this.longPressOccurred);
+
         // Prevent any default IOS action, just as open share menu etc.
         e.preventDefault();
 
