@@ -245,6 +245,7 @@ const Board = forwardRef(function Board(props, inputRef) {
 
                 // Perform left click action on all of the neighbors we wish to reveal
                 for (let index = 0; index < rNgCoords.length; index++) {
+                    console.log("chord left click");
                     btnLeftClickCallback(rNgCoords[index][0], rNgCoords[index][1]);
                 }
 
