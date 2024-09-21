@@ -137,7 +137,6 @@ function HelpDialog(props) {
                     </List>
                     <Box sx={sx.spacingHeight}></Box>
                     <strong>{gameText.helpDialogControls}</strong>
-                    <Box sx={sx.spacingTitleHeight}></Box>
                     <List>
                         <ListItem disablePadding>
                             <ListItemIcon sx={sx.listItemIcon}>
