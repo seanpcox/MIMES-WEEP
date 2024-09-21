@@ -1,5 +1,3 @@
-import { useRef } from 'react';
-
 /**
  * IOS devices (iPhones, iPads) do not support onContextMenu trigger components.
  * onContextMenu is trigged by a right-click on desktops or long-press on Android devices.
@@ -26,11 +24,11 @@ export default class IOSContextMenuHandler {
         // Prevent any default IOS action, just as open share menu etc.
         e.preventDefault();
 
-        this.longPressOccurred.current = false;
+        this.longPressOccurred = false;
 
         // If timer runs out perform long-press action and flag we have done so
-        this.longPressCountdown.current = setTimeout(() => {
-            this.longPressOccurred.current = true;
+        this.longPressCountdown = setTimeout(() => {
+            this.longPressOccurred = true;
             this.rightClickCallback();
         }, longPressDurationMs);
     };
@@ -40,8 +38,8 @@ export default class IOSContextMenuHandler {
         // Prevent any default IOS action, just as open share menu etc.
         e.preventDefault();
 
-        clearTimeout(this.longPressCountdown.current);
-        this.longPressOccurred.current = false;
+        clearTimeout(this.longPressCountdown);
+        this.longPressOccurred = false;
     };
 
     // On cancel clear the timer
@@ -49,8 +47,8 @@ export default class IOSContextMenuHandler {
         // Prevent any default IOS action, just as open share menu etc.
         e.preventDefault();
 
-        clearTimeout(this.longPressCountdown.current);
-        this.longPressOccurred.current = false;
+        clearTimeout(this.longPressCountdown);
+        this.longPressOccurred = false;
     };
 
     // On touch end if long-press was not already triggered then perform tap action.
@@ -59,14 +57,12 @@ export default class IOSContextMenuHandler {
         // Prevent any default IOS action, just as open share menu etc.
         e.preventDefault();
 
-        console.log(this.longPressOccurred.current);
-
         // User did not touch screen for long enough to be considered a long-press so perform tap action
-        if (!this.longPressOccurred.current) {
+        if (!this.longPressOccurred) {
             this.leftClickCallback();
         }
 
-        clearTimeout(this.longPressCountdown.current);
-        this.longPressOccurred.current = false;
+        clearTimeout(this.longPressCountdown);
+        this.longPressOccurred = false;
     };
 }

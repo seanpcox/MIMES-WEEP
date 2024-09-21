@@ -1,7 +1,6 @@
 import * as commonSx from '../style/commonSx.js';
 import * as gameSettings from '../logic/gameSettings.js';
 import * as sx from '../style/boardSquareSx.js';
-import IOSContextMenuHandler from '../logic/iosContextMenuHandler.js';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 import { Device } from "../models/index.js";
@@ -24,12 +23,19 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 
     const [highlight, setHighlight] = useState(false);
 
+
     // REFS
 
     const ref = useRef(null);
 
+    const longPressCountdown = useRef(null);
+
+    const longPressOccurred = useRef(false);
+
 
     // LOCAL VARIABLES
+
+    const longPressDurationMs = 350;
 
     // Mime detonated is declared locally as we need to adjust its size for mime detonated animation
     const mimeDetonatedIcon = <img
@@ -70,23 +76,61 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
     // LOCAL FUNCTIONS
 
     /**
-     * IOS device handler that allows us to distinguish between tap and long-press
      * IOS devices do not support long-press triggers like onContextMenu so we have to 
      * implement it ourselves
      * 
      * Note: Using this for Android as well, to ensure the long-press time is consistent across devices.
      * This is to ensure high-scores are not easier to achieve on one device type vs another.
      */
-    const contextMenuHandler = new IOSContextMenuHandler(
-        () => {
-            // Tap occured, perform its action
-            setLeftClickState();
-        },
-        () => {
-            // Long press occured, perform its action
+
+    // On touch start we kick off a timer that will let us differentiate between a tap or a long-press
+    const onTouchStart = e => {
+        // Prevent any default IOS action, just as open share menu etc.
+        e.preventDefault();
+
+        longPressOccurred.current = false;
+
+        // If timer runs out perform long-press action and flag we have done so
+        longPressCountdown.current = setTimeout(() => {
+            longPressOccurred.current = true;
             setRightClickState();
+        }, longPressDurationMs);
+    };
+
+    // On move clear the timer
+    const onTouchMove = e => {
+        // Prevent any default IOS action, just as open share menu etc.
+        e.preventDefault();
+
+        clearTimeout(longPressCountdown.current);
+        longPressOccurred.current = false;
+    };
+
+    // On cancel clear the timer
+    const onTouchCancel = e => {
+        // Prevent any default IOS action, just as open share menu etc.
+        e.preventDefault();
+
+        clearTimeout(longPressCountdown.current);
+        longPressOccurred.current = false;
+    };
+
+    // On touch end if long-press was not already triggered then perform tap action.
+    // Regardless we clear the timeout and long-press flag.
+    const onTouchEnd = e => {
+        // Prevent any default IOS action, just as open share menu etc.
+        e.preventDefault();
+
+        console.log(longPressOccurred.current);
+
+        // User did not touch screen for long enough to be considered a long-press so perform tap action
+        if (!longPressOccurred.current) {
+            setLeftClickState();
         }
-    );
+
+        clearTimeout(longPressCountdown.current);
+        longPressOccurred.current = false;
+    };
 
     /**
      * Callback function executed when left-click/tap occurs on the square
@@ -301,14 +345,14 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
             return <Button
                 ref={ref}
                 variant={sx.unrevealedVariant}
-                onTouchStart={contextMenuHandler.onTouchStart}
-                onTouchCancel={contextMenuHandler.onTouchCancel}
-                onTouchEnd={contextMenuHandler.onTouchEnd}
-                onTouchMove={contextMenuHandler.onTouchMove}
-                onMouseDown={contextMenuHandler.onTouchStart}
-                onMouseLeave={contextMenuHandler.onTouchCancel}
-                onMouseUp={contextMenuHandler.onTouchEnd}
-                onMouseMove={contextMenuHandler.onTouchMove}
+                onTouchStart={onTouchStart}
+                onTouchCancel={onTouchCancel}
+                onTouchEnd={onTouchEnd}
+                onTouchMove={onTouchMove}
+                onMouseDown={onTouchStart}
+                onMouseLeave={onTouchCancel}
+                onMouseUp={onTouchEnd}
+                onMouseMove={onTouchMove}
                 onContextMenu={(e) => e.preventDefault()}
                 onClick={(e) => e.preventDefault()}
                 sx={sx.squareSx}
@@ -323,14 +367,14 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
             return <Button
                 ref={ref}
                 variant={sx.unrevealedVariant}
-                onTouchStart={contextMenuHandler.onTouchStart}
-                onTouchCancel={contextMenuHandler.onTouchCancel}
-                onTouchEnd={contextMenuHandler.onTouchEnd}
-                onTouchMove={contextMenuHandler.onTouchMove}
-                onMouseDown={contextMenuHandler.onTouchStart}
-                onMouseLeave={contextMenuHandler.onTouchCancel}
-                onMouseUp={contextMenuHandler.onTouchEnd}
-                onMouseMove={contextMenuHandler.onTouchMove}
+                onTouchStart={onTouchStart}
+                onTouchCancel={onTouchCancel}
+                onTouchEnd={onTouchEnd}
+                onTouchMove={onTouchMove}
+                onMouseDown={onTouchStart}
+                onMouseLeave={onTouchCancel}
+                onMouseUp={onTouchEnd}
+                onMouseMove={onTouchMove}
                 onContextMenu={(e) => e.preventDefault()}
                 onClick={(e) => e.preventDefault()}
                 sx={(highlight) ? sx.highlightSquareSx : sx.squareSx}
