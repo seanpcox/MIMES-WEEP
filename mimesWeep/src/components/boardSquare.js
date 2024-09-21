@@ -85,16 +85,21 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 
     // On touch start we kick off a timer that will let us differentiate between a tap or a long-press
     const onTouchStart = e => {
+        console.log();
         // Prevent any default IOS action, just as open share menu etc.
         e.preventDefault();
 
         longPressOccurred.current = false;
+        console.log("onTouchStart 1" + longPressOccurred.current );
 
         // If timer runs out perform long-press action and flag we have done so
         longPressCountdown.current = setTimeout(() => {
             longPressOccurred.current = true;
             setRightClickState();
+            console.log("onTouchStart 2" + longPressOccurred.current );
         }, longPressDurationMs);
+
+        console.log("onTouchStart 3" + longPressOccurred.current );
     };
 
     // On move clear the timer
@@ -102,8 +107,10 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
         // Prevent any default IOS action, just as open share menu etc.
         e.preventDefault();
 
-        clearTimeout(longPressCountdown.current);
-        longPressOccurred.current = false;
+        console.log("onTouchMove" + longPressOccurred.current );
+
+        //clearTimeout(longPressCountdown.current);
+        //longPressOccurred.current = false;
     };
 
     // On cancel clear the timer
@@ -111,8 +118,10 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
         // Prevent any default IOS action, just as open share menu etc.
         e.preventDefault();
 
-        clearTimeout(longPressCountdown.current);
-        longPressOccurred.current = false;
+        console.log("onTouchCancel" + longPressOccurred.current);
+
+        //clearTimeout(longPressCountdown.current);
+        //longPressOccurred.current = false;
     };
 
     // On touch end if long-press was not already triggered then perform tap action.
@@ -121,7 +130,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
         // Prevent any default IOS action, just as open share menu etc.
         e.preventDefault();
 
-        console.log(longPressOccurred.current);
+        console.log("onTouchEnd 1" + longPressOccurred.current);
 
         // User did not touch screen for long enough to be considered a long-press so perform tap action
         if (!longPressOccurred.current) {
@@ -130,6 +139,8 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 
         clearTimeout(longPressCountdown.current);
         longPressOccurred.current = false;
+
+        console.log("onTouchEnd 2" + longPressOccurred.current);
     };
 
     /**

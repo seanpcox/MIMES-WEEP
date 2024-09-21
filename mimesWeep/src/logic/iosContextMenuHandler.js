@@ -15,8 +15,8 @@ export default class IOSContextMenuHandler {
     constructor(leftClickCallback, rightClickback) {
         this.leftClickCallback = leftClickCallback;
         this.rightClickCallback = rightClickback;
-        this.longPressCountdown = useRef(null);
-        this.longPressOccurred = useRef(false);
+        this.longPressCountdown = null;
+        this.longPressOccurred = false;
     }
 
     // On touch start we kick off a timer that will let us differentiate between a tap or a long-press
