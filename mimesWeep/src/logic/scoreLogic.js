@@ -175,7 +175,7 @@ export function getPersonalBestDataRow(level, period) {
     var pbName = localStorage.getItem(getPersonalBestNameKey(level, period));
 
     // If we do not have personal best data, or it is invalid, return a placeholder row
-    if (!pbTime || !pbDate || isNaN(pbTime) || isNaN(pbDate)) {
+    if (!pbTime || !pbDate || isNaN(pbTime) || isNaN(pbDate) || isExpired(pbDate, period)) {
         return createData(gameText.personalBestRowID);
     }
 
@@ -207,6 +207,23 @@ export function savePersonalBestName(level, period, username) {
     localStorage.setItem(getPersonalBestNameKey(level, period), username);
     // Save the personal best username to local storage, we will use this for furture high scores or personal bests
     userSettings.setLSUsername(username);
+}
+
+/**
+ * Function to determine if the personal best time has expired based on the time period we are dealing with
+ * @param {number} pbDate
+ * @param {Period} period
+ * @returns True if personal best time for this period has expired, else False
+ */
+function isExpired(pbDate, period) {
+
+    // Check to see if we have a negative time to live, if so return expired
+    if(timeLogic.getTimeToLiveMs(pbDate, period) < 0) {
+        return true;
+    }
+
+    // Return not expired
+    return false;
 }
 
 /**

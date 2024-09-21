@@ -182,7 +182,7 @@ export function getTimeToLiveString(eventTime, expiryPeriod) {
  * @param {Period of time to live} expiryPeriod
  * @returns Time left before expiry in milliseconds
  */
-function getTimeToLiveMs(eventTime, expiryPeriod) {
+export function getTimeToLiveMs(eventTime, expiryPeriod) {
 
     // Convert our time period into milliseconds
     var periodInMs = getNumberOfDaysInPeriod(expiryPeriod) * dayLengthMs;

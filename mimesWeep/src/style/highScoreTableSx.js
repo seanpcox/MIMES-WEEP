@@ -1,19 +1,9 @@
-import * as gameSettings from '../logic/gameSettings.js';
 import EmojiEventsTwoToneIcon from '@mui/icons-material/EmojiEventsTwoTone';
 import MilitaryTechTwoToneIcon from '@mui/icons-material/MilitaryTechTwoTone';
 import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableRow from '@mui/material/TableRow';
 import { orange } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
-import { Device } from '../models/index.js';
-
-// I don't like the date column half showing on mobile, this it looks messy.
-// So setting a min width on name to keep it out of screen unless scrolled to.
-var nameColumnMinWidth = gameSettings.deviceType === Device.MOBILE ? '80px' : '0px';
-
-export const nameColumnWidth = {
-    minWidth: nameColumnMinWidth
-}
 
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
     // Set the table header colors
