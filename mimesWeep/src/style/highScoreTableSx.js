@@ -7,31 +7,12 @@ import { orange } from '@mui/material/colors';
 import { styled } from '@mui/material/styles';
 import { Device } from '../models/index.js';
 
-// I don't like the date column half showing on mobile, think it looks messy.
-// So setting a min width on name to keep date out of screen unless scrolled to.
-// Width determined by widest name I could find 'WWWWWWWWWW'.
-const nameColumnWidthMobile = {
-    minWidth: '80px'
-}
+// I don't like the date column half showing on mobile, this it looks messy.
+// So setting a min width on name to keep it out of screen unless scrolled to.
+var nameColumnMinWidth = gameSettings.deviceType === Device.MOBILE ? '80px' : '0px';
 
-const nameColumnWidthOther = {
-    minWidth: '0px'
-}
-
-/**
- * Function to return the minimum width of the name column
- * @param {TableRow array} rows
- * @returns Min width of name column
- */
-export function getNameColumn(rows) {
-
-    // If we are on mobile and we have rows in our table then return the min mobile width
-    if (gameSettings.deviceType === Device.MOBILE && rows !== undefined && rows !== null && rows.length > 0) {
-        return nameColumnWidthMobile;
-    }
-
-    // Else return no min width
-    return nameColumnWidthOther;
+export const nameColumnWidth = {
+    minWidth: nameColumnMinWidth
 }
 
 export const StyledTableCell = styled(TableCell)(({ theme }) => ({
