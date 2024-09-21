@@ -1,5 +1,5 @@
 import * as gameText from '../resources/text/gameText.js';
-import * as settings from './gameSettings.js';
+import * as gameSettings from './gameSettings.js';
 import * as timeLogic from './timeLogic.js'
 import * as userSettings from '../logic/userSettings.js';
 
@@ -124,7 +124,7 @@ function updatePersonalBestTime(level, time, date, user, setPersonalBestPeriodsC
     // We record whether we acheived any personal best for return
     var isPersonalBest = false;
 
-    for (const period of settings.periodsInUse) {
+    for (const period of gameSettings.periodsInUse) {
         // Get the current personal best time for the supplied level and period
         var pbTime = localStorage.getItem(getPersonalBestTimeKey(level, period));
 
@@ -190,7 +190,7 @@ export function getPersonalBestDataRow(level, period) {
         pbName,
         pbTime,
         pbDate,
-        getDeviceTypeTableString(settings.deviceType),
+        getDeviceTypeTableString(gameSettings.deviceType),
         "",
         period
     );

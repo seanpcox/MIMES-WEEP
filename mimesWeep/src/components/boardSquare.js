@@ -1,5 +1,5 @@
 import * as commonSx from '../style/commonSx.js';
-import * as settings from '../logic/gameSettings.js';
+import * as gameSettings from '../logic/gameSettings.js';
 import * as sx from '../style/boardSquareSx.js';
 import IOSContextMenuHandler from '../logic/iosContextMenuHandler.js';
 import PropTypes from 'prop-types';
@@ -294,7 +294,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 
     // Mobile or Tablet Square
     // Touch events are IOS and Mouse events are Android
-    if (settings.deviceType !== Device.DESKTOP) {
+    if (gameSettings.deviceType !== Device.DESKTOP) {
 
         // Flagged Square
         if (numOfMimeNeighbors >= 9) {

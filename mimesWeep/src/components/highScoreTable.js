@@ -1,6 +1,6 @@
 import * as gameText from '../resources/text/gameText.js';
 import * as highScoreDB from '../logic/highScoreDB.js';
-import * as settings from '../logic/gameSettings.js';
+import * as gameSettings from '../logic/gameSettings.js';
 import * as sx from '../style/highScoreTableSx.js'
 import Paper from '@mui/material/Paper';
 import Table from '@mui/material/Table';
@@ -139,7 +139,7 @@ function HighScoreTable(props) {
         // We always display the personal best row (first row always)
         // and the specified number of always display rows in our settings
         if (currentRow.position === gameText.personalBestRowID ||
-            Number(currentRow.position) <= (settings.numHSRowsToDisplayOnNewScore)) {
+            Number(currentRow.position) <= (gameSettings.numHSRowsToDisplayOnNewScore)) {
             return true;
         }
 

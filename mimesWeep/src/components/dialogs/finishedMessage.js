@@ -1,5 +1,5 @@
 import * as gameText from '../../resources/text/gameText';
-import * as settings from '../../logic/gameSettings.js';
+import * as gameSettings from '../../logic/gameSettings.js';
 import * as sx from '../../style/finishedMessageSx.js';
 import Alert from '@mui/material/Alert';
 import PropTypes from 'prop-types';
@@ -78,7 +78,7 @@ function FinishedMessage(props) {
                     variant={sx.alertVariant}
                     onClose={handleSnackbarClose}
                     sx={sx.width}
-                    icon={settings.getDifficultyIcon(props.difficulty)}
+                    icon={gameSettings.getDifficultyIcon(props.difficulty)}
                 >
                     {gameText.winMessage}
                 </Alert>
@@ -95,7 +95,7 @@ function FinishedMessage(props) {
                     variant={sx.alertVariant}
                     onClose={handleSnackbarClose}
                     sx={sx.width}
-                    icon={settings.getDifficultyIcon(props.difficulty)}
+                    icon={gameSettings.getDifficultyIcon(props.difficulty)}
                 >
                     {gameText.winWithHintsMessage}
                 </Alert>

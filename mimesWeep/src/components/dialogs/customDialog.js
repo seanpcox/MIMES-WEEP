@@ -1,5 +1,5 @@
 import * as commonSx from '../../style/commonSx.js';
-import * as settings from '../../logic/gameSettings.js';
+import * as gameSettings from '../../logic/gameSettings.js';
 import * as sx from '../../style/dialogSx.js';
 import * as gameText from '../../resources/text/gameText';
 import * as userSettings from '../../logic/userSettings.js';
@@ -45,7 +45,7 @@ function CustomDialog(props) {
 
     // LOCAL VARIABLES
 
-    const maxDimensions = settings.getMaxCustomHeightWidth();
+    const maxDimensions = gameSettings.getMaxCustomHeightWidth();
 
     var maxHeight = maxDimensions[0];
     var maxWidth = maxDimensions[1];

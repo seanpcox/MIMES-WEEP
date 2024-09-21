@@ -3,7 +3,7 @@ import * as dialogSx from '../../style/dialogSx.js';
 import * as gameText from '../../resources/text/gameText';
 import * as highScoreDB from '../../logic/highScoreDB';
 import * as scoreLogic from '../../logic/scoreLogic.js';
-import * as settings from '../../logic/gameSettings.js';
+import * as gameSettings from '../../logic/gameSettings.js';
 import * as sx from '../../style/highScoreDialogSx.js'
 import * as userSettings from '../../logic/userSettings.js';
 import DialogActions from '@mui/material/DialogActions';
@@ -263,11 +263,11 @@ function HighScoreDialog(props) {
 
         // Scored a new high score, and potentially a personal best also (no room to fit both in title)
         if (isHighScore()) {
-            return gameText.highScoreNewHSDialogTitle + " - " + settings.getPeriodString(period);
+            return gameText.highScoreNewHSDialogTitle + " - " + gameSettings.getPeriodString(period);
         }
 
         // Else we must have scored a personal best
-        return gameText.highScoreNewPBDialogTitle + " - " + settings.getPeriodString(period);
+        return gameText.highScoreNewPBDialogTitle + " - " + gameSettings.getPeriodString(period);
     }
 
     /**
@@ -276,7 +276,7 @@ function HighScoreDialog(props) {
      */
     function getTitleIcon() {
         if (isNewScoreDialog()) {
-            return settings.getDifficultyIcon(difficulty);
+            return gameSettings.getDifficultyIcon(difficulty);
         } else {
             return commonSx.timerIcon;
         }
@@ -287,7 +287,7 @@ function HighScoreDialog(props) {
      * @returns string
      */
     function getLevel() {
-        return settings.getLevelString(difficulty);
+        return gameSettings.getLevelString(difficulty);
     }
 
     /**
@@ -416,19 +416,19 @@ function HighScoreDialog(props) {
                             value={1}
                             sx={commonSx.font}
                         >
-                            {settings.getDifficultyString(1)}
+                            {gameSettings.getDifficultyString(1)}
                         </MenuItem>
                         <MenuItem
                             value={2}
                             sx={commonSx.font}
                         >
-                            {settings.getDifficultyString(2)}
+                            {gameSettings.getDifficultyString(2)}
                         </MenuItem>
                         <MenuItem
                             value={3}
                             sx={commonSx.font}
                         >
-                            {settings.getDifficultyString(3)}
+                            {gameSettings.getDifficultyString(3)}
                         </MenuItem>
                     </Select>
                 </FormControl>
@@ -444,13 +444,13 @@ function HighScoreDialog(props) {
                         id="period"
                         name="period"
                     >
-                        {settings.periodsInUse.map((period) => (
+                        {gameSettings.periodsInUse.map((period) => (
                             <MenuItem
                                 key={period}
                                 value={period}
                                 sx={commonSx.font}
                             >
-                                {settings.getPeriodString(period)}
+                                {gameSettings.getPeriodString(period)}
                             </MenuItem>
                         ))}
                     </Select>

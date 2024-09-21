@@ -3,7 +3,7 @@ import * as commonSx from '../style/commonSx.js';
 import * as highScoreDB from '../logic/highScoreDB.js';
 import * as gameText from '../resources/text/gameText.js';
 import * as logic from '../logic/gameLogic.js';
-import * as settings from '../logic/gameSettings.js';
+import * as gameSettings from '../logic/gameSettings.js';
 import * as sx from '../style/mimesweepSx.js';
 import * as userSettings from '../logic/userSettings.js';
 import CustomDialog from './dialogs/customDialog.js';
@@ -345,8 +345,8 @@ function MimesWeep() {
 
       // Create the score data, use the last high score or personal best username if available
       const scoreData = {
-        level: settings.getLevelString(difficulty),
-        deviceType: settings.deviceType,
+        level: gameSettings.getLevelString(difficulty),
+        deviceType: gameSettings.deviceType,
         time: timerRef.current.getTimeElapsedTimer(),
         user: userSettings.getBestGuessUsername(),
         date: Math.round(Date.now() / 1000)
@@ -384,17 +384,17 @@ function MimesWeep() {
 
   // Get the game parameters from the set difficulty level, or from user input custom parameters
 
-  var gameSettings;
+  var gameParameters;
 
   if (isCustomGame) {
-    gameSettings = [customHeight, customWidth, customNumOfMimes];
+    gameParameters = [customHeight, customWidth, customNumOfMimes];
   } else {
-    gameSettings = settings.getGameSettings(difficulty);
+    gameParameters = gameSettings.getGameSettings(difficulty);
   }
 
-  var height = gameSettings[0];
-  var width = gameSettings[1];
-  var numOfMimes = gameSettings[2];
+  var height = gameParameters[0];
+  var width = gameParameters[1];
+  var numOfMimes = gameParameters[2];
 
 
   // COMPONENT
@@ -441,7 +441,7 @@ function MimesWeep() {
                 sx={commonSx.font}
               >
                 <Button sx={sx.customBtn}>
-                  {settings.getDifficultyIcon(1)}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(1)}
+                  {gameSettings.getDifficultyIcon(1)}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{gameSettings.getDifficultyString(1)}
                 </Button>
               </MenuItem>
               <MenuItem
@@ -449,7 +449,7 @@ function MimesWeep() {
                 sx={commonSx.font}
               >
                 <Button sx={sx.customBtn}>
-                  {settings.getDifficultyIcon(2)}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(2)}
+                  {gameSettings.getDifficultyIcon(2)}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{gameSettings.getDifficultyString(2)}
                 </Button>
               </MenuItem>
               <MenuItem
@@ -457,7 +457,7 @@ function MimesWeep() {
                 sx={commonSx.font}
               >
                 <Button sx={sx.customBtn}>
-                  {settings.getDifficultyIcon(3)}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(3)}
+                  {gameSettings.getDifficultyIcon(3)}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{gameSettings.getDifficultyString(3)}
                 </Button>
               </MenuItem>
               <Divider />
@@ -467,7 +467,7 @@ function MimesWeep() {
                   sx={sx.customBtn}
                   onClick={openCustomDialogCallback}
                 >
-                  {settings.getDifficultyIcon(4)}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{settings.getDifficultyString(4)}
+                  {gameSettings.getDifficultyIcon(4)}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{gameSettings.getDifficultyString(4)}
                 </Button>
               </MenuItem>
             </Select>

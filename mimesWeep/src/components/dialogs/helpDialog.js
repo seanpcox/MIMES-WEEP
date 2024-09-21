@@ -1,7 +1,7 @@
 import * as commonSx from '../../style/commonSx.js';
 import * as dialogSx from '../../style/dialogSx.js';
 import * as gameText from '../../resources/text/gameText';
-import * as settings from '../../logic/gameSettings.js';
+import * as gameSettings from '../../logic/gameSettings.js';
 import * as sx from '../../style/helpDialogSx.js';
 import * as userSettings from '../../logic/userSettings.js';
 import DialogActions from '@mui/material/DialogActions';
@@ -48,7 +48,7 @@ function HelpDialog(props) {
     var revealIcon = sx.leftClickIcon;
     var flagIcon = sx.rightClickIcon;
 
-    if (settings.deviceType !== Device.DESKTOP) {
+    if (gameSettings.deviceType !== Device.DESKTOP) {
         revealControl = gameText.tap;
         revealControlLC = gameText.controlsTapLC;
         flagControl = gameText.longPress;

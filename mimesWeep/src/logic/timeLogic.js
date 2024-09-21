@@ -1,5 +1,5 @@
 import * as gameText from '../resources/text/gameText.js';
-import * as settings from './gameSettings.js';
+import * as gameSettings from './gameSettings.js';
 import { Period } from "../models/index.js";
 
 /**
@@ -55,7 +55,7 @@ export function convertEpochToDateString(timeEpochSeconds) {
 
     // Format for our date string, using user's browser locale
     // eslint-disable-next-line no-undef
-    let formattedDate = new Intl.DateTimeFormat(settings.locale, {
+    let formattedDate = new Intl.DateTimeFormat(gameSettings.locale, {
         year: "2-digit",
         month: "2-digit",
         day: "2-digit",
@@ -77,7 +77,7 @@ export function convertEpochToTimeString(timeEpochSeconds) {
 
     // Format for our date string, using user's browser locale
     // eslint-disable-next-line no-undef
-    let formattedDate = new Intl.DateTimeFormat(settings.locale, {
+    let formattedDate = new Intl.DateTimeFormat(gameSettings.locale, {
         hour: "2-digit",
         minute: "2-digit",
         second: "2-digit",
