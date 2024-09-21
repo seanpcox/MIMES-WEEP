@@ -79,10 +79,6 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
      */
     const contextMenuHandler = new IOSContextMenuHandler(
         () => {
-            // Tap occured, perform its action
-            setLeftClickState();
-        },
-        () => {
             // Long press occured, perform its action
             setRightClickState();
         }
@@ -309,8 +305,8 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 onMouseLeave={contextMenuHandler.onTouchCancel}
                 onMouseUp={contextMenuHandler.onTouchEnd}
                 onMouseMove={contextMenuHandler.onTouchMove}
-                onContextMenu={(e) => e.preventDefault()}
-                onClick={(e) => e.preventDefault()}
+                onContextMenu={contextMenuHandler.onContextMenu}
+                onClick={setLeftClickState()}
                 sx={sx.squareSx}
                 color={getFlaggedColor(numOfMimeNeighbors)}
             >
@@ -331,8 +327,8 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 onMouseLeave={contextMenuHandler.onTouchCancel}
                 onMouseUp={contextMenuHandler.onTouchEnd}
                 onMouseMove={contextMenuHandler.onTouchMove}
-                onContextMenu={(e) => e.preventDefault()}
-                onClick={(e) => e.preventDefault()}
+                onContextMenu={contextMenuHandler.onContextMenu}
+                onClick={setLeftClickState()}
                 sx={(highlight) ? sx.highlightSquareSx : sx.squareSx}
             >
                 {isFirstHint() ? commonSx.hintIcon : null}
@@ -345,14 +341,16 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 disabled={numOfMimeNeighbors === 0}
                 variant={sx.revealedVariant}
                 ref={ref}
-                onTouchStart={setMouseDownState}
-                onTouchCancel={setMouseDownEndedState}
-                onTouchEnd={setMouseDownEndedState}
-                onMouseDown={setMouseDownState}
-                onMouseUp={setMouseDownEndedState}
-                onMouseLeave={setMouseDownEndedState}
-                onClick={(e) => e.preventDefault()}
-                onContextMenu={(e) => e.preventDefault()}
+                onTouchStart={contextMenuHandler.onTouchStart}
+                onTouchCancel={contextMenuHandler.onTouchCancel}
+                onTouchEnd={contextMenuHandler.onTouchEnd}
+                onTouchMove={contextMenuHandler.onTouchMove}
+                onMouseDown={contextMenuHandler.onTouchStart}
+                onMouseLeave={contextMenuHandler.onTouchCancel}
+                onMouseUp={contextMenuHandler.onTouchEnd}
+                onMouseMove={contextMenuHandler.onTouchMove}
+                onContextMenu={contextMenuHandler.onContextMenu}
+                onClick={setLeftClickState()}
             >
                 {getIcon(numOfMimeNeighbors)}
             </sx.RevealedButton>;
