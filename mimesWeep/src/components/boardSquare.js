@@ -351,7 +351,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
                 onMouseDown={setMouseDownState}
                 onMouseUp={setMouseDownEndedState}
                 onMouseLeave={setMouseDownEndedState}
-                onClick={setChordClickState}
+                onClick={(e) => e.preventDefault()}
                 onContextMenu={(e) => e.preventDefault()}
             >
                 {getIcon(numOfMimeNeighbors)}
