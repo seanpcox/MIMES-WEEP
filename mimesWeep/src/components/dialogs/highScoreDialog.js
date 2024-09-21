@@ -138,7 +138,7 @@ function HighScoreDialog(props) {
                 if (isPersonalBest()) {
                     for (let i = 0; i < props.personalBestPeriodsRef.current.length; i++) {
                         // If this was also a personal best then update the name associated with it
-                        scoreLogic.updatePersonalBestName(getLevel(), props.personalBestPeriodsRef.current[i], username);
+                        scoreLogic.savePersonalBestName(getLevel(), props.personalBestPeriodsRef.current[i], username);
                     }
                 }
 

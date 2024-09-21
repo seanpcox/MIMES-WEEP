@@ -2,6 +2,7 @@ import * as gameText from '../resources/text/gameText.js';
 import * as gameSettings from './gameSettings.js';
 import * as timeLogic from './timeLogic.js'
 import * as userSettings from '../logic/userSettings.js';
+import { Period } from '../models/index.js';
 
 /**
  * Logic related to high scores and personal best times and display
@@ -130,7 +131,8 @@ function updatePersonalBestTime(level, time, date, user, setPersonalBestPeriodsC
 
         // If we have no personal best time for the supplied level or the new time
         // is better then save the new time.
-        if (pbTime === undefined || pbTime === null || pbTime === "" || isNaN(pbTime) || time < Number(pbTime)) {
+        if (pbTime === undefined || pbTime === null || pbTime === "" || isNaN(pbTime) ||
+            time < Number(pbTime) || isExpired(pbTime, period)) {
 
             // Record that we scored a personal best
             isPersonalBest = true;
@@ -145,18 +147,6 @@ function updatePersonalBestTime(level, time, date, user, setPersonalBestPeriodsC
 
     // Return the highest period of personal best achieved, if any
     return isPersonalBest;
-}
-
-/**
- * Function to update the personal best name at this level and period
- * @param {Level diifculty string} level
- * @param {Time taken for game to complete in milliseconds} time
- * @param {Date in epoch seconds format} date
- * @param {User who played the game} user
- */
-export function updatePersonalBestName(level, period, user) {
-    // Save the personal best username to local storage, we will use this for furture high scores or personal bests
-    savePersonalBestName(level, period, user);
 }
 
 /**
@@ -217,8 +207,13 @@ export function savePersonalBestName(level, period, username) {
  */
 function isExpired(pbDate, period) {
 
+    // All time personal bests never expire
+    if(period === Period.ALL) {
+        return false;
+    }
+
     // Check to see if we have a negative time to live, if so return expired
-    if(timeLogic.getTimeToLiveMs(pbDate, period) < 0) {
+    if (timeLogic.getTimeToLiveMs(pbDate, period) < 0) {
         return true;
     }
 
