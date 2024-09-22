@@ -222,9 +222,9 @@ export const days = " days";
 
 export const day1 = "1 day";
 
-export const hours = " hours";
+export const hours = " hrs";
 
-export const hours1 = "1 hour";
+export const hours1 = "1 hr";
 
 export const minutes = " mins";
 
