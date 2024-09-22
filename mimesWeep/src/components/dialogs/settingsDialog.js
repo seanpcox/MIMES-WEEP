@@ -35,8 +35,6 @@ function SettingsDialog(props) {
 
     const [placeFlagsOption, setPlaceFlagsOption] = useState(userSettings.defaultPlaceFlagsOption);
 
-    const [longPressTimeOption, setLongPressTimeOption] = useState(userSettings.defaultLongPressTimeOption);
-
     const [chordingControlOption, setChordingControlOption] = useState(userSettings.defaultChordingControlOption);
 
     const [startHintOption, setStartHintOption] = useState(userSettings.defaultStartHintOption);
@@ -68,10 +66,6 @@ function SettingsDialog(props) {
 
         if (localStorage.getItem(userSettings.placeFlagsOptionLS)) {
             setPlaceFlagsOption(localStorage.getItem(userSettings.placeFlagsOptionLS));
-        }
-
-        if (localStorage.getItem(userSettings.longPressTimeOptionLS)) {
-            setLongPressTimeOption(localStorage.getItem(userSettings.longPressTimeOptionLS));
         }
 
         if (localStorage.getItem(userSettings.chordingControlOptionLS)) {
@@ -106,8 +100,6 @@ function SettingsDialog(props) {
 
         localStorage.setItem(userSettings.placeFlagsOptionLS, formJson.flags);
 
-        localStorage.setItem(userSettings.longPressTimeOptionLS, formJson.longPressDuration);
-
         localStorage.setItem(userSettings.chordingControlOptionLS, formJson.chording);
 
         localStorage.setItem(userSettings.startHintOptionLS, formJson.startHint);
@@ -125,7 +117,6 @@ function SettingsDialog(props) {
      */
     function resetSettings() {
         setPlaceFlagsOption(userSettings.defaultPlaceFlagsOption);
-        setLongPressTimeOption(userSettings.defaultLongPressTimeOption);
         setChordingControlOption(userSettings.defaultChordingControlOption);
         setStartHintOption(userSettings.defaultStartHintOption);
         setGameTimeFormatOption(userSettings.defaultGameTimeFormatOption);
@@ -157,14 +148,6 @@ function SettingsDialog(props) {
      */
     function handlePlaceFlagOptionChange(event) {
         setPlaceFlagsOption(event.target.value);
-    };
-
-    /**
-     * Function called when the a new value is selected in the long press dropdown
-     * @param {Drop down selection event object} event
-     */
-    function handleLongPressTimeOptionChange(event) {
-        setLongPressTimeOption(event.target.value);
     };
 
     /**
@@ -211,34 +194,6 @@ function SettingsDialog(props) {
 
     // RENDER
 
-    // We only display the long press duration section on mobile and tablet
-    var longPressSection = null;
-
-    if (gameSettings.deviceType !== Device.DESKTOP) {
-        longPressSection =
-            <Fragment>
-                <TextField
-                    id="longPressDuration"
-                    name="longPressDuration"
-                    select
-                    label={gameText.sdLongPressTimeOptionTitle}
-                    value={longPressTimeOption}
-                    onChange={handleLongPressTimeOptionChange}
-                    helperText={gameText.sdLongPressTimeOptionInfo}
-                    margin={sx.tfMarginType}
-                    variant={sx.tfVariantType}
-                    sx={sx.width}
-                >
-                    {userSettings.longPressTimeOptions.map((option) => (
-                        <MenuItem key={option[0]} value={option[0]}>
-                            {option[1]}
-                        </MenuItem>
-                    ))}
-                </TextField>
-                <Box sx={sx.spacingHeight} />
-            </Fragment>
-    }
-
     return (
         <Fragment>
             <Dialog
@@ -277,7 +232,6 @@ function SettingsDialog(props) {
                         ))}
                     </TextField>
                     <Box sx={sx.spacingHeight} />
-                    {longPressSection}
                     <TextField
                         id="chording"
                         name="chording"

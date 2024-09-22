@@ -1,7 +1,6 @@
 import * as commonSx from '../style/commonSx.js';
 import * as gameSettings from '../logic/gameSettings.js';
 import * as sx from '../style/boardSquareSx.js';
-import * as userSettings from '../logic/userSettings.js';
 import PropTypes from 'prop-types';
 import { Button } from '@mui/material';
 import { Device } from "../models/index.js";
@@ -93,7 +92,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
             longPressOccurred.current = true;
             setRightClickState();
             // Here we get the ms length that represents a long press, this can be changed in settings dialog
-        }, userSettings.getLongPressDurationMs());
+        }, gameSettings.longPressDurationMs);
     };
 
     // On move clear the long press flag set and/or end the long press timer

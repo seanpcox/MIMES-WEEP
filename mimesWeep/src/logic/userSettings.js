@@ -30,43 +30,6 @@ export function isFlaggingEnabled() {
 
 
 /**
- * LONG PRESS DURATION
- */
-
-export const longPressTimeOptionLS = "longPressTimeOption";
-
-export const defaultLongPressTimeOption = 1;
-
-export const longPressTimeOptions = [
-
-    [
-        0, "300", 300
-    ],
-    [
-        1, "500", 500
-    ],
-    [
-        10, "1000", 1000
-    ],
-    [
-        10, "1500", 1500
-    ]
-]
-
-/**
- * Function to return the duration in milliseconds that pressing the screen counts as a long press
- * @returns Long press duration in milliseconds
- */
-export function getLongPressDurationMs() {
-
-    // Get the user flagging option from local storage. If none return default.
-    var selection = getOptionSelection(longPressTimeOptionLS, longPressTimeOptions, defaultLongPressTimeOption);
-    console.log(selection);
-    return selection;
-}
-
-
-/**
  * CHORDING
  */
 
