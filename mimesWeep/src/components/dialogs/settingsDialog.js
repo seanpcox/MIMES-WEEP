@@ -214,7 +214,7 @@ function SettingsDialog(props) {
     // We only display the long press duration section on mobile and tablet
     var longPressSection = null;
 
-    if (gameSettings.deviceType === Device.DESKTOP) {
+    if (gameSettings.deviceType !== Device.DESKTOP) {
         longPressSection =
             <Fragment>
                 <TextField
