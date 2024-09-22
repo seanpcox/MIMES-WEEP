@@ -34,6 +34,9 @@ export const clearLocalStorageOnStartup = false;
 // Constant for the type of device game is being currently being played on, will not change during play
 export const deviceType = getDeviceType();
 
+// Constant representing whether the device being played on is running IOS
+export const isDeviceIOS = isDeviceRunningIOS();
+
 // Constant for the user's browser's preferred locale, will not change during play
 export const locale = (navigator && navigator.language) || "en-US";
 
@@ -45,7 +48,7 @@ export const numHSRowsToDisplayOnNewScore = 3;
 
 // The duration in milliseconds that holding a mobile or tablet screen kicks off a long press event (right-click)
 // Note: I played with making this adjustable, but anymore than 500ms or less than 300ms resulted in issues
-export const longPressDurationMs = 400;
+export const longPressDurationMs = 350;
 
 // The number of milliseconds to wait until after a long press event to allow tap events again on mobile
 // This is to deal with an issue on IOS devices where after removing your finger following a long press
@@ -199,6 +202,18 @@ function getDeviceType() {
   else {
     return Device.DESKTOP;
   }
+}
+
+/**
+ * Function to determine if user is on an IOS device
+ * @returns True if device running IOS, else False
+ */
+function isDeviceRunningIOS() {
+  if (isIOS || isIPad13) {
+    return true
+  }
+
+  return false;
 }
 
 /**

@@ -193,6 +193,11 @@ const Board = forwardRef(function Board(props, inputRef) {
             return;
         }
 
+        // If the square has already been revealed then we return
+        if (array[indexI][indexJ] % 1 === 0) {
+            return;
+        }
+
         // If the square is already flagged we remove the flag
         if (array[indexI][indexJ] >= 9) {
 
