@@ -50,7 +50,7 @@ export const longPressDurationMs = 350;
 // The number of milliseconds to wait until after a long press event to allow tap events again on mobile
 // This is to deal with an issue on IOS devices where after removing your finger following a long press
 // another set of events are fired, which can kick off an unwanted tap event.
-export const clearLongPressFlagMs = 100;
+export const clearLongPressFlagMs = 150;
 
 /**
  * Function to return our game parameters (board size and mime density) for a set difficuly level and device.

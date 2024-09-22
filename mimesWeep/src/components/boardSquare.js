@@ -149,6 +149,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
      * Callback function executed when left-click/tap occurs on the square
      */
     const setLeftClickState = () => {
+        console.log("left click");
         props.btnLeftClickCallback(props.indexI, props.indexJ);
     };
 
@@ -156,6 +157,7 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
      * Callback function executed when right-click/long-press occurs on the square
      */
     const setRightClickState = () => {
+        console.log("right click");
         props.btnRightClickCallback(props.indexI, props.indexJ);
     };
 
