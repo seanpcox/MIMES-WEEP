@@ -29,7 +29,7 @@ const numOfMimesOnEasyLevel = 10;
 export const highScorePositions = 10;
 
 // Do we want to clear local storage on startup, this would delete all personal bests: default false
-export const clearLocalStorageOnStartup = false;
+export const clearLocalStorageOnStartup = true;
 
 // Constant for the type of device game is being currently being played on, will not change during play
 export const deviceType = getDeviceType();
@@ -46,7 +46,7 @@ export const numHSRowsToDisplayOnNewScore = 3;
 // The number of milliseconds to wait until after a long press event to allow tap events again on mobile
 // This is to deal with an issue on IOS devices where after removing your finger following a long press
 // another set of events are fired, which can kick off an unwanted tap event.
-export const clearLongPressFlagMs = 50;
+export const clearLongPressFlagMs = 100;
 
 /**
  * Function to return our game parameters (board size and mime density) for a set difficuly level and device.

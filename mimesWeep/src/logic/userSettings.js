@@ -35,52 +35,21 @@ export function isFlaggingEnabled() {
 
 export const longPressTimeOptionLS = "longPressTimeOption";
 
-export const defaultLongPressTimeOption = 6;
+export const defaultLongPressTimeOption = 1;
 
 export const longPressTimeOptions = [
+
     [
-        0, "50", 50
+        0, "300", 300
     ],
     [
-        1, "100", 100
+        1, "500", 500
     ],
     [
-        2, "150", 150
+        10, "1000", 1000
     ],
     [
-        3, "200", 200
-    ],
-    [
-        4, "250", 250
-    ],
-    [
-        5, "300", 300
-    ],
-    [
-        6, "350", 350
-    ],
-    [
-        7, "400", 400
-    ],
-    [
-        8, "450", 450
-    ],
-    [
-        9, "500", 500
-    ]
-    ,
-    [
-        10, "750", 750
-    ]
-    ,
-    [
-        11, "1000", 1000
-    ],
-    [
-        12, "1500", 1000
-    ],
-    [
-        13, "2000", 1000
+        10, "1500", 1500
     ]
 ]
 
@@ -91,7 +60,9 @@ export const longPressTimeOptions = [
 export function getLongPressDurationMs() {
 
     // Get the user flagging option from local storage. If none return default.
-    return getOptionSelection(longPressTimeOptionLS, longPressTimeOptions, defaultLongPressTimeOption);
+    var selection = getOptionSelection(longPressTimeOptionLS, longPressTimeOptions, defaultLongPressTimeOption);
+    console.log(selection);
+    return selection;
 }
 
 
