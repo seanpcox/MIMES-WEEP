@@ -129,10 +129,12 @@ function updatePersonalBestTime(level, time, date, user, setPersonalBestPeriodsC
         // Get the current personal best time for the supplied level and period
         var pbTime = localStorage.getItem(getPersonalBestTimeKey(level, period));
 
-        // If we have no personal best time for the supplied level or the new time
-        // is better then save the new time.
-        if (pbTime === undefined || pbTime === null || pbTime === "" || isNaN(pbTime) ||
-            time < Number(pbTime) || isExpired(pbTime, period)) {
+        // Get the current personal best date for the supplied level and period
+        var pbDate = localStorage.getItem(getPersonalBestDateKey(level, period));
+
+        // If we have no or invalid personal best time or date for the supplied level, or the new time
+        // is better, the old personal best is expired then save the new time.
+        if (isNotANumber(pbTime) || isNotANumber(pbDate) || time < Number(pbTime) || isExpired(pbDate, period)) {
 
             // Record that we scored a personal best
             isPersonalBest = true;
@@ -164,8 +166,8 @@ export function getPersonalBestDataRow(level, period) {
     // Get the current personal best username for this level
     var pbName = localStorage.getItem(getPersonalBestNameKey(level, period));
 
-    // If we do not have personal best data, or it is invalid, return a placeholder row
-    if (!pbTime || !pbDate || isNaN(pbTime) || isNaN(pbDate) || isExpired(pbDate, period)) {
+    // If we do not have personal best data, or it is invalid or expired, return a placeholder row
+    if (isNotANumber(pbTime) || isNotANumber(pbDate) || isExpired(pbDate, period)) {
         return createData(gameText.personalBestRowID);
     }
 
@@ -287,4 +289,14 @@ function getPersonalBestNameKey(level, period) {
  */
 function getPersonalBestKey(level, period, dataType) {
     return "pb_" + level + "_" + period + "_" + dataType + "_key"
+}
+
+/**
+ * Function to determine if the supplied variable is not a number
+ * isNaN can convert some of the following conditions below to zero so cannot just use it
+ * @param {Variable for test} variable
+ * @returns True if not a real number, else False
+ */
+function isNotANumber(variable) {
+    return variable === undefined || variable === null || variable === "" || isNaN(variable);
 }
