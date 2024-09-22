@@ -144,7 +144,7 @@ export const period7Days = "Weekly"
 
 export const period30Days = "Monthly"
 
-export const periodAllTimeShort = "All";
+export const period365Days = "Yearly"
 
 export const enabled = "Enabled";
 

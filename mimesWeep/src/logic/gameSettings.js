@@ -38,7 +38,7 @@ export const deviceType = getDeviceType();
 export const locale = (navigator && navigator.language) || "en-US";
 
 // Currently the two periods we use, in order of greatest, all-time and 24hrs, this may expand in future
-export const periodsInUse = [Period.ALL, Period.MONTH, Period.DAY];
+export const periodsInUse = [Period.ALL, Period.YEAR, Period.MONTH, Period.WEEK, Period.DAY];
 
 // The number of high scores we show if user achieves a high score or personal best
 export const numHSRowsToDisplayOnNewScore = 3;
@@ -209,8 +209,12 @@ function getDeviceType() {
 export function getPeriodString(period) {
   if (period === Period.DAY) {
     return gameText.period24Hours;
+  } else if (period === Period.WEEK) {
+    return gameText.period7Days;
   } else if (period === Period.MONTH) {
     return gameText.period30Days;
+  } else if (period === Period.YEAR) {
+    return gameText.period365Days;
   }
 
   return gameText.periodAllTime;

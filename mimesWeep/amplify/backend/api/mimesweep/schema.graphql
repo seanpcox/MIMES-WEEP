@@ -10,7 +10,9 @@ enum Device {
 
 enum Period {  
   day
+  week
   month
+  year
   all
 }
 

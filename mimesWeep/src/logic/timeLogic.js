@@ -96,8 +96,12 @@ export function convertEpochToTimeString(timeEpochSeconds) {
 function getNumberOfDaysInPeriod(period) {
     if (period === Period.DAY) {
         return 1;
+    } else if (period === Period.WEEK) {
+        return 7;
     } else if (period === Period.MONTH) {
         return 30;
+    } else if (period === Period.YEAR) {
+        return 365;
     }
 
     return -1;

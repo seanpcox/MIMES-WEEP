@@ -96,7 +96,9 @@ export const schema = {
             "name": "Period",
             "values": [
                 "day",
+                "week",
                 "month",
+                "year",
                 "all"
             ]
         }

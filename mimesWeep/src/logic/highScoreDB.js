@@ -219,7 +219,7 @@ function getUsurpedHighScoreRow(results) {
  * Function to get the high score results from the DB, and personal best result from local storage,
  * and format them into rows for table display.
  * @param {Game difficulty level} level
- * @param {Period: DAY, MONTH, ALL} period
+ * @param {Period: DAY, WEEK, MONTH, YEAR, ALL} period
  * @param {Callback method to load the rows into} callback
  */
 export async function getTopResults(level, period, callback) {
@@ -310,7 +310,7 @@ function getTopResultsQuery(level, period) {
  * Delete any high score entries that have been usurped / replaced by a new high score
  * @param {DB entry for high score to be usurped} usurpedHighScore
  * @param {Game difficulty level} level
- * @param {Period: DAY, MONTH, ALL} period
+ * @param {Period: DAY, WEEK, MONTH, YEAR, ALL} period
  */
 function deleteUsurperdHighScores(usurpedHighScore) {
 
@@ -376,7 +376,7 @@ export async function updateUsername(id, username) {
 /**
  * Function to delete high scores that have now expired for the supplied period and level
  * @param {Game difficulty level} level
- * @param {Period: DAY, MONTH, ALL} period
+ * @param {Period: DAY, WEEK, MONTH, YEAR, ALL} period
  */
 function deleteExpiredHighScores(period, level) {
 
