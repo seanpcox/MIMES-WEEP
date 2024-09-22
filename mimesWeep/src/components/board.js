@@ -193,7 +193,10 @@ const Board = forwardRef(function Board(props, inputRef) {
             return;
         }
 
-        // If the square has already been revealed then we return
+        // If the square has already been revealed then we return.
+        // Note this could happen on mobile devices where event firing is not precise and a
+        // long press event was fired immediately after a tap event, causing an incorrect flag
+        // to appear on a numbered square, or a detonated mime to appear as the number 8.
         if (array[indexI][indexJ] % 1 === 0) {
             return;
         }

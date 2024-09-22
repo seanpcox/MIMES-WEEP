@@ -34,9 +34,6 @@ export const clearLocalStorageOnStartup = false;
 // Constant for the type of device game is being currently being played on, will not change during play
 export const deviceType = getDeviceType();
 
-// Constant representing whether the device being played on is running IOS
-export const isDeviceIOS = isDeviceRunningIOS();
-
 // Constant for the user's browser's preferred locale, will not change during play
 export const locale = (navigator && navigator.language) || "en-US";
 
@@ -202,18 +199,6 @@ function getDeviceType() {
   else {
     return Device.DESKTOP;
   }
-}
-
-/**
- * Function to determine if user is on an IOS device
- * @returns True if device running IOS, else False
- */
-function isDeviceRunningIOS() {
-  if (isIOS || isIPad13) {
-    return true
-  }
-
-  return false;
 }
 
 /**
