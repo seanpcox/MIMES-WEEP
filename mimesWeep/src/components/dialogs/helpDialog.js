@@ -180,6 +180,7 @@ function HelpDialog(props) {
                                 primary={gameText.strategy1}
                             />
                         </ListItem>
+                        <Box sx={sx.spacingTitleHeight}></Box>
                         <ListItem disablePadding>
                             <ListItemIcon sx={sx.listItemIcon}>
                                 {sx.numberIcon}
@@ -190,6 +191,7 @@ function HelpDialog(props) {
                                 primary={gameText.strategy2}
                             />
                         </ListItem>
+                        <Box sx={sx.spacingTitleHeight}></Box>
                         <ListItem disablePadding>
                             <ListItemIcon sx={sx.listItemIcon}>
                                 {commonSx.flagIconHtml}
@@ -200,6 +202,7 @@ function HelpDialog(props) {
                                 primary={gameText.strategy3}
                             />
                         </ListItem>
+                        <Box sx={sx.spacingTitleHeight}></Box>
                         <ListItem disablePadding>
                             <ListItemIcon sx={sx.listItemIcon}>
                                 {sx.chordIcon}
@@ -210,6 +213,7 @@ function HelpDialog(props) {
                                 primary={gameText.strategy4_1 + revealControlLC + gameText.strategy4_2}
                             />
                         </ListItem>
+                        <Box sx={sx.spacingTitleHeight}></Box>
                         <ListItem disablePadding>
                             <ListItemIcon sx={sx.listItemIcon}>
                                 {sx.flagHintIcon}

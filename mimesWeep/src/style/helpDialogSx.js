@@ -15,6 +15,8 @@ export const spacingTitleHeight = { height: 7 };
 
 export const spacingHeight = { height: 10 };
 
+export const smallSpacingHeight = { height: 5 };
+
 export const listItem = {
     alignItems: "center"
 };
