@@ -32,6 +32,8 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
 
     const longPressOccurred = useRef(false);
 
+    const tapCancelled = useRef(false);
+
 
     // LOCAL VARIABLES
 
@@ -86,6 +88,9 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
         // Prevent any default IOS action, just as open share menu etc.
         e.preventDefault();
 
+        // Reset the tap cancelled
+        tapCancelled.current = false;
+
         // Start the long press timer, if it runs out then perform long-press action and flag we have done so
         // to avoid a tap action occuring on onTouchEnd function
         longPressCountdown.current = setTimeout(() => {
@@ -100,6 +105,9 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
         // Prevent any default IOS action, just as open share menu etc.
         e.preventDefault();
 
+        // The tap was cancelled
+        tapCancelled.current = true;
+
         // Clear any long press flag set and/or end the long press timer
         clearLongPressFlag();
     };
@@ -108,6 +116,9 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
     const onTouchCancel = e => {
         // Prevent any default IOS action, just as open share menu etc.
         e.preventDefault();
+
+        // The tap was cancelled
+        tapCancelled.current = true;
 
         // Clear any long press flag set and/or end the long press timer so we can perform tap actions again
         clearLongPressFlag();
@@ -120,9 +131,12 @@ const BoardSquare = forwardRef(function BoardSquare(props, inputRef) {
         e.preventDefault();
 
         // User did not touch screen for long enough to be considered a long-press so perform tap action
-        if (!longPressOccurred.current) {
+        if (!longPressOccurred.current && !tapCancelled.current) {
             setLeftClickState();
         }
+
+        // Reset the tap cancelled
+        tapCancelled.current = false;
 
         // Clear any long press flag set and/or end the long press timer so we can perform tap actions again
         clearLongPressFlag();

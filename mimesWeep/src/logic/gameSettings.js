@@ -45,7 +45,7 @@ export const numHSRowsToDisplayOnNewScore = 3;
 
 // The duration in milliseconds that holding a mobile or tablet screen kicks off a long press event (right-click)
 // Note: I played with making this adjustable, but anymore than 500ms or less than 300ms resulted in issues
-export const longPressDurationMs = 350;
+export const longPressDurationMs = 400;
 
 // The number of milliseconds to wait until after a long press event to allow tap events again on mobile
 // This is to deal with an issue on IOS devices where after removing your finger following a long press
