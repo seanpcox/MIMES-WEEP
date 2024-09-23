@@ -126,7 +126,7 @@ export const hsDialogInputScoresLabel = "Name";
 
 export const hsDialogFormatErrorLabel = "Enter 1-10 Characters";
 
-export const hsDialogExcludedWordErrorLabel = "Enter Non Excluded Word";
+export const hsDialogExcludedWordErrorLabel = "Excluded Word Detected";
 
 export const personalBestRowID = "PB";
 
