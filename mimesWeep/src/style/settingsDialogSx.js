@@ -3,8 +3,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 
 export const dialogWidth = {
     minWidth: '250px',
-    maxWidth: '350px',
-    width: '350px'
+    maxWidth: '350px'
 }
 
 export const deleteBtn = {
