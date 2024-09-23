@@ -20,6 +20,8 @@ export const btnBackgroundColor = 'white';
 
 export const btnHLBorderColor = 'black';
 
+export const btnBorderColor = '#c4c4c4';
+
 export const font = {
     fontSize: 16,
     fontFamily: 'Arial',
@@ -28,7 +30,7 @@ export const font = {
 
 export const btnColor = {
     color: btnTextColor,
-    borderColor: '#c4c4c4',
+    borderColor: btnBorderColor,
     backgroundColor: btnBackgroundColor
 };
 

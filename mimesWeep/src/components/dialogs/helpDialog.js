@@ -8,6 +8,7 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
+import Divider from '@mui/material/Divider';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemIcon from '@mui/material/ListItemIcon';
@@ -322,6 +323,7 @@ function HelpDialog(props) {
                         </ListItem>
                     </List>
                 </DialogContent>
+                <Divider />
                 <DialogActions>
                     <Button
                         onClick={handleClose}

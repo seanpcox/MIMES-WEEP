@@ -8,6 +8,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
+import Divider from '@mui/material/Divider';
 import PropTypes from 'prop-types';
 import TextField from '@mui/material/TextField';
 import { Box, Button } from '@mui/material';
@@ -239,7 +240,7 @@ function CustomDialog(props) {
                         label={gameText.customDialogHeight + " (2-" + maxHeight + ")"}
                         variant={sx.tfVariantType}
                     />
-                    <Box sx={sx.spacingHeight} />
+                    <Box sx={sx.spacingHeightSmall} />
                     <TextField
                         defaultValue={defaultWidth}
                         error={widthError}
@@ -250,7 +251,7 @@ function CustomDialog(props) {
                         label={gameText.customDialogWidth + " (2-" + maxWidth + ")"}
                         variant={sx.tfVariantType}
                     />
-                    <Box sx={sx.spacingHeight} />
+                    <Box sx={sx.spacingHeightSmall} />
                     <TextField
                         defaultValue={defaultNumOfMimes}
                         error={numOfMimesError}
@@ -265,7 +266,9 @@ function CustomDialog(props) {
                             + ")"}
                         variant={sx.tfVariantType}
                     />
+                    <Box sx={sx.spacingHeight} />
                 </DialogContent>
+                <Divider />
                 <DialogActions>
                     <Button
                         onClick={handleClose}

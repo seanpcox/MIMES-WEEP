@@ -7,7 +7,7 @@ import React from 'react';
 import reportWebVitals from './reportWebVitals.js';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-// Clear local storage if set
+// Clear all local storage on startup
 if (gameSettings.clearLocalStorageOnStartup) {
   localStorage.clear();
 }

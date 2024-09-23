@@ -30,7 +30,7 @@ export const updateButtonText = "Update";
 
 export const saveButtonText = "Save";
 
-export const resetButtonText = "Reset";
+export const defaultButtonText = "Default";
 
 export const loseMessage = "Sorry, you have lost.";
 
@@ -229,3 +229,9 @@ export const hours1 = "1 hr";
 export const minutes = " mins";
 
 export const minutes1 = "1 min";
+
+export const deleteAllLocalData = "Delete All Local Data";
+
+export const deleteAllLocalDataConfirm = "Confirm Delete All";
+
+export const deleteInfo = "Warning: This will erase all of your personal best times, reset your settings, and clear any saved auto-complete entries.";

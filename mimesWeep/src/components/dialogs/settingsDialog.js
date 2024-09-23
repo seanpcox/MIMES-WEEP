@@ -1,10 +1,12 @@
 import * as commonSx from '../../style/commonSx.js';
 import * as gameText from '../../resources/text/gameText';
 import * as gameSettings from '../../logic/gameSettings.js';
-import * as sx from '../../style/dialogSx.js';
+import * as dialogSx from '../../style/dialogSx.js';
+import * as sx from '../../style/settingsDialogSx.js';
 import * as userSettings from '../../logic/userSettings.js';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
+import Divider from '@mui/material/Divider';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogTitle from '@mui/material/DialogTitle';
@@ -42,6 +44,8 @@ function SettingsDialog(props) {
     const [gameTimeFormatOption, setGameTimeFormatOption] = useState(userSettings.defaultGameTimeFormatOption);
 
     const [scoreTimeFormatOption, setScoreTimeFormatOption] = useState(userSettings.defaultScoreTimeFormatOption);
+
+    const [isDeleteConfirm, setDeleteConfirm] = useState(false);
 
 
     // EFFECTS
@@ -124,6 +128,31 @@ function SettingsDialog(props) {
     }
 
     /**
+     * Function to delete ALL local data stored on the device's browser
+     * Must be called twice to perform delete, this is to prevent accidental delete
+     * This includes settings, personal bests times, saved username, and save custom board parameters
+     */
+    const deleteAllLocalData = () => {
+
+        // If the user has already confirmed they wish to delete then proceed
+        if (isDeleteConfirm) {
+            // Delete all local data
+            userSettings.deleteAll();
+
+            // Reset settings page to show any changes
+            resetSettings();
+
+            // Close the alert dialog
+            handleClose();
+        } 
+        // If this is the first time this function is called, ask for confirmation before delete
+        else {
+            setDeleteConfirm(true);
+        }
+    }
+
+
+    /**
      * Function called on cancel, reset dialog to user settings, if any
      */
     function cancel() {
@@ -140,6 +169,7 @@ function SettingsDialog(props) {
     */
     const handleClose = () => {
         setOpen(false);
+        setDeleteConfirm(false);
     };
 
     /**
@@ -187,10 +217,11 @@ function SettingsDialog(props) {
      * @param {string} labelText
      */
     function getStyledLabel(labelText) {
-        return <Box sx={sx.styledLabel}>
+        return <Box sx={dialogSx.styledLabel}>
             {labelText}
         </Box>;
     }
+
 
     // RENDER
 
@@ -205,13 +236,13 @@ function SettingsDialog(props) {
                     onSubmit: onSubmit
                 }}
             >
-                <DialogTitle>
-                    <Box sx={sx.titleDivStyle}>
+                <DialogTitle >
+                    <Box>
                         {commonSx.settingsIcon}
                         <span>&nbsp;{gameText.settingsDialogTitle}</span>
                     </Box>
                 </DialogTitle>
-                <DialogContent>
+                <DialogContent sx={sx.dialogWidth}>
                     <TextField
                         id="flags"
                         name="flags"
@@ -221,9 +252,9 @@ function SettingsDialog(props) {
                         onChange={handlePlaceFlagOptionChange}
                         helperText={gameText.sdFlagsOptionInfo +
                             (gameSettings.deviceType === Device.DESKTOP ? gameText.controlsRClickLC : gameText.controlsLongPressLC)}
-                        margin={sx.tfMarginType}
-                        variant={sx.tfVariantType}
-                        sx={sx.width}
+                        margin={dialogSx.tfMarginType}
+                        variant={dialogSx.tfVariantType}
+                        sx={dialogSx.width}
                     >
                         {userSettings.placeFlagsOptions.map((option) => (
                             <MenuItem key={option[0]} value={option[0]}>
@@ -231,7 +262,7 @@ function SettingsDialog(props) {
                             </MenuItem>
                         ))}
                     </TextField>
-                    <Box sx={sx.spacingHeight} />
+                    <Box sx={dialogSx.spacingHeight} />
                     <TextField
                         id="chording"
                         name="chording"
@@ -241,9 +272,9 @@ function SettingsDialog(props) {
                         onChange={handleChordingControlOptionChange}
                         helperText={gameText.sdChordingControlOptionInfo +
                             (gameSettings.deviceType === Device.DESKTOP ? gameText.controlsLClickLC : gameText.controlsTapLC)}
-                        margin={sx.tfMarginType}
-                        variant={sx.tfVariantType}
-                        sx={sx.width}
+                        margin={dialogSx.tfMarginType}
+                        variant={dialogSx.tfVariantType}
+                        sx={dialogSx.width}
                     >
                         {userSettings.chordingControlOptions.map((option) => (
                             <MenuItem key={option[0]} value={option[0]}>
@@ -251,7 +282,7 @@ function SettingsDialog(props) {
                             </MenuItem>
                         ))}
                     </TextField>
-                    <Box sx={sx.spacingHeight} />
+                    <Box sx={dialogSx.spacingHeight} />
                     <TextField
                         id="startHint"
                         name="startHint"
@@ -260,9 +291,9 @@ function SettingsDialog(props) {
                         value={startHintOption}
                         onChange={handleStartHintOptionChange}
                         helperText={gameText.sdStartHintOptionInfo}
-                        margin={sx.tfMarginType}
-                        variant={sx.tfVariantType}
-                        sx={sx.width}
+                        margin={dialogSx.tfMarginType}
+                        variant={dialogSx.tfVariantType}
+                        sx={dialogSx.width}
                     >
                         {userSettings.startHintOptions.map((option) => (
                             <MenuItem key={option[0]} value={option[0]}>
@@ -270,7 +301,7 @@ function SettingsDialog(props) {
                             </MenuItem>
                         ))}
                     </TextField>
-                    <Box sx={sx.spacingHeight} />
+                    <Box sx={dialogSx.spacingHeight} />
                     <TextField
                         id="gameTimeFormat"
                         name="gameTimeFormat"
@@ -279,9 +310,9 @@ function SettingsDialog(props) {
                         value={gameTimeFormatOption}
                         onChange={handleGameTimeFormatOptionChange}
                         helperText={gameText.sdGameTimeFormatOptionInfo}
-                        margin={sx.tfMarginType}
-                        variant={sx.tfVariantType}
-                        sx={sx.width}
+                        margin={dialogSx.tfMarginType}
+                        variant={dialogSx.tfVariantType}
+                        sx={dialogSx.width}
                     >
                         {userSettings.gameTimeFormatOptions.map((option) => (
                             <MenuItem key={option[0]} value={option[0]}>
@@ -289,7 +320,7 @@ function SettingsDialog(props) {
                             </MenuItem>
                         ))}
                     </TextField>
-                    <Box sx={sx.spacingHeight} />
+                    <Box sx={dialogSx.spacingHeight} />
                     <TextField
                         id="scoreTimeFormat"
                         name="scoreTimeFormat"
@@ -298,24 +329,44 @@ function SettingsDialog(props) {
                         value={scoreTimeFormatOption}
                         onChange={handleScoreTimeFormatOptionChange}
                         helperText={gameText.sdScoreTimeFormatOptionInfo}
-                        margin={sx.tfMarginType}
-                        variant={sx.tfVariantType}
-                        sx={sx.width}
+                        margin={dialogSx.tfMarginType}
+                        variant={dialogSx.tfVariantType}
+                        sx={dialogSx.width}
                     >
                         {userSettings.scoreTimeFormatOptions.map((option) => (
                             <MenuItem key={option[0]} value={option[0]}>
                                 {option[1]}
                             </MenuItem>
                         ))}
-                        gameTimeFormatOptions
                     </TextField>
-                    <Box sx={sx.spacingHeight} />
+                    <Box sx={sx.deleteBtnSpacingHeight} />
+                    <Divider />
+                    <Box sx={sx.deleteBtnSpacingHeight} />
+                    <Box sx={sx.deleteBtnPosition}>
+                        <Button
+                            id="delete"
+                            name="delete"
+                            color={isDeleteConfirm ? sx.deleteConfirmColor : sx.deleteInitialColor}
+                            margin={dialogSx.tfMarginType}
+                            variant={sx.deleteBtnVariant}
+                            sx={sx.deleteBtn}
+                            startIcon={sx.deleteIcon}
+                            onClick={deleteAllLocalData}
+                        >
+                            {isDeleteConfirm ? gameText.deleteAllLocalDataConfirm : gameText.deleteAllLocalData}
+                        </Button>
+                        <Box sx={dialogSx.spacingHeight} />
+                        <Box sx={sx.deleteInfo}>
+                            {gameText.deleteInfo}
+                        </Box>
+                    </Box>
                 </DialogContent>
+                <Divider />
                 <DialogActions>
                     <Button
                         onClick={resetSettings}
                     >
-                        {gameText.resetButtonText}
+                        {gameText.defaultButtonText}
                     </Button>
                     <Button
                         onClick={cancel}

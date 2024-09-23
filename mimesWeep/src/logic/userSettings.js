@@ -348,3 +348,12 @@ export function setIsFirstVisit(isFirstVisit) {
         localStorage.setItem("isFirstVisit", "no");
     }
 }
+
+/**
+ * Function to delete ALL local data stored on the device's browser
+ * This includes settings, personal bests times, saved username, and save custom board parameters
+ */
+export function deleteAll() {
+    // Delete all local data
+    localStorage.clear();
+}
