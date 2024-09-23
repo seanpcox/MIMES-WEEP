@@ -105,6 +105,30 @@ function HelpDialog(props) {
     };
 
 
+    var credits = null;
+
+    if (false) {
+        credits =
+            <Fragment>
+                <Box sx={sx.spacingHeight}></Box>
+                <strong>{gameText.helpDialogCredits}</strong>
+                <Box sx={sx.spacingTitleHeight}></Box>
+                <List>
+                    <ListItem disablePadding>
+                        <ListItemIcon sx={sx.listItemIcon}>
+                            {sx.creatorIcon}
+                        </ListItemIcon>
+                        <ListItemText primaryTypographyProps={
+                            commonSx.font
+                        }
+                            primary={gameText.helpDialogCreditsBullet1}
+                        />
+                    </ListItem>
+                </List>
+            </Fragment>
+    }
+
+
     // RENDER
 
     return (
@@ -307,21 +331,7 @@ function HelpDialog(props) {
                             />
                         </ListItem>
                     </List>
-                    <Box sx={sx.spacingHeight}></Box>
-                    <strong>{gameText.helpDialogCredits}</strong>
-                    <Box sx={sx.spacingTitleHeight}></Box>
-                    <List>
-                        <ListItem disablePadding>
-                            <ListItemIcon sx={sx.listItemIcon}>
-                                {sx.creatorIcon}
-                            </ListItemIcon>
-                            <ListItemText primaryTypographyProps={
-                                commonSx.font
-                            }
-                                primary={gameText.helpDialogCreditsBullet1}
-                            />
-                        </ListItem>
-                    </List>
+                    {credits}
                 </DialogContent>
                 <Divider />
                 <DialogActions>
