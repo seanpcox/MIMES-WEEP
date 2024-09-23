@@ -6,6 +6,7 @@ import * as scoreLogic from '../../logic/scoreLogic.js';
 import * as gameSettings from '../../logic/gameSettings.js';
 import * as sx from '../../style/highScoreDialogSx.js'
 import * as userSettings from '../../logic/userSettings.js';
+import * as excludedWords from '../../resources/text/excluded/excludedWordList.js';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import Dialog from '@mui/material/Dialog';
@@ -119,8 +120,8 @@ function HighScoreDialog(props) {
         // Get the entered username
         const username = formJson.username;
 
-        // Check the username is valid format and not an excluded word
-        if (isUsernameFormatValid(username) && isUsernameNonExcludedWord(username)) {
+        // Check the username is valid format, is not the default unknown, and does not contain an excluded word
+        if (isUsernameFormatValid(username) && !isUsernameUnknown(username) && !isUsernameContainsExcludedWord(username)) {
             // If the username is valid set error to false
             setError(0);
 
@@ -148,13 +149,13 @@ function HighScoreDialog(props) {
         }
         // If the username is invalid then warn the user and prompt for an updated entry
         else {
-            // If the username is an excluded word then set the associated error code of 2
-            if (!isUsernameNonExcludedWord(username)) {
-                setError(2);
-            }
-            // Else the username format must be invalid so set the associated error code 1
-            else {
+            // If the username format is invalid set the associated error code 1
+            if (!isUsernameFormatValid(username)) {
                 setError(1);
+            }
+            // Else the username must have failed the excluded or UNKNOWN word test so set the associated error code of 2
+            else {
+                setError(2);
             }
 
             // Return to allow for an updated entry
@@ -238,13 +239,28 @@ function HighScoreDialog(props) {
     }
 
     /**
-    * Function to determine if the supplied username is an excluded word
-    * @param {String} username
-    */
-    function isUsernameNonExcludedWord(username) {
+     * Function to determine if the supplied username is the backup UNKNOWN, we want a real username
+     * @param {String} username
+     * @returns True if username is UNKNOWN, else False
+     */
+    function isUsernameUnknown(username) {
         // We exclude the default "Unknown" to encourage users to enter a unique username
         return username && username.length > 0 &&
             username.toLowerCase() !== gameText.unknownUsername.toLowerCase();
+    }
+
+    /**
+    * Function to determine if the supplied username contains an excluded word
+    * @param {String} username
+    * @returns True if username contains an excluded word, else False
+    */
+    function isUsernameContainsExcludedWord(username) {
+        // We exclude any words that may be used to cause offense to others
+        // This is a best first attempt and may need further work
+        // Not all words included in here are offensive by themselves but could perhaps be used in
+        // connection with other words to cause offense. Not trying to exclude anyone, but as I say
+        // it may need more work. First time doing this.
+        return excludedWords.match(username);
     }
 
     /**
@@ -310,10 +326,10 @@ function HighScoreDialog(props) {
     * Function to determine whether to autofocus the input field on open
     * @returns True if we wish to autofocus the input field, else False
      */
-    function isLabelAutoFocus() {
+    function isLabelAutoFocus(defaultUsername) {
 
         // If we have a new score and do not have a valid username saved from before then focus on the input text field
-        if (isNewScoreDialog() && (!isUsernameFormatValid() || !isUsernameNonExcludedWord())) {
+        if (isNewScoreDialog() && (!isUsernameFormatValid(defaultUsername) || isUsernameUnknown(defaultUsername))) {
             return true;
         }
 
@@ -368,7 +384,7 @@ function HighScoreDialog(props) {
                 <FormControl error={isError !== 0} sx={sx.formWidth}>
                     <InputLabel htmlFor="username">{inputLabel}</InputLabel>
                     <OutlinedInput
-                        autoFocus={isLabelAutoFocus()}
+                        autoFocus={isLabelAutoFocus(defaultUsername)}
                         id="username"
                         name="username"
                         defaultValue={defaultUsername}
@@ -389,7 +405,7 @@ function HighScoreDialog(props) {
                 </Button>
                 <Button
                     type="submit"
-                    autoFocus={!isLabelAutoFocus()}
+                    autoFocus={!isLabelAutoFocus(defaultUsername)}
                 >
                     {gameText.updateButtonText}
                 </Button>
@@ -463,7 +479,7 @@ function HighScoreDialog(props) {
             <DialogActions>
                 <Button
                     onClick={handleClose}
-                    autoFocus={!isLabelAutoFocus()}
+                    autoFocus
                 >
                     {gameText.okButtonText}
                 </Button>
