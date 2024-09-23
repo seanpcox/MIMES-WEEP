@@ -246,7 +246,7 @@ function HighScoreDialog(props) {
     function isUsernameUnknown(username) {
         // We exclude the default "Unknown" to encourage users to enter a unique username
         return username && username.length > 0 &&
-            username.toLowerCase() !== gameText.unknownUsername.toLowerCase();
+            username.toLowerCase() === gameText.unknownUsername.toLowerCase();
     }
 
     /**
