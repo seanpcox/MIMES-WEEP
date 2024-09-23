@@ -172,7 +172,7 @@ export const timeSeconds3Decimals = "Seconds (3 Decimals)";
 
 export const timeSeconds2Decimals = "Seconds (2 Decimals)";
 
-export const timeSeconds1Decimals = "Seconds (1 Decimals)";
+export const timeSeconds1Decimals = "Seconds (1 Decimal)";
 
 export const sdFlagsOptionTitle = "Flags";
 
