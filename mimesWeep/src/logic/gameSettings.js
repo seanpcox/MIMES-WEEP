@@ -52,6 +52,12 @@ export const longPressDurationMs = 300;
 // another set of events are fired, which can kick off an unwanted tap event.
 export const clearLongPressFlagMs = 100;
 
+// Is vibrate supported on this browser (note Apple does not support this at all, and apparently can crash the page if tried)
+export const isVibrateSupported = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+
+// Length of time to vibrate
+export const vibrateLengthMs = 200;
+
 /**
  * Function to return our game parameters (board size and mime density) for a set difficuly level and device.
  * Reasons for device choices are explained above.

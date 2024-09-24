@@ -1,4 +1,5 @@
 import * as logic from '../logic/gameLogic.js';
+import * as gameSettings from '../logic/gameSettings.js';
 import * as sx from '../style/boardSx.js';
 import * as userSettings from '../logic/userSettings.js';
 import BoardSquare from './boardSquare.js'
@@ -209,6 +210,9 @@ const Board = forwardRef(function Board(props, inputRef) {
 
             // Update the number of flags we have placed on the board
             props.incrementGuessCountCallback(-1);
+
+            // Vibrate the device if supported
+            vibrateDevice();
         }
 
         // Else we flag the square
@@ -219,6 +223,9 @@ const Board = forwardRef(function Board(props, inputRef) {
 
             // Update the number of flags we have placed on the board
             props.incrementGuessCountCallback(1);
+
+            // Vibrate the device if supported
+            vibrateDevice();
         }
 
         // Refresh the board square component selected
@@ -335,6 +342,17 @@ const Board = forwardRef(function Board(props, inputRef) {
 
         // Return true to indicate we did not find a mime
         return true;
+    }
+
+    // Function to vibrate the browser device, if supported
+    function vibrateDevice() {
+
+        // Check vibrate is supported, apparently it can crash iPhones if called on it
+        if (gameSettings.isVibrateSupported) {
+
+            // Vibrate for the designated time
+            navigator.vibrate(gameSettings.vibrateLengthMs);
+        }
     }
 
 
