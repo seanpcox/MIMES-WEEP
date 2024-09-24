@@ -56,7 +56,7 @@ export const clearLongPressFlagMs = 100;
 export const isVibrateSupported = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
 
 // Length of time to vibrate
-export const vibrateLengthMs = 100;
+export const vibrateLengthMs = 50;
 
 /**
  * Function to return our game parameters (board size and mime density) for a set difficuly level and device.
