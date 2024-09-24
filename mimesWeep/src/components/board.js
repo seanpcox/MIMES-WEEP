@@ -347,8 +347,8 @@ const Board = forwardRef(function Board(props, inputRef) {
     // Function to vibrate the browser device, if supported
     function vibrateDevice() {
 
-        // Check vibrate is supported, apparently it can crash iPhones if called on it
-        if (gameSettings.isVibrateSupported) {
+        // Check vibrate is supported, and enabled in settings, apparently it can crash iPhones if called on it
+        if (gameSettings.isVibrateSupported && userSettings.isVibrateEnabled()) {
 
             // Vibrate for the designated time
             navigator.vibrate(gameSettings.vibrateLengthMs);

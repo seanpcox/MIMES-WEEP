@@ -53,7 +53,8 @@ export const longPressDurationMs = 300;
 export const clearLongPressFlagMs = 100;
 
 // Is vibrate supported on this browser (note Apple does not support this at all, and apparently can crash the page if tried)
-export const isVibrateSupported = navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate;
+export const isVibrateSupported = (deviceType !== Device.DESKTOP) &&
+  (navigator.vibrate || navigator.webkitVibrate || navigator.mozVibrate || navigator.msVibrate);
 
 // Length of time to vibrate
 export const vibrateLengthMs = 50;

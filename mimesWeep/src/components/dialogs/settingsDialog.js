@@ -45,6 +45,8 @@ function SettingsDialog(props) {
 
     const [scoreTimeFormatOption, setScoreTimeFormatOption] = useState(userSettings.defaultScoreTimeFormatOption);
 
+    const [vibrateOption, setVibrateOption] = useState(userSettings.defaultVibrateOption);
+
     const [isDeleteConfirm, setDeleteConfirm] = useState(false);
 
 
@@ -87,6 +89,10 @@ function SettingsDialog(props) {
         if (localStorage.getItem(userSettings.scoreTimeFormatOptionLS)) {
             setScoreTimeFormatOption(localStorage.getItem(userSettings.scoreTimeFormatOptionLS));
         }
+
+        if (localStorage.getItem(userSettings.vibratetOptionLS)) {
+            setVibrateOption(localStorage.getItem(userSettings.vibratetOptionLS));
+        }
     }
 
     /**
@@ -125,6 +131,7 @@ function SettingsDialog(props) {
         setStartHintOption(userSettings.defaultStartHintOption);
         setGameTimeFormatOption(userSettings.defaultGameTimeFormatOption);
         setScoreTimeFormatOption(userSettings.defaultScoreTimeFormatOption);
+        setVibrateOption(userSettings.defaultVibrateOption);
     }
 
     /**
@@ -144,7 +151,7 @@ function SettingsDialog(props) {
 
             // Close the alert dialog
             handleClose();
-        } 
+        }
         // If this is the first time this function is called, ask for confirmation before delete
         else {
             setDeleteConfirm(true);
@@ -213,6 +220,14 @@ function SettingsDialog(props) {
     };
 
     /**
+     * Function called when the a new value is selected in the vibrate dropdown
+     * @param {Drop down selection event object} event
+     */
+    function handleVibrateOptionChange(event) {
+        setVibrateOption(event.target.value);
+    };
+
+    /**
      * Function to get a styled label for our settings
      * @param {string} labelText
      */
@@ -220,6 +235,39 @@ function SettingsDialog(props) {
         return <Box sx={dialogSx.styledLabel}>
             {labelText}
         </Box>;
+    }
+
+    /**
+     * Function to get the vibrate options for display, if vibrate is supported on device
+     * @returns Vibrate option UI component, else null if vibrate not supported
+     */
+    function getVibrateOptions() {
+        if (gameSettings.isVibrateSupported) {
+            return <Fragment>
+                <Box sx={dialogSx.spacingHeight} />
+                <TextField
+                    id="vibrateOptions"
+                    name="vibrateOptions"
+                    select
+                    label={getStyledLabel(gameText.sdVibrateOptionTitle)}
+                    value={vibrateOption}
+                    onChange={handleVibrateOptionChange}
+                    helperText={gameText.sdVibrateOptionInfo}
+                    margin={dialogSx.tfMarginType}
+                    variant={dialogSx.tfVariantType}
+                    sx={dialogSx.width}
+                >
+                    {userSettings.vibrateOptions.map((option) => (
+                        <MenuItem key={option[0]} value={option[0]}>
+                            {option[1]}
+                        </MenuItem>
+                    ))}
+                </TextField>
+            </Fragment>
+        }
+        else {
+            return null;
+        }
     }
 
 
@@ -339,6 +387,7 @@ function SettingsDialog(props) {
                             </MenuItem>
                         ))}
                     </TextField>
+                    {getVibrateOptions()}
                     <Box sx={sx.deleteBtnSpacingHeight} />
                     <Divider />
                     <Box sx={sx.deleteBtnSpacingHeight} />

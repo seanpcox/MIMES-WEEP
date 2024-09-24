@@ -198,6 +198,10 @@ export const sdScoreTimeFormatOptionTitle = "Score Time";
 
 export const sdScoreTimeFormatOptionInfo = "Display format for scoreboards";
 
+export const sdVibrateOptionTitle = "Vibrate";
+
+export const sdVibrateOptionInfo = "Vibrate device on flag placement and removal";
+
 export const hNewGameInfo = "Begins a new game using the current difficulty setting.";
 
 export const hDifficultyLevelInfo = "Begins a new game with the newly chosen difficulty setting.";

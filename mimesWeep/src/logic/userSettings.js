@@ -155,6 +155,33 @@ export function getScoreTimeFormatOption() {
     return getOptionIndex(scoreTimeFormatOptionLS, scoreTimeFormatOptions, defaultScoreTimeFormatOption);
 }
 
+/**
+ * VIBRATE
+ */
+
+export const vibratetOptionLS = "vibratetOptionLS";
+
+export const defaultVibrateOption = 1;
+
+export const vibrateOptions = [
+    [
+        0, gameText.disabled, false
+    ],
+    [
+        1, gameText.enabled, true
+    ]
+]
+
+/**
+ * Function to return whether we are to allow vibrate
+ * @returns True if vibate allowed, else False
+ */
+export function isVibrateEnabled() {
+
+    // Get the user vibrate option from local storage. If none return default.
+    return getOptionSelection(vibratetOptionLS, vibrateOptions, defaultVibrateOption);
+}
+
 
 /**
  * SAVED USERNAME
