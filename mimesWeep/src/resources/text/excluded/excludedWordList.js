@@ -774,7 +774,7 @@ export function match(username) {
         return false;
     }
 
-    var lcUsername = username.toLowerCase();
+    let lcUsername = username.toLowerCase();
 
     // We need to loop through every excluded word
     for (const excludedWord of excludedWords) {
@@ -782,7 +782,7 @@ export function match(username) {
         // Regex to match an excluded word in the username. 
         // It will find the word even if first word, or surrounded by special characters, punctuation, or numbers.
         // It will not find the word if it is part of a different larger word.
-        var regEx = new RegExp("(?:^|[^a-zA-Z])" + excludedWord + "(?:$|[^a-zA-Z])");
+        let regEx = new RegExp("(?:^|[^a-zA-Z])" + excludedWord + "(?:$|[^a-zA-Z])");
 
         // If we find a match return true
         if (regEx.test(lcUsername)) {

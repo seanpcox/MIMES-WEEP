@@ -51,7 +51,7 @@ export function getTimeElapsedString(timeElapsedMs, alwaysShowMinutes = true) {
  */
 export function convertEpochToDateString(timeEpochSeconds) {
     // Date is expecting milliseconds so multiply seconds by 1000
-    var date = new Date(timeEpochSeconds * 1000);
+    let date = new Date(timeEpochSeconds * 1000);
 
     // Format for our date string, using user's browser locale
     // eslint-disable-next-line no-undef
@@ -73,7 +73,7 @@ export function convertEpochToDateString(timeEpochSeconds) {
  */
 export function convertEpochToTimeString(timeEpochSeconds) {
     // Date is expecting milliseconds so multiply seconds by 1000
-    var date = new Date(timeEpochSeconds * 1000);
+    let date = new Date(timeEpochSeconds * 1000);
 
     // Format for our date string, using user's browser locale
     // eslint-disable-next-line no-undef
@@ -142,13 +142,13 @@ export function getTimeToLiveString(eventTime, expiryPeriod) {
     let expiresInMs = getTimeToLiveMs(eventTime, expiryPeriod);
 
     // Get the number of full days left rounded to nearest day
-    var days = Math.round(expiresInMs / dayLengthMs);
+    let days = Math.round(expiresInMs / dayLengthMs);
 
     // Get the number of full hours left rounded to nearest hour
-    var hours = Math.round(expiresInMs / hourLengthMs);
+    let hours = Math.round(expiresInMs / hourLengthMs);
 
     // Get the number of full minutes left rounded to nearest minute
-    var minutes = Math.round(expiresInMs / minLengthMs);
+    let minutes = Math.round(expiresInMs / minLengthMs);
 
 
     // If we have more than one day left we display days left
@@ -189,13 +189,13 @@ export function getTimeToLiveString(eventTime, expiryPeriod) {
 export function getTimeToLiveMs(eventTime, expiryPeriod) {
 
     // Convert our time period into milliseconds
-    var periodInMs = getNumberOfDaysInPeriod(expiryPeriod) * dayLengthMs;
+    let periodInMs = getNumberOfDaysInPeriod(expiryPeriod) * dayLengthMs;
 
     // Get the number of milliseconds that have occurred since our event
-    var timePassedSinceEventMs = Date.now() - (eventTime * 1000);
+    let timePassedSinceEventMs = Date.now() - (eventTime * 1000);
 
     // Time left before expiry will be the difference between the two
-    var timeLeftMs = periodInMs - timePassedSinceEventMs;
+    let timeLeftMs = periodInMs - timePassedSinceEventMs;
 
     // Return the time left in milliseconds
     return timeLeftMs;

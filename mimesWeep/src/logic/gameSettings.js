@@ -59,6 +59,9 @@ export const isVibrateSupported = (deviceType !== Device.DESKTOP) &&
 // Length of time to vibrate
 export const vibrateLengthMs = 50;
 
+// Do I display my name in the help section
+export const displayMyNameInHelp = true;
+
 /**
  * Function to return our game parameters (board size and mime density) for a set difficuly level and device.
  * Reasons for device choices are explained above.
@@ -66,7 +69,7 @@ export const vibrateLengthMs = 50;
  * @returns 3 value array representing height, width, and number of mimes
  */
 export function getGameSettings(difficulty) {
-  var height, width, numOfMimes;
+  let height, width, numOfMimes;
 
   // Notes: A tablet will return true for both isTablet and isMobile
   //        iPad13's were at some stage, perhaps still, not returning true for isTablet
@@ -141,8 +144,8 @@ export function getGameSettings(difficulty) {
  */
 export function getMaxCustomHeightWidth() {
   // Max Mac and Windows Desktop Size
-  var maxHeight = 20;
-  var maxWidth = 45;
+  let maxHeight = 20;
+  let maxWidth = 45;
 
   // Max iPhone and Android Phone Size
   if (isMobile && !(isTablet || isIPad13)) {
@@ -187,7 +190,7 @@ export function getDifficultyString(difficulty) {
  */
 export function getLevelString(difficulty) {
   // Get the game settings for this device and difficulty level
-  var settings = getGameSettings(difficulty);
+  let settings = getGameSettings(difficulty);
   // Generate and return the level string, used in our database
   return getDifficultyString(difficulty) + " (" + settings[0] + "x" + settings[1] + ")"
 }

@@ -195,7 +195,7 @@ export const usernameLSKey = "mimesweepUser";
  * @returns username
  */
 export function getBestGuessUsername() {
-    var username = getLSUsername();
+    let username = getLSUsername();
 
     if (!username) {
         username = gameText.unknownUsername;
@@ -306,7 +306,7 @@ export function setLSCustomGameOptions(height, width, numOfMimes) {
 function getOptionSelection(optionLS, availableOptions, defaultOptionIndex) {
 
     // Get the user's option index from local storage
-    var userOptionIndex = localStorage.getItem(optionLS);
+    let userOptionIndex = localStorage.getItem(optionLS);
 
     // If no user option index found then return the default option value
     if (userOptionIndex === undefined || userOptionIndex === null) {
@@ -314,7 +314,7 @@ function getOptionSelection(optionLS, availableOptions, defaultOptionIndex) {
     }
 
     // Try and retrieve the value from the options map using the user's index
-    var userOptionValue = availableOptions[userOptionIndex][2];
+    let userOptionValue = availableOptions[userOptionIndex][2];
 
     // If no value found for the user option index then again return the default option value
     if (userOptionValue === undefined || userOptionValue === null) {
@@ -334,7 +334,7 @@ function getOptionSelection(optionLS, availableOptions, defaultOptionIndex) {
  */
 function getOptionIndex(optionLS, availableOptions, defaultOptionIndex) {
     // Get the user's option index from local storage
-    var userOptionIndex = localStorage.getItem(optionLS);
+    let userOptionIndex = localStorage.getItem(optionLS);
 
     // If no user option index found then return the default option index
     if (userOptionIndex === undefined || userOptionIndex === null || isNaN(userOptionIndex)
@@ -352,7 +352,7 @@ function getOptionIndex(optionLS, availableOptions, defaultOptionIndex) {
  */
 export function isFirstVisit() {
     // Retrieve the local property telling us if this is the user's first visit on this browser
-    var isFirstVisitLS = localStorage.getItem("isFirstVisit");
+    let isFirstVisitLS = localStorage.getItem("isFirstVisit");
 
     // If they have never visited we display the welcome/help screen and record they have visited
     if (isFirstVisitLS === undefined || isFirstVisitLS === null || isFirstVisitLS === "yes") {

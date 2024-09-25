@@ -17,17 +17,17 @@ const Board = forwardRef(function Board(props, inputRef) {
 
     // LOCAL VARIABLES
 
-    var tempRef = [];
+    let tempRef = [];
 
-    var array = props.array;
-    var height = array.length;
-    var width = array[0].length;
+    let array = props.array;
+    let height = array.length;
+    let width = array[0].length;
 
 
     // REFS
 
     // Holds all board squares in a 1D array format for reference
-    var squaresRef = useRef(null);
+    let squaresRef = useRef(null);
 
     const pushRef = (square) => {
         // On render all board square components will be pushed into 1D array tempRef
@@ -137,7 +137,7 @@ const Board = forwardRef(function Board(props, inputRef) {
 
             // Set to hold the 1D coordinates of any squares that are revealed if the clicked on square had no neighboring mimes
             // Using a set to ensure no duplicates are added
-            var zNgs = new Set([]);
+            let zNgs = new Set([]);
 
             // The clicked on square has no neighboring mimes, in this case we reveal all its neighbors by updating the board array
             // If any of its neighbors also have no neighboring mimes we reveal its neighbors, and so on, recursively
@@ -155,7 +155,7 @@ const Board = forwardRef(function Board(props, inputRef) {
             for (const coords1D of zNgs) {
 
                 // Convert the 1D coordinate into 2D coordinates
-                var nCoords = logic.getCoordsFromArrayIDValue(coords1D, width);
+                let nCoords = logic.getCoordsFromArrayIDValue(coords1D, width);
 
                 // Call the refresh function on the board square component
                 squaresRef.current[coords1D].refresh(array[nCoords[0]][nCoords[1]]);
@@ -163,10 +163,10 @@ const Board = forwardRef(function Board(props, inputRef) {
         }
 
         // Get the 1D coordinate of the square that was clicked on
-        var index1D = getRefIndex(width, indexI, indexJ);
+        let index1D = getRefIndex(width, indexI, indexJ);
 
         // Create a set to contain this coordinate, as callback method expects a set
-        var clickedOnSet = new Set([]);
+        let clickedOnSet = new Set([]);
         clickedOnSet.add(index1D);
 
         // Callback to add the clicked on square's coordinate, this is how we track if the user has won
@@ -253,7 +253,7 @@ const Board = forwardRef(function Board(props, inputRef) {
         if (userSettings.isChordingEnabled()) {
 
             // Get the coordinates of squares to be revealed as part of the chord action
-            var rNgCoords = logic.getChordActionNeighbors(array, indexI, indexJ);
+            let rNgCoords = logic.getChordActionNeighbors(array, indexI, indexJ);
 
             // If we have neighbors to reveal
             if (rNgCoords && rNgCoords.length > 0 && isReveal) {
@@ -269,7 +269,7 @@ const Board = forwardRef(function Board(props, inputRef) {
         }
 
         // Else highlight any neighboring squares that could be potential mimes
-        var hNgCoords = logic.getUnrevleadUnflaggedNeighbors(array, indexI, indexJ);
+        let hNgCoords = logic.getUnrevleadUnflaggedNeighbors(array, indexI, indexJ);
 
         // Perform highlight on all of the unrevealed and unflagged neighbors
         for (let index = 0; index < hNgCoords.length; index++) {
@@ -283,8 +283,8 @@ const Board = forwardRef(function Board(props, inputRef) {
     function revealAllSquares() {
 
         // Loop through every square on the board
-        for (var i = 0; i < height; i++) {
-            for (var j = 0; j < width; j++) {
+        for (let i = 0; i < height; i++) {
+            for (let j = 0; j < width; j++) {
 
                 // If the square is not a whole number it has not been revealed
                 if (array[i][j] % 1 !== 0) {
@@ -306,8 +306,8 @@ const Board = forwardRef(function Board(props, inputRef) {
     function refreshAllSquares() {
 
         // Loop through every square on the board
-        for (var i = 0; i < height; i++) {
-            for (var j = 0; j < width; j++) {
+        for (let i = 0; i < height; i++) {
+            for (let j = 0; j < width; j++) {
 
                 // Call refresh on the board square component
                 squaresRef.current[getRefIndex(width, i, j)].refresh(array[i][j]);
@@ -324,7 +324,7 @@ const Board = forwardRef(function Board(props, inputRef) {
 
         // Get the location of an unrevealed mime on the board, preferably one beside a revealed number square
         // Provide the previous 1D hint indexes to ensure we don't get the same hint repeated
-        var mimeCoords = logic.getHint(array);
+        let mimeCoords = logic.getHint(array);
 
         // If we found no hint then return false to indicate we did not find a mime
         if (!mimeCoords) {

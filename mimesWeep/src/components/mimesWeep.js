@@ -65,7 +65,7 @@ function MimesWeep() {
   useEffect(() => {
 
     // Retrieve the local property telling us if the user has ever visited this app on this browser
-    var isFirstVisit = userSettings.isFirstVisit();
+    let isFirstVisit = userSettings.isFirstVisit();
 
     // If they have never visited we display the welcome/help screen to instruct them on the game
     if (isFirstVisit) {
@@ -157,7 +157,7 @@ function MimesWeep() {
     resetGameSettings(4);
   }
 
-  var showFinishMessage;
+  let showFinishMessage;
 
   /**
    * Function to display the won game message to the user
@@ -191,7 +191,7 @@ function MimesWeep() {
     }
   };
 
-  var openCustomDialog;
+  let openCustomDialog;
 
   /**
    * Function to display the custom game dialog to the user
@@ -210,7 +210,7 @@ function MimesWeep() {
     }
   };
 
-  var openHelpDialog;
+  let openHelpDialog;
 
   /**
    * Function to display the help dialog to the user
@@ -229,7 +229,7 @@ function MimesWeep() {
     }
   };
 
-  var openHighScoreDialog;
+  let openHighScoreDialog;
 
   /**
    * Function to display the high score dialog to the user
@@ -248,7 +248,7 @@ function MimesWeep() {
     }
   };
 
-  var openSettingsDialog;
+  let openSettingsDialog;
 
   /**
    * Function to display the settings dialog to the user
@@ -357,7 +357,7 @@ function MimesWeep() {
     }
   }
 
-  var setGuessCountChildFunction;
+  let setGuessCountChildFunction;
 
   /**
    * Callback function executed when a flag guess is placed or removed from the board
@@ -384,7 +384,7 @@ function MimesWeep() {
 
   // Get the game parameters from the set difficulty level, or from user input custom parameters
 
-  var gameParameters;
+  let gameParameters;
 
   if (isCustomGame) {
     gameParameters = [customHeight, customWidth, customNumOfMimes];
@@ -392,9 +392,9 @@ function MimesWeep() {
     gameParameters = gameSettings.getGameSettings(difficulty);
   }
 
-  var height = gameParameters[0];
-  var width = gameParameters[1];
-  var numOfMimes = gameParameters[2];
+  let height = gameParameters[0];
+  let width = gameParameters[1];
+  let numOfMimes = gameParameters[2];
 
 
   // COMPONENT

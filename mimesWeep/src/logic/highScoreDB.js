@@ -170,10 +170,10 @@ function setCallbackScoreRefs(setNewHighScoreDataCallback, id, datePeriod, user)
 function getHighScorePosition(results, gameTime) {
 
   // If no results then score is high score position 1, else assume the user did not place to start
-  var position = (results.length === 0) ? 1 : -1
+  let position = (results.length === 0) ? 1 : -1
 
   // Loop through the results to see if the user time placed
-  for (var i = 0; i < results.length; i++) {
+  for (let i = 0; i < results.length; i++) {
 
     // Check if the user's time is better than each time in our high score list, fastest time first
     if (gameTime < results[i].time) {
@@ -204,7 +204,7 @@ function getHighScorePosition(results, gameTime) {
 function getUsurpedHighScoreRow(results) {
 
   // Get the replaced high score, if there is one
-  var usurpedHighScore;
+  let usurpedHighScore;
 
   // Get the last high score in the list if a new high score has been achieved
   if (results.length === gameSettings.highScorePositions) {
@@ -225,7 +225,7 @@ function getUsurpedHighScoreRow(results) {
 export async function getTopResults(level, period, callback) {
 
   // Rows to supply to our callback function
-  var rows = [];
+  let rows = [];
 
   // Add the personal best time at the start (so user doesn't have to scroll to very bottom)
   rows.push(scoreLogic.getPersonalBestDataRow(level, period));
@@ -240,7 +240,7 @@ export async function getTopResults(level, period, callback) {
 
         // Loop through all results, if any
         if (results) {
-          for (var i = 0; i < results.length; i++) {
+          for (let i = 0; i < results.length; i++) {
             // Add the data to the row array
             rows.push(
               scoreLogic.createDataRow(
@@ -278,7 +278,7 @@ export async function getTopResults(level, period, callback) {
  * @returns Datastore query
  */
 function getTopResultsQuery(level, period) {
-  var dateAfterEpochSeconds = 0;
+  let dateAfterEpochSeconds = 0;
 
   // If we are working with a period other than ALL then limit the query by date
   if (period !== Period.ALL) {

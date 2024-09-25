@@ -13,9 +13,9 @@ const GameBoard = forwardRef(function GameBoard(props, inputRef) {
 
     // REFS
 
-    var ref = useRef(null);
+    let ref = useRef(null);
 
-    var squaresWonRef = useRef(new Set([]));
+    let squaresWonRef = useRef(new Set([]));
 
 
     // HANDLER
@@ -46,15 +46,15 @@ const GameBoard = forwardRef(function GameBoard(props, inputRef) {
     // LOCAL VARIABLES
 
     // Game properties
-    var height = props.height;
-    var width = props.width;
-    var numOfMimes = props.numOfMimes;
+    let height = props.height;
+    let width = props.width;
+    let numOfMimes = props.numOfMimes;
 
     // Create the 2D array that represents the game board
     const array = logic.createNewBoard(height, width, numOfMimes);
 
     // Track the number of squares we need to reveal to win (all squares except mimes must be revealed)
-    var squaresToWin = (height * width) - numOfMimes;
+    let squaresToWin = (height * width) - numOfMimes;
 
 
     // EFFECTS

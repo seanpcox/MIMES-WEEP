@@ -22,9 +22,9 @@ import { Period } from '../models/index.js';
 export function createDataRow(position, user, time, date, deviceType, id, period) {
 
     // Get the user option for time format display
-    var timeFormatOption = userSettings.getScoreTimeFormatOption();
+    let timeFormatOption = userSettings.getScoreTimeFormatOption();
 
-    var timeHRString;
+    let timeHRString;
 
     // Seconds with 3 decimal places
     if (timeFormatOption === 0) {
@@ -123,14 +123,14 @@ export function updatePersonalBestTimeWithScoreData(scoreData, setPersonalBestPe
 function updatePersonalBestTime(level, time, date, user, setPersonalBestPeriodsCallback) {
 
     // We record whether we acheived any personal best for return
-    var isPersonalBest = false;
+    let isPersonalBest = false;
 
     for (const period of gameSettings.periodsInUse) {
         // Get the current personal best time for the supplied level and period
-        var pbTime = localStorage.getItem(getPersonalBestTimeKey(level, period));
+        let pbTime = localStorage.getItem(getPersonalBestTimeKey(level, period));
 
         // Get the current personal best date for the supplied level and period
-        var pbDate = localStorage.getItem(getPersonalBestDateKey(level, period));
+        let pbDate = localStorage.getItem(getPersonalBestDateKey(level, period));
 
         // If we have no or invalid personal best time or date for the supplied level, or the new time
         // is better, the old personal best is expired then save the new time.
@@ -158,13 +158,13 @@ function updatePersonalBestTime(level, time, date, user, setPersonalBestPeriodsC
  */
 export function getPersonalBestDataRow(level, period) {
     // Get the current personal best time for this level
-    var pbTime = localStorage.getItem(getPersonalBestTimeKey(level, period));
+    let pbTime = localStorage.getItem(getPersonalBestTimeKey(level, period));
 
     // Get the current personal best date for this level
-    var pbDate = localStorage.getItem(getPersonalBestDateKey(level, period));
+    let pbDate = localStorage.getItem(getPersonalBestDateKey(level, period));
 
     // Get the current personal best username for this level
-    var pbName = localStorage.getItem(getPersonalBestNameKey(level, period));
+    let pbName = localStorage.getItem(getPersonalBestNameKey(level, period));
 
     // If we do not have personal best data, or it is invalid or expired, return a placeholder row
     if (isNotANumber(pbTime) || isNotANumber(pbDate) || isExpired(pbDate, period)) {

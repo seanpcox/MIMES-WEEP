@@ -61,7 +61,7 @@ function HighScoreDialog(props) {
     useEffect(() => {
 
         // Set the difficulty to match that of the main application
-        var displayDifficultyLevel = props.difficulty;
+        let displayDifficultyLevel = props.difficulty;
 
         // If we get an invalid difficulty level (Custom not supported) then default to first level
         if (displayDifficultyLevel <= 0 || displayDifficultyLevel >= 4) {
@@ -72,7 +72,7 @@ function HighScoreDialog(props) {
         setDifficulty(displayDifficultyLevel);
 
         // Set the default display period to all time
-        var displayPeriod = displayPeriod = Period.ALL;
+        let displayPeriod = Period.ALL;
 
         // If we have been called with high score periods then default to the first one, which will be the highest period
         if (props.highScoreDataRef.current.length >= 1) {
@@ -340,12 +340,12 @@ function HighScoreDialog(props) {
 
     // RENDER
 
-    var dialogContent;
+    let dialogContent;
 
-    var dialogActions;
+    let dialogActions;
 
     // High score table is the same whether viewing a new score or just viewing existing ones
-    var highScoreTable =
+    let highScoreTable =
         <HighScoreTable
             level={getLevel()}
             period={period}
@@ -355,7 +355,7 @@ function HighScoreDialog(props) {
 
     // If we are viewing a new score
     if (isNewScoreDialog()) {
-        var inputLabel;
+        let inputLabel;
 
         // Label input is updated if an invalid format username is entered
         if (isError === 1) {
@@ -371,7 +371,7 @@ function HighScoreDialog(props) {
         }
 
         // Retrieve the username last used on this device, if any, from local storage
-        var defaultUsername = userSettings.getLSUsername();
+        let defaultUsername = userSettings.getLSUsername();
 
         // If the last username used is the excluded word "Unknown" then clear it
         // We are trying to encourage users to enter a unique username

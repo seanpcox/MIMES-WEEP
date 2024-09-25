@@ -99,7 +99,7 @@ export function createNewBoard(height, width, numOfMimes) {
 
     // Randomly add the specified number of mimes to the board. Those values will be -0.9.
     // We are returned the shuffled 1D array of coordinates to use for the hint add.
-    var arrayIDIndexes = addMimes(array, numOfMimes);
+    let arrayIDIndexes = addMimes(array, numOfMimes);
 
     // Update the non-mime square values to indicate how many neighoring mimes (diagonal included, so 8 neighbors max) it has.
     addMimeNeighborCount(array);
@@ -127,7 +127,7 @@ export function visitZeroNeighbors(array, i, j, squaresClearedCoords = new Set([
     const nCoords = getNeighbourCoordinates(i, j);
 
     // Visit each neighbor.
-    for (var index = 0; index < nCoords.length; index++) {
+    for (let index = 0; index < nCoords.length; index++) {
 
         // Check neighbor location is within the array boundary, else skip
         if (checkWithinBounds(array, nCoords[index])) {
@@ -144,7 +144,7 @@ export function visitZeroNeighbors(array, i, j, squaresClearedCoords = new Set([
                 squaresClearedCoords.add(get1DCoordIndex(nCoords[index][0], nCoords[index][1], array[0].length));
 
                 // Now visit all the neighbors of this just revealed square and store any revealed square's 1D coordinate
-                var results = visitZeroNeighbors(array, nCoords[index][0], nCoords[index][1]);
+                let results = visitZeroNeighbors(array, nCoords[index][0], nCoords[index][1]);
 
                 // Add all of the visited 1D coordinates resulting from this recursive operation to our set
                 for (const value of results) {
@@ -190,10 +190,10 @@ export function visitZeroNeighbors(array, i, j, squaresClearedCoords = new Set([
 export function getChordActionNeighbors(array, i, j) {
 
     // The value of the supplied array position tells us how many flags we are expecting
-    var flags = array[i][j];
+    let flags = array[i][j];
 
     // The coordinates of the squares 8 potential neighbors
-    var nCoords = getNeighbourCoordinates(i, j);
+    let nCoords = getNeighbourCoordinates(i, j);
 
     // Visit each neighboring coordinate to count which are flags
     for (let index = 0; index < nCoords.length; index++) {
@@ -229,7 +229,7 @@ export function getChordActionNeighbors(array, i, j) {
 export function getUnrevleadUnflaggedNeighbors(array, i, j, nCoords = getNeighbourCoordinates(i, j)) {
 
     // 2D array for return, containing coordinates of unrevealed and unflagged neighboring squares
-    var potentialMimeCoords = [];
+    let potentialMimeCoords = [];
 
     // Visit each neighboring coordinate to see if it should be included
     for (let index = 0; index < nCoords.length; index++) {
@@ -265,17 +265,17 @@ export function getUnrevleadUnflaggedNeighbors(array, i, j, nCoords = getNeighbo
 export function getHint(array) {
 
     // Get the width
-    var width = array[0].length;
+    let width = array[0].length;
 
     // Randomize the array's indexes, so we don't always show the most top-left hint
-    var random1DIndexes = generate1DRandomizedArrayIndexes(array);
+    let random1DIndexes = generate1DRandomizedArrayIndexes(array);
 
     // Backup mime location if we cannot find a mime beside a revealed number square
-    var backupMimeCoords;
+    let backupMimeCoords;
 
     // Backup flagged location if we cannot find an unflagged mime. This is to stop cheating
     // the hint count by placing flags and then using the guess to see if they don't get processed
-    var backupFlaggedCoords;
+    let backupFlaggedCoords;
 
     // Loop through the shuffled array until we reach our mime count
     for (let index1D = 0; index1D < random1DIndexes.length; index1D++) {
@@ -287,7 +287,7 @@ export function getHint(array) {
         if (array[coords[0]][coords[1]] % 1 === 0) {
 
             // The coordinates of the squares 8 potential neighbors
-            var nCoords = getNeighbourCoordinates(coords[0], coords[1]);
+            let nCoords = getNeighbourCoordinates(coords[0], coords[1]);
 
             // Visit each neighboring coordinate to see if there is an unrevealed mime
             for (let nIndex = 0; nIndex < nCoords.length; nIndex++) {
@@ -373,7 +373,7 @@ function createEmptyBoard(height, width) {
 
     // For each entry add an array of 0.1 values of size width
     // 0.1 represents an unrevealed, unflagged square with no mime neighbors
-    for (var i = 0; i < height; i++) {
+    for (let i = 0; i < height; i++) {
         array[i] = new Array(width).fill(0.1)
     }
 
@@ -388,14 +388,14 @@ function createEmptyBoard(height, width) {
  * @returns array of shuffled coordinates in 1D format
  */
 function addMimes(array, numOfMimes) {
-    var height = array.length;
-    var width = array[0].length;
+    let height = array.length;
+    let width = array[0].length;
 
     // Ensure number of mimes does not exceed number of board squares
     numOfMimes = sanitizeMimeCount(height, width, numOfMimes);
 
     // Get a randmoized order of our arrays' indexes
-    var arrayIDIndexes = generate1DRandomizedArrayIndexes(array);
+    let arrayIDIndexes = generate1DRandomizedArrayIndexes(array);
 
     // Loop through the shuffled array until we reach our mime count
     for (let index = 0; index < numOfMimes; index++) {
@@ -419,13 +419,13 @@ function addMimes(array, numOfMimes) {
 function generate1DRandomizedArrayIndexes(array) {
 
     // Get the dimensions
-    var height = array.length;
-    var width = array[0].length;
+    let height = array.length;
+    let width = array[0].length;
 
     // Create a 1D array representing the coordinates of all squares on our board
     // Ex: In a 2X2 2D array the index of the first square on the second row would be 2, 
     // where 0 and 1 represent the values in the first row
-    var arrayIDIndexes = [];
+    let arrayIDIndexes = [];
 
     for (let i = 0; i < height * width; i++) {
         arrayIDIndexes.push(i);
@@ -442,12 +442,12 @@ function generate1DRandomizedArrayIndexes(array) {
  * @param {Game board 2D array} array 
  */
 function addMimeNeighborCount(array) {
-    var height = array.length;
-    var width = array[0].length;
+    let height = array.length;
+    let width = array[0].length;
 
     // Loop through every square on the board
-    for (var i = 0; i < height; i++) {
-        for (var j = 0; j < width; j++) {
+    for (let i = 0; i < height; i++) {
+        for (let j = 0; j < width; j++) {
             // If the square is a mime (negative value) then visit its neighbors (8 max)
             if (array[i][j] < 0) {
                 visitMimeNeighbors(array, i, j);
@@ -469,7 +469,7 @@ function visitMimeNeighbors(array, i, j) {
     const neighbors = getNeighbourCoordinates(i, j);
 
     // Loop through each coordinate
-    for (var count = 0; count < neighbors.length; count++) {
+    for (let count = 0; count < neighbors.length; count++) {
         // Check neighbor location is within the array boundary
         if (checkWithinBounds(array, neighbors[count])) {
             // Update the number of nearby mimes on the neighbour. We ignore neighbors that are themselves mimes (negative values)
@@ -494,7 +494,7 @@ function visitMimeNeighbors(array, i, j) {
 function addStartHint(array, arrayIDIndexes, numOfMimes, width) {
 
     // Get the user setting start hint option
-    var hintCode = userSettings.getStartHintOption();
+    let hintCode = userSettings.getStartHintOption();
 
     // We have chosen not to add any hints so return
     if (hintCode === 0) {
@@ -504,7 +504,7 @@ function addStartHint(array, arrayIDIndexes, numOfMimes, width) {
         // Therefore we know we can not hint an indexes before numOfMimes index
         // We loop through until we find an entry with no mime neighbors and mark it as a hint
         // If we find none, then we fallback to hint code 1 logic
-        for (var index = numOfMimes; index < arrayIDIndexes.length; index++) {
+        for (let index = numOfMimes; index < arrayIDIndexes.length; index++) {
             // Convert the 1D array index back into an index for our 2D array
             let coords = getCoordsFromArrayIDIndex(arrayIDIndexes, index, width);
 
@@ -536,10 +536,10 @@ function addStartHint(array, arrayIDIndexes, numOfMimes, width) {
 function shuffleArray(array) {
 
     // Fisher–Yates (aka Knuth) Shuffle
-    var i = array.length;
+    let i = array.length;
 
     while (i !== 0) {
-        var randomI = Math.floor(Math.random() * i);
+        let randomI = Math.floor(Math.random() * i);
         i--;
 
         [array[i], array[randomI]] = [
@@ -608,8 +608,8 @@ function getNeighbourCoordinates(i, j) {
  * @returns True if coordinates are in array bounds, else False
  */
 function checkWithinBounds(array, coordinates) {
-    var height = array.length;
-    var width = array[0].length;
+    let height = array.length;
+    let width = array[0].length;
 
     return coordinates[0] >= 0 && coordinates[0] < height
         && coordinates[1] >= 0 && coordinates[1] < width;

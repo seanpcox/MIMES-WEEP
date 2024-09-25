@@ -29,9 +29,9 @@ const Timer = forwardRef(function Timer(props, inputRef) {
 
     // LOCAL VARIABLES
 
-    var timerRunning = false;
-    var timeElapsedLocal = 0;
-    var startTime = Date.now();
+    let timerRunning = false;
+    let timeElapsedLocal = 0;
+    let startTime = Date.now();
 
 
     // HANDLER

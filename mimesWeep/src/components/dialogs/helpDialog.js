@@ -43,11 +43,11 @@ function HelpDialog(props) {
 
     // LOCAL VARIABLES
 
-    var revealControl = gameText.leftClick;
-    var revealControlLC = gameText.controlsLClickLC;
-    var flagControl = gameText.rightClick;
-    var revealIcon = sx.leftClickIcon;
-    var flagIcon = sx.rightClickIcon;
+    let revealControl = gameText.leftClick;
+    let revealControlLC = gameText.controlsLClickLC;
+    let flagControl = gameText.rightClick;
+    let revealIcon = sx.leftClickIcon;
+    let flagIcon = sx.rightClickIcon;
 
     if (gameSettings.deviceType !== Device.DESKTOP) {
         revealControl = gameText.tap;
@@ -76,7 +76,7 @@ function HelpDialog(props) {
      */
     function setTitleAndIcon() {
         // Retrieve the local property telling us if the user has ever visited this app on this browser
-        var isFirstVisit = userSettings.isFirstVisit();
+        let isFirstVisit = userSettings.isFirstVisit();
 
         // If they have never visited we display the welcome dialog title and icon
         if (isFirstVisit) {
@@ -105,9 +105,9 @@ function HelpDialog(props) {
     };
 
 
-    var credits = null;
+    let credits = null;
 
-    if (true) {
+    if (gameSettings.displayMyNameInHelp) {
         credits =
             <Fragment>
                 <Box sx={sx.spacingHeight}></Box>

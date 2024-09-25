@@ -48,8 +48,8 @@ function CustomDialog(props) {
 
     const maxDimensions = gameSettings.getMaxCustomHeightWidth();
 
-    var maxHeight = maxDimensions[0];
-    var maxWidth = maxDimensions[1];
+    let maxHeight = maxDimensions[0];
+    let maxWidth = maxDimensions[1];
 
 
     // EFFECTS
@@ -90,9 +90,9 @@ function CustomDialog(props) {
         const numOfMimes = formJson.numOfMimes;
 
         // We validate the data before we proceed
-        var isHeightInvalid = false;
-        var isWidthInvalid = false;
-        var isNumOfMimesInvalid = false;
+        let isHeightInvalid = false;
+        let isWidthInvalid = false;
+        let isNumOfMimesInvalid = false;
 
         // Validate height is a positive whole number greater than 1 and less or equal to the max allowed height
         if (isHeightInvalidCheck(height)) {
@@ -193,9 +193,9 @@ function CustomDialog(props) {
     // RENDER
 
     // Retrieve the last used custom settings, if any
-    var defaultHeight = userSettings.getLSCustomHeight();
-    var defaultWidth = userSettings.getLSCustomWidth();
-    var defaultNumOfMimes = userSettings.getLSCustomNumOfMimes();
+    let defaultHeight = userSettings.getLSCustomHeight();
+    let defaultWidth = userSettings.getLSCustomWidth();
+    let defaultNumOfMimes = userSettings.getLSCustomNumOfMimes();
 
     // If settings are invalid then default to empty string
     if (defaultHeight === undefined || defaultHeight == null) {
