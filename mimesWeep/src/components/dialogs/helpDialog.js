@@ -107,7 +107,7 @@ function HelpDialog(props) {
 
     var credits = null;
 
-    if (false) {
+    if (true) {
         credits =
             <Fragment>
                 <Box sx={sx.spacingHeight}></Box>
